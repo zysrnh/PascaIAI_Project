@@ -84,7 +84,7 @@ export default function Form({ auth, anggota, defaultUrutan = 0, defaultParentId
                                     <InputError message={errors.jabatan} className="mt-2" />
                                 </div>
 
-                                <div>
+                                <div className="hidden">
                                     <InputLabel htmlFor="urutan" value="Level/Urutan Tampil" className="font-bold text-slate-700 mb-1" />
                                     <TextInput
                                         id="urutan"

@@ -15,9 +15,6 @@ const TreeNode = ({ node }) => {
     return (
         <li>
             <div className="inline-flex flex-col items-center bg-white rounded-lg shadow-sm border border-slate-200 p-3 w-48 relative z-10 hover:border-emerald-300 transition-colors">
-                <div className="absolute -top-2 left-1/2 -translate-x-1/2 bg-slate-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full z-20">
-                    {node.urutan}
-                </div>
                 <div className="w-16 h-20 mb-3 rounded-md overflow-hidden border border-slate-100 relative bg-slate-200 flex items-center justify-center">
                     {node.foto ? (
                         <img src={node.foto} className="w-full h-full object-cover" />
@@ -194,7 +191,6 @@ export default function Index({ auth, organisasi, jabatanTree }) {
                                                     checked={organisasi.length > 0 && selectedIds.length === organisasi.length}
                                                 />
                                             </th>
-                                            <th className="px-6 py-4">Urutan</th>
                                             <th className="px-6 py-4">Foto</th>
                                             <th className="px-6 py-4">Nama Lengkap</th>
                                             <th className="px-6 py-4">Jabatan</th>
@@ -212,9 +208,6 @@ export default function Index({ auth, organisasi, jabatanTree }) {
                                                             checked={selectedIds.includes(item.id)}
                                                             onChange={() => handleSelect(item.id)}
                                                         />
-                                                    </td>
-                                                    <td className="px-6 py-4 font-semibold text-slate-900 text-center w-16">
-                                                        {item.urutan}
                                                     </td>
                                                     <td className="px-6 py-4">
                                                         {item.foto ? (
