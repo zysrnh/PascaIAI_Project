@@ -38,6 +38,8 @@ Route::get('/profil/sambutan-pimpinan', function () {
     ]);
 });
 
+Route::get('/profil/struktur-organisasi', [\App\Http\Controllers\StrukturOrganisasiController::class, 'publicIndex'])->name('public.profil.struktur-organisasi');
+
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -59,6 +61,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/profil/visi-misi', [\App\Http\Controllers\VisiMisiController::class, 'edit'])->name('admin.profil.visi-misi');
     Route::post('/admin/profil/visi-misi', [\App\Http\Controllers\VisiMisiController::class, 'update'])->name('admin.profil.visi-misi.update');
 
+    // Admin Profil - Struktur Organisasi
+    Route::resource('/admin/profil/struktur-organisasi', \App\Http\Controllers\StrukturOrganisasiController::class)->names([
+        'index' => 'admin.profil.struktur-organisasi.index',
+        'create' => 'admin.profil.struktur-organisasi.create',
+        'store' => 'admin.profil.struktur-organisasi.store',
+        'edit' => 'admin.profil.struktur-organisasi.edit',
+        'update' => 'admin.profil.struktur-organisasi.update',
+        'destroy' => 'admin.profil.struktur-organisasi.destroy',
+    ]);
 });
 
 require __DIR__.'/auth.php';

@@ -59,12 +59,13 @@ const navigation = [
             {
                 type: 'group',
                 name: 'Struktur Organisasi',
-                icon: Network,
+                icon: Users,
                 children: [
-                    { type: 'link', name: 'Kelola Halaman', href: '/admin/profil/struktur-organisasi', icon: Settings },
+                    { type: 'link', name: 'Kelola Anggota', href: '/admin/profil/struktur-organisasi', icon: Settings },
                     { type: 'link', name: 'Lihat Halaman', href: '/profil/struktur-organisasi', icon: ExternalLink },
                 ],
             },
+
             {
                 type: 'group',
                 name: 'Dokumen Institusi',
