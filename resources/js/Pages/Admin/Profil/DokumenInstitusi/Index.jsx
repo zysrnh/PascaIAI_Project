@@ -87,12 +87,6 @@ export default function Index({ auth, dokumen, pengaturan }) {
             preserveScroll: true,
             onSuccess: () => {
                 setBannerData('banner_image', null);
-                Swal.fire({
-                    title: 'Berhasil!',
-                    text: 'Banner halaman berhasil diperbarui.',
-                    icon: 'success',
-                    confirmButtonColor: '#059669'
-                });
             }
         });
     };

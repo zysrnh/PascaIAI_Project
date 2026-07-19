@@ -61,7 +61,9 @@ export default function PublicLayout({ children }) {
                                         <Link href={route('public.dokumen-institusi')} className="block px-4 py-2.5 text-sm text-slate-700 hover:bg-emerald-50 hover:text-emerald-700 transition-colors">
                                             Dokumen Institusi
                                         </Link>
-                                        <a href="#" className="block px-4 py-2.5 text-sm text-slate-700 hover:bg-emerald-50 hover:text-emerald-700 transition-colors">Akreditasi</a>
+                                        <Link href={route('public.akreditasi')} className="block px-4 py-2.5 text-sm text-slate-700 hover:bg-emerald-50 hover:text-emerald-700 transition-colors">
+                                            Akreditasi
+                                        </Link>
                                     </div>
                                 </div>
                             </div>
@@ -149,7 +151,7 @@ export default function PublicLayout({ children }) {
                                 <Link href="/profil/sambutan-pimpinan" className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Sambutan Pimpinan</Link>
                                 <Link href="/profil/struktur-organisasi" className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Struktur Organisasi</Link>
                                 <Link href={route('public.dokumen-institusi')} className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Dokumen Institusi</Link>
-                                <a href="#" className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Akreditasi</a>
+                                <Link href={route('public.akreditasi')} className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Akreditasi</Link>
                             </div>
                         </details>
 
