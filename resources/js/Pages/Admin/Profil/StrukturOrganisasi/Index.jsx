@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link, useForm, router } from '@inertiajs/react';
 import PrimaryButton from '@/Components/PrimaryButton';
-import { Users, Plus, Edit, Trash2 } from 'lucide-react';
+import { Users, Plus, Edit, Trash2, FileUp } from 'lucide-react';
 import Sidebar from '@/Components/Admin/Sidebar';
 import Swal from 'sweetalert2';
 
@@ -47,10 +47,15 @@ const TreeNode = ({ node }) => {
     );
 };
 
-export default function Index({ auth, organisasi, jabatanTree }) {
+export default function Index({ auth, organisasi, jabatanTree, pengaturan }) {
     const { delete: destroy } = useForm();
     const [isLoaded, setIsLoaded] = useState(true);
     const [selectedIds, setSelectedIds] = useState([]);
+    const [previewBanner, setPreviewBanner] = useState(pengaturan?.banner_image || '');
+
+    const { data: bannerData, setData: setBannerData, post: postBanner, processing: processingBanner, errors: errorsBanner } = useForm({
+        banner_image: null,
+    });
 
     const handleDelete = (id) => {
         Swal.fire({
@@ -106,6 +111,30 @@ export default function Index({ auth, organisasi, jabatanTree }) {
         });
     };
 
+    const handleBannerChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setBannerData('banner_image', file);
+            setPreviewBanner(URL.createObjectURL(file));
+        }
+    };
+
+    const handleSaveBanner = (e) => {
+        e.preventDefault();
+        postBanner(route('admin.profil.struktur-organisasi.update-banner'), {
+            preserveScroll: true,
+            onSuccess: () => {
+                setBannerData('banner_image', null);
+                Swal.fire({
+                    title: 'Berhasil!',
+                    text: 'Banner halaman berhasil diperbarui.',
+                    icon: 'success',
+                    confirmButtonColor: '#059669'
+                });
+            }
+        });
+    };
+
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -129,6 +158,55 @@ export default function Index({ auth, organisasi, jabatanTree }) {
                                     Tambah Anggota
                                 </PrimaryButton>
                             </Link>
+                        </div>
+
+                        {/* Panel Pengaturan Banner */}
+                        <div className="bg-white rounded-[5px] shadow-sm border border-slate-200 overflow-hidden mb-8">
+                            <div className="p-6 border-b border-slate-200 bg-slate-50 flex items-center justify-between">
+                                <div>
+                                    <h3 className="text-lg font-bold text-slate-800">Pengaturan Background / Banner</h3>
+                                    <p className="text-sm text-slate-500">Ubah gambar latar belakang untuk halaman publik Struktur Organisasi.</p>
+                                </div>
+                                <FileUp className="text-slate-400 w-8 h-8" />
+                            </div>
+                            <div className="p-6">
+                                <form onSubmit={handleSaveBanner} className="flex flex-col md:flex-row gap-6 items-start">
+                                    <div className="w-full md:w-1/2">
+                                        <div className="mb-4">
+                                            <label className="block text-sm font-medium text-slate-700 mb-2">Gambar Banner Saat Ini</label>
+                                            <div className="w-full h-48 bg-slate-100 rounded-lg overflow-hidden border-2 border-dashed border-slate-300 relative flex items-center justify-center">
+                                                {previewBanner ? (
+                                                    <img src={previewBanner} alt="Banner Preview" className="w-full h-full object-cover" />
+                                                ) : (
+                                                    <span className="text-slate-400">Belum ada banner diatur</span>
+                                                )}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="w-full md:w-1/2 flex flex-col justify-center gap-4">
+                                        <div>
+                                            <label className="block text-sm font-medium text-slate-700 mb-2">Upload Banner Baru (Opsional)</label>
+                                            <input 
+                                                type="file" 
+                                                className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100 cursor-pointer border border-slate-200 rounded-md"
+                                                onChange={handleBannerChange}
+                                                accept="image/*"
+                                            />
+                                            {errorsBanner.banner_image && <p className="text-sm text-red-600 mt-1">{errorsBanner.banner_image}</p>}
+                                            <p className="text-xs text-slate-500 mt-2">Format yang didukung: JPG, PNG, WEBP. Maksimal 2MB. Resolusi disarankan: 1600x450 piksel.</p>
+                                        </div>
+                                        <div>
+                                            <button 
+                                                type="submit" 
+                                                disabled={processingBanner || !bannerData.banner_image}
+                                                className="px-4 py-2 bg-slate-800 text-white rounded-md hover:bg-slate-700 disabled:opacity-50 transition-colors"
+                                            >
+                                                {processingBanner ? 'Menyimpan...' : 'Simpan Banner'}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
 
                         {/* Visualisasi Organogram */}

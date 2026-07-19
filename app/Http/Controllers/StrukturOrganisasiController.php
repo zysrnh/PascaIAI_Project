@@ -6,18 +6,22 @@ use App\Models\StrukturOrganisasi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
+use App\Models\PengaturanHalaman;
 
 class StrukturOrganisasiController extends Controller
 {
-    // ADMIN: Tampilkan daftar pengurus
+    // ADMIN: Tampilkan daftar struktur organisasi
     public function index()
     {
         $organisasi = StrukturOrganisasi::orderBy('urutan', 'asc')->get();
+        // Ambil data tree (hirarki)
         $jabatanTree = StrukturOrganisasi::whereNull('parent_id')->with('children.children')->orderBy('urutan', 'asc')->get();
+        $pengaturan = PengaturanHalaman::firstOrCreate(['halaman' => 'struktur-organisasi']);
 
         return Inertia::render('Admin/Profil/StrukturOrganisasi/Index', [
             'organisasi' => $organisasi,
-            'jabatanTree' => $jabatanTree
+            'jabatanTree' => $jabatanTree,
+            'pengaturan' => $pengaturan
         ]);
     }
 
@@ -126,15 +130,38 @@ class StrukturOrganisasiController extends Controller
         return redirect()->route('admin.profil.struktur-organisasi.index')->with('success', count($request->ids) . ' anggota struktur berhasil dihapus.');
     }
 
+    // ADMIN: Proses Update Banner
+    public function updateBanner(Request $request)
+    {
+        $request->validate([
+            'banner_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048'
+        ]);
+
+        $pengaturan = PengaturanHalaman::firstOrCreate(['halaman' => 'struktur-organisasi']);
+
+        if ($request->hasFile('banner_image')) {
+            if ($pengaturan->banner_image && !str_starts_with($pengaturan->banner_image, 'http')) {
+                Storage::disk('public')->delete(str_replace('/storage/', '', $pengaturan->banner_image));
+            }
+            $path = $request->file('banner_image')->store('profil/halaman', 'public');
+            $pengaturan->banner_image = '/storage/' . $path;
+            $pengaturan->save();
+        }
+
+        return redirect()->route('admin.profil.struktur-organisasi.index')->with('success', 'Banner halaman berhasil diperbarui.');
+    }
+
     // PUBLIK: Halaman Struktur Organisasi
     public function publicIndex()
     {
         $organisasi = StrukturOrganisasi::orderBy('urutan', 'asc')->get();
         $jabatanTree = StrukturOrganisasi::whereNull('parent_id')->with('children.children')->orderBy('urutan', 'asc')->get();
+        $pengaturan = PengaturanHalaman::where('halaman', 'struktur-organisasi')->first();
 
         return Inertia::render('Public/StrukturOrganisasi', [
             'organisasi' => $organisasi,
-            'jabatanTree' => $jabatanTree
+            'jabatanTree' => $jabatanTree,
+            'pengaturan' => $pengaturan
         ]);
     }
 }

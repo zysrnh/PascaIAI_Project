@@ -230,6 +230,7 @@ function SidebarContent() {
                         <p className="truncate text-sm font-medium text-slate-800">{user.name}</p>
                         <p className="truncate text-xs text-slate-500 capitalize">{user.role.replace('_', ' ')}</p>
                     </div>
+
                     <Link
                         href={route('logout')}
                         method="post"
