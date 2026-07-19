@@ -71,7 +71,7 @@ export default function Welcome() {
                                     <div className="absolute top-full left-0 mt-2 w-56 bg-white border border-slate-100 rounded-sm shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50">
                                         <div className="p-2 space-y-0.5">
                                             <Link href="/profil/tentang-kampus" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Tentang Kampus</Link>
-                                            <a href="#" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Visi, Misi & Tujuan</a>
+                                            <Link href="/profil/visi-misi" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Visi, Misi & Tujuan</Link>
                                             <Link href="/profil/sambutan-pimpinan" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Sambutan Pimpinan</Link>
                                             <a href="#" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Struktur Organisasi</a>
                                             <a href="#" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Dokumen Institusi</a>
@@ -150,7 +150,7 @@ export default function Welcome() {
                                 </summary>
                                 <div className="pl-4 pb-2 space-y-1 border-l-2 border-emerald-100 ml-3 mt-1">
                                     <Link href="/profil/tentang-kampus" className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Tentang Kampus</Link>
-                                    <a href="#" className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Visi, Misi & Tujuan</a>
+                                    <Link href="/profil/visi-misi" className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Visi, Misi & Tujuan</Link>
                                     <Link href="/profil/sambutan-pimpinan" className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Sambutan Pimpinan</Link>
                                     <a href="#" className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Struktur Organisasi</a>
                                     <a href="#" className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Dokumen Institusi</a>

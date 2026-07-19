@@ -24,6 +24,13 @@ Route::get('/profil/tentang-kampus', function () {
     ]);
 });
 
+Route::get('/profil/visi-misi', function () {
+    $visimisi = \App\Models\VisiMisi::first();
+    return Inertia::render('Public/VisiMisi', [
+        'visimisi' => $visimisi
+    ]);
+});
+
 Route::get('/profil/sambutan-pimpinan', function () {
     $sambutan = \App\Models\SambutanPimpinan::first();
     return Inertia::render('Public/SambutanPimpinan', [
@@ -47,6 +54,10 @@ Route::middleware('auth')->group(function () {
     // Admin Profil - Sambutan Pimpinan
     Route::get('/admin/profil/sambutan-pimpinan', [SambutanPimpinanController::class, 'edit'])->name('admin.profil.sambutan-pimpinan');
     Route::post('/admin/profil/sambutan-pimpinan', [SambutanPimpinanController::class, 'update'])->name('admin.profil.sambutan-pimpinan.update');
+
+    // Admin Profil - Visi Misi
+    Route::get('/admin/profil/visi-misi', [\App\Http\Controllers\VisiMisiController::class, 'edit'])->name('admin.profil.visi-misi');
+    Route::post('/admin/profil/visi-misi', [\App\Http\Controllers\VisiMisiController::class, 'update'])->name('admin.profil.visi-misi.update');
 
 });
 
