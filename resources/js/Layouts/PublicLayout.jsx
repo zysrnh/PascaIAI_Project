@@ -1,0 +1,203 @@
+import { useState } from 'react';
+import { Link } from '@inertiajs/react';
+
+export default function PublicLayout({ children }) {
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+    return (
+        <div className="bg-slate-50 text-slate-800 antialiased font-sans">
+            {/* Top Bar Info */}
+            <div className="bg-emerald-950 text-emerald-100 text-xs py-2 px-4 hidden md:block">
+                <div className="max-w-7xl mx-auto flex justify-between items-center">
+                    <div className="flex items-center space-x-6">
+                        <span><i className="fa-solid fa-envelope text-amber-500 mr-1"></i> pascasarjana@iaipersis.ac.id</span>
+                        <span><i className="fa-solid fa-phone text-amber-500 mr-1"></i> (022) 5441951</span>
+                        <span><i className="fa-solid fa-location-dot text-amber-500 mr-1"></i> Bojongsoang, Bandung</span>
+                    </div>
+                    <div className="flex items-center space-x-4">
+                        <a href="#" className="hover:text-amber-400 transition"><i className="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" className="hover:text-amber-400 transition"><i className="fa-brands fa-instagram"></i></a>
+                        <a href="#" className="hover:text-amber-400 transition"><i className="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            {/* Header / Navbar */}
+            <header className="bg-white/95 backdrop-blur-md shadow-md sticky top-0 z-50 transition-all duration-300">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="flex justify-between items-center h-20">
+                        {/* Logo & Brand Name */}
+                        <Link href="/" className="flex items-center gap-3 group">
+                            <img src="/logo_pascasarjana.png" alt="Logo Pascasarjana IAI Persis" className="w-14 h-14 object-contain group-hover:scale-105 transition-transform drop-shadow-md" />
+                            <div>
+                                <h1 className="font-extrabold text-lg sm:text-xl text-emerald-900 leading-none">PASCASARJANA</h1>
+                                <span className="text-[10px] sm:text-xs text-emerald-600 font-bold tracking-widest block mt-1 uppercase">IAI PERSIS BANDUNG</span>
+                            </div>
+                        </Link>
+
+                        {/* Desktop Navigation Menu */}
+                        <nav className="hidden lg:flex items-center space-x-6">
+                            <Link href="/" className="text-emerald-800 font-semibold border-b-2 border-transparent hover:border-emerald-800 px-1 py-1">Beranda</Link>
+                            
+                            {/* Profil Dropdown */}
+                            <div className="relative group">
+                                <button className="text-slate-600 hover:text-emerald-700 font-medium px-1 py-1 transition flex items-center gap-1">
+                                    Profil <i className="fa-solid fa-chevron-down text-[10px]"></i>
+                                </button>
+                                <div className="absolute top-full left-0 mt-2 w-56 bg-white border border-slate-100 rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50">
+                                    <div className="py-2">
+                                        <Link href="/profil/tentang-kampus" className="block px-4 py-2 text-sm text-slate-600 hover:bg-emerald-50 hover:text-emerald-800">Tentang Kampus</Link>
+                                        <a href="#" className="block px-4 py-2 text-sm text-slate-600 hover:bg-emerald-50 hover:text-emerald-800">Visi, Misi & Tujuan</a>
+                                        <a href="#" className="block px-4 py-2 text-sm text-slate-600 hover:bg-emerald-50 hover:text-emerald-800">Sambutan Pimpinan</a>
+                                        <a href="#" className="block px-4 py-2 text-sm text-slate-600 hover:bg-emerald-50 hover:text-emerald-800">Struktur Organisasi</a>
+                                        <a href="#" className="block px-4 py-2 text-sm text-slate-600 hover:bg-emerald-50 hover:text-emerald-800">Dokumen Institusi</a>
+                                        <a href="#" className="block px-4 py-2 text-sm text-slate-600 hover:bg-emerald-50 hover:text-emerald-800">Akreditasi</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Fakultas Dropdown */}
+                            <div className="relative group">
+                                <button className="text-slate-600 hover:text-emerald-700 font-medium px-1 py-1 transition flex items-center gap-1">
+                                    Fakultas <i className="fa-solid fa-chevron-down text-[10px]"></i>
+                                </button>
+                                <div className="absolute top-full left-0 mt-2 w-48 bg-white border border-slate-100 rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50">
+                                    <div className="py-2">
+                                        <a href="#" className="block px-4 py-2 text-sm text-slate-600 hover:bg-emerald-50 hover:text-emerald-800">Pascasarjana</a>
+                                        <a href="#" className="block px-4 py-2 text-sm text-slate-600 hover:bg-emerald-50 hover:text-emerald-800">Prospek Karir</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Akademik Dropdown */}
+                            <div className="relative group">
+                                <button className="text-slate-600 hover:text-emerald-700 font-medium px-1 py-1 transition flex items-center gap-1">
+                                    Akademik <i className="fa-solid fa-chevron-down text-[10px]"></i>
+                                </button>
+                                <div className="absolute top-full left-0 mt-2 w-48 bg-white border border-slate-100 rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50">
+                                    <div className="py-2">
+                                        <a href="#" className="block px-4 py-2 text-sm text-slate-600 hover:bg-emerald-50 hover:text-emerald-800">Kalender Akademik</a>
+                                        <a href="#" className="block px-4 py-2 text-sm text-slate-600 hover:bg-emerald-50 hover:text-emerald-800">Jadwal Perkuliahan</a>
+                                        <a href="#" className="block px-4 py-2 text-sm text-slate-600 hover:bg-emerald-50 hover:text-emerald-800">Kurikulum</a>
+                                        <a href="#" className="block px-4 py-2 text-sm text-slate-600 hover:bg-emerald-50 hover:text-emerald-800">Sistem Akademik</a>
+                                        <a href="#" className="block px-4 py-2 text-sm text-slate-600 hover:bg-emerald-50 hover:text-emerald-800">Pedoman Akademik</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Penelitian Dropdown */}
+                            <div className="relative group">
+                                <button className="text-slate-600 hover:text-emerald-700 font-medium px-1 py-1 transition flex items-center gap-1">
+                                    Penelitian & Pengabdian <i className="fa-solid fa-chevron-down text-[10px]"></i>
+                                </button>
+                                <div className="absolute top-full left-0 mt-2 w-64 bg-white border border-slate-100 rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50">
+                                    <div className="py-2">
+                                        <a href="#" className="block px-4 py-2 text-sm text-slate-600 hover:bg-emerald-50 hover:text-emerald-800">LPPM</a>
+                                        <a href="#" className="block px-4 py-2 text-sm text-slate-600 hover:bg-emerald-50 hover:text-emerald-800">Penelitian (Hibah & Roadmap)</a>
+                                        <a href="#" className="block px-4 py-2 text-sm text-slate-600 hover:bg-emerald-50 hover:text-emerald-800">Pengabdian Masyarakat (KKN)</a>
+                                        <a href="#" className="block px-4 py-2 text-sm text-slate-600 hover:bg-emerald-50 hover:text-emerald-800">Publikasi (Jurnal & Buku)</a>
+                                        <a href="#" className="block px-4 py-2 text-sm text-slate-600 hover:bg-emerald-50 hover:text-emerald-800">Repository</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <a href="/#pendaftaran" className="bg-emerald-800 hover:bg-emerald-900 text-white px-5 py-2.5 rounded-full font-semibold shadow-md shadow-emerald-900/10 hover:shadow-lg transition text-sm">PMB 2026/2027</a>
+                        </nav>
+
+                        {/* Mobile Menu Toggle Button */}
+                        <button 
+                            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} 
+                            className="lg:hidden p-2 rounded-lg text-emerald-900 hover:bg-slate-100 focus:outline-none"
+                        >
+                            <i className="fa-solid fa-bars text-2xl"></i>
+                        </button>
+                    </div>
+                </div>
+
+                {/* Mobile Navigation Menu Dropdown */}
+                <div className={`${isMobileMenuOpen ? 'block' : 'hidden'} lg:hidden border-t border-slate-100 bg-white shadow-lg max-h-[85vh] overflow-y-auto`}>
+                    <div className="px-4 pt-2 pb-6 space-y-1">
+                        <Link href="/" className="block px-3 py-2.5 rounded-lg text-slate-700 hover:bg-slate-50 font-medium mb-2">Beranda</Link>
+                        
+                        {/* Profil Mobile Dropdown */}
+                        <details className="group">
+                            <summary className="flex justify-between items-center px-3 py-2.5 rounded-lg text-slate-700 hover:bg-slate-50 font-medium cursor-pointer list-none">
+                                Profil <i className="fa-solid fa-chevron-down text-xs transition-transform group-open:rotate-180"></i>
+                            </summary>
+                            <div className="pl-4 pb-2 space-y-1 border-l-2 border-emerald-100 ml-3 mt-1">
+                                <Link href="/profil/tentang-kampus" className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Tentang Kampus</Link>
+                                <a href="#" className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Visi, Misi & Tujuan</a>
+                                <a href="#" className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Sambutan Pimpinan</a>
+                                <a href="#" className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Struktur Organisasi</a>
+                                <a href="#" className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Dokumen Institusi</a>
+                                <a href="#" className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Akreditasi</a>
+                            </div>
+                        </details>
+
+                        <div className="pt-4">
+                            <a href="/#pendaftaran" className="block text-center bg-emerald-800 text-white py-3 rounded-xl font-bold shadow-md">Daftar PMB Online</a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <main>
+                {children}
+            </main>
+
+            {/* Footer */}
+            <footer className="bg-emerald-950 text-emerald-200 py-16 border-t border-emerald-900">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="grid grid-cols-1 md:grid-cols-12 gap-10">
+                        <div className="md:col-span-5">
+                            <div className="flex items-center gap-3 mb-6">
+                                <div className="w-10 h-10 bg-emerald-800 rounded-lg flex items-center justify-center text-white">
+                                    <i className="fa-solid fa-mosque text-lg text-amber-400"></i>
+                                </div>
+                                <h3 className="text-xl font-bold text-white tracking-wider">IAI PERSIS BANDUNG</h3>
+                            </div>
+                            <p className="text-sm text-emerald-200/80 leading-relaxed mb-6">
+                                Pascasarjana Institut Agama Islam Persatuan Islam (IAI PERSIS) Bandung berkomitmen menyelenggarakan kajian ilmiah integratif yang menghasilkan pakar handal berlandaskan tradisi akademis Islam otentik.
+                            </p>
+                            <div className="flex items-center space-x-3">
+                                <a href="#" className="w-9 h-9 rounded-full bg-emerald-900 hover:bg-emerald-800 flex items-center justify-center text-emerald-100 hover:text-amber-400 transition"><i className="fa-brands fa-facebook-f text-sm"></i></a>
+                                <a href="#" className="w-9 h-9 rounded-full bg-emerald-900 hover:bg-emerald-800 flex items-center justify-center text-emerald-100 hover:text-amber-400 transition"><i className="fa-brands fa-instagram text-sm"></i></a>
+                                <a href="#" className="w-9 h-9 rounded-full bg-emerald-900 hover:bg-emerald-800 flex items-center justify-center text-emerald-100 hover:text-amber-400 transition"><i className="fa-brands fa-youtube text-sm"></i></a>
+                            </div>
+                        </div>
+                        <div className="md:col-span-3">
+                            <h4 className="text-white font-bold mb-6 text-sm tracking-widest uppercase">Tautan Penting</h4>
+                            <ul className="space-y-3.5 text-sm text-emerald-200/80">
+                                <li><a href="/#sambutan" className="hover:text-amber-400 transition flex items-center gap-2"><i className="fa-solid fa-chevron-right text-[10px]"></i> Profil Pascasarjana</a></li>
+                                <li><a href="https://iaipibdg.sevimaplatform.com/spmbfront/program-studi" className="hover:text-amber-400 transition flex items-center gap-2"><i className="fa-solid fa-chevron-right text-[10px]"></i> Program Studi Magister</a></li>
+                                <li><a href="https://iaipibdg.sevimaplatform.com/spmbfront/jalur-seleksi" className="hover:text-amber-400 transition flex items-center gap-2"><i className="fa-solid fa-chevron-right text-[10px]"></i> Jalur Pendaftaran</a></li>
+                                <li><a href="https://iaipibdg.sevimaplatform.com/gate/login" className="hover:text-amber-400 transition flex items-center gap-2"><i className="fa-solid fa-chevron-right text-[10px]"></i> Sistem Akademik (SIAKAD)</a></li>
+                                <li><a href="https://journal.iaipibandung.ac.id/index.php/atikan/index" className="hover:text-amber-400 transition flex items-center gap-2"><i className="fa-solid fa-chevron-right text-[10px]"></i> Jurnal Ilmiah Pasca</a></li>
+                            </ul>
+                        </div>
+                        <div className="md:col-span-4">
+                            <h4 className="text-white font-bold mb-6 text-sm tracking-widest uppercase">Kantor Layanan</h4>
+                            <ul className="space-y-4 text-sm text-emerald-200/80">
+                                <li className="flex items-start gap-3">
+                                    <i className="fa-solid fa-location-dot mt-1 text-amber-500"></i>
+                                    <span>Jl. Ciganitri No.2, Cipagalo, Kec. Bojongsoang, Kabupaten Bandung, Jawa Barat 40287</span>
+                                </li>
+                                <li className="flex items-center gap-3">
+                                    <i className="fa-solid fa-phone text-amber-500"></i>
+                                    <span>(022) 5441951</span>
+                                </li>
+                                <li className="flex items-center gap-3">
+                                    <i className="fa-solid fa-envelope text-amber-500"></i>
+                                    <span>pascasarjana@iaipibandung.ac.id</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div className="border-t border-emerald-900 mt-12 pt-8 text-center text-xs text-emerald-300/50">
+                        &copy; 2026 Pascasarjana IAI PERSIS Bandung. Hak Cipta Dilindungi Undang-Undang.
+                    </div>
+                </div>
+            </footer>
+        </div>
+    );
+}
