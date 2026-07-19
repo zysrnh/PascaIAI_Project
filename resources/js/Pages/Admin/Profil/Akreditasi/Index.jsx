@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Head, useForm, usePage, Link } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import Sidebar from '@/Components/Admin/Sidebar';
-import { Award, Landmark, History, Plus, FileText, Image as ImageIcon, Save, Trash2, Edit, MessageCircle } from 'lucide-react';
+import { Award, Landmark, History, Plus, FileText, Image as ImageIcon, Save, Trash2, Edit, MessageCircle, Image, Upload } from 'lucide-react';
 import Swal from 'sweetalert2';
 
 export default function Index({ auth, institusi, prodis, riwayats, pengaturan }) {
@@ -114,6 +114,7 @@ export default function Index({ auth, institusi, prodis, riwayats, pengaturan })
 // Tab Institusi & Pengaturan
 // ==========================================
 function InstitusiTab({ institusi, pengaturan }) {
+    const [previewBanner, setPreviewBanner] = useState(null);
     const formInstitusi = useForm({
         peringkat: institusi?.peringkat || '',
         no_sk: institusi?.no_sk || '',
@@ -167,55 +168,102 @@ function InstitusiTab({ institusi, pengaturan }) {
         <div className="space-y-10">
             {/* Pengaturan Section */}
             <section>
-                <h3 className="text-lg font-bold text-slate-800 flex items-center gap-2 mb-4">
-                    <ImageIcon className="w-5 h-5 text-emerald-600" /> Pengaturan Halaman
-                </h3>
-                <form onSubmit={submitPengaturan} className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-slate-50 p-6 rounded-xl border border-slate-100">
-                    <div className="space-y-3">
-                        <label className="block text-sm font-bold text-slate-700">Banner Image</label>
-                        {pengaturan?.banner_image && (
-                            <div className="w-full h-32 rounded-lg overflow-hidden border border-slate-200">
-                                <img 
-                                    src={`/storage/${pengaturan.banner_image}`} 
-                                    alt="Current Banner" 
-                                    className="w-full h-full object-cover"
-                                />
-                            </div>
-                        )}
-                        <input 
-                            type="file" 
-                            accept="image/*"
-                            onChange={e => formPengaturan.setData('banner_image', e.target.files[0])}
-                            className="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100"
-                        />
-                        {formPengaturan.errors.banner_image && <p className="text-red-500 text-xs mt-1">{formPengaturan.errors.banner_image}</p>}
-                        {pengaturan?.banner_image && !formPengaturan.data.banner_image && (
-                            <p className="text-xs text-emerald-600">✓ Banner sudah terpasang.</p>
-                        )}
-                    </div>
-                    <div>
-                        <label className="block text-sm font-bold text-slate-700 mb-2">Nomor WhatsApp LPM</label>
-                        <div className="flex">
-                            <span className="inline-flex items-center px-3 text-sm text-slate-500 bg-slate-200 border border-r-0 border-slate-300 rounded-l-md">
-                                +62
-                            </span>
-                            <input 
-                                type="text" 
-                                value={formPengaturan.data.whatsapp_lpm}
-                                onChange={e => formPengaturan.setData('whatsapp_lpm', e.target.value)}
-                                placeholder="81234567890"
-                                className="flex-1 min-w-0 block w-full px-3 py-2 rounded-none rounded-r-md border-slate-300 focus:border-emerald-500 focus:ring-emerald-500 sm:text-sm"
-                            />
+                <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg border border-slate-200 mb-8">
+                    <div className="p-6 border-b border-slate-200 bg-slate-50 flex items-center gap-3">
+                        <div className="p-2 bg-blue-100 text-blue-600 rounded-lg"><Image className="w-5 h-5" /></div>
+                        <div>
+                            <h3 className="text-lg font-bold text-slate-800">Pengaturan Halaman Publik</h3>
+                            <p className="text-sm text-slate-500">Atur gambar latar belakang dan konfigurasi lainnya untuk halaman Akreditasi.</p>
                         </div>
-                        <p className="text-xs text-slate-500 mt-1">Digunakan untuk tombol "Hubungi LPM".</p>
-                        {formPengaturan.errors.whatsapp_lpm && <p className="text-red-500 text-xs mt-1">{formPengaturan.errors.whatsapp_lpm}</p>}
                     </div>
-                    <div className="md:col-span-2 flex justify-end">
-                        <button type="submit" disabled={formPengaturan.processing} className="px-4 py-2 bg-emerald-600 text-white rounded-lg font-medium hover:bg-emerald-700 flex items-center gap-2">
-                            <Save className="w-4 h-4" /> Simpan Pengaturan
-                        </button>
+                    <div className="p-6">
+                        <form onSubmit={(e) => {
+                            e.preventDefault();
+                            formPengaturan.post(route('admin.profil.akreditasi.pengaturan'), {
+                                preserveScroll: true,
+                                forceFormData: true,
+                                onSuccess: () => {
+                                    formPengaturan.reset('banner_image');
+                                    setPreviewBanner(null);
+                                },
+                                onError: (errors) => {
+                                    const firstError = Object.values(errors)[0];
+                                    Swal.fire({
+                                        title: 'Validasi Gagal!',
+                                        text: firstError || 'Silakan cek kembali inputan Anda (Maks. file 2MB).',
+                                        icon: 'error',
+                                        confirmButtonColor: '#ef4444'
+                                    });
+                                }
+                            });
+                        }} className="space-y-6">
+                            
+                            <div className="space-y-2">
+                                <label className="block text-sm font-medium text-slate-700">Gambar Banner Saat Ini</label>
+                                <div className="relative w-full h-64 bg-slate-100 rounded-lg overflow-hidden border border-slate-200">
+                                    <img 
+                                        src={previewBanner ? previewBanner : (pengaturan?.banner_image ? `/storage/${pengaturan.banner_image}` : "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=1600&auto=format&fit=crop")} 
+                                        alt="Preview" 
+                                        className="w-full h-full object-cover" 
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-emerald-950 via-emerald-950/40 to-transparent"></div>
+                                    <div className="absolute bottom-6 left-6 z-10 text-white">
+                                        <h1 className="text-3xl font-extrabold mb-2 drop-shadow-md">Akreditasi</h1>
+                                        <div className="w-16 h-1.5 bg-amber-500 rounded-sm"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="space-y-2">
+                                <label className="block text-sm font-medium text-slate-700">Ganti Banner (Maks. 2MB, JPG/PNG)</label>
+                                <label className={`flex justify-center w-full h-32 px-4 transition bg-white border-2 border-slate-300 border-dashed rounded-md cursor-pointer hover:border-emerald-500 ${formPengaturan.errors.banner_image ? 'border-red-500' : ''}`}>
+                                    <span className="flex items-center space-x-2">
+                                        <Upload className="w-6 h-6 text-slate-600" />
+                                        <span className="font-medium text-slate-600">Klik untuk mengunggah file gambar</span>
+                                    </span>
+                                    <input 
+                                        type="file" 
+                                        name="banner_image" 
+                                        className="hidden" 
+                                        accept="image/*" 
+                                        onChange={(e) => {
+                                            const file = e.target.files[0];
+                                            if (file) {
+                                                formPengaturan.setData('banner_image', file);
+                                                setPreviewBanner(URL.createObjectURL(file));
+                                            }
+                                        }} 
+                                    />
+                                </label>
+                                {formPengaturan.errors.banner_image && <p className="text-sm text-red-600 mt-1">{formPengaturan.errors.banner_image}</p>}
+                            </div>
+
+                            <div className="pt-4 border-t border-slate-100">
+                                <label className="block text-sm font-medium text-slate-700 mb-2">Nomor WhatsApp LPM</label>
+                                <div className="flex max-w-md">
+                                    <span className="inline-flex items-center px-3 text-sm text-slate-500 bg-slate-100 border border-r-0 border-slate-300 rounded-l-md font-medium">
+                                        +62
+                                    </span>
+                                    <input 
+                                        type="text" 
+                                        value={formPengaturan.data.whatsapp_lpm}
+                                        onChange={e => formPengaturan.setData('whatsapp_lpm', e.target.value)}
+                                        placeholder="81234567890"
+                                        className="flex-1 min-w-0 block w-full px-3 py-2.5 rounded-none rounded-r-md border-slate-300 focus:border-emerald-500 focus:ring-emerald-500 sm:text-sm"
+                                    />
+                                </div>
+                                <p className="text-xs text-slate-500 mt-1.5">Digunakan untuk tombol "Hubungi LPM".</p>
+                                {formPengaturan.errors.whatsapp_lpm && <p className="text-red-500 text-xs mt-1">{formPengaturan.errors.whatsapp_lpm}</p>}
+                            </div>
+
+                            <div className="flex justify-end pt-4 border-t border-slate-100">
+                                <button type="submit" disabled={formPengaturan.processing} className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-2 px-6 rounded-md shadow-sm transition-colors disabled:opacity-50">
+                                    <Save className="w-4 h-4" /> Simpan Pengaturan
+                                </button>
+                            </div>
+                        </form>
                     </div>
-                </form>
+                </div>
             </section>
 
             <hr className="border-slate-200" />

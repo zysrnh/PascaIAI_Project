@@ -88,7 +88,9 @@ export default function Welcome() {
                                     <div className="absolute top-full left-0 mt-2 w-48 bg-white border border-slate-100 rounded-sm shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50">
                                         <div className="p-2 space-y-0.5">
                                             <Link href="/fakultas/daftarfakultas" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Daftar Fakultas</Link>
-                                            <a href="#" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Prospek Karir</a>
+                                            <Link href="/fakultas/programstudi" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Program Studi</Link>
+                                            <Link href="/fakultas/dosen" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Data Dosen</Link>
+                                            <Link href={route('public.prospek-karir')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Prospek Karir</Link>
                                         </div>
                                     </div>
                                 </div>
@@ -173,8 +175,10 @@ export default function Welcome() {
                                     Fakultas <i className="fa-solid fa-chevron-down text-xs transition-transform group-open:rotate-180"></i>
                                 </summary>
                                 <div className="pl-4 pb-2 space-y-1 border-l-2 border-emerald-100 ml-3 mt-1">
-                                    <a href="#" className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Pascasarjana</a>
-                                    <a href="#" className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Prospek Karir</a>
+                                    <Link href="/fakultas/daftarfakultas" className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Daftar Fakultas</Link>
+                                    <Link href="/fakultas/programstudi" className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Program Studi</Link>
+                                    <Link href="/fakultas/dosen" className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Data Dosen</Link>
+                                    <Link href={route('public.prospek-karir')} className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Prospek Karir</Link>
                                 </div>
                             </details>
 

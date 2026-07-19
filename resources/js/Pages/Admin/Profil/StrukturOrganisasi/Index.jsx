@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link, useForm, router } from '@inertiajs/react';
 import PrimaryButton from '@/Components/PrimaryButton';
-import { Users, Plus, Edit, Trash2, FileUp } from 'lucide-react';
+import { Users, Plus, Edit, Trash2, FileUp, Image, Upload, Save } from 'lucide-react';
 import Sidebar from '@/Components/Admin/Sidebar';
 import Swal from 'sweetalert2';
 
@@ -51,7 +51,7 @@ export default function Index({ auth, organisasi, jabatanTree, pengaturan }) {
     const { delete: destroy } = useForm();
     const [isLoaded, setIsLoaded] = useState(true);
     const [selectedIds, setSelectedIds] = useState([]);
-    const [previewBanner, setPreviewBanner] = useState(pengaturan?.banner_image || '');
+    const [previewBanner, setPreviewBanner] = useState(null);
 
     const { data: bannerData, setData: setBannerData, post: postBanner, processing: processingBanner, errors: errorsBanner } = useForm({
         banner_image: null,
@@ -155,49 +155,49 @@ export default function Index({ auth, organisasi, jabatanTree, pengaturan }) {
                         </div>
 
                         {/* Panel Pengaturan Banner */}
-                        <div className="bg-white rounded-[5px] shadow-sm border border-slate-200 overflow-hidden mb-8">
-                            <div className="p-6 border-b border-slate-200 bg-slate-50 flex items-center justify-between">
+                        <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg border border-slate-200 mb-8">
+                            <div className="p-6 border-b border-slate-200 bg-slate-50 flex items-center gap-3">
+                                <div className="p-2 bg-blue-100 text-blue-600 rounded-lg"><Image className="w-5 h-5" /></div>
                                 <div>
-                                    <h3 className="text-lg font-bold text-slate-800">Pengaturan Background / Banner</h3>
-                                    <p className="text-sm text-slate-500">Ubah gambar latar belakang untuk halaman publik Struktur Organisasi.</p>
+                                    <h3 className="text-lg font-bold text-slate-800">Banner Halaman Publik</h3>
+                                    <p className="text-sm text-slate-500">Atur gambar latar belakang untuk halaman Struktur Organisasi.</p>
                                 </div>
-                                <FileUp className="text-slate-400 w-8 h-8" />
                             </div>
                             <div className="p-6">
-                                <form onSubmit={handleSaveBanner} className="flex flex-col md:flex-row gap-6 items-start">
-                                    <div className="w-full md:w-1/2">
-                                        <div className="mb-4">
-                                            <label className="block text-sm font-medium text-slate-700 mb-2">Gambar Banner Saat Ini</label>
-                                            <div className="w-full h-48 bg-slate-100 rounded-lg overflow-hidden border-2 border-dashed border-slate-300 relative flex items-center justify-center">
-                                                {previewBanner ? (
-                                                    <img src={previewBanner} alt="Banner Preview" className="w-full h-full object-cover" />
-                                                ) : (
-                                                    <span className="text-slate-400">Belum ada banner diatur</span>
-                                                )}
+                                <form onSubmit={handleSaveBanner} className="space-y-6">
+                                    <div className="space-y-2">
+                                        <label className="block text-sm font-medium text-slate-700">Gambar Banner Saat Ini</label>
+                                        <div className="relative w-full h-64 bg-slate-100 rounded-lg overflow-hidden border border-slate-200">
+                                            <img 
+                                                src={previewBanner ? previewBanner : (pengaturan?.banner_image ? `/storage/${pengaturan.banner_image}` : "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=1600&auto=format&fit=crop")} 
+                                                alt="Preview" 
+                                                className="w-full h-full object-cover" 
+                                            />
+                                            <div className="absolute inset-0 bg-gradient-to-t from-emerald-950 via-emerald-950/40 to-transparent"></div>
+                                            <div className="absolute bottom-6 left-6 z-10 text-white">
+                                                <h1 className="text-3xl font-extrabold mb-2 drop-shadow-md">Struktur Organisasi</h1>
+                                                <div className="w-16 h-1.5 bg-amber-500 rounded-sm"></div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="w-full md:w-1/2 flex flex-col justify-center gap-4">
-                                        <div>
-                                            <label className="block text-sm font-medium text-slate-700 mb-2">Upload Banner Baru (Opsional)</label>
+                                    <div className="space-y-2">
+                                        <label className="block text-sm font-medium text-slate-700">Ganti Banner (Maks. 2MB, JPG/PNG)</label>
+                                        <label className={`flex justify-center w-full h-32 px-4 transition bg-white border-2 border-slate-300 border-dashed rounded-md cursor-pointer hover:border-emerald-500 ${errorsBanner.banner_image ? 'border-red-500' : ''}`}>
+                                            <span className="flex items-center space-x-2"><Upload className="w-6 h-6 text-slate-600" /><span className="font-medium text-slate-600">Klik untuk mengunggah file gambar</span></span>
                                             <input 
                                                 type="file" 
-                                                className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100 cursor-pointer border border-slate-200 rounded-md"
+                                                name="banner_image" 
+                                                className="hidden" 
+                                                accept="image/*" 
                                                 onChange={handleBannerChange}
-                                                accept="image/*"
                                             />
-                                            {errorsBanner.banner_image && <p className="text-sm text-red-600 mt-1">{errorsBanner.banner_image}</p>}
-                                            <p className="text-xs text-slate-500 mt-2">Format yang didukung: JPG, PNG, WEBP. Maksimal 2MB. Resolusi disarankan: 1600x450 piksel.</p>
-                                        </div>
-                                        <div>
-                                            <button 
-                                                type="submit" 
-                                                disabled={processingBanner || !bannerData.banner_image}
-                                                className="px-4 py-2 bg-slate-800 text-white rounded-md hover:bg-slate-700 disabled:opacity-50 transition-colors"
-                                            >
-                                                {processingBanner ? 'Menyimpan...' : 'Simpan Banner'}
-                                            </button>
-                                        </div>
+                                        </label>
+                                        {errorsBanner.banner_image && <p className="text-sm text-red-600 mt-1">{errorsBanner.banner_image}</p>}
+                                    </div>
+                                    <div className="flex justify-end pt-4 border-t border-slate-100">
+                                        <button type="submit" disabled={processingBanner || !bannerData.banner_image} className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-2 px-6 rounded-md shadow-sm transition-colors disabled:opacity-50">
+                                            <Save className="w-4 h-4" /> Simpan Banner
+                                        </button>
                                     </div>
                                 </form>
                             </div>

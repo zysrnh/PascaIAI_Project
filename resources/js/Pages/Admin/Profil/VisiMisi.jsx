@@ -6,7 +6,7 @@ import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import Sidebar from '@/Components/Admin/Sidebar';
-import { Save, Image as ImageIcon, Plus, Trash2 } from 'lucide-react';
+import { Save, Image as ImageIcon, Plus, Trash2, Upload, Image } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
 export default function VisiMisiEdit({ auth, visimisi }) {
@@ -87,16 +87,24 @@ export default function VisiMisiEdit({ auth, visimisi }) {
                                 {/* Banner Image */}
                                 <div>
                                     <InputLabel htmlFor="gambar_banner" value="Gambar Banner Atas" className="font-bold text-slate-700 mb-2" />
-                                    {visimisi.gambar_banner && (
-                                        <div className="mb-4">
-                                            <p className="text-sm text-slate-500 mb-2">Banner saat ini:</p>
-                                            <img src={visimisi.gambar_banner} alt="Banner" className="w-full h-32 object-cover rounded-[5px] border border-slate-200" />
+                                    
+                                    <div className="relative w-full h-48 bg-slate-100 rounded-lg overflow-hidden border border-slate-200 mb-4">
+                                        <img 
+                                            src={data.gambar_banner ? URL.createObjectURL(data.gambar_banner) : (visimisi?.gambar_banner || "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=1600&auto=format&fit=crop")} 
+                                            alt="Preview Banner" 
+                                            className="w-full h-full object-cover" 
+                                        />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-emerald-950 via-emerald-950/40 to-transparent"></div>
+                                        <div className="absolute bottom-4 left-4 z-10 text-white">
+                                            <h1 className="text-2xl font-extrabold mb-1 drop-shadow-md">Visi, Misi & Tujuan</h1>
+                                            <div className="w-12 h-1 bg-amber-500 rounded-sm"></div>
                                         </div>
-                                    )}
+                                    </div>
+
                                     <div className="flex items-center gap-4">
-                                        <label className="flex items-center justify-center w-full px-4 py-3 bg-slate-50 border-2 border-dashed border-slate-300 rounded-[5px] cursor-pointer hover:bg-slate-100 hover:border-emerald-500 transition-colors group">
+                                        <label className={`flex items-center justify-center w-full px-4 py-3 bg-slate-50 border-2 border-dashed rounded-[5px] cursor-pointer hover:bg-slate-100 hover:border-emerald-500 transition-colors group ${errors.gambar_banner ? 'border-red-500' : 'border-slate-300'}`}>
                                             <div className="flex flex-col items-center">
-                                                <ImageIcon className="w-6 h-6 text-slate-400 group-hover:text-emerald-500 mb-1" />
+                                                <Upload className="w-6 h-6 text-slate-400 group-hover:text-emerald-500 mb-1" />
                                                 <span className="text-sm text-slate-500 group-hover:text-emerald-600">Klik untuk unggah banner baru</span>
                                                 <span className="text-xs text-slate-400 mt-1">JPG, PNG, WEBP (Max 2MB)</span>
                                             </div>
@@ -109,12 +117,6 @@ export default function VisiMisiEdit({ auth, visimisi }) {
                                             />
                                         </label>
                                     </div>
-                                    {data.gambar_banner && (
-                                        <div className="mt-4">
-                                            <p className="text-sm text-emerald-600 mb-2 font-medium">Preview banner baru:</p>
-                                            <img src={URL.createObjectURL(data.gambar_banner)} alt="Banner Preview" className="w-full h-32 object-cover rounded-[5px] border-2 border-emerald-500 shadow-sm" />
-                                        </div>
-                                    )}
                                     <InputError className="mt-2" message={errors.gambar_banner} />
                                 </div>
 

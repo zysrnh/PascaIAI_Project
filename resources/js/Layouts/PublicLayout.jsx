@@ -78,7 +78,7 @@ export default function PublicLayout({ children }) {
                                         <Link href="/fakultas/daftarfakultas" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Daftar Fakultas</Link>
                                         <Link href="/fakultas/programstudi" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Program Studi</Link>
                                         <Link href="/fakultas/dosen" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Data Dosen</Link>
-                                        <a href="#" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Prospek Karir</a>
+                                        <Link href={route('public.prospek-karir')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Prospek Karir</Link>
                                     </div>
                                 </div>
                             </div>
@@ -166,7 +166,7 @@ export default function PublicLayout({ children }) {
                                 <Link href="/fakultas/daftarfakultas" className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Daftar Fakultas</Link>
                                 <Link href="/fakultas/programstudi" className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Program Studi</Link>
                                 <Link href="/fakultas/dosen" className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Data Dosen</Link>
-                                <a href="#" className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Prospek Karir</a>
+                                <Link href={route('public.prospek-karir')} className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Prospek Karir</Link>
                             </div>
                         </details>
 

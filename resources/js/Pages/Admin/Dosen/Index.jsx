@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Head, useForm, router, usePage } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import Sidebar from '@/Components/Admin/Sidebar';
-import { Users, Plus, Pencil, Trash2, X, Save, ImageIcon, Search, GraduationCap } from 'lucide-react';
+import { Users, Plus, Pencil, Trash2, X, Save, ImageIcon, Search, GraduationCap, Image, Upload } from 'lucide-react';
 import Swal from 'sweetalert2';
 
 export default function Index({ dosens, programStudis, pengaturan }) {
@@ -11,6 +11,7 @@ export default function Index({ dosens, programStudis, pengaturan }) {
     const [isEditing, setIsEditing] = useState(false);
     const [editId, setEditId] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
+    const [previewBanner, setPreviewBanner] = useState(null);
 
     const form = useForm({
         nama: '',
@@ -131,66 +132,78 @@ export default function Index({ dosens, programStudis, pengaturan }) {
                         </div>
 
                         {/* Pengaturan Banner */}
-                        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-                            <div className="flex items-center gap-3 mb-4">
-                                <div className="p-2 bg-blue-100 rounded-lg text-blue-600">
-                                    <ImageIcon className="w-5 h-5" />
+                        <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg border border-slate-200 mb-8">
+                            <div className="p-6 border-b border-slate-200 bg-slate-50 flex items-center gap-3">
+                                <div className="p-2 bg-blue-100 text-blue-600 rounded-lg"><Image className="w-5 h-5" /></div>
+                                <div>
+                                    <h3 className="text-lg font-bold text-slate-800">Banner Halaman Publik</h3>
+                                    <p className="text-sm text-slate-500">Atur gambar latar belakang untuk halaman Daftar Dosen.</p>
                                 </div>
-                                <h2 className="text-lg font-bold text-slate-800">Banner Halaman Publik</h2>
                             </div>
-                            
-                            <form onSubmit={(e) => {
-                                e.preventDefault();
-                                pengaturanForm.post(route('admin.dosen.pengaturan'), {
-                                    preserveScroll: true,
-                                    onSuccess: () => {
-                                        pengaturanForm.reset();
-                                        Swal.fire({
-                                            icon: 'success',
-                                            title: 'Berhasil',
-                                            text: 'Banner halaman berhasil diperbarui!',
-                                            toast: true,
-                                            position: 'top-end',
-                                            showConfirmButton: false,
-                                            timer: 3000
-                                        });
-                                    }
-                                });
-                            }} className="flex items-end gap-4">
-                                <div className="flex-1">
-                                    <label className="block text-sm font-medium text-slate-700 mb-2">
-                                        Upload Banner Baru (Opsional, max 2MB)
-                                    </label>
-                                    <input
-                                        type="file"
-                                        accept="image/*"
-                                        onChange={e => pengaturanForm.setData('banner_image', e.target.files[0])}
-                                        className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100 border border-slate-200 rounded-lg"
-                                    />
-                                    {pengaturanForm.errors.banner_image && (
-                                        <p className="mt-1 text-sm text-red-600">{pengaturanForm.errors.banner_image}</p>
-                                    )}
-                                </div>
-                                <button
-                                    type="submit"
-                                    disabled={pengaturanForm.processing}
-                                    className="flex items-center gap-2 px-6 py-2 bg-slate-800 text-white rounded-lg hover:bg-slate-900 transition-colors font-medium h-[42px]"
-                                >
-                                    <Save className="w-4 h-4" />
-                                    Simpan Banner
-                                </button>
-                            </form>
-                            
-                            {pengaturan?.banner_image && (
-                                <div className="mt-4 border border-slate-200 rounded-lg overflow-hidden relative group">
-                                    <div className="absolute top-2 left-2 bg-black/50 text-white text-xs px-2 py-1 rounded backdrop-blur-sm z-10">Banner Saat Ini</div>
-                                    <img 
-                                        src={pengaturan.banner_image} 
-                                        alt="Banner Preview" 
-                                        className="w-full h-48 object-cover opacity-90 group-hover:opacity-100 transition-opacity"
-                                    />
-                                </div>
-                            )}
+                            <div className="p-6">
+                                <form onSubmit={(e) => {
+                                    e.preventDefault();
+                                    pengaturanForm.post(route('admin.dosen.pengaturan'), {
+                                        preserveScroll: true,
+                                        onSuccess: () => {
+                                            pengaturanForm.reset('banner_image');
+                                            setPreviewBanner(null);
+                                            Swal.fire({
+                                                icon: 'success',
+                                                title: 'Berhasil',
+                                                text: 'Banner halaman berhasil diperbarui!',
+                                                toast: true,
+                                                position: 'top-end',
+                                                showConfirmButton: false,
+                                                timer: 3000
+                                            });
+                                        }
+                                    });
+                                }} className="space-y-6">
+                                    <div className="space-y-2">
+                                        <label className="block text-sm font-medium text-slate-700">Gambar Banner Saat Ini</label>
+                                        <div className="relative w-full h-64 bg-slate-100 rounded-lg overflow-hidden border border-slate-200">
+                                            <img 
+                                                src={previewBanner ? previewBanner : (pengaturan?.banner_image ? `/storage/${pengaturan.banner_image}` : "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=1600&auto=format&fit=crop")} 
+                                                alt="Preview" 
+                                                className="w-full h-full object-cover" 
+                                            />
+                                            <div className="absolute inset-0 bg-gradient-to-t from-emerald-950 via-emerald-950/40 to-transparent"></div>
+                                            <div className="absolute bottom-6 left-6 z-10 text-white">
+                                                <h1 className="text-3xl font-extrabold mb-2 drop-shadow-md">Data Dosen</h1>
+                                                <div className="w-16 h-1.5 bg-amber-500 rounded-sm"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="space-y-2">
+                                        <label className="block text-sm font-medium text-slate-700">Ganti Banner (Maks. 2MB, JPG/PNG)</label>
+                                        <label className={`flex justify-center w-full h-32 px-4 transition bg-white border-2 border-slate-300 border-dashed rounded-md cursor-pointer hover:border-emerald-500 ${pengaturanForm.errors.banner_image ? 'border-red-500' : ''}`}>
+                                            <span className="flex items-center space-x-2"><Upload className="w-6 h-6 text-slate-600" /><span className="font-medium text-slate-600">Klik untuk mengunggah file gambar</span></span>
+                                            <input 
+                                                type="file" 
+                                                name="banner_image" 
+                                                className="hidden" 
+                                                accept="image/*" 
+                                                onChange={(e) => {
+                                                    const file = e.target.files[0];
+                                                    pengaturanForm.setData('banner_image', file);
+                                                    if (file) {
+                                                        setPreviewBanner(URL.createObjectURL(file));
+                                                    } else {
+                                                        setPreviewBanner(null);
+                                                    }
+                                                }}
+                                            />
+                                        </label>
+                                        {pengaturanForm.errors.banner_image && <p className="text-sm text-red-600 mt-1">{pengaturanForm.errors.banner_image}</p>}
+                                    </div>
+                                    <div className="flex justify-end pt-4 border-t border-slate-100">
+                                        <button type="submit" disabled={pengaturanForm.processing || !pengaturanForm.data.banner_image} className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-2 px-6 rounded-md shadow-sm transition-colors disabled:opacity-50">
+                                            <Save className="w-4 h-4" /> Simpan Banner
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
 
                         {/* Table Section */}

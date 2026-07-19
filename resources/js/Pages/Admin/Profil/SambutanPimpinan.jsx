@@ -6,7 +6,7 @@ import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import TextInput from '@/Components/TextInput';
 import PrimaryButton from '@/Components/PrimaryButton';
-import { User, MessageSquare, Image as ImageIcon, Info, Save } from 'lucide-react';
+import { User, MessageSquare, Image as ImageIcon, Info, Save, Upload } from 'lucide-react';
 
 export default function SambutanPimpinan({ sambutan }) {
     const { data, setData, post, processing, errors } = useForm({
@@ -199,43 +199,49 @@ export default function SambutanPimpinan({ sambutan }) {
                                         </div>
                                     </div>
                                     <div>
-                                        <InputLabel htmlFor="gambar_banner" value="Upload Gambar Banner Baru" className="text-slate-700 font-bold mb-1" />
-                                        {bannerPreviewUrl ? (
-                                            <div className="mb-4 mt-2">
-                                                <p className="text-xs font-semibold text-emerald-600 mb-2">Preview Gambar Baru:</p>
-                                                <div className="bg-slate-100 rounded-xl p-2 border-2 border-emerald-400 border-dashed flex justify-center inline-block">
-                                                    <img src={bannerPreviewUrl} alt="Preview" className="max-h-[300px] w-auto max-w-full object-contain rounded-lg shadow-sm" />
-                                                </div>
-                                            </div>
-                                        ) : (
-                                            sambutan?.gambar_banner && (
-                                                <div className="mb-4 mt-2">
-                                                    <p className="text-xs font-semibold text-slate-500 mb-2">Banner Saat Ini:</p>
-                                                    <div className="bg-slate-100 rounded-xl p-2 border-2 border-slate-200 border-dashed flex justify-center inline-block opacity-70">
-                                                        <img src={sambutan.gambar_banner} alt="Banner Saat Ini" className="max-h-[300px] w-auto max-w-full object-contain rounded-lg shadow-sm" />
+                                        <div className="space-y-4">
+                                            <div>
+                                                <label className="block text-sm font-bold text-slate-700 mb-2">Gambar Banner Saat Ini</label>
+                                                <div className="relative w-full h-64 bg-slate-100 rounded-lg overflow-hidden border border-slate-200">
+                                                    <img 
+                                                        src={bannerPreviewUrl || sambutan?.gambar_banner || "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=1600&auto=format&fit=crop"} 
+                                                        alt="Preview" 
+                                                        className="w-full h-full object-cover" 
+                                                    />
+                                                    <div className="absolute inset-0 bg-gradient-to-t from-emerald-950 via-emerald-950/40 to-transparent"></div>
+                                                    <div className="absolute bottom-6 left-6 z-10 text-white">
+                                                        <h1 className="text-3xl font-extrabold mb-2 drop-shadow-md">Sambutan Pimpinan</h1>
+                                                        <div className="w-16 h-1.5 bg-amber-500 rounded-sm"></div>
                                                     </div>
                                                 </div>
-                                            )
-                                        )}
-                                        <input
-                                            type="file"
-                                            id="gambar_banner"
-                                            className="block w-full text-sm text-slate-500 file:mr-4 file:py-2.5 file:px-5 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100 transition-colors"
-                                            onChange={(e) => {
-                                                const file = e.target.files[0];
-                                                setData('gambar_banner', file);
-                                                if (file) {
-                                                    setBannerPreviewUrl(URL.createObjectURL(file));
-                                                } else {
-                                                    setBannerPreviewUrl(null);
-                                                }
-                                            }}
-                                            accept="image/*"
-                                        />
-                                        <p className="text-xs text-slate-400 mt-2 flex items-center gap-1">
-                                            <Info size={14} /> Format didukung: JPG, PNG, WEBP. Maksimal 2MB. Rekomendasi rasio landscape 16:9.
-                                        </p>
-                                        <InputError message={errors.gambar_banner} className="mt-2" />
+                                            </div>
+
+                                            <div>
+                                                <label className="block text-sm font-bold text-slate-700 mb-2">Ganti Banner (Maks. 2MB, JPG/PNG)</label>
+                                                <label className={`flex justify-center w-full h-32 px-4 transition bg-white border-2 border-slate-300 border-dashed rounded-md cursor-pointer hover:border-emerald-500 ${errors.gambar_banner ? 'border-red-500' : ''}`}>
+                                                    <span className="flex items-center space-x-2">
+                                                        <Upload className="w-6 h-6 text-slate-600" />
+                                                        <span className="font-medium text-slate-600">Klik untuk mengunggah file gambar</span>
+                                                    </span>
+                                                    <input 
+                                                        type="file" 
+                                                        id="gambar_banner" 
+                                                        className="hidden" 
+                                                        accept="image/*" 
+                                                        onChange={(e) => {
+                                                            const file = e.target.files[0];
+                                                            setData('gambar_banner', file);
+                                                            if (file) {
+                                                                setBannerPreviewUrl(URL.createObjectURL(file));
+                                                            } else {
+                                                                setBannerPreviewUrl(null);
+                                                            }
+                                                        }}
+                                                    />
+                                                </label>
+                                                <InputError message={errors.gambar_banner} className="mt-2" />
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 

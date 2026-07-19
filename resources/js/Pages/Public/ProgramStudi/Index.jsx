@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { Head, Link } from '@inertiajs/react';
 import PublicLayout from '@/Layouts/PublicLayout';
-import { BookOpen, GraduationCap, Users, UserCheck, FileText, Download, Target, Award, X } from 'lucide-react';
+import { BookOpen, GraduationCap, Users, UserCheck, FileText, Download, Target, Award, X, ChevronRight } from 'lucide-react';
 
 export default function Index({ programStudis, pengaturan }) {
     const [previewPdf, setPreviewPdf] = useState(null); // { url, title }
@@ -239,19 +240,20 @@ export default function Index({ programStudis, pengaturan }) {
             </div>
 
             {/* PDF Preview Modal */}
-            {previewPdf && (
+            {previewPdf && typeof document !== 'undefined' && createPortal(
                 <div 
-                    className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-slate-900/80 backdrop-blur-sm transition-opacity duration-300"
+                    className="fixed inset-0 z-[100] overflow-y-auto bg-slate-900/80 backdrop-blur-sm transition-opacity duration-300"
                     role="dialog"
                     aria-modal="true"
                     aria-labelledby="preview-pdf-title"
                 >
                     <div 
-                        className="absolute inset-0" 
+                        className="fixed inset-0" 
                         onClick={() => setPreviewPdf(null)}
                     ></div>
                     
-                    <div className="bg-white rounded-xl shadow-lg w-full max-w-5xl h-[85vh] flex flex-col overflow-hidden animate-fade-in-up relative z-10 border border-slate-200">
+                    <div className="flex min-h-full items-center justify-center p-4 sm:p-6 relative z-10">
+                        <div className="bg-white rounded-xl shadow-lg w-full max-w-5xl h-[85vh] min-h-[500px] flex flex-col overflow-hidden animate-fade-in-up border border-slate-200">
                         {/* Header Modal */}
                         <div className="flex items-center justify-between px-6 py-5 border-b border-slate-100 bg-slate-50/80">
                             <div className="flex items-center gap-4 max-w-[70%] sm:max-w-[80%]">
@@ -291,7 +293,7 @@ export default function Index({ programStudis, pengaturan }) {
                         {/* Area Preview */}
                         <div className="flex-1 w-full bg-slate-800 p-0 sm:p-4 md:p-6 overflow-hidden">
                             <iframe 
-                                src={`${previewPdf.url}#toolbar=0&navpanes=0&scrollbar=0`} 
+                                src={previewPdf.url} 
                                 className="w-full h-full sm:rounded-xl shadow-inner bg-white border-0"
                                 title={previewPdf.title}
                             >
@@ -304,7 +306,8 @@ export default function Index({ programStudis, pengaturan }) {
                             </iframe>
                         </div>
                     </div>
-                </div>
+                    </div>
+                </div>, document.body
             )}
         </PublicLayout>
     );

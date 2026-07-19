@@ -115,6 +115,14 @@ const navigation = [
                     { type: 'link', name: 'Lihat Halaman', href: '/fakultas/dosen', icon: ExternalLink },
                 ]
             },
+            {
+                type: 'group',
+                name: 'Prospek Karir',
+                children: [
+                    { type: 'link', name: 'Kelola Halaman', href: '/admin/fakultas/prospek-karir', icon: Settings },
+                    { type: 'link', name: 'Lihat Halaman', href: '/fakultas/prospek-karir', icon: ExternalLink },
+                ]
+            },
         ],
     },
     {

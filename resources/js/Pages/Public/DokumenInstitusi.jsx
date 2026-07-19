@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { Head } from '@inertiajs/react';
 import PublicLayout from '@/Layouts/PublicLayout';
 import { FileText, Download, ChevronRight, BookOpen, Scale, FileSpreadsheet, Activity, Target, Eye, X } from 'lucide-react';
@@ -236,19 +237,20 @@ export default function DokumenInstitusi({ dokumens, pengaturan }) {
             </div>
 
             {/* Modal Preview PDF */}
-            {previewDoc && (
+            {previewDoc && typeof document !== 'undefined' && createPortal(
                 <div
-                    className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8 bg-slate-900/70 transition-opacity duration-300"
+                    className="fixed inset-0 z-[100] overflow-y-auto bg-slate-900/70 transition-opacity duration-300"
                     role="dialog"
                     aria-modal="true"
                     aria-labelledby="preview-doc-title"
                 >
                     <div 
-                        className="absolute inset-0" 
+                        className="fixed inset-0" 
                         onClick={() => setPreviewDoc(null)}
                     ></div>
                     
-                    <div className="bg-white rounded-xl shadow-lg w-full max-w-6xl h-[85vh] flex flex-col overflow-hidden animate-fade-in-up relative z-10 border border-slate-200">
+                    <div className="flex min-h-full items-center justify-center p-4 md:p-8 relative z-10">
+                        <div className="bg-white rounded-xl shadow-lg w-full max-w-6xl h-[85vh] min-h-[500px] flex flex-col overflow-hidden animate-fade-in-up border border-slate-200">
                         {/* Header Modal */}
                         <div className="flex items-center justify-between px-6 py-5 border-b border-slate-100 bg-slate-50/80">
                             <div className="flex items-center gap-4 max-w-[70%] sm:max-w-[80%]">
@@ -288,7 +290,7 @@ export default function DokumenInstitusi({ dokumens, pengaturan }) {
                         {/* Area Preview */}
                         <div className="flex-1 w-full bg-slate-800 p-0 sm:p-4 md:p-6 overflow-hidden">
                             <iframe 
-                                src={`${previewDoc.file_path}#toolbar=0&navpanes=0&scrollbar=0`} 
+                                src={previewDoc.file_path} 
                                 className="w-full h-full sm:rounded-xl shadow-inner bg-white border-0"
                                 title={previewDoc.judul}
                             >
@@ -301,7 +303,8 @@ export default function DokumenInstitusi({ dokumens, pengaturan }) {
                             </iframe>
                         </div>
                     </div>
-                </div>
+                    </div>
+                </div>, document.body
             )}
         </PublicLayout>
     );
