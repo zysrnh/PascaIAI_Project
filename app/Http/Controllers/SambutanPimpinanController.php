@@ -38,6 +38,7 @@ class SambutanPimpinanController extends Controller
             'sambutan_lengkap' => 'required|string',
             'foto' => 'nullable|image|max:2048',
             'gambar_banner' => 'nullable|image|max:2048',
+            'deskripsi_banner' => 'nullable|string',
         ]);
 
         if ($request->hasFile('foto')) {

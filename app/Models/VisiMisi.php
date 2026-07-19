@@ -8,6 +8,7 @@ class VisiMisi extends Model
 {
     protected $fillable = [
         'gambar_banner',
+        'deskripsi_banner',
         'gambar_bg',
         'visi',
         'misi',

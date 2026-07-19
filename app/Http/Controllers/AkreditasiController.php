@@ -188,7 +188,8 @@ class AkreditasiController extends Controller
     {
         $request->validate([
             'whatsapp_lpm' => 'nullable|string|max:50',
-            'banner_image' => 'nullable|image|max:2048'
+            'banner_image' => 'nullable|image|max:2048',
+            'deskripsi' => 'nullable|string'
         ]);
 
         $pengaturan = PengaturanHalaman::firstOrCreate(['halaman' => 'akreditasi']);
@@ -203,7 +204,8 @@ class AkreditasiController extends Controller
             }
             $pengaturan->banner_image = $request->file('banner_image')->store('banners', 'public');
         }
-
+        
+        $pengaturan->deskripsi = $request->deskripsi;
         $pengaturan->save();
 
         return redirect()->back()->with('success', 'Pengaturan berhasil diperbarui!');

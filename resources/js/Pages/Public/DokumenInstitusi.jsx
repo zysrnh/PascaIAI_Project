@@ -101,7 +101,12 @@ export default function DokumenInstitusi({ dokumens, pengaturan }) {
                     <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-2 drop-shadow-md">
                         Dokumen Institusi
                     </h1>
-                    <div className="w-20 h-1.5 bg-amber-500 rounded-sm"></div>
+                    <div className="w-20 h-1.5 bg-amber-500 rounded-sm mb-4"></div>
+                    {pengaturan?.deskripsi && (
+                        <p className="text-white/90 max-w-2xl text-lg leading-relaxed drop-shadow-md">
+                            {pengaturan.deskripsi}
+                        </p>
+                    )}
                 </div>
             </div>
 

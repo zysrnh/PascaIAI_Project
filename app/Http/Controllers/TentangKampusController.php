@@ -42,6 +42,7 @@ class TentangKampusController extends Controller
             'pimpinan_quotes' => 'nullable|string',
             'pimpinan_detail' => 'nullable|string',
             'gambar_pimpinan' => 'nullable|image|max:2048',
+            'deskripsi_banner' => 'nullable|string',
         ]);
 
         if ($request->hasFile('gambar_banner')) {

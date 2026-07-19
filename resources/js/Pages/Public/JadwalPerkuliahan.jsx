@@ -16,7 +16,13 @@ export default function JadwalPerkuliahan({ pengaturan, periodes, programStudis 
 
     // Derived states for options
     const semesterOptions = ['Semua', '1', '2', '3', '4'];
-    const prodiOptions = ['Semua', ...(programStudis?.map(p => p.nama) || [])];
+    
+    // Extract unique Program Studi names from the actual data in this period
+    const prodiOptions = useMemo(() => {
+        if (!activePeriode?.mata_kuliahs) return ['Semua'];
+        const uniqueProdis = [...new Set(activePeriode.mata_kuliahs.map(mk => mk.program_studi))];
+        return ['Semua', ...uniqueProdis.filter(Boolean).sort()];
+    }, [activePeriode]);
 
     // Filter logic
     const filteredJadwal = useMemo(() => {
@@ -67,7 +73,12 @@ export default function JadwalPerkuliahan({ pengaturan, periodes, programStudis 
                     <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-2 drop-shadow-md tracking-tight">
                         Jadwal Perkuliahan
                     </h1>
-                    <div className="w-20 h-1.5 bg-amber-500 rounded-sm"></div>
+                    <div className="w-20 h-1.5 bg-amber-500 rounded-sm mb-4"></div>
+                    {pengaturan?.deskripsi && (
+                        <p className="text-white/90 max-w-2xl text-lg md:text-xl leading-relaxed drop-shadow">
+                            {pengaturan.deskripsi}
+                        </p>
+                    )}
                 </div>
             </div>
 

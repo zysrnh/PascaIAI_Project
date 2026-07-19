@@ -134,7 +134,8 @@ class StrukturOrganisasiController extends Controller
     public function updateBanner(Request $request)
     {
         $request->validate([
-            'banner_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048'
+            'banner_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'deskripsi' => 'nullable|string'
         ]);
 
         $pengaturan = PengaturanHalaman::firstOrCreate(['halaman' => 'struktur-organisasi']);
@@ -145,10 +146,12 @@ class StrukturOrganisasiController extends Controller
             }
             $path = $request->file('banner_image')->store('profil/halaman', 'public');
             $pengaturan->banner_image = '/storage/' . $path;
-            $pengaturan->save();
         }
 
-        return redirect()->route('admin.profil.struktur-organisasi.index')->with('success', 'Banner halaman berhasil diperbarui.');
+        $pengaturan->deskripsi = $request->deskripsi;
+        $pengaturan->save();
+
+        return redirect()->route('admin.profil.struktur-organisasi.index')->with('success', 'Banner dan Deskripsi halaman berhasil diperbarui.');
     }
 
     // PUBLIK: Halaman Struktur Organisasi

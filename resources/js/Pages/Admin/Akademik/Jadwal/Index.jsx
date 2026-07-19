@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Head, useForm, usePage, router, Link } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import PrimaryButton from '@/Components/PrimaryButton';
 import Sidebar from '@/Components/Admin/Sidebar';
 import { Image, Upload, Save, AlertCircle, Plus, Edit, Trash2, X, CalendarDays, Clock, MapPin, BookOpen, User, FileUp, Download } from 'lucide-react';
 import TextInput from '@/Components/TextInput';
@@ -8,7 +9,7 @@ import InputLabel from '@/Components/InputLabel';
 import InputError from '@/Components/InputError';
 import Swal from 'sweetalert2';
 
-export default function Index({ pengaturan, periodes, programStudis }) {
+export default function Index({ pengaturan, periodes, programStudis, dosens }) {
     const { flash } = usePage().props;
     const [isLoaded, setIsLoaded] = useState(false);
     const [activePeriodeId, setActivePeriodeId] = useState(periodes?.length > 0 ? periodes[0].id : null);
@@ -27,7 +28,7 @@ export default function Index({ pengaturan, periodes, programStudis }) {
     }, []);
 
     // Forms
-    const formBanner = useForm({ banner_image: null });
+    const formBanner = useForm({ banner_image: null, deskripsi: pengaturan?.deskripsi || '' });
     const formPeriode = useForm({ tahun_akademik: '', semester_tipe: 'Ganjil', file_pdf: null, is_active: true });
     const formMk = useForm({
         jadwal_periode_id: '',
@@ -175,21 +176,40 @@ export default function Index({ pengaturan, periodes, programStudis }) {
                                             <div className="absolute inset-0 bg-gradient-to-t from-emerald-950 via-emerald-950/40 to-transparent"></div>
                                             <div className="absolute bottom-6 left-6 z-10 text-white">
                                                 <h1 className="text-3xl font-extrabold mb-2 drop-shadow-md">Jadwal Perkuliahan</h1>
-                                                <div className="w-16 h-1.5 bg-amber-500 rounded-sm"></div>
+                                                <div className="w-16 h-1.5 bg-amber-500 rounded-sm mb-4"></div>
+                                                {formBanner.data.deskripsi && (
+                                                    <p className="text-white/90 max-w-2xl text-sm leading-relaxed drop-shadow">
+                                                        {formBanner.data.deskripsi}
+                                                    </p>
+                                                )}
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="space-y-2">
-                                        <label className={`flex justify-center w-full h-32 px-4 transition bg-white border-2 border-slate-300 border-dashed rounded-md cursor-pointer hover:border-emerald-500 ${formBanner.errors.banner_image ? 'border-red-500' : ''}`}>
-                                            <span className="flex items-center space-x-2"><Upload className="w-6 h-6 text-slate-600" /><span className="font-medium text-slate-600">Ganti Banner (Maks. 2MB, JPG/PNG)</span></span>
-                                            <input type="file" name="banner_image" className="hidden" accept="image/*" onChange={handleBannerChange} />
-                                        </label>
-                                        {formBanner.errors.banner_image && <p className="text-sm text-red-600 mt-1">{formBanner.errors.banner_image}</p>}
+                                    <div className="space-y-4">
+                                        <div className="space-y-2">
+                                            <InputLabel htmlFor="deskripsi" value="Deskripsi Halaman (Opsional)" />
+                                            <textarea
+                                                id="deskripsi"
+                                                rows="3"
+                                                className="mt-1 block w-full border-slate-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                                placeholder="Tuliskan deskripsi singkat mengenai jadwal perkuliahan..."
+                                                value={formBanner.data.deskripsi}
+                                                onChange={e => formBanner.setData('deskripsi', e.target.value)}
+                                            ></textarea>
+                                        </div>
+                                        <div className="space-y-2">
+                                            <InputLabel value="Gambar Banner (Opsional)" />
+                                            <label className={`flex justify-center w-full h-32 px-4 transition bg-white border-2 border-slate-300 border-dashed rounded-md cursor-pointer hover:border-emerald-500 ${formBanner.errors.banner_image ? 'border-red-500' : ''}`}>
+                                                <span className="flex items-center space-x-2"><Upload className="w-6 h-6 text-slate-600" /><span className="font-medium text-slate-600">Ganti Banner (Maks. 2MB, JPG/PNG)</span></span>
+                                                <input type="file" name="banner_image" className="hidden" accept="image/*" onChange={handleBannerChange} />
+                                            </label>
+                                            {formBanner.errors.banner_image && <p className="text-sm text-red-600 mt-1">{formBanner.errors.banner_image}</p>}
+                                        </div>
                                     </div>
                                     <div className="flex justify-end pt-4 border-t border-slate-100">
-                                        <button type="submit" disabled={formBanner.processing || !formBanner.data.banner_image} className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-2 px-6 rounded-md shadow-sm transition-colors disabled:opacity-50">
-                                            <Save className="w-4 h-4" /> Simpan Banner
-                                        </button>
+                                        <PrimaryButton type="submit" disabled={formBanner.processing}>
+                                            Simpan Pengaturan
+                                        </PrimaryButton>
                                     </div>
                                 </form>
                             </div>
@@ -363,8 +383,17 @@ export default function Index({ pengaturan, periodes, programStudis }) {
                                     </div>
                                 </div>
                                 <div className="md:col-span-2">
-                                    <InputLabel htmlFor="dosen_pengampu" value="Dosen Pengampu (Bisa dipisah koma untuk Tim)" />
-                                    <TextInput id="dosen_pengampu" type="text" className="mt-1 block w-full" value={formMk.data.dosen_pengampu} onChange={e => formMk.setData('dosen_pengampu', e.target.value)} required />
+                                    <InputLabel htmlFor="dosen_pengampu" value="Dosen Pengampu" />
+                                    <select 
+                                        id="dosen_pengampu" 
+                                        className="mt-1 block w-full border-slate-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" 
+                                        value={formMk.data.dosen_pengampu} 
+                                        onChange={e => formMk.setData('dosen_pengampu', e.target.value)} 
+                                        required
+                                    >
+                                        <option value="">Pilih Dosen Pengampu</option>
+                                        {dosens?.map(d => <option key={d.id} value={d.nama}>{d.nama}</option>)}
+                                    </select>
                                 </div>
                                 <div>
                                     <InputLabel htmlFor="hari" value="Hari" />

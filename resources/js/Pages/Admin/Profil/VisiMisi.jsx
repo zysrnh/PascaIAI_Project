@@ -13,6 +13,7 @@ export default function VisiMisiEdit({ auth, visimisi }) {
     const { data, setData, post, processing, errors } = useForm({
         gambar_banner: null,
         gambar_bg: null,
+        deskripsi_banner: visimisi.deskripsi_banner || '',
         visi: visimisi.visi || '',
         misi: Array.isArray(visimisi.misi) ? visimisi.misi : JSON.parse(visimisi.misi || '[]'),
         tujuan: Array.isArray(visimisi.tujuan) ? visimisi.tujuan : JSON.parse(visimisi.tujuan || '[]'),
@@ -97,8 +98,26 @@ export default function VisiMisiEdit({ auth, visimisi }) {
                                         <div className="absolute inset-0 bg-gradient-to-t from-emerald-950 via-emerald-950/40 to-transparent"></div>
                                         <div className="absolute bottom-4 left-4 z-10 text-white">
                                             <h1 className="text-2xl font-extrabold mb-1 drop-shadow-md">Visi, Misi & Tujuan</h1>
-                                            <div className="w-12 h-1 bg-amber-500 rounded-sm"></div>
+                                            <div className="w-12 h-1 bg-amber-500 rounded-sm mb-2"></div>
+                                            {data.deskripsi_banner && (
+                                                <p className="text-white/90 max-w-2xl text-xs leading-relaxed drop-shadow">
+                                                    {data.deskripsi_banner}
+                                                </p>
+                                            )}
                                         </div>
+                                    </div>
+
+                                    <div className="mb-4">
+                                        <InputLabel htmlFor="deskripsi_banner" value="Deskripsi Halaman (Opsional)" className="font-bold text-slate-700 mb-2" />
+                                        <textarea
+                                            id="deskripsi_banner"
+                                            rows="2"
+                                            className="w-full border-slate-300 focus:border-emerald-500 focus:ring-emerald-500 rounded-[5px] shadow-sm text-sm"
+                                            placeholder="Tuliskan deskripsi singkat..."
+                                            value={data.deskripsi_banner}
+                                            onChange={(e) => setData('deskripsi_banner', e.target.value)}
+                                        ></textarea>
+                                        <InputError className="mt-1" message={errors.deskripsi_banner} />
                                     </div>
 
                                     <div className="flex items-center gap-4">
@@ -118,6 +137,12 @@ export default function VisiMisiEdit({ auth, visimisi }) {
                                         </label>
                                     </div>
                                     <InputError className="mt-2" message={errors.gambar_banner} />
+                                    
+                                    <div className="flex justify-end mt-4">
+                                        <PrimaryButton type="submit" disabled={processing}>
+                                            Simpan Banner
+                                        </PrimaryButton>
+                                    </div>
                                 </div>
 
                                 {/* Background Image */}

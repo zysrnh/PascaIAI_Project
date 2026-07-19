@@ -9,6 +9,7 @@ class PengaturanHalaman extends Model
     protected $fillable = [
         'halaman',
         'banner_image',
+        'deskripsi',
         'whatsapp_lpm',
     ];
 }

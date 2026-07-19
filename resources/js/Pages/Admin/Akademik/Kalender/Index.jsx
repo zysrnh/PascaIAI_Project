@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Head, useForm, usePage, router } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import PrimaryButton from '@/Components/PrimaryButton';
 import Sidebar from '@/Components/Admin/Sidebar';
 import { Image, Upload, Save, AlertCircle, Plus, Edit, Trash2, X, Calendar, FileText } from 'lucide-react';
 import TextInput from '@/Components/TextInput';
@@ -21,7 +22,7 @@ export default function Index({ pengaturan, kalenders }) {
     }, []);
 
     // Form Banner
-    const formBanner = useForm({ banner_image: null });
+    const formBanner = useForm({ banner_image: null, deskripsi: pengaturan?.deskripsi || '' });
 
     // Form Kalender
     const formKalender = useForm({
@@ -152,22 +153,40 @@ export default function Index({ pengaturan, kalenders }) {
                                             <div className="absolute inset-0 bg-gradient-to-t from-emerald-950 via-emerald-950/40 to-transparent"></div>
                                             <div className="absolute bottom-6 left-6 z-10 text-white">
                                                 <h1 className="text-3xl font-extrabold mb-2 drop-shadow-md">Kalender Akademik</h1>
-                                                <div className="w-16 h-1.5 bg-amber-500 rounded-sm"></div>
+                                                <div className="w-16 h-1.5 bg-amber-500 rounded-sm mb-4"></div>
+                                                {formBanner.data.deskripsi && (
+                                                    <p className="text-white/90 max-w-2xl text-sm leading-relaxed drop-shadow">
+                                                        {formBanner.data.deskripsi}
+                                                    </p>
+                                                )}
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="space-y-2">
-                                        <label className="block text-sm font-medium text-slate-700">Ganti Banner (Maks. 2MB, JPG/PNG)</label>
-                                        <label className={`flex justify-center w-full h-32 px-4 transition bg-white border-2 border-slate-300 border-dashed rounded-md cursor-pointer hover:border-emerald-500 ${formBanner.errors.banner_image ? 'border-red-500' : ''}`}>
-                                            <span className="flex items-center space-x-2"><Upload className="w-6 h-6 text-slate-600" /><span className="font-medium text-slate-600">Klik untuk mengunggah file gambar</span></span>
-                                            <input type="file" name="banner_image" className="hidden" accept="image/*" onChange={handleBannerChange} />
-                                        </label>
-                                        {formBanner.errors.banner_image && <p className="text-sm text-red-600 mt-1">{formBanner.errors.banner_image}</p>}
+                                    <div className="space-y-4">
+                                        <div className="space-y-2">
+                                            <InputLabel htmlFor="deskripsi" value="Deskripsi Halaman (Opsional)" />
+                                            <textarea
+                                                id="deskripsi"
+                                                rows="3"
+                                                className="mt-1 block w-full border-slate-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                                placeholder="Tuliskan deskripsi singkat mengenai kalender akademik..."
+                                                value={formBanner.data.deskripsi}
+                                                onChange={e => formBanner.setData('deskripsi', e.target.value)}
+                                            ></textarea>
+                                        </div>
+                                        <div className="space-y-2">
+                                            <label className="block text-sm font-medium text-slate-700">Ganti Banner (Maks. 2MB, JPG/PNG)</label>
+                                            <label className={`flex justify-center w-full h-32 px-4 transition bg-white border-2 border-slate-300 border-dashed rounded-md cursor-pointer hover:border-emerald-500 ${formBanner.errors.banner_image ? 'border-red-500' : ''}`}>
+                                                <span className="flex items-center space-x-2"><Upload className="w-6 h-6 text-slate-600" /><span className="font-medium text-slate-600">Klik untuk mengunggah file gambar</span></span>
+                                                <input type="file" name="banner_image" className="hidden" accept="image/*" onChange={handleBannerChange} />
+                                            </label>
+                                            {formBanner.errors.banner_image && <p className="text-sm text-red-600 mt-1">{formBanner.errors.banner_image}</p>}
+                                        </div>
                                     </div>
                                     <div className="flex justify-end pt-4 border-t border-slate-100">
-                                        <button type="submit" disabled={formBanner.processing || !formBanner.data.banner_image} className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-2 px-6 rounded-md shadow-sm transition-colors disabled:opacity-50">
-                                            <Save className="w-4 h-4" /> Simpan Banner
-                                        </button>
+                                        <PrimaryButton type="submit" disabled={formBanner.processing}>
+                                            Simpan Pengaturan
+                                        </PrimaryButton>
                                     </div>
                                 </form>
                             </div>

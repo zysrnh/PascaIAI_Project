@@ -13,5 +13,6 @@ class SambutanPimpinan extends Model
         'sambutan_lengkap',
         'foto',
         'gambar_banner',
+        'deskripsi_banner',
     ];
 }

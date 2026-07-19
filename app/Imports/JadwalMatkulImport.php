@@ -24,8 +24,12 @@ class JadwalMatkulImport implements ToModel, WithStartRow
             return null;
         }
 
+        // Time inputs from Excel can be weird, formatting as string
+        $jamMulai = is_numeric($row[6]) ? \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row[6])->format('H:i') : $row[6];
+        $jamSelesai = is_numeric($row[7]) ? \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row[7])->format('H:i') : $row[7];
+
         $this->count++;
-        $this->importedLog[] = $row[2] . ' (' . $row[5] . ')';
+        $this->importedLog[] = "Matkul {$row[2]} masuk di hari {$row[5]} jam {$jamMulai}-{$jamSelesai}";
 
         return new JadwalMataKuliah([
             'jadwal_periode_id' => $this->periodeId,
@@ -35,9 +39,8 @@ class JadwalMatkulImport implements ToModel, WithStartRow
             'sks' => (int) $row[3],
             'dosen_pengampu' => $row[4],
             'hari' => $row[5],
-            // Time inputs from Excel can be weird, formatting as string
-            'jam_mulai' => is_numeric($row[6]) ? \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row[6])->format('H:i') : $row[6],
-            'jam_selesai' => is_numeric($row[7]) ? \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row[7])->format('H:i') : $row[7],
+            'jam_mulai' => $jamMulai,
+            'jam_selesai' => $jamSelesai,
             'ruangan' => $row[8],
         ]);
     }

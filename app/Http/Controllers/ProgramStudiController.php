@@ -160,7 +160,8 @@ class ProgramStudiController extends Controller
     public function updatePengaturan(Request $request)
     {
         $request->validate([
-            'banner_image' => 'required|image|mimes:jpeg,png,jpg,webp|max:2048'
+            'banner_image' => 'required|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'deskripsi' => 'nullable|string'
         ]);
 
         $pengaturan = PengaturanHalaman::firstOrCreate(
@@ -173,8 +174,11 @@ class ProgramStudiController extends Controller
         }
 
         $path = $request->file('banner_image')->store('banners', 'public');
-        $pengaturan->update(['banner_image' => $path]);
+        $pengaturan->update([
+            'banner_image' => $path,
+            'deskripsi' => $request->deskripsi
+        ]);
 
-        return redirect()->back()->with('success', 'Banner halaman berhasil diperbarui!');
+        return redirect()->back()->with('success', 'Banner dan Deskripsi halaman berhasil diperbarui!');
     }
 }

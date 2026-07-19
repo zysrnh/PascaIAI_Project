@@ -147,7 +147,8 @@ class DosenController extends Controller
     public function updatePengaturan(Request $request)
     {
         $request->validate([
-            'banner_image' => 'nullable|image|max:2048'
+            'banner_image' => 'nullable|image|max:2048',
+            'deskripsi' => 'nullable|string'
         ]);
 
         $pengaturan = PengaturanHalaman::firstOrCreate(
@@ -162,9 +163,11 @@ class DosenController extends Controller
             
             $path = $request->file('banner_image')->store('banners', 'public');
             $pengaturan->banner_image = Storage::url($path);
-            $pengaturan->save();
         }
 
-        return redirect()->back()->with('success', 'Banner halaman berhasil diperbarui!');
+        $pengaturan->deskripsi = $request->deskripsi;
+        $pengaturan->save();
+
+        return redirect()->back()->with('success', 'Banner dan Deskripsi halaman berhasil diperbarui!');
     }
 }

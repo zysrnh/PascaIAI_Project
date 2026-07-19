@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Head, Link, useForm } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import PrimaryButton from '@/Components/PrimaryButton';
 import { FileText, Plus, Trash2, Edit, AlertCircle, FileUp, Image, Upload, Save } from 'lucide-react';
 import Sidebar from '@/Components/Admin/Sidebar';
 import Swal from 'sweetalert2';
@@ -11,6 +12,7 @@ export default function Index({ auth, dokumen, pengaturan }) {
 
     const { data: bannerData, setData: setBannerData, post: postBanner, processing: processingBanner, errors: errorsBanner } = useForm({
         banner_image: null,
+        deskripsi: pengaturan?.deskripsi || ''
     });
 
     const { delete: destroy } = useForm();
@@ -132,28 +134,46 @@ export default function Index({ auth, dokumen, pengaturan }) {
                                         <div className="absolute inset-0 bg-gradient-to-t from-emerald-950 via-emerald-950/40 to-transparent"></div>
                                         <div className="absolute bottom-6 left-6 z-10 text-white">
                                             <h1 className="text-3xl font-extrabold mb-2 drop-shadow-md">Dokumen Institusi</h1>
-                                            <div className="w-16 h-1.5 bg-amber-500 rounded-sm"></div>
+                                            <div className="w-16 h-1.5 bg-amber-500 rounded-sm mb-4"></div>
+                                            {bannerData.deskripsi && (
+                                                <p className="text-white/90 max-w-2xl text-sm leading-relaxed drop-shadow">
+                                                    {bannerData.deskripsi}
+                                                </p>
+                                            )}
                                         </div>
                                     </div>
                                 </div>
-                                <div className="space-y-2">
-                                    <label className="block text-sm font-medium text-slate-700">Ganti Banner (Maks. 2MB, JPG/PNG)</label>
-                                    <label className={`flex justify-center w-full h-32 px-4 transition bg-white border-2 border-slate-300 border-dashed rounded-md cursor-pointer hover:border-emerald-500 ${errorsBanner.banner_image ? 'border-red-500' : ''}`}>
-                                        <span className="flex items-center space-x-2"><Upload className="w-6 h-6 text-slate-600" /><span className="font-medium text-slate-600">Klik untuk mengunggah file gambar</span></span>
-                                        <input 
-                                            type="file" 
-                                            name="banner_image" 
-                                            className="hidden" 
-                                            accept="image/*" 
-                                            onChange={handleBannerChange}
-                                        />
-                                    </label>
-                                    {errorsBanner.banner_image && <p className="text-sm text-red-600 mt-1">{errorsBanner.banner_image}</p>}
+                                <div className="space-y-4">
+                                    <div className="space-y-2">
+                                        <label htmlFor="deskripsi" className="block text-sm font-medium text-slate-700">Deskripsi Halaman (Opsional)</label>
+                                        <textarea
+                                            id="deskripsi"
+                                            rows="3"
+                                            className="mt-1 block w-full border-slate-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                            placeholder="Tuliskan deskripsi singkat..."
+                                            value={bannerData.deskripsi}
+                                            onChange={e => setBannerData('deskripsi', e.target.value)}
+                                        ></textarea>
+                                    </div>
+                                    <div className="space-y-2">
+                                        <label className="block text-sm font-medium text-slate-700">Ganti Banner (Maks. 2MB, JPG/PNG)</label>
+                                        <label className={`flex justify-center w-full h-32 px-4 transition bg-white border-2 border-slate-300 border-dashed rounded-md cursor-pointer hover:border-emerald-500 ${errorsBanner.banner_image ? 'border-red-500' : ''}`}>
+                                            <span className="flex items-center space-x-2"><Upload className="w-6 h-6 text-slate-600" /><span className="font-medium text-slate-600">Klik untuk mengunggah file gambar</span></span>
+                                            <input 
+                                                type="file" 
+                                                name="banner_image" 
+                                                className="hidden" 
+                                                accept="image/*" 
+                                                onChange={handleBannerChange}
+                                            />
+                                        </label>
+                                        {errorsBanner.banner_image && <p className="text-sm text-red-600 mt-1">{errorsBanner.banner_image}</p>}
+                                    </div>
                                 </div>
                                 <div className="flex justify-end pt-4 border-t border-slate-100">
-                                    <button type="submit" disabled={processingBanner || !bannerData.banner_image} className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-2 px-6 rounded-md shadow-sm transition-colors disabled:opacity-50">
-                                        <Save className="w-4 h-4" /> Simpan Banner
-                                    </button>
+                                    <PrimaryButton type="submit" disabled={processingBanner || !bannerData.banner_image}>
+                                        Simpan Banner
+                                    </PrimaryButton>
                                 </div>
                             </form>
                         </div>

@@ -13,6 +13,7 @@ class TentangKampus extends Model
         'pimpinan_nama',
         'pimpinan_quotes',
         'gambar_banner',
+        'deskripsi_banner',
         'gambar_pimpinan',
         'tampilkan_pimpinan',
         'pimpinan_detail',

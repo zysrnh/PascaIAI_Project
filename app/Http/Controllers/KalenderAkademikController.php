@@ -108,6 +108,7 @@ class KalenderAkademikController extends Controller
     {
         $request->validate([
             'banner_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'deskripsi' => 'nullable|string'
         ]);
 
         $pengaturan = PengaturanHalaman::firstOrCreate(['halaman' => 'kalender_akademik']);
@@ -119,9 +120,11 @@ class KalenderAkademikController extends Controller
             
             $path = $request->file('banner_image')->store('banners', 'public');
             $pengaturan->banner_image = $path;
-            $pengaturan->save();
         }
 
-        return redirect()->back()->with('success', 'Banner Halaman Kalender Akademik berhasil diperbarui.');
+        $pengaturan->deskripsi = $request->deskripsi;
+        $pengaturan->save();
+
+        return redirect()->back()->with('success', 'Banner dan Deskripsi Halaman Kalender Akademik berhasil diperbarui.');
     }
 }

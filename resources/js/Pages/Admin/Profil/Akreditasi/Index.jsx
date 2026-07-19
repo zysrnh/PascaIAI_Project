@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Head, useForm, usePage, Link } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import PrimaryButton from '@/Components/PrimaryButton';
+import InputLabel from '@/Components/InputLabel';
 import Sidebar from '@/Components/Admin/Sidebar';
 import { Award, Landmark, History, Plus, FileText, Image as ImageIcon, Save, Trash2, Edit, MessageCircle, Image, Upload } from 'lucide-react';
 import Swal from 'sweetalert2';
@@ -128,6 +130,7 @@ function InstitusiTab({ institusi, pengaturan }) {
     const formPengaturan = useForm({
         whatsapp_lpm: pengaturan?.whatsapp_lpm || '',
         banner_image: null,
+        deskripsi: pengaturan?.deskripsi || ''
     });
 
     const submitInstitusi = (e) => {
@@ -209,33 +212,51 @@ function InstitusiTab({ institusi, pengaturan }) {
                                     <div className="absolute inset-0 bg-gradient-to-t from-emerald-950 via-emerald-950/40 to-transparent"></div>
                                     <div className="absolute bottom-6 left-6 z-10 text-white">
                                         <h1 className="text-3xl font-extrabold mb-2 drop-shadow-md">Akreditasi</h1>
-                                        <div className="w-16 h-1.5 bg-amber-500 rounded-sm"></div>
+                                        <div className="w-16 h-1.5 bg-amber-500 rounded-sm mb-4"></div>
+                                        {formPengaturan.data.deskripsi && (
+                                            <p className="text-white/90 max-w-2xl text-sm leading-relaxed drop-shadow">
+                                                {formPengaturan.data.deskripsi}
+                                            </p>
+                                        )}
                                     </div>
                                 </div>
                             </div>
 
-                            <div className="space-y-2">
-                                <label className="block text-sm font-medium text-slate-700">Ganti Banner (Maks. 2MB, JPG/PNG)</label>
-                                <label className={`flex justify-center w-full h-32 px-4 transition bg-white border-2 border-slate-300 border-dashed rounded-md cursor-pointer hover:border-emerald-500 ${formPengaturan.errors.banner_image ? 'border-red-500' : ''}`}>
-                                    <span className="flex items-center space-x-2">
-                                        <Upload className="w-6 h-6 text-slate-600" />
-                                        <span className="font-medium text-slate-600">Klik untuk mengunggah file gambar</span>
-                                    </span>
-                                    <input 
-                                        type="file" 
-                                        name="banner_image" 
-                                        className="hidden" 
-                                        accept="image/*" 
-                                        onChange={(e) => {
-                                            const file = e.target.files[0];
-                                            if (file) {
-                                                formPengaturan.setData('banner_image', file);
-                                                setPreviewBanner(URL.createObjectURL(file));
-                                            }
-                                        }} 
-                                    />
-                                </label>
-                                {formPengaturan.errors.banner_image && <p className="text-sm text-red-600 mt-1">{formPengaturan.errors.banner_image}</p>}
+                            <div className="space-y-4">
+                                <div className="space-y-2">
+                                    <InputLabel htmlFor="deskripsi" value="Deskripsi Halaman (Opsional)" />
+                                    <textarea
+                                        id="deskripsi"
+                                        rows="3"
+                                        className="mt-1 block w-full border-slate-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                        placeholder="Tuliskan deskripsi singkat..."
+                                        value={formPengaturan.data.deskripsi}
+                                        onChange={e => formPengaturan.setData('deskripsi', e.target.value)}
+                                    ></textarea>
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="block text-sm font-medium text-slate-700">Ganti Banner (Maks. 2MB, JPG/PNG)</label>
+                                    <label className={`flex justify-center w-full h-32 px-4 transition bg-white border-2 border-slate-300 border-dashed rounded-md cursor-pointer hover:border-emerald-500 ${formPengaturan.errors.banner_image ? 'border-red-500' : ''}`}>
+                                        <span className="flex items-center space-x-2">
+                                            <Upload className="w-6 h-6 text-slate-600" />
+                                            <span className="font-medium text-slate-600">Klik untuk mengunggah file gambar</span>
+                                        </span>
+                                        <input 
+                                            type="file" 
+                                            name="banner_image" 
+                                            className="hidden" 
+                                            accept="image/*" 
+                                            onChange={(e) => {
+                                                const file = e.target.files[0];
+                                                if (file) {
+                                                    formPengaturan.setData('banner_image', file);
+                                                    setPreviewBanner(URL.createObjectURL(file));
+                                                }
+                                            }} 
+                                        />
+                                    </label>
+                                    {formPengaturan.errors.banner_image && <p className="text-sm text-red-600 mt-1">{formPengaturan.errors.banner_image}</p>}
+                                </div>
                             </div>
 
                             <div className="pt-4 border-t border-slate-100">
@@ -257,9 +278,9 @@ function InstitusiTab({ institusi, pengaturan }) {
                             </div>
 
                             <div className="flex justify-end pt-4 border-t border-slate-100">
-                                <button type="submit" disabled={formPengaturan.processing} className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-2 px-6 rounded-md shadow-sm transition-colors disabled:opacity-50">
-                                    <Save className="w-4 h-4" /> Simpan Pengaturan
-                                </button>
+                                <PrimaryButton type="submit" disabled={formPengaturan.processing}>
+                                    Simpan Pengaturan
+                                </PrimaryButton>
                             </div>
                         </form>
                     </div>

@@ -157,6 +157,7 @@ class FakultasController extends Controller
     {
         $request->validate([
             'banner_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'deskripsi' => 'nullable|string'
         ]);
 
         $pengaturan = PengaturanHalaman::firstOrCreate(
@@ -169,8 +170,10 @@ class FakultasController extends Controller
             }
             $pengaturan->banner_image = $request->file('banner_image')->store('pengaturan', 'public');
         }
+        
+        $pengaturan->deskripsi = $request->deskripsi;
         $pengaturan->save();
 
-        return redirect()->back()->with('success', 'Pengaturan Halaman Fakultas berhasil diperbarui!');
+        return redirect()->back()->with('success', 'Banner dan Deskripsi Halaman Fakultas berhasil diperbarui!');
     }
 }

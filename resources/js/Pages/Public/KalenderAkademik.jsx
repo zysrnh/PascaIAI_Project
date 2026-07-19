@@ -27,7 +27,12 @@ export default function KalenderAkademik({ pengaturan, kalenders }) {
                     <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-2 drop-shadow-md tracking-tight">
                         Kalender Akademik
                     </h1>
-                    <div className="w-20 h-1.5 bg-amber-500 rounded-sm"></div>
+                    <div className="w-20 h-1.5 bg-amber-500 rounded-sm mb-4"></div>
+                    {pengaturan?.deskripsi && (
+                        <p className="text-white/90 max-w-2xl text-lg md:text-xl leading-relaxed drop-shadow">
+                            {pengaturan.deskripsi}
+                        </p>
+                    )}
                 </div>
             </div>
 

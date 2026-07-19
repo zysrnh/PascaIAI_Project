@@ -34,7 +34,12 @@ export default function VisiMisi({ visimisi }) {
                     <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-2 drop-shadow-md">
                         Visi, Misi & Tujuan
                     </h1>
-                    <div className="w-20 h-1.5 bg-amber-500 rounded-sm"></div>
+                    <div className="w-20 h-1.5 bg-amber-500 rounded-sm mb-4"></div>
+                    {data.deskripsi_banner && (
+                        <p className="text-white/90 max-w-3xl text-sm md:text-base leading-relaxed drop-shadow">
+                            {data.deskripsi_banner}
+                        </p>
+                    )}
                 </div>
             </div>
 

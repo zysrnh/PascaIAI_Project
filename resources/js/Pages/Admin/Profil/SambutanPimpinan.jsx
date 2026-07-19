@@ -17,6 +17,7 @@ export default function SambutanPimpinan({ sambutan }) {
         sambutan_lengkap: sambutan?.sambutan_lengkap || '',
         foto: null,
         gambar_banner: null,
+        deskripsi_banner: sambutan?.deskripsi_banner || '',
     });
 
     const [isLoaded, setIsLoaded] = useState(false);
@@ -53,6 +54,88 @@ export default function SambutanPimpinan({ sambutan }) {
                         <div className="bg-white rounded-[5px] shadow-sm border border-slate-200 p-6 max-w-4xl">
                             <form onSubmit={submit} className="space-y-6">
                                 
+                                {/* Section: Gambar Background (Banner) */}
+                                <div className="bg-slate-50/50 rounded-xl border border-slate-100 p-6 transition-all hover:bg-slate-50">
+                                    <div className="flex items-center gap-3 mb-6">
+                                        <div className="w-10 h-10 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center">
+                                            <ImageIcon size={20} />
+                                        </div>
+                                        <div>
+                                            <h3 className="text-lg font-bold text-slate-800">Banner Halaman</h3>
+                                            <p className="text-xs text-slate-500">Gambar ukuran besar untuk banner di halaman profil pimpinan.</p>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div className="space-y-4">
+                                            <div>
+                                                <label className="block text-sm font-bold text-slate-700 mb-2">Gambar Banner Saat Ini</label>
+                                                <div className="relative w-full h-64 bg-slate-100 rounded-lg overflow-hidden border border-slate-200">
+                                                    <img 
+                                                        src={bannerPreviewUrl || sambutan?.gambar_banner || "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=1600&auto=format&fit=crop"} 
+                                                        alt="Preview" 
+                                                        className="w-full h-full object-cover" 
+                                                    />
+                                                    <div className="absolute inset-0 bg-gradient-to-t from-emerald-950 via-emerald-950/40 to-transparent"></div>
+                                                    <div className="absolute bottom-6 left-6 z-10 text-white">
+                                                        <h1 className="text-3xl font-extrabold mb-2 drop-shadow-md">Sambutan Pimpinan</h1>
+                                                        <div className="w-16 h-1.5 bg-amber-500 rounded-sm mb-4"></div>
+                                                        {data.deskripsi_banner && (
+                                                            <p className="text-white/90 max-w-2xl text-sm leading-relaxed drop-shadow">
+                                                                {data.deskripsi_banner}
+                                                            </p>
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div>
+                                                <InputLabel htmlFor="deskripsi_banner" value="Deskripsi Halaman (Opsional)" className="font-bold text-slate-700 mb-1" />
+                                                <textarea
+                                                    id="deskripsi_banner"
+                                                    rows="2"
+                                                    className="w-full border-slate-300 focus:border-emerald-500 focus:ring-emerald-500 rounded-lg shadow-sm text-sm"
+                                                    placeholder="Tuliskan deskripsi singkat..."
+                                                    value={data.deskripsi_banner}
+                                                    onChange={(e) => setData('deskripsi_banner', e.target.value)}
+                                                ></textarea>
+                                                <InputError className="mt-1" message={errors.deskripsi_banner} />
+                                            </div>
+
+                                            <div>
+                                                <label className="block text-sm font-bold text-slate-700 mb-2">Ganti Banner (Maks. 2MB, JPG/PNG)</label>
+                                                <label className={`flex justify-center w-full h-32 px-4 transition bg-white border-2 border-slate-300 border-dashed rounded-md cursor-pointer hover:border-emerald-500 ${errors.gambar_banner ? 'border-red-500' : ''}`}>
+                                                    <span className="flex items-center space-x-2">
+                                                        <Upload className="w-6 h-6 text-slate-600" />
+                                                        <span className="font-medium text-slate-600">Klik untuk mengunggah file gambar</span>
+                                                    </span>
+                                                    <input 
+                                                        type="file" 
+                                                        id="gambar_banner" 
+                                                        className="hidden" 
+                                                        accept="image/*" 
+                                                        onChange={(e) => {
+                                                            const file = e.target.files[0];
+                                                            setData('gambar_banner', file);
+                                                            if (file) {
+                                                                setBannerPreviewUrl(URL.createObjectURL(file));
+                                                            } else {
+                                                                setBannerPreviewUrl(null);
+                                                            }
+                                                        }}
+                                                    />
+                                                </label>
+                                                <InputError message={errors.gambar_banner} className="mt-2" />
+                                            </div>
+                                            
+                                            <div className="flex justify-end mt-4">
+                                                <PrimaryButton type="submit" disabled={processing}>
+                                                    Simpan Banner
+                                                </PrimaryButton>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 {/* Section 1: Profil Pimpinan */}
                                 <div className="bg-slate-50/50 rounded-xl border border-slate-100 p-6 transition-all hover:bg-slate-50">
                                     <div className="flex items-center gap-3 mb-6">
@@ -187,63 +270,7 @@ export default function SambutanPimpinan({ sambutan }) {
                                     </div>
                                 </div>
 
-                                {/* Section 4: Gambar Background (Banner) */}
-                                <div className="bg-slate-50/50 rounded-xl border border-slate-100 p-6 transition-all hover:bg-slate-50">
-                                    <div className="flex items-center gap-3 mb-6">
-                                        <div className="w-10 h-10 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center">
-                                            <ImageIcon size={20} />
-                                        </div>
-                                        <div>
-                                            <h3 className="text-lg font-bold text-slate-800">4. Gambar Latar Belakang</h3>
-                                            <p className="text-xs text-slate-500">Gambar ukuran besar untuk banner di halaman profil pimpinan.</p>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div className="space-y-4">
-                                            <div>
-                                                <label className="block text-sm font-bold text-slate-700 mb-2">Gambar Banner Saat Ini</label>
-                                                <div className="relative w-full h-64 bg-slate-100 rounded-lg overflow-hidden border border-slate-200">
-                                                    <img 
-                                                        src={bannerPreviewUrl || sambutan?.gambar_banner || "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=1600&auto=format&fit=crop"} 
-                                                        alt="Preview" 
-                                                        className="w-full h-full object-cover" 
-                                                    />
-                                                    <div className="absolute inset-0 bg-gradient-to-t from-emerald-950 via-emerald-950/40 to-transparent"></div>
-                                                    <div className="absolute bottom-6 left-6 z-10 text-white">
-                                                        <h1 className="text-3xl font-extrabold mb-2 drop-shadow-md">Sambutan Pimpinan</h1>
-                                                        <div className="w-16 h-1.5 bg-amber-500 rounded-sm"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
 
-                                            <div>
-                                                <label className="block text-sm font-bold text-slate-700 mb-2">Ganti Banner (Maks. 2MB, JPG/PNG)</label>
-                                                <label className={`flex justify-center w-full h-32 px-4 transition bg-white border-2 border-slate-300 border-dashed rounded-md cursor-pointer hover:border-emerald-500 ${errors.gambar_banner ? 'border-red-500' : ''}`}>
-                                                    <span className="flex items-center space-x-2">
-                                                        <Upload className="w-6 h-6 text-slate-600" />
-                                                        <span className="font-medium text-slate-600">Klik untuk mengunggah file gambar</span>
-                                                    </span>
-                                                    <input 
-                                                        type="file" 
-                                                        id="gambar_banner" 
-                                                        className="hidden" 
-                                                        accept="image/*" 
-                                                        onChange={(e) => {
-                                                            const file = e.target.files[0];
-                                                            setData('gambar_banner', file);
-                                                            if (file) {
-                                                                setBannerPreviewUrl(URL.createObjectURL(file));
-                                                            } else {
-                                                                setBannerPreviewUrl(null);
-                                                            }
-                                                        }}
-                                                    />
-                                                </label>
-                                                <InputError message={errors.gambar_banner} className="mt-2" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
 
                                 <div className="flex items-center justify-end pt-4 border-t border-slate-200 mt-6">
                                     <PrimaryButton className="rounded-lg bg-emerald-700 hover:bg-emerald-800 focus:bg-emerald-800 px-8 py-3.5 shadow-md shadow-emerald-700/20 transition-all hover:-translate-y-0.5" disabled={processing}>

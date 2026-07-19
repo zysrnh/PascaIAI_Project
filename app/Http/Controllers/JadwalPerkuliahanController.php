@@ -6,6 +6,7 @@ use App\Models\JadwalPeriode;
 use App\Models\JadwalMataKuliah;
 use App\Models\PengaturanHalaman;
 use App\Models\ProgramStudi;
+use App\Models\Dosen;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
@@ -54,11 +55,13 @@ class JadwalPerkuliahanController extends Controller
             ->get();
             
         $programStudis = ProgramStudi::all();
+        $dosens = Dosen::orderBy('nama', 'asc')->get();
 
         return Inertia::render('Admin/Akademik/Jadwal/Index', [
             'pengaturan' => $pengaturan,
             'periodes' => $periodes,
-            'programStudis' => $programStudis
+            'programStudis' => $programStudis,
+            'dosens' => $dosens
         ]);
     }
 
@@ -66,6 +69,7 @@ class JadwalPerkuliahanController extends Controller
     {
         $request->validate([
             'banner_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'deskripsi' => 'nullable|string'
         ]);
 
         $pengaturan = PengaturanHalaman::firstOrCreate(['halaman' => 'jadwal_perkuliahan']);
@@ -76,10 +80,12 @@ class JadwalPerkuliahanController extends Controller
             }
             $path = $request->file('banner_image')->store('banners', 'public');
             $pengaturan->banner_image = $path;
-            $pengaturan->save();
         }
 
-        return redirect()->back()->with('success', 'Banner Jadwal Perkuliahan berhasil diperbarui.');
+        $pengaturan->deskripsi = $request->deskripsi;
+        $pengaturan->save();
+
+        return redirect()->back()->with('success', 'Banner dan Deskripsi Jadwal Perkuliahan berhasil diperbarui.');
     }
 
     // --- PERIODE CRUD ---

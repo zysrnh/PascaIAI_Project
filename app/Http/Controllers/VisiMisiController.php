@@ -35,6 +35,7 @@ class VisiMisiController extends Controller
             'tujuan' => 'required|array',
             'tujuan.*' => 'required|string',
             'gambar_banner' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'deskripsi_banner' => 'nullable|string',
             'gambar_bg' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
         ]);
 
@@ -44,6 +45,7 @@ class VisiMisiController extends Controller
             'visi' => $request->visi,
             'misi' => $request->misi,
             'tujuan' => $request->tujuan,
+            'deskripsi_banner' => $request->deskripsi_banner,
         ];
 
         // Handle Banner Upload
