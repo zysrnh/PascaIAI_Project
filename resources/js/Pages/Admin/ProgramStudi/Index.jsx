@@ -118,7 +118,9 @@ export default function Index({ programStudis, fakultas, pengaturan }) {
     };
 
     return (
-        <AuthenticatedLayout>
+        <AuthenticatedLayout
+            header={<h2 className="text-xl font-semibold leading-tight text-white">Daftar Program Studi</h2>}
+        >
             <Head title="Kelola Program Studi" />
 
             <div className="flex min-h-screen bg-slate-50">

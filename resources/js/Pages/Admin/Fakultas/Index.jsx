@@ -111,7 +111,7 @@ export default function Index({ auth, fakultas }) {
         <>
         <AuthenticatedLayout
             user={auth.user}
-            header={<h2 className="font-semibold text-xl text-slate-800 leading-tight">Daftar Fakultas</h2>}
+            header={<h2 className="text-xl font-semibold leading-tight text-white">Daftar Fakultas</h2>}
         >
             <Head title="Daftar Fakultas" />
 

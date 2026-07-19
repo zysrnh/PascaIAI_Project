@@ -41,7 +41,9 @@ const TOP_BORDER = {
 
 export default function Akreditasi({ institusi, prodis, riwayats, pengaturan }) {
     const [showWaPopup, setShowWaPopup] = useState(false);
+    const [previewPdf, setPreviewPdf] = useState(null); // { url, title }
     const closeButtonRef = useRef(null);
+    const pdfCloseRef = useRef(null);
 
     // Helper to format date
     const formatDate = (dateString) => {
@@ -92,6 +94,24 @@ export default function Akreditasi({ institusi, prodis, riwayats, pengaturan }) 
             window.removeEventListener('keydown', handleKeyDown);
         };
     }, [showWaPopup]);
+
+    // PDF Preview Modal behavior
+    useEffect(() => {
+        if (!previewPdf) return;
+        
+        document.body.style.overflow = 'hidden';
+        pdfCloseRef.current?.focus();
+        
+        const handleKeyDown = (e) => {
+            if (e.key === 'Escape') setPreviewPdf(null);
+        };
+        
+        window.addEventListener('keydown', handleKeyDown);
+        return () => {
+            document.body.style.overflow = 'unset';
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [previewPdf]);
 
     return (
         <PublicLayout>
@@ -178,18 +198,24 @@ export default function Akreditasi({ institusi, prodis, riwayats, pengaturan }) 
                                 </div>
                                 <div className="mt-8 pt-6 border-t border-slate-100 flex flex-wrap gap-4">
                                     {akreditasiInstitusi.sertifikat_url ? (
-                                        <a href={akreditasiInstitusi.sertifikat_url} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 px-5 py-2.5 bg-emerald-600 text-white rounded-lg font-semibold hover:bg-emerald-700 transition-colors shadow-sm">
-                                            <Download className="w-4 h-4" /> Unduh Sertifikat
-                                        </a>
+                                        <button 
+                                            onClick={() => setPreviewPdf({ url: akreditasiInstitusi.sertifikat_url, title: 'Sertifikat Akreditasi' })}
+                                            className="inline-flex items-center gap-2 px-5 py-2.5 bg-emerald-600 text-white rounded-lg font-semibold hover:bg-emerald-700 transition-colors shadow-sm"
+                                        >
+                                            <FileCheck className="w-4 h-4" /> Lihat Sertifikat
+                                        </button>
                                     ) : (
                                         <span className="inline-flex items-center gap-2 px-5 py-2.5 bg-slate-100 text-slate-400 rounded-lg font-semibold text-sm">
                                             Sertifikat belum tersedia
                                         </span>
                                     )}
                                     {akreditasiInstitusi.sk_url ? (
-                                        <a href={akreditasiInstitusi.sk_url} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-emerald-700 border border-emerald-200 rounded-lg font-semibold hover:bg-emerald-50 transition-colors">
-                                            Unduh SK Akreditasi
-                                        </a>
+                                        <button 
+                                            onClick={() => setPreviewPdf({ url: akreditasiInstitusi.sk_url, title: 'SK Akreditasi' })}
+                                            className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-emerald-700 border border-emerald-200 rounded-lg font-semibold hover:bg-emerald-50 transition-colors"
+                                        >
+                                            Lihat SK Akreditasi
+                                        </button>
                                     ) : (
                                         <span className="inline-flex items-center gap-2 px-5 py-2.5 bg-slate-100 text-slate-400 rounded-lg font-semibold text-sm">
                                             SK belum tersedia
@@ -346,6 +372,75 @@ export default function Akreditasi({ institusi, prodis, riwayats, pengaturan }) 
                                 </svg>
                                 Lanjutkan ke Chat
                             </a>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* PDF Preview Modal */}
+            {previewPdf && (
+                <div 
+                    className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-slate-900/80 backdrop-blur-sm transition-opacity duration-300"
+                    role="dialog"
+                    aria-modal="true"
+                    aria-labelledby="preview-pdf-title"
+                >
+                    <div 
+                        className="absolute inset-0" 
+                        onClick={() => setPreviewPdf(null)}
+                    ></div>
+                    
+                    <div className="bg-white rounded-xl shadow-lg w-full max-w-5xl h-[85vh] flex flex-col overflow-hidden animate-fade-in-up relative z-10 border border-slate-200">
+                        {/* Header Modal */}
+                        <div className="flex items-center justify-between px-6 py-5 border-b border-slate-100 bg-slate-50/80">
+                            <div className="flex items-center gap-4 max-w-[70%] sm:max-w-[80%]">
+                                <div className="p-2.5 bg-emerald-100 text-emerald-600 rounded-xl flex-shrink-0">
+                                    <FileCheck className="w-6 h-6" />
+                                </div>
+                                <div className="overflow-hidden">
+                                    <h3 id="preview-pdf-title" className="text-lg font-bold text-slate-800 truncate">{previewPdf.title}</h3>
+                                    <p className="text-sm text-slate-500 mt-0.5 truncate">Pratinjau Dokumen PDF</p>
+                                </div>
+                            </div>
+                            <div className="flex items-center gap-3 flex-shrink-0">
+                                <a 
+                                    href={previewPdf.url} 
+                                    download 
+                                    className="px-4 py-2 text-emerald-700 bg-emerald-100 hover:bg-emerald-200 rounded-lg transition-colors flex items-center gap-2" 
+                                    title="Unduh File"
+                                >
+                                    <Download className="w-4 h-4" />
+                                    <span className="hidden sm:inline text-sm font-semibold">Unduh</span>
+                                </a>
+                                
+                                <div className="w-px h-8 bg-slate-200 mx-1 hidden sm:block"></div>
+                                
+                                <button 
+                                    ref={pdfCloseRef}
+                                    onClick={() => setPreviewPdf(null)} 
+                                    className="p-2 text-slate-400 hover:text-white hover:bg-red-500 rounded-lg transition-colors" 
+                                    title="Tutup Preview"
+                                    aria-label="Tutup preview"
+                                >
+                                    <X className="w-6 h-6" />
+                                </button>
+                            </div>
+                        </div>
+                        
+                        {/* Area Preview */}
+                        <div className="flex-1 w-full bg-slate-800 p-0 sm:p-4 md:p-6 overflow-hidden">
+                            <iframe 
+                                src={`${previewPdf.url}#toolbar=0&navpanes=0&scrollbar=0`} 
+                                className="w-full h-full sm:rounded-xl shadow-inner bg-white border-0"
+                                title={previewPdf.title}
+                            >
+                                <div className="flex flex-col items-center justify-center h-full text-slate-500 gap-4">
+                                    <p>Browser Anda tidak mendukung preview PDF secara langsung.</p>
+                                    <a href={previewPdf.url} download className="px-4 py-2 bg-emerald-600 text-white rounded-md text-sm font-medium">
+                                        Unduh Dokumen
+                                    </a>
+                                </div>
+                            </iframe>
                         </div>
                     </div>
                 </div>

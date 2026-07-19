@@ -32,7 +32,7 @@ export default function Index({ auth, institusi, prodis, riwayats, pengaturan })
     return (
         <AuthenticatedLayout
             user={auth.user}
-            header={<h2 className="font-semibold text-xl text-slate-800 leading-tight">Kelola Akreditasi</h2>}
+            header={<h2 className="text-xl font-semibold leading-tight text-white">Kelola Akreditasi</h2>}
         >
             <Head title="Kelola Akreditasi" />
 

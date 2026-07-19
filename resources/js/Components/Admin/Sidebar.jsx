@@ -107,7 +107,14 @@ const navigation = [
                     { type: 'link', name: 'Lihat Halaman', href: '/fakultas/programstudi', icon: ExternalLink },
                 ]
             },
-            { type: 'link', name: 'Data Dosen', href: '/admin/fakultas/dosen' },
+            {
+                type: 'group',
+                name: 'Data Dosen',
+                children: [
+                    { type: 'link', name: 'Kelola Halaman', href: '/admin/fakultas/dosen', icon: Settings },
+                    { type: 'link', name: 'Lihat Halaman', href: '/fakultas/dosen', icon: ExternalLink },
+                ]
+            },
         ],
     },
     {
