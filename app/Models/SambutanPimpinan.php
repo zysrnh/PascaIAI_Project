@@ -12,5 +12,6 @@ class SambutanPimpinan extends Model
         'sambutan_singkat',
         'sambutan_lengkap',
         'foto',
+        'gambar_banner',
     ];
 }

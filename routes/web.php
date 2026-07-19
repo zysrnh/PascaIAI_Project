@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\ProfilKampusController;
+
 use App\Http\Controllers\TentangKampusController;
 use App\Http\Controllers\SambutanPimpinanController;
 use Illuminate\Foundation\Application;
@@ -48,8 +48,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/profil/sambutan-pimpinan', [SambutanPimpinanController::class, 'edit'])->name('admin.profil.sambutan-pimpinan');
     Route::post('/admin/profil/sambutan-pimpinan', [SambutanPimpinanController::class, 'update'])->name('admin.profil.sambutan-pimpinan.update');
 
-    // Admin Profil Kampus
-    Route::resource('admin/profil', ProfilKampusController::class)->names('admin.profil');
 });
 
 require __DIR__.'/auth.php';

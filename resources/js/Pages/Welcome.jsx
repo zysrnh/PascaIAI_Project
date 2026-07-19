@@ -1,8 +1,30 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Head, Link } from '@inertiajs/react';
 
 export default function Welcome() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [isLoaded, setIsLoaded] = useState(false);
+    useEffect(() => {
+        setIsLoaded(true);
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('opacity-100', 'translate-y-0');
+                    entry.target.classList.remove('opacity-0', 'translate-y-12', '-translate-x-12', 'translate-x-12');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        const elements = document.querySelectorAll('.animate-on-scroll');
+        elements.forEach(el => observer.observe(el));
+
+        return () => {
+            elements.forEach(el => observer.unobserve(el));
+            observer.disconnect();
+        };
+    }, []);
 
     return (
         <>
@@ -185,7 +207,7 @@ export default function Welcome() {
                 {/* Hero Section */}
                 <section className="bg-[linear-gradient(rgba(4,47,31,0.85),rgba(2,44,29,0.9)),url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=1600&auto=format&fit=crop')] bg-cover bg-center min-h-[85vh] flex items-center justify-center text-white relative py-20">
                     <div className="absolute inset-0 bg-gradient-to-t from-emerald-950/90 via-transparent to-transparent"></div>
-                    <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                    <div className={`relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center transition-all duration-1000 ease-out transform ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
                         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-800/80 backdrop-blur-md border border-emerald-600 text-emerald-200 text-xs sm:text-sm font-semibold mb-6">
                             <span className="w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse"></span>
                             Penerimaan Mahasiswa Baru Gelombang 1 Dibuka!
@@ -211,7 +233,7 @@ export default function Welcome() {
                 {/* Sambutan Direktur */}
                 <section id="sambutan" className="py-20 bg-white">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center animate-on-scroll opacity-0 translate-y-12 transition-all duration-1000 ease-out">
                             <div className="lg:col-span-5 relative">
                                 <div className="absolute inset-0 bg-emerald-800 rounded-3xl rotate-3 scale-95 opacity-20"></div>
                                 <img src="https://web-persis.s3.ap-southeast-1.amazonaws.com/files/shares/persis-cd5-0c543921-d668-4ee6-ac15-4f0ff791007e.jpg?q=80&w=600&auto=format&fit=crop" alt="Direktur Pascasarjana IAI Persis" className="rounded-3xl shadow-2xl relative z-10 w-full h-[400px] object-cover object-top border-4 border-white" />
@@ -241,12 +263,12 @@ export default function Welcome() {
                 {/* Keunggulan Section */}
                 <section id="keunggulan" className="py-20 bg-slate-100">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <div className="text-center max-w-3xl mx-auto mb-16">
+                        <div className="text-center max-w-3xl mx-auto mb-16 animate-on-scroll opacity-0 translate-y-12 transition-all duration-1000 ease-out">
                             <span className="text-emerald-700 font-bold text-sm tracking-widest uppercase">MENGAPA KAMI?</span>
                             <h2 className="text-3xl sm:text-4xl font-extrabold text-emerald-950 mt-2 mb-4">Pilar Keunggulan Pascasarjana</h2>
                             <p className="text-slate-600">Alasan mengapa program magister kami menjadi pilihan utama para akademisi dan praktisi profesional Muslim.</p>
                         </div>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 animate-on-scroll opacity-0 translate-y-12 transition-all duration-1000 ease-out delay-100">
                             <div className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition duration-300">
                                 <div className="w-12 h-12 bg-emerald-100 text-emerald-800 rounded-xl flex items-center justify-center text-xl mb-6">
                                     <i className="fa-solid fa-certificate"></i>
@@ -282,12 +304,12 @@ export default function Welcome() {
                 {/* Program Studi */}
                 <section id="program" className="py-20 bg-white">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <div className="text-center max-w-3xl mx-auto mb-16">
+                        <div className="text-center max-w-3xl mx-auto mb-16 animate-on-scroll opacity-0 translate-y-12 transition-all duration-1000 ease-out">
                             <span className="text-emerald-700 font-bold text-sm tracking-widest uppercase">PROGRAM AKADEMIK</span>
                             <h2 className="text-3xl sm:text-4xl font-extrabold text-emerald-950 mt-2 mb-4">Program Studi Magister (S2)</h2>
                             <p className="text-slate-600">Pilih peminatan keilmuan yang paling relevan dengan misi karir profesional dan akademis Anda.</p>
                         </div>
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 max-w-5xl mx-auto">
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 max-w-5xl mx-auto animate-on-scroll opacity-0 translate-y-12 transition-all duration-1000 ease-out delay-100">
                             <div className="bg-slate-50 rounded-3xl overflow-hidden shadow-sm border border-slate-100 hover:shadow-2xl hover:border-emerald-200 transition duration-300 flex flex-col">
                                 <div className="relative h-64 bg-slate-200">
                                     <img src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?q=80&w=600&auto=format&fit=crop" alt="Magister Pendidikan Agama Islam" className="w-full h-full object-cover" />
@@ -356,12 +378,12 @@ export default function Welcome() {
                 {/* Alur Pendaftaran */}
                 <section id="alur" className="py-20 bg-slate-100">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <div className="text-center max-w-3xl mx-auto mb-16">
+                        <div className="text-center max-w-3xl mx-auto mb-16 animate-on-scroll opacity-0 translate-y-12 transition-all duration-1000 ease-out">
                             <span className="text-emerald-700 font-bold text-sm tracking-widest uppercase">LANGKAH PENDAFTARAN</span>
                             <h2 className="text-3xl sm:text-4xl font-extrabold text-emerald-950 mt-2 mb-4">Alur Pendaftaran Mahasiswa Baru</h2>
                             <p className="text-slate-600">Simak tahapan pendaftaran terintegrasi dari pengisian data online hingga proses seleksi.</p>
                         </div>
-                        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+                        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 animate-on-scroll opacity-0 translate-y-12 transition-all duration-1000 ease-out delay-100">
                             <div className="bg-white p-6 rounded-2xl shadow-sm text-center relative border border-slate-200/60">
                                 <div className="w-12 h-12 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center font-black mx-auto mb-4 text-lg">1</div>
                                 <h4 className="font-bold text-emerald-950 mb-2">Registrasi Akun</h4>
@@ -393,7 +415,7 @@ export default function Welcome() {
                     </div>
                     <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
                         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-                            <div className="lg:col-span-6">
+                            <div className="lg:col-span-6 animate-on-scroll opacity-0 -translate-x-12 transition-all duration-1000 ease-out">
                                 <h2 className="text-3xl sm:text-4xl font-extrabold leading-tight mb-6">Mulai Langkah Akademis Anda Sekarang</h2>
                                 <p className="text-emerald-200/90 leading-relaxed mb-8">
                                     Daftar dan persiapkan berkas pendaftaran Anda sebelum batas waktu pendaftaran berakhir. Silakan isi form di samping untuk berkonsultasi langsung dengan tim akademik kami melalui WhatsApp secara respons cepat.
@@ -409,7 +431,7 @@ export default function Welcome() {
                                     </div>
                                 </div>
                             </div>
-                            <div className="lg:col-span-6 bg-white rounded-3xl p-8 text-slate-800 shadow-2xl">
+                            <div className="lg:col-span-6 bg-white rounded-3xl p-8 text-slate-800 shadow-2xl animate-on-scroll opacity-0 translate-x-12 transition-all duration-1000 ease-out delay-100">
                                 <h3 className="text-xl font-bold text-emerald-950 mb-1">Konsultasi Pendaftaran</h3>
                                 <p className="text-xs text-slate-400 mb-6">Kirim formulir singkat berikut dan admin kami akan menghubungi Anda.</p>
                                 

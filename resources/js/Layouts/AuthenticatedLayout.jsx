@@ -4,6 +4,7 @@ import NavLink from '@/Components/NavLink';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
 import { Link, usePage } from '@inertiajs/react';
 import { useState } from 'react';
+import Toast from '@/Components/Toast';
 
 export default function AuthenticatedLayout({ header, children }) {
     const user = usePage().props.auth.user;
@@ -12,14 +13,21 @@ export default function AuthenticatedLayout({ header, children }) {
         useState(false);
 
     return (
-        <div className="min-h-screen bg-[#0f172a]">
-            <nav className="border-b border-slate-800 bg-[#0f172a]">
+        <div className="min-h-screen bg-slate-50">
+            <Toast />
+            <nav className="border-b border-emerald-900/60 bg-emerald-950">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="flex h-16 justify-between">
                         <div className="flex">
                             <div className="flex shrink-0 items-center">
-                                <Link href="/">
-                                    <ApplicationLogo className="block h-9 w-auto fill-current text-emerald-500" />
+                                <Link href="/" className="flex items-center gap-3 group">
+                                    <div className="flex h-9 w-9 items-center justify-center rounded-[5px] bg-emerald-500 text-sm font-bold text-white shadow-md group-hover:bg-emerald-400 transition-colors">
+                                        IP
+                                    </div>
+                                    <div className="hidden sm:block">
+                                        <p className="text-sm font-bold leading-tight text-white">IAI Persis</p>
+                                        <p className="text-[11px] text-emerald-300">Pascasarjana Bandung</p>
+                                    </div>
                                 </Link>
                             </div>
 
@@ -40,7 +48,7 @@ export default function AuthenticatedLayout({ header, children }) {
                                         <span className="inline-flex rounded-md">
                                             <button
                                                 type="button"
-                                                className="inline-flex items-center rounded-md border border-transparent bg-slate-800 px-3 py-2 text-sm font-medium leading-4 text-slate-300 transition duration-150 ease-in-out hover:text-white focus:outline-none"                                            >
+                                                className="inline-flex items-center rounded-md border border-transparent bg-emerald-900 px-3 py-2 text-sm font-medium leading-4 text-emerald-100 transition duration-150 ease-in-out hover:text-white hover:bg-emerald-800 focus:outline-none"                                            >
                                                 {user.name}
 
                                                 <svg
@@ -84,7 +92,7 @@ export default function AuthenticatedLayout({ header, children }) {
                                         (previousState) => !previousState,
                                     )
                                 }
-                                className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 transition duration-150 ease-in-out hover:bg-gray-100 hover:text-gray-500 focus:bg-gray-100 focus:text-gray-500 focus:outline-none"
+                                className="inline-flex items-center justify-center rounded-md p-2 text-emerald-400 transition duration-150 ease-in-out hover:bg-emerald-900 hover:text-emerald-300 focus:bg-emerald-900 focus:text-emerald-300 focus:outline-none"
                             >
                                 <svg
                                     className="h-6 w-6"
@@ -135,12 +143,12 @@ export default function AuthenticatedLayout({ header, children }) {
                         </ResponsiveNavLink>
                     </div>
 
-                    <div className="border-t border-gray-200 pb-1 pt-4">
+                    <div className="border-t border-emerald-900 pb-1 pt-4">
                         <div className="px-4">
-                            <div className="text-base font-medium text-slate-200">
+                            <div className="text-base font-medium text-emerald-100">
                                 {user.name}
                             </div>
-                            <div className="text-sm font-medium text-slate-400">
+                            <div className="text-sm font-medium text-emerald-400">
                                 {user.email}
                             </div>
                         </div>
@@ -162,7 +170,7 @@ export default function AuthenticatedLayout({ header, children }) {
             </nav>
 
             {header && (
-                <header className="bg-[#0f172a] shadow-sm border-b border-slate-800">
+                <header className="bg-emerald-950 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.2)] border-b border-emerald-900/50">
                     <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
                         {header}
                     </div>

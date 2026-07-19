@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 import Sidebar from '@/Components/Admin/Sidebar';
@@ -5,6 +6,10 @@ import StatCard from '@/Components/Admin/StatCard';
 import RecentActivity from '@/Components/Admin/RecentActivity';
 
 export default function Dashboard() {
+    const [isLoaded, setIsLoaded] = useState(false);
+    useEffect(() => {
+        setIsLoaded(true);
+    }, []);
     return (
         <AuthenticatedLayout
             header={
@@ -18,7 +23,7 @@ export default function Dashboard() {
             <div className="flex bg-slate-50">
                 <Sidebar />
 
-                <div className="min-w-0 flex-1">
+                <div className={`min-w-0 flex-1 transition-all duration-700 ease-out transform ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
                     <div className="py-12">
                         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                             {/* Stats Grid */}
@@ -74,11 +79,16 @@ export default function Dashboard() {
                                         <h3 className="mb-2 text-xl font-bold text-slate-800">Selamat Datang di Portal Admin!</h3>
                                         <p className="mb-6 text-slate-600">
                                             Anda memiliki akses penuh untuk mengelola konten website Pascasarjana IAI Persis Bandung.
-                                            Gunakan navigasi di samping untuk mengakses modul Fakultas, Akademik, dan LPPM.
+                                            Gunakan navigasi di samping untuk mengelola Profil Kampus, Berita, Fakultas, dan lainnya.
                                         </p>
-                                        <button className="rounded-[5px] bg-blue-600 px-6 py-2 font-medium text-white shadow-sm transition-colors hover:bg-blue-700">
-                                            Tulis Pengumuman Baru
-                                        </button>
+                                        <div className="flex gap-4">
+                                            <a href="/admin/profil/tentang-kampus" className="rounded-[5px] bg-emerald-700 px-6 py-2.5 font-medium text-white shadow-sm transition-colors hover:bg-emerald-800">
+                                                Kelola Profil Kampus
+                                            </a>
+                                            <a href="/admin/profil/sambutan-pimpinan" className="rounded-[5px] bg-slate-800 px-6 py-2.5 font-medium text-white shadow-sm transition-colors hover:bg-slate-900">
+                                                Update Sambutan
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
 

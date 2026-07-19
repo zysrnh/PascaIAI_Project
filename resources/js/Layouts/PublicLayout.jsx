@@ -1,8 +1,12 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from '@inertiajs/react';
 
 export default function PublicLayout({ children }) {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [isLoaded, setIsLoaded] = useState(false);
+    useEffect(() => {
+        setIsLoaded(true);
+    }, []);
 
     return (
         <div className="bg-slate-50 text-slate-800 antialiased font-sans">
@@ -141,7 +145,7 @@ export default function PublicLayout({ children }) {
                 </div>
             </header>
 
-            <main>
+            <main className={`transition-all duration-1000 ease-out transform ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
                 {children}
             </main>
 

@@ -11,7 +11,7 @@ export default function SambutanPimpinan({ sambutan }) {
             <div className="relative w-full h-[300px] bg-emerald-950 flex flex-col justify-end">
                 <div className="absolute inset-0">
                     <img 
-                        src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=1600&auto=format&fit=crop" 
+                        src={sambutan?.gambar_banner || "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=1600&auto=format&fit=crop"} 
                         alt="Sambutan Pimpinan" 
                         className="w-full h-full object-cover opacity-30"
                     />

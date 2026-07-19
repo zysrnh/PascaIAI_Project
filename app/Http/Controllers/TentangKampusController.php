@@ -36,6 +36,7 @@ class TentangKampusController extends Controller
             'konten' => 'required|string',
             'video_url' => 'nullable|url',
             'gambar_banner' => 'nullable|image|max:2048',
+            'tampilkan_pimpinan' => 'boolean',
         ]);
 
         if ($request->hasFile('gambar_banner')) {

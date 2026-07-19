@@ -13,55 +13,74 @@ import {
     Menu,
     X,
     Landmark,
+    Info,
+    Target,
+    MessageSquare,
+    Network,
+    Award,
+    Settings,
+    ExternalLink,
 } from 'lucide-react';
 
 const navigation = [
     { type: 'link', name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
     {
         type: 'group',
-        name: 'Manajemen Section Profile',
+        name: 'Profil Kampus',
         icon: Landmark,
         children: [
             {
                 type: 'group',
                 name: 'Tentang Kampus',
+                icon: Info,
                 children: [
-                    { type: 'link', name: 'Kelola Halaman', href: '/admin/profil/tentang-kampus' },
+                    { type: 'link', name: 'Kelola Halaman', href: '/admin/profil/tentang-kampus', icon: Settings },
+                    { type: 'link', name: 'Lihat Halaman', href: '/profil/tentang-kampus', icon: ExternalLink },
                 ],
             },
             {
                 type: 'group',
                 name: 'Visi, Misi & Tujuan',
+                icon: Target,
                 children: [
-                    { type: 'link', name: 'Kelola Halaman', href: '/admin/profil/visi-misi' },
+                    { type: 'link', name: 'Kelola Halaman', href: '/admin/profil/visi-misi', icon: Settings },
+                    { type: 'link', name: 'Lihat Halaman', href: '/profil/visi-misi', icon: ExternalLink },
                 ],
             },
             {
                 type: 'group',
                 name: 'Sambutan Pimpinan',
+                icon: MessageSquare,
                 children: [
-                    { type: 'link', name: 'Kelola Halaman', href: '/admin/profil/sambutan-pimpinan' },
+                    { type: 'link', name: 'Kelola Halaman', href: '/admin/profil/sambutan-pimpinan', icon: Settings },
+                    { type: 'link', name: 'Lihat Halaman', href: '/profil/sambutan-pimpinan', icon: ExternalLink },
                 ],
             },
             {
                 type: 'group',
                 name: 'Struktur Organisasi',
+                icon: Network,
                 children: [
-                    { type: 'link', name: 'Kelola Halaman', href: '/admin/profil/struktur-organisasi' },
+                    { type: 'link', name: 'Kelola Halaman', href: '/admin/profil/struktur-organisasi', icon: Settings },
+                    { type: 'link', name: 'Lihat Halaman', href: '/profil/struktur-organisasi', icon: ExternalLink },
                 ],
             },
             {
                 type: 'group',
                 name: 'Dokumen Institusi',
+                icon: FileText,
                 children: [
-                    { type: 'link', name: 'Kelola Halaman', href: '/admin/profil/dokumen-institusi' },
+                    { type: 'link', name: 'Kelola Halaman', href: '/admin/profil/dokumen-institusi', icon: Settings },
+                    { type: 'link', name: 'Lihat Halaman', href: '/profil/dokumen-institusi', icon: ExternalLink },
                 ],
             },
             {
                 type: 'group',
                 name: 'Akreditasi',
+                icon: Award,
                 children: [
-                    { type: 'link', name: 'Kelola Halaman', href: '/admin/profil/akreditasi' },
+                    { type: 'link', name: 'Kelola Halaman', href: '/admin/profil/akreditasi', icon: Settings },
+                    { type: 'link', name: 'Lihat Halaman', href: '/profil/akreditasi', icon: ExternalLink },
                 ],
             },
         ],
@@ -110,7 +129,7 @@ function NavLink({ item, currentUrl, nested = false }) {
     const isActive = currentUrl.startsWith(item.href);
     const Icon = item.icon;
 
-    const base = 'flex items-center justify-between gap-3 rounded-[5px] px-3 py-2.5 text-sm transition-colors';
+    const base = 'flex items-center justify-between gap-3 rounded-[5px] px-3 py-2.5 text-sm transition-all duration-300 transform hover:translate-x-1';
     const weight = !nested || isActive ? 'font-medium' : 'font-normal';
     const color = isActive
         ? 'bg-blue-50 text-blue-600'
@@ -140,7 +159,7 @@ function NavGroup({ item, currentUrl, nested = false }) {
     const [open, setOpen] = useState(isActive);
     const Icon = item.icon;
 
-    const base = 'flex w-full items-center justify-between gap-3 rounded-[5px] px-3 py-2.5 text-sm transition-colors';
+    const base = 'flex w-full items-center justify-between gap-3 rounded-[5px] px-3 py-2.5 text-sm transition-all duration-300 transform hover:translate-x-1';
     const weight = !nested || isActive ? 'font-medium' : 'font-normal';
     const color = isActive
         ? 'text-blue-600'
@@ -158,13 +177,15 @@ function NavGroup({ item, currentUrl, nested = false }) {
                 <ChevronDown className={`h-4 w-4 shrink-0 text-slate-400 transition-transform ${open ? 'rotate-180' : ''}`} />
             </button>
 
-            {open && (
-                <div className="mt-1 space-y-1 border-l border-slate-200 pl-[27px]">
-                    {item.children.map((child) => (
-                        <NavItem key={child.name} item={child} currentUrl={currentUrl} nested />
-                    ))}
+            <div className={`grid transition-all duration-300 ease-in-out ${open ? 'grid-rows-[1fr] opacity-100 mt-1' : 'grid-rows-[0fr] opacity-0'}`}>
+                <div className="overflow-hidden">
+                    <div className="space-y-1 border-l border-slate-200 pl-[27px]">
+                        {item.children.map((child) => (
+                            <NavItem key={child.name} item={child} currentUrl={currentUrl} nested />
+                        ))}
+                    </div>
                 </div>
-            )}
+            </div>
         </div>
     );
 }
@@ -229,7 +250,7 @@ export default function Sidebar() {
     return (
         <>
             {/* Desktop */}
-            <aside className="hidden shrink-0 lg:block lg:w-64">
+            <aside className="hidden shrink-0 lg:block lg:w-80">
                 <div className="sticky top-0 h-screen border-r border-slate-200">
                     <SidebarContent />
                 </div>

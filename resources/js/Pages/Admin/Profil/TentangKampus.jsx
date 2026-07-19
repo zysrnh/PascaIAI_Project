@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link, useForm } from '@inertiajs/react';
 import Sidebar from '@/Components/Admin/Sidebar';
@@ -6,6 +6,7 @@ import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import TextInput from '@/Components/TextInput';
 import PrimaryButton from '@/Components/PrimaryButton';
+import { FileText, Video, Image as ImageIcon, Info } from 'lucide-react';
 
 export default function TentangKampus({ tentang }) {
     const { data, setData, post, processing, errors } = useForm({
@@ -16,6 +17,13 @@ export default function TentangKampus({ tentang }) {
         gambar_banner: null,
     });
 
+    const [isLoaded, setIsLoaded] = useState(false);
+    const [previewUrl, setPreviewUrl] = useState(null);
+
+    useEffect(() => {
+        setIsLoaded(true);
+    }, []);
+
     const submit = (e) => {
         e.preventDefault();
         post(route('admin.profil.tentang-kampus.update'), {
@@ -25,14 +33,14 @@ export default function TentangKampus({ tentang }) {
 
     return (
         <AuthenticatedLayout
-            header={<h2 className="text-xl font-semibold leading-tight text-slate-800">Manajemen Profil: Tentang Kampus</h2>}
+            header={<h2 className="text-xl font-semibold leading-tight text-white">Manajemen Profil: Tentang Kampus</h2>}
         >
             <Head title="Tentang Kampus - Admin" />
 
             <div className="flex bg-slate-50 min-h-screen">
                 <Sidebar />
 
-                <div className="min-w-0 flex-1">
+                <div className={`min-w-0 flex-1 transition-all duration-700 ease-out transform ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
                     <div className="py-8 px-4 sm:px-6 lg:px-8">
                         <div className="mb-6">
                             <h1 className="text-2xl font-bold text-slate-800">Kelola Halaman: Tentang Kampus</h1>
@@ -43,14 +51,22 @@ export default function TentangKampus({ tentang }) {
                             <form onSubmit={submit} className="space-y-6">
                                 
                                 {/* Section 1: Konten Utama */}
-                                <div className="border-b border-slate-100 pb-6">
-                                    <h3 className="text-lg font-bold text-emerald-950 mb-4">1. Konten Utama</h3>
-                                    <div className="space-y-4">
+                                <div className="bg-slate-50/50 rounded-xl border border-slate-100 p-6 transition-all hover:bg-slate-50">
+                                    <div className="flex items-center gap-3 mb-6">
+                                        <div className="w-10 h-10 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center">
+                                            <FileText size={20} />
+                                        </div>
                                         <div>
-                                            <InputLabel htmlFor="judul" value="Judul Halaman" className="text-slate-700 font-bold" />
+                                            <h3 className="text-lg font-bold text-slate-800">1. Konten Utama</h3>
+                                            <p className="text-xs text-slate-500">Judul dan teks deskripsi utama untuk halaman Tentang Kampus.</p>
+                                        </div>
+                                    </div>
+                                    <div className="space-y-5">
+                                        <div>
+                                            <InputLabel htmlFor="judul" value="Judul Halaman" className="text-slate-700 font-bold mb-1" />
                                             <TextInput
                                                 id="judul"
-                                                className="mt-1 block w-full rounded-[5px] border-slate-300"
+                                                className="block w-full rounded-lg border-slate-300 focus:border-emerald-600 focus:ring-emerald-600 transition-shadow"
                                                 value={data.judul}
                                                 onChange={(e) => setData('judul', e.target.value)}
                                                 required
@@ -59,60 +75,102 @@ export default function TentangKampus({ tentang }) {
                                         </div>
 
                                         <div>
-                                            <InputLabel htmlFor="konten" value="Deskripsi Singkat / Sejarah" className="text-slate-700 font-bold" />
+                                            <InputLabel htmlFor="konten" value="Deskripsi Singkat / Sejarah" className="text-slate-700 font-bold mb-1" />
                                             <textarea
                                                 id="konten"
-                                                className="mt-1 block w-full rounded-[5px] border-slate-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 h-32"
+                                                className="block w-full rounded-lg border-slate-300 shadow-sm focus:border-emerald-600 focus:ring-emerald-600 h-40 transition-shadow"
                                                 value={data.konten}
                                                 onChange={(e) => setData('konten', e.target.value)}
                                                 required
                                             ></textarea>
+                                            <p className="text-xs text-slate-400 mt-1.5 flex items-center gap-1">
+                                                <Info size={14} /> Tuliskan paragraf pengantar atau sejarah singkat institusi.
+                                            </p>
                                             <InputError message={errors.konten} className="mt-2" />
                                         </div>
                                     </div>
                                 </div>
 
                                 {/* Section 2: Video Profil */}
-                                <div className="border-b border-slate-100 pb-6">
-                                    <h3 className="text-lg font-bold text-emerald-950 mb-4">2. Video Profil</h3>
+                                <div className="bg-slate-50/50 rounded-xl border border-slate-100 p-6 transition-all hover:bg-slate-50">
+                                    <div className="flex items-center gap-3 mb-6">
+                                        <div className="w-10 h-10 rounded-lg bg-red-100 text-red-600 flex items-center justify-center">
+                                            <Video size={20} />
+                                        </div>
+                                        <div>
+                                            <h3 className="text-lg font-bold text-slate-800">2. Video Profil</h3>
+                                            <p className="text-xs text-slate-500">Tautan video pengenalan kampus dari YouTube.</p>
+                                        </div>
+                                    </div>
                                     <div>
-                                        <InputLabel htmlFor="video_url" value="URL Video (YouTube)" className="text-slate-700 font-bold" />
+                                        <InputLabel htmlFor="video_url" value="URL Video (YouTube)" className="text-slate-700 font-bold mb-1" />
                                         <TextInput
                                             id="video_url"
                                             type="url"
-                                            className="mt-1 block w-full rounded-[5px] border-slate-300"
+                                            className="block w-full rounded-lg border-slate-300 focus:border-emerald-600 focus:ring-emerald-600 transition-shadow"
                                             value={data.video_url}
                                             onChange={(e) => setData('video_url', e.target.value)}
-                                            placeholder="Contoh: https://youtube.com/..."
+                                            placeholder="Contoh: https://youtube.com/watch?v=..."
                                         />
                                         <InputError message={errors.video_url} className="mt-2" />
                                     </div>
                                 </div>
 
                                 {/* Section 3: Gambar Background (Banner) */}
-                                <div className="border-b border-slate-100 pb-6">
-                                    <h3 className="text-lg font-bold text-emerald-950 mb-4">3. Gambar Latar Belakang (Banner)</h3>
+                                <div className="bg-slate-50/50 rounded-xl border border-slate-100 p-6 transition-all hover:bg-slate-50">
+                                    <div className="flex items-center gap-3 mb-6">
+                                        <div className="w-10 h-10 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center">
+                                            <ImageIcon size={20} />
+                                        </div>
+                                        <div>
+                                            <h3 className="text-lg font-bold text-slate-800">3. Gambar Latar Belakang</h3>
+                                            <p className="text-xs text-slate-500">Gambar ukuran besar untuk header atau banner halaman.</p>
+                                        </div>
+                                    </div>
                                     <div>
-                                        <InputLabel htmlFor="gambar_banner" value="Upload Gambar Banner Baru" className="text-slate-700 font-bold" />
-                                        {tentang?.gambar_banner && (
-                                            <div className="mb-3 mt-2">
-                                                <img src={tentang.gambar_banner} alt="Banner Saat Ini" className="h-32 object-cover rounded-lg border border-slate-200" />
+                                        <InputLabel htmlFor="gambar_banner" value="Upload Gambar Banner Baru" className="text-slate-700 font-bold mb-1" />
+                                        {previewUrl ? (
+                                            <div className="mb-4 mt-2">
+                                                <p className="text-xs font-semibold text-emerald-600 mb-2">Preview Gambar Baru:</p>
+                                                <div className="bg-slate-100 rounded-xl p-2 border-2 border-emerald-400 border-dashed flex justify-center">
+                                                    <img src={previewUrl} alt="Preview" className="max-h-[300px] w-auto max-w-full object-contain rounded-lg shadow-sm" />
+                                                </div>
                                             </div>
+                                        ) : (
+                                            tentang?.gambar_banner && (
+                                                <div className="mb-4 mt-2">
+                                                    <p className="text-xs font-semibold text-slate-500 mb-2">Banner Saat Ini:</p>
+                                                    <div className="bg-slate-100 rounded-xl p-2 border-2 border-slate-200 border-dashed flex justify-center opacity-70">
+                                                        <img src={tentang.gambar_banner} alt="Banner Saat Ini" className="max-h-[300px] w-auto max-w-full object-contain rounded-lg shadow-sm" />
+                                                    </div>
+                                                </div>
+                                            )
                                         )}
                                         <input
                                             type="file"
                                             id="gambar_banner"
-                                            className="mt-1 block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100"
-                                            onChange={(e) => setData('gambar_banner', e.target.files[0])}
+                                            className="block w-full text-sm text-slate-500 file:mr-4 file:py-2.5 file:px-5 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100 transition-colors"
+                                            onChange={(e) => {
+                                                const file = e.target.files[0];
+                                                setData('gambar_banner', file);
+                                                if (file) {
+                                                    setPreviewUrl(URL.createObjectURL(file));
+                                                } else {
+                                                    setPreviewUrl(null);
+                                                }
+                                            }}
                                             accept="image/*"
                                         />
+                                        <p className="text-xs text-slate-400 mt-2 flex items-center gap-1">
+                                            <Info size={14} /> Format didukung: JPG, PNG, WEBP. Maksimal 2MB.
+                                        </p>
                                         <InputError message={errors.gambar_banner} className="mt-2" />
                                     </div>
                                 </div>
 
-                                <div className="flex items-center justify-end pt-4">
-                                    <PrimaryButton className="rounded-[5px] bg-blue-600 hover:bg-blue-700 focus:bg-blue-700 px-6 py-3" disabled={processing}>
-                                        Simpan Perubahan
+                                <div className="flex items-center justify-end pt-4 border-t border-slate-200 mt-6">
+                                    <PrimaryButton className="rounded-lg bg-emerald-700 hover:bg-emerald-800 focus:bg-emerald-800 px-8 py-3.5 shadow-md shadow-emerald-700/20 transition-all hover:-translate-y-0.5" disabled={processing}>
+                                        <FileText size={18} className="mr-2" /> Simpan Perubahan
                                     </PrimaryButton>
                                 </div>
                             </form>

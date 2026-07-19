@@ -37,6 +37,7 @@ class SambutanPimpinanController extends Controller
             'sambutan_singkat' => 'required|string',
             'sambutan_lengkap' => 'required|string',
             'foto' => 'nullable|image|max:2048',
+            'gambar_banner' => 'nullable|image|max:2048',
         ]);
 
         if ($request->hasFile('foto')) {
@@ -45,6 +46,14 @@ class SambutanPimpinanController extends Controller
             }
             $path = $request->file('foto')->store('profil', 'public');
             $validated['foto'] = '/storage/' . $path;
+        }
+
+        if ($request->hasFile('gambar_banner')) {
+            if ($sambutan->gambar_banner && strpos($sambutan->gambar_banner, '/storage/') === 0) {
+                Storage::disk('public')->delete(str_replace('/storage/', '', $sambutan->gambar_banner));
+            }
+            $path = $request->file('gambar_banner')->store('profil/banner', 'public');
+            $validated['gambar_banner'] = '/storage/' . $path;
         }
 
         $sambutan->update($validated);
