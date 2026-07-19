@@ -102,7 +102,7 @@ export default function Index({ pengaturan, periodes, programStudis }) {
         } else {
             setEditingMk(null);
             formMk.setData({
-                jadwal_periode_id: activePeriodeId, program_studi: programStudis?.[0]?.nama_program_studi || '', semester_ke: 1,
+                jadwal_periode_id: activePeriodeId, program_studi: programStudis?.[0]?.nama || '', semester_ke: 1,
                 mata_kuliah: '', sks: 2, dosen_pengampu: '', hari: 'Senin', jam_mulai: '08:00', jam_selesai: '10:00', ruangan: ''
             });
         }
@@ -349,7 +349,7 @@ export default function Index({ pengaturan, periodes, programStudis }) {
                                     <InputLabel htmlFor="program_studi" value="Program Studi" />
                                     <select id="program_studi" className="mt-1 block w-full border-slate-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" value={formMk.data.program_studi} onChange={e => formMk.setData('program_studi', e.target.value)} required>
                                         <option value="">Pilih Prodi</option>
-                                        {programStudis?.map(ps => <option key={ps.id} value={ps.nama_program_studi}>{ps.nama_program_studi}</option>)}
+                                        {programStudis?.map(ps => <option key={ps.id} value={ps.nama}>{ps.nama}</option>)}
                                     </select>
                                 </div>
                                 <div className="flex gap-4">

@@ -16,7 +16,7 @@ export default function JadwalPerkuliahan({ pengaturan, periodes, programStudis 
 
     // Derived states for options
     const semesterOptions = ['Semua', '1', '2', '3', '4'];
-    const prodiOptions = ['Semua', ...(programStudis?.map(p => p.nama_program_studi) || [])];
+    const prodiOptions = ['Semua', ...(programStudis?.map(p => p.nama) || [])];
 
     // Filter logic
     const filteredJadwal = useMemo(() => {
