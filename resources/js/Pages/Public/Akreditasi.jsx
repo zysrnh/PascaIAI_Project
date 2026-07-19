@@ -55,9 +55,6 @@ export default function Akreditasi({ institusi, prodis, riwayats, pengaturan }) 
                     <div className="absolute inset-0 bg-gradient-to-t from-emerald-950 via-emerald-950/40 to-transparent"></div>
                 </div>
                 <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pb-12">
-                    <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/20 text-emerald-200 text-sm font-semibold mb-4 backdrop-blur-sm border border-emerald-500/30">
-                        <Award className="w-4 h-4" /> Mutu & Kualitas
-                    </div>
                     <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-2 drop-shadow-md">
                         Akreditasi Institusi
                     </h1>

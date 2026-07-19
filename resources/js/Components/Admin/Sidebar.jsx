@@ -91,9 +91,16 @@ const navigation = [
         name: 'Fakultas',
         icon: Building2,
         children: [
-            { type: 'link', name: 'Daftar Fakultas', href: '/fakultas' },
-            { type: 'link', name: 'Program Studi', href: '/fakultas/prodi' },
-            { type: 'link', name: 'Data Dosen', href: '/fakultas/dosen' },
+            {
+                type: 'group',
+                name: 'Daftar Fakultas',
+                children: [
+                    { type: 'link', name: 'Kelola Halaman', href: '/admin/fakultas', icon: Settings },
+                    { type: 'link', name: 'Lihat Halaman', href: '/fakultas/daftarfakultas', icon: ExternalLink },
+                ]
+            },
+            { type: 'link', name: 'Program Studi', href: '/admin/fakultas/prodi' },
+            { type: 'link', name: 'Data Dosen', href: '/admin/fakultas/dosen' },
         ],
     },
     {
