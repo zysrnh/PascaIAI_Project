@@ -16,10 +16,12 @@ export default function SambutanPimpinan({ sambutan }) {
         sambutan_singkat: sambutan?.sambutan_singkat || '',
         sambutan_lengkap: sambutan?.sambutan_lengkap || '',
         foto: null,
+        gambar_banner: null,
     });
 
     const [isLoaded, setIsLoaded] = useState(false);
     const [previewUrl, setPreviewUrl] = useState(null);
+    const [bannerPreviewUrl, setBannerPreviewUrl] = useState(null);
 
     useEffect(() => {
         setIsLoaded(true);
@@ -182,6 +184,58 @@ export default function SambutanPimpinan({ sambutan }) {
                                             <Info size={14} /> Format didukung: JPG, PNG, WEBP. Maksimal 2MB. Rekomendasi rasio portrait.
                                         </p>
                                         <InputError message={errors.foto} className="mt-2" />
+                                    </div>
+                                </div>
+
+                                {/* Section 4: Gambar Background (Banner) */}
+                                <div className="bg-slate-50/50 rounded-xl border border-slate-100 p-6 transition-all hover:bg-slate-50">
+                                    <div className="flex items-center gap-3 mb-6">
+                                        <div className="w-10 h-10 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center">
+                                            <ImageIcon size={20} />
+                                        </div>
+                                        <div>
+                                            <h3 className="text-lg font-bold text-slate-800">4. Gambar Latar Belakang</h3>
+                                            <p className="text-xs text-slate-500">Gambar ukuran besar untuk banner di halaman profil pimpinan.</p>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <InputLabel htmlFor="gambar_banner" value="Upload Gambar Banner Baru" className="text-slate-700 font-bold mb-1" />
+                                        {bannerPreviewUrl ? (
+                                            <div className="mb-4 mt-2">
+                                                <p className="text-xs font-semibold text-emerald-600 mb-2">Preview Gambar Baru:</p>
+                                                <div className="bg-slate-100 rounded-xl p-2 border-2 border-emerald-400 border-dashed flex justify-center inline-block">
+                                                    <img src={bannerPreviewUrl} alt="Preview" className="max-h-[300px] w-auto max-w-full object-contain rounded-lg shadow-sm" />
+                                                </div>
+                                            </div>
+                                        ) : (
+                                            sambutan?.gambar_banner && (
+                                                <div className="mb-4 mt-2">
+                                                    <p className="text-xs font-semibold text-slate-500 mb-2">Banner Saat Ini:</p>
+                                                    <div className="bg-slate-100 rounded-xl p-2 border-2 border-slate-200 border-dashed flex justify-center inline-block opacity-70">
+                                                        <img src={sambutan.gambar_banner} alt="Banner Saat Ini" className="max-h-[300px] w-auto max-w-full object-contain rounded-lg shadow-sm" />
+                                                    </div>
+                                                </div>
+                                            )
+                                        )}
+                                        <input
+                                            type="file"
+                                            id="gambar_banner"
+                                            className="block w-full text-sm text-slate-500 file:mr-4 file:py-2.5 file:px-5 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100 transition-colors"
+                                            onChange={(e) => {
+                                                const file = e.target.files[0];
+                                                setData('gambar_banner', file);
+                                                if (file) {
+                                                    setBannerPreviewUrl(URL.createObjectURL(file));
+                                                } else {
+                                                    setBannerPreviewUrl(null);
+                                                }
+                                            }}
+                                            accept="image/*"
+                                        />
+                                        <p className="text-xs text-slate-400 mt-2 flex items-center gap-1">
+                                            <Info size={14} /> Format didukung: JPG, PNG, WEBP. Maksimal 2MB. Rekomendasi rasio landscape 16:9.
+                                        </p>
+                                        <InputError message={errors.gambar_banner} className="mt-2" />
                                     </div>
                                 </div>
 

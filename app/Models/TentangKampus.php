@@ -15,5 +15,6 @@ class TentangKampus extends Model
         'gambar_banner',
         'gambar_pimpinan',
         'tampilkan_pimpinan',
+        'pimpinan_detail',
     ];
 }

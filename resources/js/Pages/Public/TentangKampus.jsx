@@ -1,8 +1,16 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { Head, Link } from '@inertiajs/react';
 import PublicLayout from '@/Layouts/PublicLayout';
 
 export default function TentangKampus({ tentang }) {
+    const [isPimpinanModalOpen, setIsPimpinanModalOpen] = useState(false);
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
     const getYoutubeId = (url) => {
         if (!url) return null;
         const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
@@ -92,18 +100,18 @@ export default function TentangKampus({ tentang }) {
                                             "{tentang?.pimpinan_quotes}"
                                         </p>
                                     </div>
-                                    <Link href="/profil/sambutan-pimpinan" className="inline-block bg-emerald-800 hover:bg-emerald-900 text-white px-6 py-2.5 rounded-lg text-sm font-semibold transition shadow-md">
+                                    <button onClick={() => setIsPimpinanModalOpen(true)} className="inline-block bg-emerald-800 hover:bg-emerald-900 text-white px-6 py-2.5 rounded-lg text-sm font-semibold transition shadow-md">
                                         Profil Direktur
-                                    </Link>
+                                    </button>
                                 </div>
 
                                 {/* Image */}
-                                <div className="w-64 h-64 md:w-80 md:h-80 shrink-0 relative order-1 md:order-2">
-                                    <div className="absolute inset-0 bg-emerald-800 rounded-full translate-x-3 translate-y-3 opacity-20"></div>
+                                <div className="w-64 h-64 md:w-80 md:h-80 shrink-0 relative order-1 md:order-2 cursor-pointer group" onClick={() => setIsPimpinanModalOpen(true)}>
+                                    <div className="absolute inset-0 bg-emerald-800 rounded-full translate-x-3 translate-y-3 opacity-20 group-hover:translate-x-4 group-hover:translate-y-4 transition-transform duration-300"></div>
                                     <img 
                                         src={tentang?.gambar_pimpinan || "https://web-persis.s3.ap-southeast-1.amazonaws.com/files/shares/persis-cd5-0c543921-d668-4ee6-ac15-4f0ff791007e.jpg?q=80&w=400&auto=format&fit=crop"} 
                                         alt="Direktur Pascasarjana" 
-                                        className="w-full h-full object-cover rounded-full border-8 border-white shadow-xl relative z-10 object-top"
+                                        className="w-full h-full object-cover rounded-full border-8 border-white shadow-xl relative z-10 object-top group-hover:scale-105 transition-transform duration-300"
                                     />
                                     <div className="absolute bottom-0 right-0 bg-amber-500 text-emerald-950 font-bold px-4 py-2 rounded-xl shadow-lg z-20 -rotate-3 text-sm">
                                         Direktur Pascasarjana
@@ -114,6 +122,53 @@ export default function TentangKampus({ tentang }) {
                     )}
                 </div>
             </div>
+
+            {/* Pimpinan Slide-over Modal (Rendered in Portal to escape stacking context) */}
+            {mounted && typeof document !== 'undefined' && createPortal(
+                <div className={`fixed inset-0 z-[999] overflow-hidden transition-opacity duration-300 ${isPimpinanModalOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
+                    {/* Backdrop */}
+                    <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onClick={() => setIsPimpinanModalOpen(false)}></div>
+                    
+                    {/* Panel */}
+                    <div className={`absolute inset-y-0 right-0 max-w-md w-full bg-white shadow-2xl flex flex-col transform transition-transform duration-500 ease-in-out ${isPimpinanModalOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+                        <div className="flex items-center justify-between p-6 border-b border-slate-100 bg-emerald-50/50">
+                            <h3 className="text-xl font-bold text-emerald-950">Profil Direktur</h3>
+                            <button 
+                                onClick={() => setIsPimpinanModalOpen(false)}
+                                className="text-slate-400 hover:text-emerald-700 transition-colors p-2 rounded-full hover:bg-emerald-100/50"
+                            >
+                                <i className="fa-solid fa-xmark text-xl"></i>
+                            </button>
+                        </div>
+                        <div className="p-6 overflow-y-auto flex-1">
+                            <div className="flex flex-col items-center text-center mb-8">
+                                <div className="w-32 h-32 rounded-full border-4 border-emerald-100 shadow-lg overflow-hidden mb-4">
+                                    <img 
+                                        src={tentang?.gambar_pimpinan || "https://web-persis.s3.ap-southeast-1.amazonaws.com/files/shares/persis-cd5-0c543921-d668-4ee6-ac15-4f0ff791007e.jpg?q=80&w=400&auto=format&fit=crop"} 
+                                        alt="Direktur Pascasarjana" 
+                                        className="w-full h-full object-cover object-top"
+                                    />
+                                </div>
+                                <h4 className="text-xl font-extrabold text-slate-800">{tentang?.pimpinan_nama}</h4>
+                                <p className="text-sm font-bold text-emerald-600 mt-1 uppercase tracking-wider">Direktur Pascasarjana</p>
+                            </div>
+                            <div className="prose prose-emerald max-w-none text-slate-600">
+                                {tentang?.pimpinan_detail ? (
+                                    <p className="whitespace-pre-wrap leading-relaxed">{tentang.pimpinan_detail}</p>
+                                ) : (
+                                    <p className="whitespace-pre-wrap leading-relaxed italic text-slate-400">Belum ada profil detail pimpinan yang ditambahkan.</p>
+                                )}
+                            </div>
+                        </div>
+                        <div className="p-6 border-t border-slate-100 bg-slate-50">
+                            <Link href="/profil/sambutan-pimpinan" className="block w-full text-center bg-emerald-800 hover:bg-emerald-900 text-white px-6 py-3 rounded-xl font-semibold transition shadow-md">
+                                Baca Sambutan Lengkap
+                            </Link>
+                        </div>
+                    </div>
+                </div>,
+                document.body
+            )}
         </PublicLayout>
     );
 }
