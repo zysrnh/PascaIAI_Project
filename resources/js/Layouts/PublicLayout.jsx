@@ -125,8 +125,17 @@ export default function PublicLayout({ children }) {
                 </div>
 
                 {/* Mobile Navigation Menu Dropdown */}
-                <div className={`${isMobileMenuOpen ? 'block' : 'hidden'} lg:hidden border-t border-slate-100 bg-white shadow-lg max-h-[85vh] overflow-y-auto`}>
+                <div className={`lg:hidden bg-white shadow-lg transition-all duration-300 ease-in-out ${isMobileMenuOpen ? 'max-h-[85vh] opacity-100 border-t border-slate-100 overflow-y-auto' : 'max-h-0 opacity-0 border-t-0 overflow-hidden'}`}>
                     <div className="px-4 pt-2 pb-6 space-y-1">
+                        <style>{`
+                            details[open] summary ~ * {
+                                animation: slideDown 0.3s ease-in-out;
+                            }
+                            @keyframes slideDown {
+                                0% { opacity: 0; transform: translateY(-10px); }
+                                100% { opacity: 1; transform: translateY(0); }
+                            }
+                        `}</style>
                         <Link href="/" className="block px-3 py-2.5 rounded-sm text-slate-700 hover:bg-slate-50 font-medium mb-2">Beranda</Link>
                         
                         {/* Profil Mobile Dropdown */}
