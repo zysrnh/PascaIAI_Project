@@ -99,7 +99,14 @@ const navigation = [
                     { type: 'link', name: 'Lihat Halaman', href: '/fakultas/daftarfakultas', icon: ExternalLink },
                 ]
             },
-            { type: 'link', name: 'Program Studi', href: '/admin/fakultas/prodi' },
+            {
+                type: 'group',
+                name: 'Program Studi',
+                children: [
+                    { type: 'link', name: 'Kelola Halaman', href: '/admin/program-studi', icon: Settings },
+                    { type: 'link', name: 'Lihat Halaman', href: '/fakultas/programstudi', icon: ExternalLink },
+                ]
+            },
             { type: 'link', name: 'Data Dosen', href: '/admin/fakultas/dosen' },
         ],
     },

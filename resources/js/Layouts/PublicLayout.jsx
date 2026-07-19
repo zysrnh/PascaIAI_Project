@@ -76,6 +76,7 @@ export default function PublicLayout({ children }) {
                                 <div className="absolute top-full left-0 mt-2 w-48 bg-white border border-slate-200 rounded-md shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50">
                                     <div className="p-2 space-y-0.5">
                                         <Link href="/fakultas/daftarfakultas" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Daftar Fakultas</Link>
+                                        <Link href="/fakultas/programstudi" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Program Studi</Link>
                                         <a href="#" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Prospek Karir</a>
                                     </div>
                                 </div>
@@ -152,6 +153,32 @@ export default function PublicLayout({ children }) {
                                 <Link href="/profil/struktur-organisasi" className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Struktur Organisasi</Link>
                                 <Link href={route('public.dokumen-institusi')} className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Dokumen Institusi</Link>
                                 <Link href={route('public.akreditasi')} className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Akreditasi</Link>
+                            </div>
+                        </details>
+
+                        {/* Fakultas Mobile Dropdown */}
+                        <details className="group">
+                            <summary className="flex justify-between items-center px-3 py-2.5 rounded-sm text-slate-700 hover:bg-slate-50 font-medium cursor-pointer list-none">
+                                Fakultas <i className="fa-solid fa-chevron-down text-xs transition-transform group-open:rotate-180"></i>
+                            </summary>
+                            <div className="pl-4 pb-2 space-y-1 border-l-2 border-emerald-100 ml-3 mt-1">
+                                <Link href="/fakultas/daftarfakultas" className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Daftar Fakultas</Link>
+                                <Link href="/fakultas/programstudi" className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Program Studi</Link>
+                                <a href="#" className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Prospek Karir</a>
+                            </div>
+                        </details>
+
+                        {/* Akademik Mobile Dropdown */}
+                        <details className="group">
+                            <summary className="flex justify-between items-center px-3 py-2.5 rounded-sm text-slate-700 hover:bg-slate-50 font-medium cursor-pointer list-none">
+                                Akademik <i className="fa-solid fa-chevron-down text-xs transition-transform group-open:rotate-180"></i>
+                            </summary>
+                            <div className="pl-4 pb-2 space-y-1 border-l-2 border-emerald-100 ml-3 mt-1">
+                                <a href="#" className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Kalender Akademik</a>
+                                <a href="#" className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Jadwal Perkuliahan</a>
+                                <a href="#" className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Kurikulum</a>
+                                <a href="#" className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Sistem Akademik</a>
+                                <a href="#" className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Pedoman Akademik</a>
                             </div>
                         </details>
 
