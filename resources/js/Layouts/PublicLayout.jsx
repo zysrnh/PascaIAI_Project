@@ -90,8 +90,8 @@ export default function PublicLayout({ children }) {
                                 </button>
                                 <div className="absolute top-full left-0 mt-2 w-48 bg-white border border-slate-200 rounded-md shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50">
                                     <div className="p-2 space-y-0.5">
-                                        <a href="#" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Kalender Akademik</a>
-                                        <a href="#" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Jadwal Perkuliahan</a>
+                                        <Link href={route('public.akademik.kalender')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Kalender Akademik</Link>
+                                        <Link href={route('public.akademik.jadwal')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Jadwal Perkuliahan</Link>
                                         <a href="#" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Kurikulum</a>
                                         <a href="#" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Sistem Akademik</a>
                                         <a href="#" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Pedoman Akademik</a>
@@ -176,8 +176,8 @@ export default function PublicLayout({ children }) {
                                 Akademik <i className="fa-solid fa-chevron-down text-xs transition-transform group-open:rotate-180"></i>
                             </summary>
                             <div className="pl-4 pb-2 space-y-1 border-l-2 border-emerald-100 ml-3 mt-1">
-                                <a href="#" className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Kalender Akademik</a>
-                                <a href="#" className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Jadwal Perkuliahan</a>
+                                <Link href={route('public.akademik.kalender')} className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Kalender Akademik</Link>
+                                <Link href={route('public.akademik.jadwal')} className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Jadwal Perkuliahan</Link>
                                 <a href="#" className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Kurikulum</a>
                                 <a href="#" className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Sistem Akademik</a>
                                 <a href="#" className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Pedoman Akademik</a>
