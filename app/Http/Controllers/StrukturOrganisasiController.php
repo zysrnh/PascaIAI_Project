@@ -13,8 +13,11 @@ class StrukturOrganisasiController extends Controller
     public function index()
     {
         $organisasi = StrukturOrganisasi::orderBy('urutan', 'asc')->get();
+        $jabatanTree = StrukturOrganisasi::whereNull('parent_id')->with('children.children')->orderBy('urutan', 'asc')->get();
+
         return Inertia::render('Admin/Profil/StrukturOrganisasi/Index', [
-            'organisasi' => $organisasi
+            'organisasi' => $organisasi,
+            'jabatanTree' => $jabatanTree
         ]);
     }
 
@@ -22,8 +25,10 @@ class StrukturOrganisasiController extends Controller
     public function create(Request $request)
     {
         $defaultUrutan = $request->query('urutan', 0);
+        $defaultParentId = $request->query('parent_id', null);
         return Inertia::render('Admin/Profil/StrukturOrganisasi/Form', [
-            'defaultUrutan' => (int) $defaultUrutan
+            'defaultUrutan' => (int) $defaultUrutan,
+            'defaultParentId' => $defaultParentId ? (int) $defaultParentId : null
         ]);
     }
 
@@ -33,8 +38,9 @@ class StrukturOrganisasiController extends Controller
         $request->validate([
             'nama' => 'required|string|max:255',
             'jabatan' => 'required|string|max:255',
-            'urutan' => 'required|integer',
+            'urutan' => 'required|string|max:50',
             'foto' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'parent_id' => 'nullable|exists:struktur_organisasis,id',
         ]);
 
         $data = $request->except('foto');
@@ -66,8 +72,9 @@ class StrukturOrganisasiController extends Controller
         $request->validate([
             'nama' => 'required|string|max:255',
             'jabatan' => 'required|string|max:255',
-            'urutan' => 'required|integer',
+            'urutan' => 'required|string|max:50',
             'foto' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'parent_id' => 'nullable|exists:struktur_organisasis,id',
         ]);
 
         $data = $request->except('foto');
@@ -99,12 +106,35 @@ class StrukturOrganisasiController extends Controller
         return redirect()->route('admin.profil.struktur-organisasi.index')->with('success', 'Anggota struktur berhasil dihapus.');
     }
 
+    // ADMIN: Proses Bulk Hapus
+    public function bulkDestroy(Request $request)
+    {
+        $request->validate([
+            'ids' => 'required|array',
+            'ids.*' => 'exists:struktur_organisasis,id'
+        ]);
+
+        $anggotas = StrukturOrganisasi::whereIn('id', $request->ids)->get();
+
+        foreach ($anggotas as $anggota) {
+            if ($anggota->foto && !str_starts_with($anggota->foto, 'http')) {
+                Storage::disk('public')->delete(str_replace('/storage/', '', $anggota->foto));
+            }
+            $anggota->delete();
+        }
+
+        return redirect()->route('admin.profil.struktur-organisasi.index')->with('success', count($request->ids) . ' anggota struktur berhasil dihapus.');
+    }
+
     // PUBLIK: Halaman Struktur Organisasi
     public function publicIndex()
     {
         $organisasi = StrukturOrganisasi::orderBy('urutan', 'asc')->get();
+        $jabatanTree = StrukturOrganisasi::whereNull('parent_id')->with('children.children')->orderBy('urutan', 'asc')->get();
+
         return Inertia::render('Public/StrukturOrganisasi', [
-            'organisasi' => $organisasi
+            'organisasi' => $organisasi,
+            'jabatanTree' => $jabatanTree
         ]);
     }
 }

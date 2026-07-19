@@ -10,6 +10,17 @@ class StrukturOrganisasi extends Model
         'nama',
         'jabatan',
         'foto',
-        'urutan'
+        'urutan',
+        'parent_id'
     ];
+
+    public function children()
+    {
+        return $this->hasMany(StrukturOrganisasi::class, 'parent_id')->orderBy('urutan', 'asc');
+    }
+
+    public function parent()
+    {
+        return $this->belongsTo(StrukturOrganisasi::class, 'parent_id');
+    }
 }

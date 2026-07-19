@@ -8,7 +8,7 @@ import TextInput from '@/Components/TextInput';
 import InputError from '@/Components/InputError';
 import { Save, ArrowLeft, Image as ImageIcon } from 'lucide-react';
 
-export default function Form({ auth, anggota, defaultUrutan = 0 }) {
+export default function Form({ auth, anggota, defaultUrutan = 0, defaultParentId = null }) {
     const isEdit = !!anggota;
     const [isLoaded] = useState(true);
 
@@ -16,6 +16,7 @@ export default function Form({ auth, anggota, defaultUrutan = 0 }) {
         nama: anggota?.nama || '',
         jabatan: anggota?.jabatan || '',
         urutan: anggota?.urutan || defaultUrutan,
+        parent_id: anggota?.parent_id || defaultParentId,
         foto: null,
         _method: isEdit ? 'PUT' : 'POST',
     });
@@ -84,16 +85,16 @@ export default function Form({ auth, anggota, defaultUrutan = 0 }) {
                                 </div>
 
                                 <div>
-                                    <InputLabel htmlFor="urutan" value="Urutan Tampil (Angka terkecil tampil paling atas/awal)" className="font-bold text-slate-700 mb-1" />
+                                    <InputLabel htmlFor="urutan" value="Level/Urutan Tampil" className="font-bold text-slate-700 mb-1" />
                                     <TextInput
                                         id="urutan"
-                                        type="number"
+                                        type="text"
                                         className="mt-1 block w-full md:w-1/3"
                                         value={data.urutan}
                                         onChange={(e) => setData('urutan', e.target.value)}
                                         required
                                     />
-                                    <p className="text-xs text-slate-500 mt-1">Contoh: 1 untuk Direktur, 2 untuk Wakil Direktur, dst.</p>
+                                    <p className="text-xs text-slate-500 mt-1">Contoh: 1, 2A, 2B, 3A, dll.</p>
                                     <InputError message={errors.urutan} className="mt-2" />
                                 </div>
 

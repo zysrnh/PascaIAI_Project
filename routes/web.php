@@ -62,6 +62,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/admin/profil/visi-misi', [\App\Http\Controllers\VisiMisiController::class, 'update'])->name('admin.profil.visi-misi.update');
 
     // Admin Profil - Struktur Organisasi
+    Route::post('/admin/profil/struktur-organisasi/bulk-destroy', [\App\Http\Controllers\StrukturOrganisasiController::class, 'bulkDestroy'])->name('admin.profil.struktur-organisasi.bulk-destroy');
     Route::resource('/admin/profil/struktur-organisasi', \App\Http\Controllers\StrukturOrganisasiController::class)->names([
         'index' => 'admin.profil.struktur-organisasi.index',
         'create' => 'admin.profil.struktur-organisasi.create',

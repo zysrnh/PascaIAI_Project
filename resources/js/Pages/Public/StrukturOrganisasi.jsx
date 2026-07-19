@@ -1,9 +1,66 @@
 import React from 'react';
 import { Head } from '@inertiajs/react';
-import PublicLayout from '@/Layouts/PublicLayout';
-import { Users } from 'lucide-react';
+const getInitials = (name) => {
+    if (!name) return '??';
+    return name.substring(0, 2).toUpperCase();
+};
 
-export default function StrukturOrganisasi({ organisasi }) {
+const TreeNode = ({ node }) => {
+    // Tentukan style berdasarkan urutan/level
+    const isLevel1 = node.urutan === '1';
+    const isLevel2 = node.urutan === '2A' || node.urutan === '2B';
+    
+    // Style wrapper
+    const wrapperStyle = isLevel1 
+        ? "inline-flex flex-col items-center bg-white rounded-xl shadow-lg border-2 border-emerald-500 p-5 w-72 relative z-10 transform transition-transform hover:-translate-y-1 hover:shadow-xl"
+        : isLevel2
+        ? "inline-flex flex-col items-center bg-white rounded-xl shadow-md border border-slate-200 p-4 w-64 relative z-10 transform transition-transform hover:-translate-y-1 hover:border-emerald-300"
+        : "inline-flex flex-col items-center bg-white rounded-lg shadow-sm border border-slate-100 p-3 w-56 relative z-10 transform transition-transform hover:-translate-y-1 hover:border-emerald-200";
+
+    // Style image container
+    const imgContainerStyle = isLevel1
+        ? "w-24 h-24 mb-3 rounded-full overflow-hidden border-4 border-emerald-100 shadow-sm relative bg-slate-200 flex items-center justify-center"
+        : isLevel2
+        ? "w-20 h-20 mb-3 rounded-full overflow-hidden border-2 border-emerald-50 shadow-sm relative bg-slate-200 flex items-center justify-center"
+        : "w-16 h-16 mb-2 rounded-full overflow-hidden border border-slate-100 relative bg-slate-200 flex items-center justify-center";
+
+    // Style jabatan badge
+    const badgeStyle = isLevel1
+        ? "text-xs font-semibold text-white bg-emerald-600 px-3 py-1.5 rounded-lg mt-1 block shadow-sm w-full text-center leading-snug"
+        : isLevel2
+        ? "text-xs font-medium text-amber-700 bg-amber-100 px-2 py-1.5 rounded-lg mt-1 w-full text-center leading-snug"
+        : "text-[11px] font-medium text-slate-700 bg-slate-100 px-2 py-1 rounded-md w-full text-center leading-snug";
+
+    return (
+        <li>
+            <div className={wrapperStyle}>
+                <div className={imgContainerStyle}>
+                    {node.foto ? (
+                        <img src={node.foto} alt={node.nama} className="w-full h-full object-cover" />
+                    ) : (
+                        <span className={`text-slate-600 font-bold ${isLevel1 ? 'text-2xl' : isLevel2 ? 'text-xl' : 'text-lg'}`}>
+                            {getInitials(node.nama)}
+                        </span>
+                    )}
+                </div>
+                <h3 className={`font-bold text-slate-700 mb-1 leading-tight ${isLevel1 ? 'text-md text-slate-800' : isLevel2 ? 'text-sm' : 'text-xs'}`}>
+                    {node.nama}
+                </h3>
+                <p className={badgeStyle}>{node.jabatan}</p>
+            </div>
+            
+            {node.children && node.children.length > 0 && (
+                <ul>
+                    {node.children.map(child => (
+                        <TreeNode key={child.id} node={child} />
+                    ))}
+                </ul>
+            )}
+        </li>
+    );
+};
+
+export default function StrukturOrganisasi({ organisasi, jabatanTree }) {
     // Dummy banner image
     const bannerImg = "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=1600&auto=format&fit=crop";
 
@@ -101,71 +158,9 @@ export default function StrukturOrganisasi({ organisasi }) {
 
                                 <div className="organogram">
                                     <ul>
-                                        {/* Level 1: Direktur / Top Pimpinan */}
-                                        <li>
-                                            <div className="inline-flex flex-col items-center bg-white rounded-xl shadow-lg border-2 border-emerald-500 p-5 w-72 relative z-10 transform transition-transform hover:-translate-y-1 hover:shadow-xl">
-                                                <div className="w-24 h-24 mb-3 rounded-full overflow-hidden border-4 border-emerald-100 shadow-sm relative">
-                                                    {organisasi[0].foto ? (
-                                                        <img src={organisasi[0].foto} alt={organisasi[0].nama} className="w-full h-full object-cover" />
-                                                    ) : (
-                                                        <div className="w-full h-full bg-slate-100 flex items-center justify-center text-slate-400"><Users className="w-10 h-10" /></div>
-                                                    )}
-                                                </div>
-                                                <h3 className="text-md font-bold text-slate-800 mb-1 leading-tight">{organisasi[0].nama}</h3>
-                                                <p className="text-xs font-semibold text-white bg-emerald-600 px-3 py-1.5 rounded-lg mt-1 block shadow-sm w-full text-center leading-snug">{organisasi[0].jabatan}</p>
-                                            </div>
-                                            
-                                            {/* Anak-anaknya (Level 2 dan seterusnya) */}
-                                            {organisasi.length > 1 && (
-                                                <ul>
-                                                    {organisasi.slice(1, 3).map((item, idx) => (
-                                                        <li key={item.id}>
-                                                            <div className="inline-flex flex-col items-center bg-white rounded-xl shadow-md border border-slate-200 p-4 w-64 relative z-10 transform transition-transform hover:-translate-y-1 hover:border-emerald-300">
-                                                                <div className="w-20 h-20 mb-3 rounded-full overflow-hidden border-2 border-emerald-50 shadow-sm relative">
-                                                                    {item.foto ? (
-                                                                        <img src={item.foto} alt={item.nama} className="w-full h-full object-cover" />
-                                                                    ) : (
-                                                                        <div className="w-full h-full bg-slate-100 flex items-center justify-center text-slate-400"><Users className="w-8 h-8" /></div>
-                                                                    )}
-                                                                </div>
-                                                                <h3 className="text-sm font-bold text-slate-700 mb-1 leading-tight">{item.nama}</h3>
-                                                                <p className="text-xs font-medium text-amber-700 bg-amber-100 px-2 py-1.5 rounded-lg mt-1 w-full text-center leading-snug">{item.jabatan}</p>
-                                                            </div>
-                                                            
-                                                            {/* Jika ada Level 3 (dibagi 2 kubu untuk di bawah Wadir 1 dan Wadir 2) */}
-                                                            {organisasi.length > 3 && (
-                                                                <ul>
-                                                                    {idx === 0 
-                                                                        ? organisasi.slice(3, 5).map(subItem => (
-                                                                            <li key={subItem.id}>
-                                                                                <div className="inline-flex flex-col items-center bg-white rounded-lg shadow-sm border border-slate-100 p-3 w-56 relative z-10 transform transition-transform hover:-translate-y-1 hover:border-emerald-200">
-                                                                                    <div className="w-16 h-16 mb-2 rounded-full overflow-hidden border border-slate-100 relative">
-                                                                                        {subItem.foto ? <img src={subItem.foto} alt={subItem.nama} className="w-full h-full object-cover" /> : <Users className="w-6 h-6 text-slate-300 m-auto mt-5" />}
-                                                                                    </div>
-                                                                                    <h3 className="text-xs font-bold text-slate-700 mb-1 leading-tight">{subItem.nama}</h3>
-                                                                                    <p className="text-[11px] font-medium text-slate-700 bg-slate-100 px-2 py-1 rounded-md w-full text-center leading-snug">{subItem.jabatan}</p>
-                                                                                </div>
-                                                                            </li>
-                                                                        ))
-                                                                        : organisasi.slice(5).map(subItem => (
-                                                                            <li key={subItem.id}>
-                                                                                <div className="inline-flex flex-col items-center bg-white rounded-lg shadow-sm border border-slate-100 p-3 w-56 relative z-10 transform transition-transform hover:-translate-y-1 hover:border-emerald-200">
-                                                                                    <div className="w-16 h-16 mb-2 rounded-full overflow-hidden border border-slate-100 relative">
-                                                                                        {subItem.foto ? <img src={subItem.foto} alt={subItem.nama} className="w-full h-full object-cover" /> : <Users className="w-6 h-6 text-slate-300 m-auto mt-5" />}
-                                                                                    </div>
-                                                                                    <h3 className="text-xs font-bold text-slate-700 mb-1 leading-tight">{subItem.nama}</h3>
-                                                                                    <p className="text-[11px] font-medium text-slate-700 bg-slate-100 px-2 py-1 rounded-md w-full text-center leading-snug">{subItem.jabatan}</p>
-                                                                                </div>
-                                                                            </li>
-                                                                        ))
-                                                                    }
-                                                                </ul>
-                                                            )}
-                                                        </li>
-                                                    ))}
-                                                </ul>
-                                            )}
-                                        </li>
+                                        {jabatanTree.map(rootNode => (
+                                            <TreeNode key={rootNode.id} node={rootNode} />
+                                        ))}
                                     </ul>
                                 </div>
                             </div>

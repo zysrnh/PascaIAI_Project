@@ -1,18 +1,112 @@
 import React, { useState } from 'react';
-import { Head, Link, useForm } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import Sidebar from '@/Components/Admin/Sidebar';
+import { Head, Link, useForm, router } from '@inertiajs/react';
 import PrimaryButton from '@/Components/PrimaryButton';
-import { Plus, Edit, Trash2, Users } from 'lucide-react';
+import { Users, Plus, Edit, Trash2 } from 'lucide-react';
+import Sidebar from '@/Components/Admin/Sidebar';
+import Swal from 'sweetalert2';
 
-export default function Index({ auth, organisasi }) {
+const getInitials = (name) => {
+    if (!name) return '??';
+    return name.substring(0, 2).toUpperCase();
+};
+
+const TreeNode = ({ node }) => {
+    return (
+        <li>
+            <div className="inline-flex flex-col items-center bg-white rounded-lg shadow-sm border border-slate-200 p-3 w-48 relative z-10 hover:border-emerald-300 transition-colors">
+                <div className="absolute -top-2 left-1/2 -translate-x-1/2 bg-slate-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full z-20">
+                    {node.urutan}
+                </div>
+                <div className="w-12 h-12 mb-2 rounded-full overflow-hidden border border-slate-100 relative bg-slate-200 flex items-center justify-center">
+                    {node.foto ? (
+                        <img src={node.foto} className="w-full h-full object-cover" />
+                    ) : (
+                        <span className="text-slate-600 font-bold text-sm">{getInitials(node.nama)}</span>
+                    )}
+                </div>
+                <h3 className="text-xs font-bold text-slate-700 mb-0.5 leading-tight text-center">{node.nama}</h3>
+                <p className="text-[10px] text-slate-500 text-center">{node.jabatan}</p>
+
+                <Link href={`${route('admin.profil.struktur-organisasi.create')}?urutan=${encodeURIComponent(node.urutan + 'A')}&parent_id=${node.id}`} className="absolute -bottom-3 left-1/2 -translate-x-1/2 w-5 h-5 bg-white border border-slate-300 rounded-full flex items-center justify-center text-slate-400 hover:text-emerald-600 hover:border-emerald-500 hover:shadow-sm transition-all z-20" title="Tambah Bawahan">
+                    <Plus className="w-3 h-3" />
+                </Link>
+                
+                {node.parent_id && (
+                    <Link href={`${route('admin.profil.struktur-organisasi.create')}?urutan=${encodeURIComponent(node.urutan)}&parent_id=${node.parent_id}`} className="absolute top-1/2 -right-2.5 -translate-y-1/2 w-5 h-5 bg-white border border-slate-300 rounded-full flex items-center justify-center text-slate-400 hover:text-emerald-600 hover:border-emerald-500 hover:shadow-sm transition-all z-20" title="Tambah Sejajar">
+                        <Plus className="w-3 h-3" />
+                    </Link>
+                )}
+            </div>
+            
+            {node.children && node.children.length > 0 && (
+                <ul>
+                    {node.children.map(child => (
+                        <TreeNode key={child.id} node={child} />
+                    ))}
+                </ul>
+            )}
+        </li>
+    );
+};
+
+export default function Index({ auth, organisasi, jabatanTree }) {
     const { delete: destroy } = useForm();
     const [isLoaded, setIsLoaded] = useState(true);
+    const [selectedIds, setSelectedIds] = useState([]);
 
     const handleDelete = (id) => {
-        if (confirm('Apakah Anda yakin ingin menghapus anggota struktur ini?')) {
-            destroy(route('admin.profil.struktur-organisasi.destroy', id));
+        Swal.fire({
+            title: 'Apakah Anda yakin?',
+            text: "Data anggota struktur ini akan dihapus secara permanen!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#059669',
+            cancelButtonColor: '#ef4444',
+            confirmButtonText: 'Ya, hapus!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                destroy(route('admin.profil.struktur-organisasi.destroy', id));
+            }
+        });
+    };
+
+    const handleSelectAll = (e) => {
+        if (e.target.checked) {
+            setSelectedIds(organisasi.map(item => item.id));
+        } else {
+            setSelectedIds([]);
         }
+    };
+
+    const handleSelect = (id) => {
+        if (selectedIds.includes(id)) {
+            setSelectedIds(selectedIds.filter(itemId => itemId !== id));
+        } else {
+            setSelectedIds([...selectedIds, id]);
+        }
+    };
+
+    const handleBulkDelete = () => {
+        Swal.fire({
+            title: 'Hapus Massal?',
+            text: `Apakah Anda yakin ingin menghapus ${selectedIds.length} anggota terpilih secara permanen?`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#059669',
+            cancelButtonColor: '#ef4444',
+            confirmButtonText: 'Ya, hapus semua!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                router.post(route('admin.profil.struktur-organisasi.bulk-destroy'), {
+                    ids: selectedIds
+                }, {
+                    onSuccess: () => setSelectedIds([])
+                });
+            }
+        });
     };
 
     return (
@@ -43,9 +137,9 @@ export default function Index({ auth, organisasi }) {
                         {/* Visualisasi Organogram */}
                         <div className="bg-white rounded-[5px] shadow-sm border border-slate-200 overflow-x-auto mb-8 p-6">
                             <h3 className="text-lg font-bold text-slate-800 mb-2">Visualisasi Struktur</h3>
-                            <p className="text-sm text-slate-500 mb-6">Bagan organisasi berdasarkan urutan (1 teratas, 2-3 lapis kedua, sisanya lapis bawah).</p>
+                            <p className="text-sm text-slate-500 mb-6">Bagan organisasi berdasarkan urutan level. Anda dapat menambahkan bawahan/sejajar menggunakan tombol (+).</p>
                             
-                            {organisasi && organisasi.length > 0 ? (
+                            {jabatanTree && jabatanTree.length > 0 ? (
                                 <div className="min-w-[800px] flex flex-col items-center">
                                     <style dangerouslySetInnerHTML={{__html: `
                                         .admin-org ul { padding-top: 20px; position: relative; display: flex; justify-content: center; }
@@ -62,78 +156,9 @@ export default function Index({ auth, organisasi }) {
 
                                     <div className="admin-org">
                                         <ul>
-                                            <li>
-                                                <div className="inline-flex flex-col items-center bg-white rounded-lg shadow-sm border-2 border-emerald-500 p-4 w-48 relative z-10 group hover:shadow-md transition-shadow">
-                                                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-emerald-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full z-20">
-                                                        {organisasi[0].urutan}
-                                                    </div>
-                                                    <div className="w-16 h-16 mb-2 rounded-full overflow-hidden border-2 border-emerald-100 relative">
-                                                        {organisasi[0].foto ? <img src={organisasi[0].foto} className="w-full h-full object-cover" /> : <Users className="w-8 h-8 m-auto text-slate-300 mt-4" />}
-                                                    </div>
-                                                    <h3 className="text-sm font-bold text-slate-800 mb-0.5 leading-tight">{organisasi[0].nama}</h3>
-                                                    <p className="text-[11px] text-slate-500">{organisasi[0].jabatan}</p>
-                                                    
-                                                    <Link href={`${route('admin.profil.struktur-organisasi.create')}?urutan=${organisasi[0].urutan + 1}`} className="absolute -bottom-3 left-1/2 -translate-x-1/2 w-6 h-6 bg-white border border-slate-300 rounded-full flex items-center justify-center text-slate-400 hover:text-emerald-600 hover:border-emerald-500 hover:shadow-sm transition-all z-20" title="Tambah Bawahan">
-                                                        <Plus className="w-3 h-3" />
-                                                    </Link>
-                                                </div>
-                                                
-                                                {organisasi.length > 1 && (
-                                                    <ul>
-                                                        {organisasi.slice(1, 3).map((item, idx) => (
-                                                            <li key={item.id}>
-                                                                <div className="inline-flex flex-col items-center bg-white rounded-lg shadow-sm border border-slate-200 p-3 w-44 relative z-10 hover:border-emerald-300 transition-colors">
-                                                                    <div className="absolute -top-2 left-1/2 -translate-x-1/2 bg-slate-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full z-20">
-                                                                        {item.urutan}
-                                                                    </div>
-                                                                    <div className="w-12 h-12 mb-2 rounded-full overflow-hidden border border-slate-100 relative">
-                                                                        {item.foto ? <img src={item.foto} className="w-full h-full object-cover" /> : <Users className="w-6 h-6 m-auto text-slate-300 mt-3" />}
-                                                                    </div>
-                                                                    <h3 className="text-xs font-bold text-slate-700 mb-0.5 leading-tight">{item.nama}</h3>
-                                                                    <p className="text-[10px] text-slate-500">{item.jabatan}</p>
-
-                                                                    <Link href={`${route('admin.profil.struktur-organisasi.create')}?urutan=${item.urutan + 2}`} className="absolute -bottom-3 left-1/2 -translate-x-1/2 w-5 h-5 bg-white border border-slate-300 rounded-full flex items-center justify-center text-slate-400 hover:text-emerald-600 hover:border-emerald-500 hover:shadow-sm transition-all z-20" title="Tambah Bawahan">
-                                                                        <Plus className="w-3 h-3" />
-                                                                    </Link>
-                                                                    
-                                                                    <Link href={`${route('admin.profil.struktur-organisasi.create')}?urutan=${item.urutan}`} className="absolute top-1/2 -right-2.5 -translate-y-1/2 w-5 h-5 bg-white border border-slate-300 rounded-full flex items-center justify-center text-slate-400 hover:text-emerald-600 hover:border-emerald-500 hover:shadow-sm transition-all z-20" title="Tambah Sejajar">
-                                                                        <Plus className="w-3 h-3" />
-                                                                    </Link>
-                                                                </div>
-                                                                
-                                                                {organisasi.length > 3 && (
-                                                                    <ul>
-                                                                        {idx === 0 
-                                                                            ? organisasi.slice(3, 5).map(subItem => (
-                                                                                <li key={subItem.id}>
-                                                                                    <div className="inline-flex flex-col items-center bg-white rounded-md shadow-sm border border-slate-100 p-2 w-36 relative z-10">
-                                                                                        <div className="absolute -top-2 left-1/2 -translate-x-1/2 bg-slate-400 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full z-20">
-                                                                                            {subItem.urutan}
-                                                                                        </div>
-                                                                                        <h3 className="text-[11px] font-bold text-slate-700 mb-0.5 leading-tight">{subItem.nama}</h3>
-                                                                                        <p className="text-[9px] text-slate-400">{subItem.jabatan}</p>
-                                                                                    </div>
-                                                                                </li>
-                                                                            ))
-                                                                            : organisasi.slice(5).map(subItem => (
-                                                                                <li key={subItem.id}>
-                                                                                    <div className="inline-flex flex-col items-center bg-white rounded-md shadow-sm border border-slate-100 p-2 w-36 relative z-10">
-                                                                                        <div className="absolute -top-2 left-1/2 -translate-x-1/2 bg-slate-400 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full z-20">
-                                                                                            {subItem.urutan}
-                                                                                        </div>
-                                                                                        <h3 className="text-[11px] font-bold text-slate-700 mb-0.5 leading-tight">{subItem.nama}</h3>
-                                                                                        <p className="text-[9px] text-slate-400">{subItem.jabatan}</p>
-                                                                                    </div>
-                                                                                </li>
-                                                                            ))
-                                                                        }
-                                                                    </ul>
-                                                                )}
-                                                            </li>
-                                                        ))}
-                                                    </ul>
-                                                )}
-                                            </li>
+                                            {jabatanTree.map(rootNode => (
+                                                <TreeNode key={rootNode.id} node={rootNode} />
+                                            ))}
                                         </ul>
                                     </div>
                                 </div>
@@ -147,11 +172,28 @@ export default function Index({ auth, organisasi }) {
                         <div className="bg-white rounded-[5px] shadow-sm border border-slate-200 overflow-hidden">
                             <div className="p-4 bg-slate-50 border-b border-slate-200 flex justify-between items-center">
                                 <h3 className="font-bold text-slate-700">Daftar Tabel Anggota</h3>
+                                {selectedIds.length > 0 && (
+                                    <button 
+                                        onClick={handleBulkDelete}
+                                        className="px-3 py-1.5 text-sm bg-red-50 text-red-600 border border-red-200 hover:bg-red-100 hover:border-red-300 rounded-[5px] flex items-center gap-1.5 transition-colors"
+                                    >
+                                        <Trash2 className="w-3.5 h-3.5" />
+                                        Hapus Terpilih ({selectedIds.length})
+                                    </button>
+                                )}
                             </div>
                             <div className="overflow-x-auto">
                                 <table className="w-full text-sm text-left">
                                     <thead className="text-xs text-slate-700 uppercase bg-slate-50 border-b border-slate-200">
                                         <tr>
+                                            <th className="px-6 py-4 w-10">
+                                                <input 
+                                                    type="checkbox" 
+                                                    className="rounded border-slate-300 text-emerald-600 focus:ring-emerald-500"
+                                                    onChange={handleSelectAll}
+                                                    checked={organisasi.length > 0 && selectedIds.length === organisasi.length}
+                                                />
+                                            </th>
                                             <th className="px-6 py-4">Urutan</th>
                                             <th className="px-6 py-4">Foto</th>
                                             <th className="px-6 py-4">Nama Lengkap</th>
@@ -162,7 +204,15 @@ export default function Index({ auth, organisasi }) {
                                     <tbody>
                                         {organisasi.length > 0 ? (
                                             organisasi.map((item) => (
-                                                <tr key={item.id} className="border-b border-slate-100 hover:bg-slate-50/50">
+                                                <tr key={item.id} className={`border-b border-slate-100 hover:bg-slate-50/50 ${selectedIds.includes(item.id) ? 'bg-emerald-50/30' : ''}`}>
+                                                    <td className="px-6 py-4">
+                                                        <input 
+                                                            type="checkbox" 
+                                                            className="rounded border-slate-300 text-emerald-600 focus:ring-emerald-500"
+                                                            checked={selectedIds.includes(item.id)}
+                                                            onChange={() => handleSelect(item.id)}
+                                                        />
+                                                    </td>
                                                     <td className="px-6 py-4 font-semibold text-slate-900 text-center w-16">
                                                         {item.urutan}
                                                     </td>
@@ -170,8 +220,8 @@ export default function Index({ auth, organisasi }) {
                                                         {item.foto ? (
                                                             <img src={item.foto} alt={item.nama} className="w-12 h-12 rounded-full object-cover border border-slate-200" />
                                                         ) : (
-                                                            <div className="w-12 h-12 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center border border-slate-200">
-                                                                <Users className="w-6 h-6" />
+                                                            <div className="w-12 h-12 rounded-full bg-slate-100 text-slate-600 font-bold flex items-center justify-center border border-slate-200">
+                                                                {getInitials(item.nama)}
                                                             </div>
                                                         )}
                                                     </td>
@@ -201,7 +251,7 @@ export default function Index({ auth, organisasi }) {
                                             ))
                                         ) : (
                                             <tr>
-                                                <td colSpan="5" className="px-6 py-12 text-center text-slate-500">
+                                                <td colSpan="6" className="px-6 py-12 text-center text-slate-500">
                                                     Belum ada data anggota struktur organisasi. Silakan tambah data baru.
                                                 </td>
                                             </tr>
