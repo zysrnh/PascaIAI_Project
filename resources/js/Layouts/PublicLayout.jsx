@@ -28,7 +28,7 @@ export default function PublicLayout({ children }) {
                     <div className="flex justify-between items-center h-20">
                         {/* Logo & Brand Name */}
                         <Link href="/" className="flex items-center gap-3 group">
-                            <img src="/logo_pascasarjana.png" alt="Logo Pascasarjana IAI Persis" className="w-14 h-14 object-contain group-hover:scale-105 transition-transform drop-shadow-md" />
+                            <img src="/logo_kampus.png" alt="Logo Pascasarjana IAI Persis" className="w-14 h-14 object-contain group-hover:scale-105 transition-transform drop-shadow-md" />
                             <div>
                                 <h1 className="font-extrabold text-lg sm:text-xl text-emerald-900 leading-none">PASCASARJANA</h1>
                                 <span className="text-[10px] sm:text-xs text-emerald-600 font-bold tracking-widest block mt-1 uppercase">IAI PERSIS BANDUNG</span>
@@ -48,7 +48,7 @@ export default function PublicLayout({ children }) {
                                     <div className="py-2">
                                         <Link href="/profil/tentang-kampus" className="block px-4 py-2 text-sm text-slate-600 hover:bg-emerald-50 hover:text-emerald-800">Tentang Kampus</Link>
                                         <a href="#" className="block px-4 py-2 text-sm text-slate-600 hover:bg-emerald-50 hover:text-emerald-800">Visi, Misi & Tujuan</a>
-                                        <a href="#" className="block px-4 py-2 text-sm text-slate-600 hover:bg-emerald-50 hover:text-emerald-800">Sambutan Pimpinan</a>
+                                        <Link href="/profil/sambutan-pimpinan" className="block px-4 py-2 text-sm text-slate-600 hover:bg-emerald-50 hover:text-emerald-800">Sambutan Pimpinan</Link>
                                         <a href="#" className="block px-4 py-2 text-sm text-slate-600 hover:bg-emerald-50 hover:text-emerald-800">Struktur Organisasi</a>
                                         <a href="#" className="block px-4 py-2 text-sm text-slate-600 hover:bg-emerald-50 hover:text-emerald-800">Dokumen Institusi</a>
                                         <a href="#" className="block px-4 py-2 text-sm text-slate-600 hover:bg-emerald-50 hover:text-emerald-800">Akreditasi</a>
@@ -127,7 +127,7 @@ export default function PublicLayout({ children }) {
                             <div className="pl-4 pb-2 space-y-1 border-l-2 border-emerald-100 ml-3 mt-1">
                                 <Link href="/profil/tentang-kampus" className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Tentang Kampus</Link>
                                 <a href="#" className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Visi, Misi & Tujuan</a>
-                                <a href="#" className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Sambutan Pimpinan</a>
+                                <Link href="/profil/sambutan-pimpinan" className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Sambutan Pimpinan</Link>
                                 <a href="#" className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Struktur Organisasi</a>
                                 <a href="#" className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Dokumen Institusi</a>
                                 <a href="#" className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Akreditasi</a>

@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProfilKampusController;
+use App\Http\Controllers\TentangKampusController;
+use App\Http\Controllers\SambutanPimpinanController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -16,7 +18,17 @@ Route::get('/', function () {
 });
 
 Route::get('/profil/tentang-kampus', function () {
-    return Inertia::render('Public/TentangKampus');
+    $tentang = \App\Models\TentangKampus::first();
+    return Inertia::render('Public/TentangKampus', [
+        'tentang' => $tentang
+    ]);
+});
+
+Route::get('/profil/sambutan-pimpinan', function () {
+    $sambutan = \App\Models\SambutanPimpinan::first();
+    return Inertia::render('Public/SambutanPimpinan', [
+        'sambutan' => $sambutan
+    ]);
 });
 
 Route::get('/dashboard', function () {
@@ -27,6 +39,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // Admin Profil - Tentang Kampus
+    Route::get('/admin/profil/tentang-kampus', [TentangKampusController::class, 'edit'])->name('admin.profil.tentang-kampus');
+    Route::put('/admin/profil/tentang-kampus', [TentangKampusController::class, 'update'])->name('admin.profil.tentang-kampus.update');
+
+    // Admin Profil - Sambutan Pimpinan
+    Route::get('/admin/profil/sambutan-pimpinan', [SambutanPimpinanController::class, 'edit'])->name('admin.profil.sambutan-pimpinan');
+    Route::post('/admin/profil/sambutan-pimpinan', [SambutanPimpinanController::class, 'update'])->name('admin.profil.sambutan-pimpinan.update');
 
     // Admin Profil Kampus
     Route::resource('admin/profil', ProfilKampusController::class)->names('admin.profil');

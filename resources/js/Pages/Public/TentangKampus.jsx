@@ -1,8 +1,8 @@
 import React from 'react';
-import { Head } from '@inertiajs/react';
+import { Head, Link } from '@inertiajs/react';
 import PublicLayout from '@/Layouts/PublicLayout';
 
-export default function TentangKampus() {
+export default function TentangKampus({ tentang }) {
     return (
         <PublicLayout>
             <Head title="Tentang Kampus | Pascasarjana IAI Persis Bandung" />
@@ -11,7 +11,7 @@ export default function TentangKampus() {
             <div className="relative w-full h-[350px] md:h-[450px] bg-emerald-950 flex flex-col justify-end">
                 <div className="absolute inset-0">
                     <img 
-                        src="https://images.unsplash.com/photo-1562774053-701939374585?q=80&w=1600&auto=format&fit=crop" 
+                        src={tentang?.gambar_banner || "https://images.unsplash.com/photo-1562774053-701939374585?q=80&w=1600&auto=format&fit=crop"} 
                         alt="Gedung Kampus" 
                         className="w-full h-full object-cover opacity-60"
                     />
@@ -19,7 +19,7 @@ export default function TentangKampus() {
                 </div>
                 <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pb-12">
                     <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-2 drop-shadow-md">
-                        Tentang Pascasarjana
+                        {tentang?.judul || 'Tentang Pascasarjana'}
                     </h1>
                     <div className="w-20 h-1.5 bg-amber-500 rounded-full"></div>
                 </div>
@@ -31,8 +31,8 @@ export default function TentangKampus() {
                     
                     {/* Deskripsi Singkat */}
                     <div className="text-center mb-20">
-                        <p className="text-lg md:text-xl text-slate-700 leading-relaxed font-medium">
-                            Pascasarjana Institut Agama Islam Persatuan Islam (IAI PERSIS) Bandung merupakan sekolah tinggi Islam terkemuka yang didirikan dengan komitmen kuat untuk melahirkan intelektual muslim yang kritis, transformatif, dan inovatif. Berpusat di Bandung, Pascasarjana IAI Persis hadir sebagai lokomotif pembaruan pemikiran Islam yang memadukan khazanah keilmuan klasik (Tafaqquh Fiddin) dan perkembangan sains modern guna menjawab tantangan zaman.
+                        <p className="text-lg md:text-xl text-slate-700 leading-relaxed font-medium whitespace-pre-wrap">
+                            {tentang?.konten}
                         </p>
                     </div>
 
@@ -51,8 +51,8 @@ export default function TentangKampus() {
                                 </div>
                             </div>
                             <div className="absolute top-4 left-4">
-                                <h3 className="text-white font-bold text-lg md:text-xl drop-shadow-md">Video Profil Pascasarjana IAI Persis</h3>
-                                <p className="text-slate-200 text-sm drop-shadow-md">Lihat Video - YouTube</p>
+                                <h3 className="text-white font-bold text-lg md:text-xl drop-shadow-md">Video Profil {tentang?.judul}</h3>
+                                <a href={tentang?.video_url} target="_blank" rel="noreferrer" className="text-slate-200 text-sm drop-shadow-md hover:text-amber-400">Lihat Video - YouTube</a>
                             </div>
                         </div>
                     </div>
@@ -65,23 +65,23 @@ export default function TentangKampus() {
                             {/* Quotes & Name */}
                             <div className="flex-1 order-2 md:order-1 text-center md:text-left">
                                 <span className="text-emerald-700 font-bold tracking-widest text-sm uppercase mb-2 block">DIREKTUR</span>
-                                <h3 className="text-2xl md:text-3xl font-extrabold text-emerald-950 mb-4">Dr. H. Latief Awaludin, MA.ME.</h3>
+                                <h3 className="text-2xl md:text-3xl font-extrabold text-emerald-950 mb-4">{tentang?.pimpinan_nama}</h3>
                                 <div className="relative bg-slate-50 p-6 rounded-2xl border border-slate-100 mb-6">
                                     <i className="fa-solid fa-quote-left text-4xl text-emerald-100 absolute top-4 left-4"></i>
-                                    <p className="text-slate-600 italic relative z-10 leading-relaxed font-medium">
-                                        "Kami mendedikasikan institusi ini untuk mencetak lulusan yang tidak hanya unggul secara akademik, tetapi juga memiliki integritas moral yang kokoh berlandaskan Al-Qur'an dan As-Sunnah. Pascasarjana IAI Persis adalah rumah bagi para cendekiawan yang siap berkontribusi untuk peradaban umat."
+                                    <p className="text-slate-600 italic relative z-10 leading-relaxed font-medium whitespace-pre-wrap">
+                                        "{tentang?.pimpinan_quotes}"
                                     </p>
                                 </div>
-                                <button className="bg-emerald-800 hover:bg-emerald-900 text-white px-6 py-2.5 rounded-lg text-sm font-semibold transition shadow-md">
+                                <Link href="/profil/sambutan-pimpinan" className="inline-block bg-emerald-800 hover:bg-emerald-900 text-white px-6 py-2.5 rounded-lg text-sm font-semibold transition shadow-md">
                                     Profil Direktur
-                                </button>
+                                </Link>
                             </div>
 
                             {/* Image */}
                             <div className="w-64 h-64 md:w-80 md:h-80 shrink-0 relative order-1 md:order-2">
                                 <div className="absolute inset-0 bg-emerald-800 rounded-full translate-x-3 translate-y-3 opacity-20"></div>
                                 <img 
-                                    src="https://web-persis.s3.ap-southeast-1.amazonaws.com/files/shares/persis-cd5-0c543921-d668-4ee6-ac15-4f0ff791007e.jpg?q=80&w=400&auto=format&fit=crop" 
+                                    src={tentang?.gambar_pimpinan || "https://web-persis.s3.ap-southeast-1.amazonaws.com/files/shares/persis-cd5-0c543921-d668-4ee6-ac15-4f0ff791007e.jpg?q=80&w=400&auto=format&fit=crop"} 
                                     alt="Direktur Pascasarjana" 
                                     className="w-full h-full object-cover rounded-full border-8 border-white shadow-xl relative z-10 object-top"
                                 />
@@ -91,7 +91,6 @@ export default function TentangKampus() {
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </PublicLayout>
