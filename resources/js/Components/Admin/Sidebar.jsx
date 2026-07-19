@@ -205,8 +205,8 @@ function SidebarContent() {
     return (
         <div className="flex h-full flex-col bg-white">
             <div className="flex items-center gap-3 border-b border-slate-200 px-6 py-5">
-                <div className="flex h-9 w-9 items-center justify-center rounded-[5px] bg-emerald-500 text-sm font-bold text-white">
-                    IP
+                <div className="flex h-9 w-9 items-center justify-center rounded-[5px]">
+                    <img src="/logi.jpeg" alt="Logo" className="w-9 h-9 object-contain" />
                 </div>
                 <div>
                     <p className="text-sm font-bold leading-tight text-slate-800">IAI Persis</p>

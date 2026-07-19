@@ -27,7 +27,7 @@ export default function PublicLayout({ children }) {
             </div>
 
             {/* Header / Navbar */}
-            <header className="bg-white/95 backdrop-blur-md shadow-md sticky top-0 z-50 transition-all duration-300">
+            <header className="bg-white shadow-md sticky top-0 z-50 transition-all duration-300">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between items-center h-20">
                         {/* Logo & Brand Name */}
@@ -48,14 +48,14 @@ export default function PublicLayout({ children }) {
                                 <button className="text-slate-600 hover:text-emerald-700 font-medium px-1 py-1 transition flex items-center gap-1">
                                     Profil <i className="fa-solid fa-chevron-down text-[10px]"></i>
                                 </button>
-                                <div className="absolute top-full left-0 mt-2 w-56 bg-white border border-slate-100 rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50">
-                                    <div className="py-2">
-                                        <Link href="/profil/tentang-kampus" className="block px-4 py-2 text-sm text-slate-600 hover:bg-emerald-50 hover:text-emerald-800">Tentang Kampus</Link>
-                                        <a href="#" className="block px-4 py-2 text-sm text-slate-600 hover:bg-emerald-50 hover:text-emerald-800">Visi, Misi & Tujuan</a>
-                                        <Link href="/profil/sambutan-pimpinan" className="block px-4 py-2 text-sm text-slate-600 hover:bg-emerald-50 hover:text-emerald-800">Sambutan Pimpinan</Link>
-                                        <a href="#" className="block px-4 py-2 text-sm text-slate-600 hover:bg-emerald-50 hover:text-emerald-800">Struktur Organisasi</a>
-                                        <a href="#" className="block px-4 py-2 text-sm text-slate-600 hover:bg-emerald-50 hover:text-emerald-800">Dokumen Institusi</a>
-                                        <a href="#" className="block px-4 py-2 text-sm text-slate-600 hover:bg-emerald-50 hover:text-emerald-800">Akreditasi</a>
+                                <div className="absolute top-full left-0 mt-2 w-56 bg-white border border-slate-200 rounded-md shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50">
+                                    <div className="p-2 space-y-0.5">
+                                        <Link href="/profil/tentang-kampus" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Tentang Kampus</Link>
+                                        <a href="#" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Visi, Misi & Tujuan</a>
+                                        <Link href="/profil/sambutan-pimpinan" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Sambutan Pimpinan</Link>
+                                        <a href="#" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Struktur Organisasi</a>
+                                        <a href="#" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Dokumen Institusi</a>
+                                        <a href="#" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Akreditasi</a>
                                     </div>
                                 </div>
                             </div>
@@ -65,10 +65,10 @@ export default function PublicLayout({ children }) {
                                 <button className="text-slate-600 hover:text-emerald-700 font-medium px-1 py-1 transition flex items-center gap-1">
                                     Fakultas <i className="fa-solid fa-chevron-down text-[10px]"></i>
                                 </button>
-                                <div className="absolute top-full left-0 mt-2 w-48 bg-white border border-slate-100 rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50">
-                                    <div className="py-2">
-                                        <a href="#" className="block px-4 py-2 text-sm text-slate-600 hover:bg-emerald-50 hover:text-emerald-800">Pascasarjana</a>
-                                        <a href="#" className="block px-4 py-2 text-sm text-slate-600 hover:bg-emerald-50 hover:text-emerald-800">Prospek Karir</a>
+                                <div className="absolute top-full left-0 mt-2 w-48 bg-white border border-slate-200 rounded-md shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50">
+                                    <div className="p-2 space-y-0.5">
+                                        <a href="#" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Pascasarjana</a>
+                                        <a href="#" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Prospek Karir</a>
                                     </div>
                                 </div>
                             </div>
@@ -78,13 +78,13 @@ export default function PublicLayout({ children }) {
                                 <button className="text-slate-600 hover:text-emerald-700 font-medium px-1 py-1 transition flex items-center gap-1">
                                     Akademik <i className="fa-solid fa-chevron-down text-[10px]"></i>
                                 </button>
-                                <div className="absolute top-full left-0 mt-2 w-48 bg-white border border-slate-100 rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50">
-                                    <div className="py-2">
-                                        <a href="#" className="block px-4 py-2 text-sm text-slate-600 hover:bg-emerald-50 hover:text-emerald-800">Kalender Akademik</a>
-                                        <a href="#" className="block px-4 py-2 text-sm text-slate-600 hover:bg-emerald-50 hover:text-emerald-800">Jadwal Perkuliahan</a>
-                                        <a href="#" className="block px-4 py-2 text-sm text-slate-600 hover:bg-emerald-50 hover:text-emerald-800">Kurikulum</a>
-                                        <a href="#" className="block px-4 py-2 text-sm text-slate-600 hover:bg-emerald-50 hover:text-emerald-800">Sistem Akademik</a>
-                                        <a href="#" className="block px-4 py-2 text-sm text-slate-600 hover:bg-emerald-50 hover:text-emerald-800">Pedoman Akademik</a>
+                                <div className="absolute top-full left-0 mt-2 w-48 bg-white border border-slate-200 rounded-md shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50">
+                                    <div className="p-2 space-y-0.5">
+                                        <a href="#" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Kalender Akademik</a>
+                                        <a href="#" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Jadwal Perkuliahan</a>
+                                        <a href="#" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Kurikulum</a>
+                                        <a href="#" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Sistem Akademik</a>
+                                        <a href="#" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Pedoman Akademik</a>
                                     </div>
                                 </div>
                             </div>
@@ -94,24 +94,24 @@ export default function PublicLayout({ children }) {
                                 <button className="text-slate-600 hover:text-emerald-700 font-medium px-1 py-1 transition flex items-center gap-1">
                                     Penelitian & Pengabdian <i className="fa-solid fa-chevron-down text-[10px]"></i>
                                 </button>
-                                <div className="absolute top-full left-0 mt-2 w-64 bg-white border border-slate-100 rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50">
-                                    <div className="py-2">
-                                        <a href="#" className="block px-4 py-2 text-sm text-slate-600 hover:bg-emerald-50 hover:text-emerald-800">LPPM</a>
-                                        <a href="#" className="block px-4 py-2 text-sm text-slate-600 hover:bg-emerald-50 hover:text-emerald-800">Penelitian (Hibah & Roadmap)</a>
-                                        <a href="#" className="block px-4 py-2 text-sm text-slate-600 hover:bg-emerald-50 hover:text-emerald-800">Pengabdian Masyarakat (KKN)</a>
-                                        <a href="#" className="block px-4 py-2 text-sm text-slate-600 hover:bg-emerald-50 hover:text-emerald-800">Publikasi (Jurnal & Buku)</a>
-                                        <a href="#" className="block px-4 py-2 text-sm text-slate-600 hover:bg-emerald-50 hover:text-emerald-800">Repository</a>
+                                <div className="absolute top-full left-0 mt-2 w-64 bg-white border border-slate-200 rounded-md shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50">
+                                    <div className="p-2 space-y-0.5">
+                                        <a href="#" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">LPPM</a>
+                                        <a href="#" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Penelitian (Hibah & Roadmap)</a>
+                                        <a href="#" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Pengabdian Masyarakat (KKN)</a>
+                                        <a href="#" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Publikasi (Jurnal & Buku)</a>
+                                        <a href="#" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Repository</a>
                                     </div>
                                 </div>
                             </div>
 
-                            <a href="/#pendaftaran" className="bg-emerald-800 hover:bg-emerald-900 text-white px-5 py-2.5 rounded-full font-semibold shadow-md shadow-emerald-900/10 hover:shadow-lg transition text-sm">PMB 2026/2027</a>
+                            <a href="/#pendaftaran" className="bg-emerald-800 hover:bg-emerald-900 text-white px-5 py-2.5 rounded-sm font-semibold shadow-md shadow-emerald-900/10 hover:shadow-lg transition text-sm">PMB 2026/2027</a>
                         </nav>
 
                         {/* Mobile Menu Toggle Button */}
                         <button 
                             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} 
-                            className="lg:hidden p-2 rounded-lg text-emerald-900 hover:bg-slate-100 focus:outline-none"
+                            className="lg:hidden p-2 rounded-sm text-emerald-900 hover:bg-slate-100 focus:outline-none"
                         >
                             <i className="fa-solid fa-bars text-2xl"></i>
                         </button>
@@ -121,11 +121,11 @@ export default function PublicLayout({ children }) {
                 {/* Mobile Navigation Menu Dropdown */}
                 <div className={`${isMobileMenuOpen ? 'block' : 'hidden'} lg:hidden border-t border-slate-100 bg-white shadow-lg max-h-[85vh] overflow-y-auto`}>
                     <div className="px-4 pt-2 pb-6 space-y-1">
-                        <Link href="/" className="block px-3 py-2.5 rounded-lg text-slate-700 hover:bg-slate-50 font-medium mb-2">Beranda</Link>
+                        <Link href="/" className="block px-3 py-2.5 rounded-sm text-slate-700 hover:bg-slate-50 font-medium mb-2">Beranda</Link>
                         
                         {/* Profil Mobile Dropdown */}
                         <details className="group">
-                            <summary className="flex justify-between items-center px-3 py-2.5 rounded-lg text-slate-700 hover:bg-slate-50 font-medium cursor-pointer list-none">
+                            <summary className="flex justify-between items-center px-3 py-2.5 rounded-sm text-slate-700 hover:bg-slate-50 font-medium cursor-pointer list-none">
                                 Profil <i className="fa-solid fa-chevron-down text-xs transition-transform group-open:rotate-180"></i>
                             </summary>
                             <div className="pl-4 pb-2 space-y-1 border-l-2 border-emerald-100 ml-3 mt-1">
@@ -139,7 +139,7 @@ export default function PublicLayout({ children }) {
                         </details>
 
                         <div className="pt-4">
-                            <a href="/#pendaftaran" className="block text-center bg-emerald-800 text-white py-3 rounded-xl font-bold shadow-md">Daftar PMB Online</a>
+                            <a href="/#pendaftaran" className="block text-center bg-emerald-800 text-white py-3 rounded-sm font-bold shadow-md">Daftar PMB Online</a>
                         </div>
                     </div>
                 </div>
@@ -155,7 +155,7 @@ export default function PublicLayout({ children }) {
                     <div className="grid grid-cols-1 md:grid-cols-12 gap-10">
                         <div className="md:col-span-5">
                             <div className="flex items-center gap-3 mb-6">
-                                <div className="w-10 h-10 bg-emerald-800 rounded-lg flex items-center justify-center text-white">
+                                <div className="w-10 h-10 bg-emerald-800 flex items-center justify-center text-white">
                                     <i className="fa-solid fa-mosque text-lg text-amber-400"></i>
                                 </div>
                                 <h3 className="text-xl font-bold text-white tracking-wider">IAI PERSIS BANDUNG</h3>
@@ -164,9 +164,9 @@ export default function PublicLayout({ children }) {
                                 Pascasarjana Institut Agama Islam Persatuan Islam (IAI PERSIS) Bandung berkomitmen menyelenggarakan kajian ilmiah integratif yang menghasilkan pakar handal berlandaskan tradisi akademis Islam otentik.
                             </p>
                             <div className="flex items-center space-x-3">
-                                <a href="#" className="w-9 h-9 rounded-full bg-emerald-900 hover:bg-emerald-800 flex items-center justify-center text-emerald-100 hover:text-amber-400 transition"><i className="fa-brands fa-facebook-f text-sm"></i></a>
-                                <a href="#" className="w-9 h-9 rounded-full bg-emerald-900 hover:bg-emerald-800 flex items-center justify-center text-emerald-100 hover:text-amber-400 transition"><i className="fa-brands fa-instagram text-sm"></i></a>
-                                <a href="#" className="w-9 h-9 rounded-full bg-emerald-900 hover:bg-emerald-800 flex items-center justify-center text-emerald-100 hover:text-amber-400 transition"><i className="fa-brands fa-youtube text-sm"></i></a>
+                                <a href="#" className="w-9 h-9 bg-emerald-900 hover:bg-emerald-800 flex items-center justify-center text-emerald-100 hover:text-amber-400 transition"><i className="fa-brands fa-facebook-f text-sm"></i></a>
+                                <a href="#" className="w-9 h-9 bg-emerald-900 hover:bg-emerald-800 flex items-center justify-center text-emerald-100 hover:text-amber-400 transition"><i className="fa-brands fa-instagram text-sm"></i></a>
+                                <a href="#" className="w-9 h-9 bg-emerald-900 hover:bg-emerald-800 flex items-center justify-center text-emerald-100 hover:text-amber-400 transition"><i className="fa-brands fa-youtube text-sm"></i></a>
                             </div>
                         </div>
                         <div className="md:col-span-3">

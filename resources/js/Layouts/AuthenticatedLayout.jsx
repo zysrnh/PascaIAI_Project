@@ -21,8 +21,8 @@ export default function AuthenticatedLayout({ header, children }) {
                         <div className="flex">
                             <div className="flex shrink-0 items-center">
                                 <Link href="/" className="flex items-center gap-3 group">
-                                    <div className="flex h-9 w-9 items-center justify-center rounded-[5px] bg-emerald-500 text-sm font-bold text-white shadow-md group-hover:bg-emerald-400 transition-colors">
-                                        IP
+                                    <div className="flex h-9 w-9 items-center justify-center rounded-[5px]">
+                                        <img src="/logi.jpeg" alt="Logo" className="w-9 h-9 object-contain bg-white rounded-[5px] p-0.5" />
                                     </div>
                                     <div className="hidden sm:block">
                                         <p className="text-sm font-bold leading-tight text-white">IAI Persis</p>
