@@ -12,18 +12,68 @@ import {
     ChevronDown,
     Menu,
     X,
+    Landmark,
 } from 'lucide-react';
 
 const navigation = [
     { type: 'link', name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
     {
         type: 'group',
+        name: 'Manajemen Section Profile',
+        icon: Landmark,
+        children: [
+            {
+                type: 'group',
+                name: 'Tentang Kampus',
+                children: [
+                    { type: 'link', name: 'Kelola Halaman', href: '/admin/profil/tentang-kampus' },
+                ],
+            },
+            {
+                type: 'group',
+                name: 'Visi, Misi & Tujuan',
+                children: [
+                    { type: 'link', name: 'Kelola Halaman', href: '/admin/profil/visi-misi' },
+                ],
+            },
+            {
+                type: 'group',
+                name: 'Sambutan Pimpinan',
+                children: [
+                    { type: 'link', name: 'Kelola Halaman', href: '/admin/profil/sambutan-pimpinan' },
+                ],
+            },
+            {
+                type: 'group',
+                name: 'Struktur Organisasi',
+                children: [
+                    { type: 'link', name: 'Kelola Halaman', href: '/admin/profil/struktur-organisasi' },
+                ],
+            },
+            {
+                type: 'group',
+                name: 'Dokumen Institusi',
+                children: [
+                    { type: 'link', name: 'Kelola Halaman', href: '/admin/profil/dokumen-institusi' },
+                ],
+            },
+            {
+                type: 'group',
+                name: 'Akreditasi',
+                children: [
+                    { type: 'link', name: 'Kelola Halaman', href: '/admin/profil/akreditasi' },
+                ],
+            },
+        ],
+    },
+    {
+        type: 'group',
         name: 'Fakultas',
         icon: Building2,
         children: [
-            { name: 'Daftar Fakultas', href: '/fakultas' },
-            { name: 'Program Studi', href: '/fakultas/prodi' },
-            { name: 'Data Dosen', href: '/fakultas/dosen' },
+            { type: 'link', name: 'Daftar Fakultas', href: '/fakultas' },
+            { type: 'link', name: 'Program Studi', href: '/fakultas/prodi' },
+            { type: 'link', name: 'Data Dosen', href: '/fakultas/dosen' },
         ],
     },
     {
@@ -31,9 +81,9 @@ const navigation = [
         name: 'Akademik',
         icon: GraduationCap,
         children: [
-            { name: 'Pedoman Akademik', href: '/akademik/pedoman' },
-            { name: 'Kalender Akademik', href: '/akademik/kalender' },
-            { name: 'Jadwal Kuliah', href: '/akademik/jadwal' },
+            { type: 'link', name: 'Pedoman Akademik', href: '/akademik/pedoman' },
+            { type: 'link', name: 'Kalender Akademik', href: '/akademik/kalender' },
+            { type: 'link', name: 'Jadwal Kuliah', href: '/akademik/jadwal' },
         ],
     },
     {
@@ -41,9 +91,9 @@ const navigation = [
         name: 'LPPM',
         icon: Lightbulb,
         children: [
-            { name: 'Info Hibah', href: '/lppm/hibah', badge: 3 },
-            { name: 'Penelitian', href: '/lppm/penelitian' },
-            { name: 'Pengabdian Masyarakat', href: '/lppm/pengabdian' },
+            { type: 'link', name: 'Info Hibah', href: '/lppm/hibah', badge: 3 },
+            { type: 'link', name: 'Penelitian', href: '/lppm/penelitian' },
+            { type: 'link', name: 'Pengabdian Masyarakat', href: '/lppm/pengabdian' },
         ],
     },
     { type: 'link', name: 'Berita', href: '/berita', icon: Newspaper, badge: 45 },
@@ -51,18 +101,27 @@ const navigation = [
     { type: 'link', name: 'Manajemen User', href: '/users', icon: Users },
 ];
 
-function NavLink({ item, currentUrl }) {
+function hasActiveDescendant(item, currentUrl) {
+    if (item.type === 'link') return currentUrl.startsWith(item.href);
+    return item.children.some((child) => hasActiveDescendant(child, currentUrl));
+}
+
+function NavLink({ item, currentUrl, nested = false }) {
     const isActive = currentUrl.startsWith(item.href);
+    const Icon = item.icon;
+
+    const base = 'flex items-center justify-between gap-3 rounded-[5px] px-3 py-2.5 text-sm transition-colors';
+    const weight = !nested || isActive ? 'font-medium' : 'font-normal';
+    const color = isActive
+        ? 'bg-blue-50 text-blue-600'
+        : nested
+            ? 'text-slate-500 hover:bg-slate-50 hover:text-slate-800'
+            : 'text-slate-600 hover:bg-slate-50 hover:text-slate-800';
 
     return (
-        <Link
-            href={item.href}
-            className={`flex items-center justify-between gap-3 rounded-[5px] px-3 py-2.5 text-sm font-medium transition-colors ${
-                isActive ? 'bg-blue-50 text-blue-600' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-800'
-            }`}
-        >
+        <Link href={item.href} className={`${base} ${weight} ${color}`}>
             <span className="flex items-center gap-3">
-                <item.icon className={`h-[18px] w-[18px] ${isActive ? 'text-blue-600' : 'text-slate-400'}`} />
+                {Icon && <Icon className={`h-[18px] w-[18px] ${isActive ? 'text-blue-600' : 'text-slate-400'}`} />}
                 {item.name}
             </span>
             {item.badge && (
@@ -76,52 +135,45 @@ function NavLink({ item, currentUrl }) {
     );
 }
 
-function NavGroup({ item, currentUrl }) {
-    const hasActiveChild = item.children.some((child) => currentUrl.startsWith(child.href));
-    const [open, setOpen] = useState(hasActiveChild);
+function NavGroup({ item, currentUrl, nested = false }) {
+    const isActive = hasActiveDescendant(item, currentUrl);
+    const [open, setOpen] = useState(isActive);
+    const Icon = item.icon;
+
+    const base = 'flex w-full items-center justify-between gap-3 rounded-[5px] px-3 py-2.5 text-sm transition-colors';
+    const weight = !nested || isActive ? 'font-medium' : 'font-normal';
+    const color = isActive
+        ? 'text-blue-600'
+        : nested
+            ? 'text-slate-500 hover:bg-slate-50 hover:text-slate-800'
+            : 'text-slate-600 hover:bg-slate-50 hover:text-slate-800';
 
     return (
         <div>
-            <button
-                type="button"
-                onClick={() => setOpen(!open)}
-                className={`flex w-full items-center justify-between gap-3 rounded-[5px] px-3 py-2.5 text-sm font-medium transition-colors ${
-                    hasActiveChild ? 'text-blue-600' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-800'
-                }`}
-            >
+            <button type="button" onClick={() => setOpen(!open)} className={`${base} ${weight} ${color}`}>
                 <span className="flex items-center gap-3">
-                    <item.icon className={`h-[18px] w-[18px] ${hasActiveChild ? 'text-blue-600' : 'text-slate-400'}`} />
+                    {Icon && <Icon className={`h-[18px] w-[18px] ${isActive ? 'text-blue-600' : 'text-slate-400'}`} />}
                     {item.name}
                 </span>
-                <ChevronDown className={`h-4 w-4 text-slate-400 transition-transform ${open ? 'rotate-180' : ''}`} />
+                <ChevronDown className={`h-4 w-4 shrink-0 text-slate-400 transition-transform ${open ? 'rotate-180' : ''}`} />
             </button>
 
             {open && (
                 <div className="mt-1 space-y-1 border-l border-slate-200 pl-[27px]">
-                    {item.children.map((child) => {
-                        const isActive = currentUrl.startsWith(child.href);
-                        return (
-                            <Link
-                                key={child.href}
-                                href={child.href}
-                                className={`flex items-center justify-between gap-2 rounded-[5px] px-3 py-2 text-sm transition-colors ${
-                                    isActive ? 'bg-blue-50 font-medium text-blue-600' : 'text-slate-500 hover:bg-slate-50 hover:text-slate-800'
-                                }`}
-                            >
-                                {child.name}
-                                {child.badge && (
-                                    <span className={`rounded-full px-2 py-0.5 text-xs font-semibold ${
-                                        isActive ? 'bg-blue-100 text-blue-600' : 'bg-slate-100 text-slate-500'
-                                    }`}>
-                                        {child.badge}
-                                    </span>
-                                )}
-                            </Link>
-                        );
-                    })}
+                    {item.children.map((child) => (
+                        <NavItem key={child.name} item={child} currentUrl={currentUrl} nested />
+                    ))}
                 </div>
             )}
         </div>
+    );
+}
+
+function NavItem({ item, currentUrl, nested = false }) {
+    return item.type === 'group' ? (
+        <NavGroup item={item} currentUrl={currentUrl} nested={nested} />
+    ) : (
+        <NavLink item={item} currentUrl={currentUrl} nested={nested} />
     );
 }
 
@@ -142,13 +194,9 @@ function SidebarContent() {
             </div>
 
             <nav className="flex-1 space-y-1 overflow-y-auto px-4 py-4">
-                {navigation.map((item) =>
-                    item.type === 'group' ? (
-                        <NavGroup key={item.name} item={item} currentUrl={url} />
-                    ) : (
-                        <NavLink key={item.name} item={item} currentUrl={url} />
-                    )
-                )}
+                {navigation.map((item) => (
+                    <NavItem key={item.name} item={item} currentUrl={url} />
+                ))}
             </nav>
 
             <div className="border-t border-slate-200 p-4">
@@ -164,7 +212,7 @@ function SidebarContent() {
                         href={route('logout')}
                         method="post"
                         as="button"
-                        className="text-slate-400 hover:text-red-500 transition-colors" 
+                        className="text-slate-400 hover:text-red-500 transition-colors"
                         title="Keluar"
                     >
                         <LogOut className="h-[18px] w-[18px]" />
