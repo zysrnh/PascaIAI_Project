@@ -127,6 +127,7 @@ function NavGroup({ item, currentUrl }) {
 
 function SidebarContent() {
     const { url } = usePage();
+    const user = usePage().props.auth.user;
 
     return (
         <div className="flex h-full flex-col bg-white">
@@ -152,16 +153,22 @@ function SidebarContent() {
 
             <div className="border-t border-slate-200 p-4">
                 <div className="flex items-center gap-3 rounded-[5px] px-2 py-2">
-                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-slate-200 text-sm font-semibold text-slate-600">
-                        A
+                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-slate-200 text-sm font-semibold text-slate-600 uppercase">
+                        {user.name.charAt(0)}
                     </div>
                     <div className="min-w-0 flex-1">
-                        <p className="truncate text-sm font-medium text-slate-800">Admin User</p>
-                        <p className="truncate text-xs text-slate-500">Super Admin</p>
+                        <p className="truncate text-sm font-medium text-slate-800">{user.name}</p>
+                        <p className="truncate text-xs text-slate-500 capitalize">{user.role.replace('_', ' ')}</p>
                     </div>
-                    <button type="button" className="text-slate-400 hover:text-red-500" title="Keluar">
+                    <Link
+                        href={route('logout')}
+                        method="post"
+                        as="button"
+                        className="text-slate-400 hover:text-red-500 transition-colors" 
+                        title="Keluar"
+                    >
                         <LogOut className="h-[18px] w-[18px]" />
-                    </button>
+                    </Link>
                 </div>
             </div>
         </div>
