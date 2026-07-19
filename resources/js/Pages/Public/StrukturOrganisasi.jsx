@@ -1,5 +1,6 @@
 import React from 'react';
 import { Head } from '@inertiajs/react';
+import PublicLayout from '@/Layouts/PublicLayout';
 const getInitials = (name) => {
     if (!name) return '??';
     return name.substring(0, 2).toUpperCase();
@@ -12,17 +13,17 @@ const TreeNode = ({ node }) => {
     
     // Style wrapper
     const wrapperStyle = isLevel1 
-        ? "inline-flex flex-col items-center bg-white rounded-xl shadow-lg border-2 border-emerald-500 p-5 w-72 relative z-10 transform transition-transform hover:-translate-y-1 hover:shadow-xl"
+        ? "inline-flex flex-col items-center bg-white rounded-xl shadow-lg border-2 border-emerald-500 p-6 w-80 relative z-10 transform transition-transform hover:-translate-y-1 hover:shadow-xl"
         : isLevel2
-        ? "inline-flex flex-col items-center bg-white rounded-xl shadow-md border border-slate-200 p-4 w-64 relative z-10 transform transition-transform hover:-translate-y-1 hover:border-emerald-300"
-        : "inline-flex flex-col items-center bg-white rounded-lg shadow-sm border border-slate-100 p-3 w-56 relative z-10 transform transition-transform hover:-translate-y-1 hover:border-emerald-200";
+        ? "inline-flex flex-col items-center bg-white rounded-xl shadow-md border border-slate-200 p-5 w-72 relative z-10 transform transition-transform hover:-translate-y-1 hover:border-emerald-300"
+        : "inline-flex flex-col items-center bg-white rounded-lg shadow-sm border border-slate-100 p-4 w-64 relative z-10 transform transition-transform hover:-translate-y-1 hover:border-emerald-200";
 
     // Style image container
     const imgContainerStyle = isLevel1
-        ? "w-24 h-24 mb-3 rounded-full overflow-hidden border-4 border-emerald-100 shadow-sm relative bg-slate-200 flex items-center justify-center"
+        ? "w-32 h-40 mb-4 rounded-md overflow-hidden border-4 border-emerald-100 shadow-sm relative bg-slate-200 flex items-center justify-center"
         : isLevel2
-        ? "w-20 h-20 mb-3 rounded-full overflow-hidden border-2 border-emerald-50 shadow-sm relative bg-slate-200 flex items-center justify-center"
-        : "w-16 h-16 mb-2 rounded-full overflow-hidden border border-slate-100 relative bg-slate-200 flex items-center justify-center";
+        ? "w-28 h-36 mb-4 rounded-md overflow-hidden border-2 border-emerald-50 shadow-sm relative bg-slate-200 flex items-center justify-center"
+        : "w-24 h-32 mb-3 rounded-md overflow-hidden border border-slate-100 relative bg-slate-200 flex items-center justify-center";
 
     // Style jabatan badge
     const badgeStyle = isLevel1
@@ -91,7 +92,7 @@ export default function StrukturOrganisasi({ organisasi, jabatanTree }) {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                     
                     <div className="text-center mb-16">
-                        <h2 className="text-3xl font-extrabold text-emerald-950 mb-4">Pimpinan & Pengurus</h2>
+                        <h2 className="text-3xl font-extrabold text-emerald-950 mb-4">Struktur Organisasi</h2>
                         <p className="text-slate-600 max-w-2xl mx-auto">
                             Susunan pengelola Program Pascasarjana IAI Persis Bandung yang berkomitmen untuk menyelenggarakan pendidikan dan pelayanan akademik terbaik.
                         </p>

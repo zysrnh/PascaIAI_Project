@@ -18,7 +18,7 @@ const TreeNode = ({ node }) => {
                 <div className="absolute -top-2 left-1/2 -translate-x-1/2 bg-slate-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full z-20">
                     {node.urutan}
                 </div>
-                <div className="w-12 h-12 mb-2 rounded-full overflow-hidden border border-slate-100 relative bg-slate-200 flex items-center justify-center">
+                <div className="w-16 h-20 mb-3 rounded-md overflow-hidden border border-slate-100 relative bg-slate-200 flex items-center justify-center">
                     {node.foto ? (
                         <img src={node.foto} className="w-full h-full object-cover" />
                     ) : (
@@ -218,9 +218,9 @@ export default function Index({ auth, organisasi, jabatanTree }) {
                                                     </td>
                                                     <td className="px-6 py-4">
                                                         {item.foto ? (
-                                                            <img src={item.foto} alt={item.nama} className="w-12 h-12 rounded-full object-cover border border-slate-200" />
+                                                            <img src={item.foto} alt={item.nama} className="w-12 h-16 rounded-md object-cover border border-slate-200" />
                                                         ) : (
-                                                            <div className="w-12 h-12 rounded-full bg-slate-100 text-slate-600 font-bold flex items-center justify-center border border-slate-200">
+                                                            <div className="w-12 h-16 rounded-md bg-slate-100 text-slate-600 font-bold flex items-center justify-center border border-slate-200">
                                                                 {getInitials(item.nama)}
                                                             </div>
                                                         )}
