@@ -1,6 +1,6 @@
 import { Head, Link } from '@inertiajs/react';
 import PublicLayout from '@/Layouts/PublicLayout';
-import { ChevronRight, ArrowRight, Building2 } from 'lucide-react';
+import { ChevronRight, ArrowRight, Building2, BookOpen, GraduationCap } from 'lucide-react';
 
 export default function Index({ fakultas, pengaturan }) {
     // Default banner if not set
@@ -33,31 +33,31 @@ export default function Index({ fakultas, pengaturan }) {
             <div className="w-full">
                 {fakultas && fakultas.length > 0 ? (
                     fakultas.map((item, index) => {
-                        // Alternate layout: text on right for even (0, 2, 4), text on left for odd
-                        // But wait, the reference has the image ALWAYS on the left, but let's just make it visually distinct
-                        // The reference actually has the image on the left mostly.
-                        const bgColor = item.warna_bg || (index % 2 === 0 ? '#4a5d23' : '#6b4c3a'); // default olive and brown
+                        // Alternate layout: zigzag pattern
+                        const isEven = index % 2 === 0;
+                        const bgColor = item.warna_bg || (isEven ? '#4a5d23' : '#6b4c3a');
+                        const displayIndex = (index + 1).toString().padStart(2, '0');
                         
                         return (
                             <div 
                                 key={item.id} 
-                                className="w-full min-h-[500px] flex flex-col md:flex-row items-stretch relative group overflow-hidden"
+                                className={`w-full min-h-[500px] flex flex-col items-stretch relative group overflow-hidden ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'}`}
                                 style={{ backgroundColor: bgColor }}
                             >
-                                {/* Left Side: Image & Title */}
+                                {/* Left/Right Side: Image & Title */}
                                 <div className="w-full md:w-5/12 lg:w-1/2 relative overflow-hidden flex items-center justify-center p-12 lg:p-24 min-h-[400px]">
                                     {/* Image Background */}
                                     {item.gambar_url ? (
                                         <div 
-                                            className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-60 group-hover:opacity-80 transition-opacity duration-700 mix-blend-luminosity hover:mix-blend-normal"
+                                            className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-50 group-hover:opacity-70 group-hover:scale-105 transition-all duration-1000 mix-blend-luminosity hover:mix-blend-normal"
                                             style={{ backgroundImage: `url(${item.gambar_url})` }}
                                         ></div>
                                     ) : (
-                                        <div className="absolute inset-0 bg-black/20"></div>
+                                        <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors duration-700"></div>
                                     )}
                                     
-                                    {/* Gradient overlay to blend with right side */}
-                                    <div className="absolute inset-0 bg-gradient-to-r from-transparent to-[var(--bg-color)] opacity-90 hidden md:block" style={{ '--bg-color': bgColor }}></div>
+                                    {/* Gradient overlay to blend with content side */}
+                                    <div className={`absolute inset-0 opacity-90 hidden md:block ${isEven ? 'bg-gradient-to-r' : 'bg-gradient-to-l'} from-transparent to-[var(--bg-color)]`} style={{ '--bg-color': bgColor }}></div>
                                     <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg-color)] to-transparent opacity-90 md:hidden" style={{ '--bg-color': bgColor }}></div>
 
                                     {/* Title Content */}
@@ -65,27 +65,38 @@ export default function Index({ fakultas, pengaturan }) {
                                         <h2 className="text-3xl lg:text-4xl font-bold text-white uppercase tracking-wider drop-shadow-md">
                                             {item.nama}
                                         </h2>
+                                        <div className="w-16 h-1.5 bg-amber-500 rounded-sm mt-4 mx-auto md:mx-0"></div>
                                     </div>
                                 </div>
 
                                 {/* Right Side: Content */}
-                                <div className="w-full md:w-7/12 lg:w-1/2 flex items-center p-8 md:p-12 lg:p-24 text-white">
-                                    <div className="max-w-xl w-full">
+                                <div className="w-full md:w-7/12 lg:w-1/2 flex items-center p-8 md:p-12 lg:p-24 text-white relative">
+                                    {/* Large decorative number */}
+                                    <div className="absolute top-1/2 -translate-y-1/2 right-10 text-[180px] font-black text-white/5 select-none pointer-events-none hidden md:block">
+                                        {displayIndex}
+                                    </div>
+                                    
+                                    <div className="max-w-xl w-full relative z-10">
                                         {/* Description */}
                                         {item.deskripsi && (
-                                            <div className="text-white/90 text-sm md:text-base leading-relaxed mb-8">
+                                            <div className="text-white/90 text-sm md:text-base leading-relaxed mb-8 font-medium">
                                                 <p>{item.deskripsi}</p>
                                             </div>
                                         )}
 
-                                        {/* Program Studi / Visi Misi */}
+                                        {/* Program Studi */}
                                         {item.visi_misi && (
-                                            <div className="space-y-3">
+                                            <div className="space-y-4">
+                                                <h3 className="text-sm font-bold text-amber-400 uppercase tracking-widest mb-2 flex items-center gap-2">
+                                                    <GraduationCap className="w-5 h-5" /> Program Studi
+                                                </h3>
                                                 {/* Split the visi misi by newlines to render as bullet points */}
                                                 {item.visi_misi.split('\n').filter(line => line.trim() !== '').map((line, i) => (
-                                                    <div key={i} className="flex items-start gap-3">
-                                                        <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-white/80 shrink-0"></div>
-                                                        <p className="text-sm md:text-base text-white/90">{line.trim()}</p>
+                                                    <div key={i} className="flex items-start gap-3 group/item">
+                                                        <div className="mt-1 p-1 rounded-full bg-white/10 group-hover/item:bg-amber-500/20 text-amber-400 shrink-0 transition-colors">
+                                                            <BookOpen className="w-3.5 h-3.5" />
+                                                        </div>
+                                                        <p className="text-sm md:text-base text-white/90 font-semibold group-hover/item:text-white transition-colors">{line.trim()}</p>
                                                     </div>
                                                 ))}
                                             </div>
