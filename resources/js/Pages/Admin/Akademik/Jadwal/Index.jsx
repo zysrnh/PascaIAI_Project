@@ -415,8 +415,8 @@ export default function Index({ pengaturan, periodes, programStudis }) {
                                     </a>
                                 </div>
                                 <div>
-                                    <InputLabel htmlFor="file_excel" value="Pilih File CSV/Excel (.csv)" />
-                                    <input id="file_excel" type="file" accept=".csv" className="mt-1 block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100" onChange={e => formImport.setData('file_excel', e.target.files[0])} required />
+                                    <InputLabel htmlFor="file_excel" value="Pilih File Excel/CSV (.xlsx, .xls, .csv)" />
+                                    <input id="file_excel" type="file" accept=".xlsx,.xls,.csv" className="mt-1 block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100" onChange={e => formImport.setData('file_excel', e.target.files[0])} required />
                                     <InputError message={formImport.errors.file_excel} className="mt-2" />
                                 </div>
                             </div>

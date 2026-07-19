@@ -197,90 +197,37 @@ class JadwalPerkuliahanController extends Controller
         return redirect()->back()->with('success', 'Jadwal Mata Kuliah berhasil dihapus.');
     }
 
-    // --- IMPORT / EXPORT CSV ---
-
     public function downloadTemplate()
     {
-        $headers = [
-            "Content-type"        => "text/csv",
-            "Content-Disposition" => "attachment; filename=template_import_jadwal.csv",
-            "Pragma"              => "no-cache",
-            "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
-            "Expires"             => "0"
-        ];
-
-        $columns = ['Program Studi', 'Semester (Angka)', 'Mata Kuliah', 'SKS', 'Dosen Pengampu', 'Hari', 'Jam Mulai (HH:MM)', 'Jam Selesai (HH:MM)', 'Ruangan'];
-
-        return response()->stream(function() use($columns) {
-            $file = fopen('php://output', 'w');
-            
-            // Add UTF-8 BOM so Excel reads characters correctly
-            fputs($file, "\xEF\xBB\xBF");
-            
-            // Output the delimiter hint for Excel
-            fputs($file, "sep=;\n");
-
-            fputcsv($file, $columns, ';'); // Template header
-
-            // Sample data row
-            fputcsv($file, ['Pendidikan Agama Islam (M.Pd.)', '1', 'Studi Al-Qur\'an dan Al-Hadits', '2', 'Dr. Fulan', 'Senin', '08:00', '10:00', 'Ruang 1'], ';');
-            fclose($file);
-        }, 200, $headers);
+        return \Maatwebsite\Excel\Facades\Excel::download(new \App\Exports\JadwalTemplateExport, 'template_import_jadwal.xlsx');
     }
 
     public function importCsv(Request $request, $periode_id)
     {
         $request->validate([
-            'file_excel' => 'required|file|mimes:csv,txt|max:2048',
+            'file_excel' => 'required|file|mimes:xlsx,xls,csv|max:5120',
         ]);
 
         $periode = JadwalPeriode::findOrFail($periode_id);
-        $file = $request->file('file_excel');
         
-        $handle = fopen($file->getPathname(), "r");
-        
-        // Auto-detect delimiter by reading first line
-        $firstLine = fgets($handle);
-        $delimiter = strpos($firstLine, ';') !== false ? ';' : ',';
-        rewind($handle);
+        $import = new \App\Imports\JadwalMatkulImport($periode->id);
+        \Maatwebsite\Excel\Facades\Excel::import($import, $request->file('file_excel'));
 
-        // Check if there is a BOM or "sep=" and skip it
-        $header = true;
-        $count = 0;
-        
-        while (($data = fgetcsv($handle, 1000, $delimiter)) !== FALSE) {
-            // Skip the "sep=;" line if it exists
-            if (count($data) == 1 && strpos($data[0], 'sep=') !== false) {
-                continue;
+        $logText = '';
+        if ($import->count > 0) {
+            $limit = 5; // Limit how many to show so it doesn't break UI
+            $displayedLogs = array_slice($import->importedLog, 0, $limit);
+            $logText = implode(', ', $displayedLogs);
+            
+            if ($import->count > $limit) {
+                $sisa = $import->count - $limit;
+                $logText .= " ... dan $sisa matkul lainnya";
             }
-
-            if ($header) {
-                $header = false;
-                continue;
-            }
-
-            // Skip empty rows
-            if (empty(array_filter($data))) continue;
-
-            // Ensure we have exactly 9 columns
-            if (count($data) >= 9) {
-                JadwalMataKuliah::create([
-                    'jadwal_periode_id' => $periode->id,
-                    'program_studi' => trim($data[0]),
-                    'semester_ke' => (int) trim($data[1]),
-                    'mata_kuliah' => trim($data[2]),
-                    'sks' => (int) trim($data[3]),
-                    'dosen_pengampu' => trim($data[4]),
-                    'hari' => trim($data[5]),
-                    'jam_mulai' => trim($data[6]),
-                    'jam_selesai' => trim($data[7]),
-                    'ruangan' => trim($data[8]),
-                ]);
-                $count++;
-            }
+            $message = "Berhasil mengimpor {$import->count} Mata Kuliah: {$logText}.";
+        } else {
+            $message = "Tidak ada data yang diimpor. Pastikan file tidak kosong.";
         }
-        fclose($handle);
 
-        return redirect()->back()->with('success', "$count Mata Kuliah berhasil diimpor.");
+        return redirect()->back()->with('success', $message);
     }
 }
