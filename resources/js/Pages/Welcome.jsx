@@ -118,11 +118,11 @@ export default function Welcome() {
                                     </button>
                                     <div className="absolute top-full left-0 mt-2 w-64 bg-white border border-slate-100 rounded-sm shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50">
                                         <div className="p-2 space-y-0.5">
-                                            <a href="#" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">LPPM</a>
-                                            <a href="#" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Penelitian (Hibah & Roadmap)</a>
-                                            <a href="#" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Pengabdian Masyarakat (KKN)</a>
-                                            <a href="#" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Publikasi (Jurnal & Buku)</a>
-                                            <a href="#" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Repository</a>
+                                            <Link href={route('public.lppm.profil')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">LPPM</Link>
+                                            <Link href={route('public.lppm.penelitian')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Penelitian (Hibah & Roadmap)</Link>
+                                            <Link href={route('public.lppm.pengabdian')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Pengabdian Masyarakat (KKN)</Link>
+                                            <Link href={route('public.lppm.publikasi')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Publikasi (Jurnal & Buku)</Link>
+                                            <Link href={route('public.lppm.repository')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Repository</Link>
                                         </div>
                                     </div>
                                 </div>
@@ -202,11 +202,11 @@ export default function Welcome() {
                                     Penelitian & Pengabdian <i className="fa-solid fa-chevron-down text-xs transition-transform group-open:rotate-180"></i>
                                 </summary>
                                 <div className="pl-4 pb-2 space-y-1 border-l-2 border-emerald-100 ml-3 mt-1">
-                                    <a href="#" className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">LPPM</a>
-                                    <a href="#" className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Penelitian</a>
-                                    <a href="#" className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Pengabdian Masyarakat (KKN)</a>
-                                    <a href="#" className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Publikasi (Jurnal & Buku)</a>
-                                    <a href="#" className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Repository</a>
+                                    <Link href={route('public.lppm.profil')} className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">LPPM</Link>
+                                    <Link href={route('public.lppm.penelitian')} className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Penelitian</Link>
+                                    <Link href={route('public.lppm.pengabdian')} className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Pengabdian Masyarakat (KKN)</Link>
+                                    <Link href={route('public.lppm.publikasi')} className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Publikasi (Jurnal & Buku)</Link>
+                                    <Link href={route('public.lppm.repository')} className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Repository</Link>
                                 </div>
                             </details>
 

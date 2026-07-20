@@ -55,8 +55,16 @@ Route::get('/fakultas/prospek-karir', [\App\Http\Controllers\ProspekKarirControl
 Route::get('/akademik/kalender-akademik', [\App\Http\Controllers\KalenderAkademikController::class, 'publicIndex'])->name('public.akademik.kalender');
 Route::get('/akademik/jadwal-perkuliahan', [\App\Http\Controllers\JadwalPerkuliahanController::class, 'publicIndex'])->name('public.akademik.jadwal');
 Route::get('/akademik/pedoman', [\App\Http\Controllers\PedomanAkademikController::class, 'indexPublic'])->name('public.akademik.pedoman');
-Route::get('/akademik/kurikulum', [\App\Http\Controllers\KurikulumController::class, 'index'])->name('public.akademik.kurikulum');
+Route::get('/akademik/kurikulum', [\App\Http\Controllers\KurikulumController::class, 'publicIndex'])->name('public.akademik.kurikulum');
 Route::get('/akademik/sistem-akademik', [\App\Http\Controllers\SistemAkademikController::class, 'indexPublic'])->name('public.akademik.sistem');
+
+// LPPM Public Routes
+Route::get('/lppm/lppm', [\App\Http\Controllers\LppmProfilController::class, 'indexPublic'])->name('public.lppm.profil');
+Route::get('/lppm/penelitian', [\App\Http\Controllers\LppmInformasiHibahController::class, 'indexPublic'])->name('public.lppm.penelitian');
+Route::get('/lppm/pengabdian', [\App\Http\Controllers\LppmPengabdianController::class, 'indexPublic'])->name('public.lppm.pengabdian');
+Route::get('/lppm/publikasi', [\App\Http\Controllers\LppmPublikasiController::class, 'indexPublic'])->name('public.lppm.publikasi');
+Route::get('/lppm/repository', [\App\Http\Controllers\RepositoryController::class, 'indexPublic'])->name('public.lppm.repository');
+Route::get('/lppm/repository/{id}', [\App\Http\Controllers\RepositoryController::class, 'showPublic'])->name('public.lppm.repository.show');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
@@ -181,6 +189,28 @@ Route::middleware('auth')->group(function () {
     // Admin Akademik - Sistem Akademik
     Route::get('/admin/akademik/sistem', [\App\Http\Controllers\SistemAkademikController::class, 'edit'])->name('admin.akademik.sistem.index');
     Route::post('/admin/akademik/sistem', [\App\Http\Controllers\SistemAkademikController::class, 'update'])->name('admin.akademik.sistem.update');
+
+    // Admin LPPM - Profil
+    Route::get('/admin/lppm/lppm', [\App\Http\Controllers\LppmProfilController::class, 'edit'])->name('admin.lppm.profil.index');
+    Route::post('/admin/lppm/lppm', [\App\Http\Controllers\LppmProfilController::class, 'update'])->name('admin.lppm.profil.update');
+
+    // Admin LPPM - Penelitian
+    Route::get('/admin/lppm/penelitian', [\App\Http\Controllers\LppmInformasiHibahController::class, 'edit'])->name('admin.lppm.penelitian.index');
+    Route::post('/admin/lppm/penelitian', [\App\Http\Controllers\LppmInformasiHibahController::class, 'update'])->name('admin.lppm.penelitian.update');
+
+    // Admin LPPM - Pengabdian
+    Route::get('/admin/lppm/pengabdian', [\App\Http\Controllers\LppmPengabdianController::class, 'edit'])->name('admin.lppm.pengabdian.index');
+    Route::post('/admin/lppm/pengabdian', [\App\Http\Controllers\LppmPengabdianController::class, 'update'])->name('admin.lppm.pengabdian.update');
+
+    // Admin LPPM - Publikasi
+    Route::get('/admin/lppm/publikasi', [\App\Http\Controllers\LppmPublikasiController::class, 'edit'])->name('admin.lppm.publikasi.index');
+    Route::post('/admin/lppm/publikasi', [\App\Http\Controllers\LppmPublikasiController::class, 'update'])->name('admin.lppm.publikasi.update');
+
+    // Admin LPPM - Repository
+    Route::get('/admin/lppm/repository', [\App\Http\Controllers\RepositoryController::class, 'index'])->name('admin.lppm.repository.index');
+    Route::post('/admin/lppm/repository', [\App\Http\Controllers\RepositoryController::class, 'store'])->name('admin.lppm.repository.store');
+    Route::post('/admin/lppm/repository/{id}', [\App\Http\Controllers\RepositoryController::class, 'update'])->name('admin.lppm.repository.update');
+    Route::delete('/admin/lppm/repository/{id}', [\App\Http\Controllers\RepositoryController::class, 'destroy'])->name('admin.lppm.repository.destroy');
 
 });
 

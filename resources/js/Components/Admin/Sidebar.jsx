@@ -174,12 +174,49 @@ const navigation = [
     },
     {
         type: 'group',
-        name: 'LPPM',
+        name: 'Penelitian & Pengabdian',
         icon: Lightbulb,
         children: [
-            { type: 'link', name: 'Info Hibah', href: '/lppm/hibah', badge: 3 },
-            { type: 'link', name: 'Penelitian', href: '/lppm/penelitian' },
-            { type: 'link', name: 'Pengabdian Masyarakat', href: '/lppm/pengabdian' },
+            {
+                type: 'group',
+                name: 'LPPM',
+                children: [
+                    { type: 'link', name: 'Kelola Halaman', href: '/admin/lppm/lppm', icon: Settings },
+                    { type: 'link', name: 'Lihat Halaman', href: '/lppm/lppm', icon: ExternalLink },
+                ]
+            },
+            {
+                type: 'group',
+                name: 'Penelitian',
+                children: [
+                    { type: 'link', name: 'Kelola Halaman', href: '/admin/lppm/penelitian', icon: Settings },
+                    { type: 'link', name: 'Lihat Halaman', href: '/lppm/penelitian', icon: ExternalLink },
+                ]
+            },
+            {
+                type: 'group',
+                name: 'Pengabdian Masyarakat',
+                children: [
+                    { type: 'link', name: 'Kelola Halaman', href: '/admin/lppm/pengabdian', icon: Settings },
+                    { type: 'link', name: 'Lihat Halaman', href: '/lppm/pengabdian', icon: ExternalLink },
+                ]
+            },
+            {
+                type: 'group',
+                name: 'Publikasi',
+                children: [
+                    { type: 'link', name: 'Kelola Halaman', href: '/admin/lppm/publikasi', icon: Settings },
+                    { type: 'link', name: 'Lihat Halaman', href: '/lppm/publikasi', icon: ExternalLink },
+                ]
+            },
+            {
+                type: 'group',
+                name: 'Repository',
+                children: [
+                    { type: 'link', name: 'Kelola Halaman', href: '/admin/lppm/repository', icon: Settings },
+                    { type: 'link', name: 'Lihat Halaman', href: '/lppm/repository', icon: ExternalLink },
+                ]
+            },
         ],
     },
     { type: 'link', name: 'Berita', href: '/berita', icon: Newspaper, badge: 45 },
