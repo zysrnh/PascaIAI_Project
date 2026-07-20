@@ -42,6 +42,7 @@ export default function PublicLayout({ children }) {
                         {/* Desktop Navigation Menu */}
                         <nav className="hidden lg:flex items-center space-x-6">
                             <Link href="/" className="text-emerald-800 font-semibold border-b-2 border-transparent hover:border-emerald-800 px-1 py-1">Beranda</Link>
+                            <Link href="/berita" className={`font-semibold border-b-2 px-1 py-1 transition ${route().current('public.berita.*') ? 'text-emerald-800 border-emerald-800' : 'text-slate-600 hover:text-emerald-800 border-transparent hover:border-emerald-800'}`}>Berita</Link>
                             
                             {/* Profil Dropdown */}
                             <div className="relative group">
@@ -141,6 +142,7 @@ export default function PublicLayout({ children }) {
                             }
                         `}</style>
                         <Link href="/" className="block px-3 py-2.5 rounded-sm text-slate-700 hover:bg-slate-50 font-medium mb-2">Beranda</Link>
+                        <Link href="/berita" className="block px-3 py-2.5 rounded-sm text-slate-700 hover:bg-slate-50 font-medium mb-2">Berita</Link>
                         
                         {/* Profil Mobile Dropdown */}
                         <details className="group">

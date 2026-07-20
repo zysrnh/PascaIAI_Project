@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Head, Link, useForm, router } from '@inertiajs/react';
+import { Calendar, Eye } from 'lucide-react';
+import Swal from 'sweetalert2';
 
-export default function Welcome({ setting, umum, programStudi = [], sambutan }) {
+export default function Welcome({ setting, umum, programStudi = [], sambutan, beritas = [] }) {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isLoaded, setIsLoaded] = useState(false);
     const { data: waForm, setData: setWaForm, post, processing } = useForm({
@@ -102,6 +104,7 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan }) 
                             {/* Desktop Navigation Menu */}
                             <nav className="hidden lg:flex items-center space-x-6">
                                 <Link href="/" className="text-emerald-800 font-semibold border-b-2 border-emerald-800 px-1 py-1">Beranda</Link>
+                                <Link href="/berita" className={`font-semibold border-b-2 px-1 py-1 transition ${route().current('public.berita.*') ? 'text-emerald-800 border-emerald-800' : 'text-slate-600 hover:text-emerald-800 border-transparent hover:border-emerald-800'}`}>Berita</Link>
                                 
                                 {/* Profil Dropdown */}
                                 <div className="relative group">
@@ -193,6 +196,7 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan }) 
                                 }
                             `}</style>
                             <a href="#" className="block px-3 py-2.5 rounded-sm bg-emerald-50 text-emerald-800 font-semibold mb-2">Beranda</a>
+                            <Link href="/berita" className="block px-3 py-2.5 rounded-sm text-slate-700 hover:bg-slate-50 font-medium mb-2">Berita</Link>
                             
                             {/* Profil Mobile Dropdown */}
                             <details className="group">
@@ -532,6 +536,86 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan }) 
                                     </button>
                                 </form>
                             </div>
+                        </div>
+                    </div>
+                </section>
+
+                {/* Berita Terbaru */}
+                <section className="py-20 bg-white">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="flex flex-col md:flex-row justify-between items-end mb-12 animate-on-scroll opacity-0 translate-y-12 transition-all duration-1000 ease-out">
+                            <div className="max-w-2xl">
+                                <span className="text-emerald-700 font-bold text-sm tracking-widest uppercase">BERITA & INFORMASI</span>
+                                <h2 className="text-3xl sm:text-4xl font-extrabold text-emerald-950 mt-2 mb-4">Kabar Pascasarjana</h2>
+                                <p className="text-slate-600">Ikuti terus perkembangan terbaru, pengumuman akademik, dan artikel ilmiah dari lingkungan kampus.</p>
+                            </div>
+                            <Link href="/berita" className="hidden md:inline-flex items-center gap-2 text-emerald-700 font-bold hover:text-emerald-800 transition-colors group">
+                                Lihat Semua Berita <i className="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                            </Link>
+                        </div>
+                        
+                        {beritas && beritas.length > 0 ? (
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 animate-on-scroll opacity-0 translate-y-12 transition-all duration-1000 ease-out delay-100">
+                                {beritas.map((berita) => (
+                                    <div key={berita.id} className="bg-slate-50 rounded-xl shadow-sm border border-slate-100 overflow-hidden group hover:shadow-xl transition-all duration-300 flex flex-col">
+                                        <div className="aspect-video bg-slate-200 relative overflow-hidden">
+                                            {berita.gambar_url ? (
+                                                <img 
+                                                    src={berita.gambar_url} 
+                                                    alt={berita.judul} 
+                                                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                                />
+                                            ) : (
+                                                <div className="w-full h-full flex items-center justify-center text-slate-300">
+                                                    <i className="fa-regular fa-image text-4xl"></i>
+                                                </div>
+                                            )}
+                                        </div>
+                                        <div className="p-6 flex-1 flex flex-col">
+                                            <div className="flex items-center gap-4 text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-3">
+                                                <div className="flex items-center gap-1.5">
+                                                    <Calendar className="w-3.5 h-3.5 text-emerald-600" />
+                                                    {new Date(berita.created_at).toLocaleDateString('id-ID', {day: 'numeric', month: 'short', year: 'numeric'})}
+                                                </div>
+                                                <div className="flex items-center gap-1.5">
+                                                    <Eye className="w-3.5 h-3.5 text-emerald-600" />
+                                                    {berita.views} x
+                                                </div>
+                                            </div>
+                                            
+                                            <h3 className="text-xl font-bold text-slate-800 mb-3 line-clamp-2 group-hover:text-emerald-700 transition-colors">
+                                                <Link href={`/berita/${berita.slug}`}>
+                                                    {berita.judul}
+                                                </Link>
+                                            </h3>
+                                            
+                                            <p className="text-slate-600 text-sm line-clamp-3 mb-6">
+                                                {berita.konten.replace(/<[^>]+>/g, '')}
+                                            </p>
+                                            
+                                            <div className="mt-auto pt-4 border-t border-slate-200">
+                                                <Link 
+                                                    href={`/berita/${berita.slug}`}
+                                                    className="inline-flex items-center gap-2 text-sm font-bold text-emerald-600 hover:text-emerald-700 group/link"
+                                                >
+                                                    Baca Selengkapnya
+                                                    <i className="fa-solid fa-arrow-right text-[10px] group-hover/link:translate-x-1 transition-transform"></i>
+                                                </Link>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        ) : (
+                            <div className="text-center py-12 bg-slate-50 rounded-xl border border-slate-100 animate-on-scroll opacity-0 translate-y-12 transition-all duration-1000 ease-out delay-100">
+                                <p className="text-slate-500">Belum ada berita terbaru.</p>
+                            </div>
+                        )}
+                        
+                        <div className="mt-8 text-center md:hidden animate-on-scroll opacity-0 translate-y-12 transition-all duration-1000 ease-out delay-200">
+                            <Link href="/berita" className="inline-flex items-center gap-2 text-emerald-700 font-bold hover:text-emerald-800 transition-colors">
+                                Lihat Semua Berita <i className="fa-solid fa-arrow-right"></i>
+                            </Link>
                         </div>
                     </div>
                 </section>

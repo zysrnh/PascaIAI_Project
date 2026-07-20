@@ -33,8 +33,16 @@ Route::get('/', function () {
         ]
     );
 
-    $programStudi = \App\Models\ProgramStudi::where('status', 1)->select('id', 'nama', 'jenjang', 'gelar_lulusan', 'deskripsi')->get();
+    $programStudi = \App\Models\ProgramStudi::where('status', 1)->select('id', 'nama', 'jenjang', 'gelar_lulusan', 'deskripsi', 'gambar')->get();
     $sambutan = \App\Models\SambutanPimpinan::first();
+    $beritas = \App\Models\Berita::where('is_published', true)->orderBy('created_at', 'desc')->take(3)->get();
+    
+    $beritas->transform(function ($item) {
+        if ($item->gambar) {
+            $item->gambar_url = \Illuminate\Support\Facades\Storage::url($item->gambar);
+        }
+        return $item;
+    });
 
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
@@ -43,6 +51,7 @@ Route::get('/', function () {
         'phpVersion' => PHP_VERSION,
         'setting' => $setting,
         'umum' => $umum,
+        'beritas' => $beritas,
         'programStudi' => $programStudi,
         'sambutan' => $sambutan
     ]);
@@ -102,6 +111,10 @@ Route::get('/lppm/repository/{id}', [\App\Http\Controllers\RepositoryController:
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+// Berita Public Routes
+Route::get('/berita', [\App\Http\Controllers\BeritaController::class, 'publicIndex'])->name('public.berita.index');
+Route::get('/berita/{slug}', [\App\Http\Controllers\BeritaController::class, 'showPublic'])->name('public.berita.show');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -170,6 +183,13 @@ Route::middleware('auth')->group(function () {
     Route::post('/admin/fakultas/dosen/{id}', [\App\Http\Controllers\DosenController::class, 'update'])->name('admin.dosen.update');
     Route::delete('/admin/fakultas/dosen/{id}', [\App\Http\Controllers\DosenController::class, 'destroy'])->name('admin.dosen.destroy');
     Route::post('/admin/fakultas/dosen-pengaturan', [\App\Http\Controllers\DosenController::class, 'updatePengaturan'])->name('admin.dosen.pengaturan');
+
+    // Admin Berita Routes
+    Route::get('/admin/berita', [\App\Http\Controllers\BeritaController::class, 'index'])->name('admin.berita.index');
+    Route::post('/admin/berita', [\App\Http\Controllers\BeritaController::class, 'store'])->name('admin.berita.store');
+    Route::post('/admin/berita/{id}', [\App\Http\Controllers\BeritaController::class, 'update'])->name('admin.berita.update');
+    Route::delete('/admin/berita/{id}', [\App\Http\Controllers\BeritaController::class, 'destroy'])->name('admin.berita.destroy');
+    Route::post('/admin/berita/pengaturan', [\App\Http\Controllers\BeritaController::class, 'updatePengaturan'])->name('admin.berita.pengaturan');
 
     // Admin Fakultas
     Route::get('/admin/fakultas', [\App\Http\Controllers\FakultasController::class, 'index'])->name('admin.fakultas.index');
