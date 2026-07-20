@@ -3,7 +3,8 @@
 use App\Http\Controllers\ProfileController;
 
 use App\Http\Controllers\TentangKampusController;
-use App\Http\Controllers\SambutanPimpinanController;
+use App\Http\Controllers\StrukturOrganisasiController;
+use App\Http\Controllers\KurikulumController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -53,6 +54,8 @@ Route::get('/fakultas/prospek-karir', [\App\Http\Controllers\ProspekKarirControl
 
 Route::get('/akademik/kalender-akademik', [\App\Http\Controllers\KalenderAkademikController::class, 'publicIndex'])->name('public.akademik.kalender');
 Route::get('/akademik/jadwal-perkuliahan', [\App\Http\Controllers\JadwalPerkuliahanController::class, 'publicIndex'])->name('public.akademik.jadwal');
+Route::get('/akademik/pedoman', [\App\Http\Controllers\PedomanAkademikController::class, 'indexPublic'])->name('public.akademik.pedoman');
+Route::get('/akademik/kurikulum', [\App\Http\Controllers\KurikulumController::class, 'index'])->name('public.akademik.kurikulum');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
@@ -134,6 +137,13 @@ Route::middleware('auth')->group(function () {
     Route::delete('/admin/program-studi/{id}', [\App\Http\Controllers\ProgramStudiController::class, 'destroy'])->name('admin.program_studi.destroy');
     Route::post('/admin/program-studi-pengaturan', [\App\Http\Controllers\ProgramStudiController::class, 'updatePengaturan'])->name('admin.program_studi.pengaturan');
 
+    // Admin Akademik - Pedoman Akademik
+    Route::get('/admin/akademik/pedoman', [\App\Http\Controllers\PedomanAkademikController::class, 'indexAdmin'])->name('admin.akademik.pedoman.index');
+    Route::post('/admin/akademik/pedoman', [\App\Http\Controllers\PedomanAkademikController::class, 'store'])->name('admin.akademik.pedoman.store');
+    Route::post('/admin/akademik/pedoman/{id}', [\App\Http\Controllers\PedomanAkademikController::class, 'update'])->name('admin.akademik.pedoman.update');
+    Route::delete('/admin/akademik/pedoman/{id}', [\App\Http\Controllers\PedomanAkademikController::class, 'destroy'])->name('admin.akademik.pedoman.destroy');
+    Route::post('/admin/akademik/pedoman-pengaturan', [\App\Http\Controllers\PedomanAkademikController::class, 'updatePengaturan'])->name('admin.akademik.pedoman.pengaturan');
+
     // Admin Akademik - Kalender Akademik
     Route::get('/admin/akademik/kalender', [\App\Http\Controllers\KalenderAkademikController::class, 'index'])->name('admin.akademik.kalender.index');
     Route::post('/admin/akademik/kalender', [\App\Http\Controllers\KalenderAkademikController::class, 'store'])->name('admin.akademik.kalender.store');
@@ -154,6 +164,19 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/admin/akademik/jadwal/template-csv', [\App\Http\Controllers\JadwalPerkuliahanController::class, 'downloadTemplate'])->name('admin.akademik.jadwal.template');
     Route::post('/admin/akademik/jadwal/import/{periode_id}', [\App\Http\Controllers\JadwalPerkuliahanController::class, 'importCsv'])->name('admin.akademik.jadwal.import');
+
+    // Admin Akademik - Kurikulum
+    Route::get('/admin/akademik/kurikulum', [\App\Http\Controllers\KurikulumController::class, 'adminIndex'])->name('admin.akademik.kurikulum.index');
+    Route::post('/admin/akademik/kurikulum', [\App\Http\Controllers\KurikulumController::class, 'store'])->name('admin.akademik.kurikulum.store');
+    Route::put('/admin/akademik/kurikulum/{id}', [\App\Http\Controllers\KurikulumController::class, 'update'])->name('admin.akademik.kurikulum.update');
+    Route::delete('/admin/akademik/kurikulum/{id}', [\App\Http\Controllers\KurikulumController::class, 'destroy'])->name('admin.akademik.kurikulum.destroy');
+    Route::post('/admin/akademik/kurikulum-pengaturan', [\App\Http\Controllers\KurikulumController::class, 'updatePengaturan'])->name('admin.akademik.kurikulum.pengaturan');
+    
+    Route::get('/admin/akademik/kurikulum/{id}/matakuliah', [\App\Http\Controllers\KurikulumController::class, 'manageMataKuliah'])->name('admin.akademik.kurikulum.matakuliah');
+    Route::post('/admin/akademik/kurikulum/{id}/matakuliah', [\App\Http\Controllers\KurikulumController::class, 'storeMataKuliah'])->name('admin.akademik.kurikulum.matakuliah.store');
+    Route::put('/admin/akademik/kurikulum/matakuliah/{id}', [\App\Http\Controllers\KurikulumController::class, 'updateMataKuliah'])->name('admin.akademik.kurikulum.matakuliah.update');
+    Route::delete('/admin/akademik/kurikulum/matakuliah/{id}', [\App\Http\Controllers\KurikulumController::class, 'destroyMataKuliah'])->name('admin.akademik.kurikulum.matakuliah.destroy');
+
 });
 
 require __DIR__.'/auth.php';

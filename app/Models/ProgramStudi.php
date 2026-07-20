@@ -40,4 +40,9 @@ class ProgramStudi extends Model
     {
         return $this->belongsTo(Fakultas::class);
     }
+
+    public function mataKuliahs()
+    {
+        return $this->hasMany(MataKuliah::class);
+    }
 }

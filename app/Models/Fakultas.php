@@ -22,4 +22,9 @@ class Fakultas extends Model
         'sk_pendirian',
         'status',
     ];
+
+    public function programStudis()
+    {
+        return $this->hasMany(ProgramStudi::class);
+    }
 }

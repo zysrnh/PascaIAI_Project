@@ -130,13 +130,28 @@ const navigation = [
         name: 'Akademik',
         icon: GraduationCap,
         children: [
-            { type: 'link', name: 'Pedoman Akademik', href: '/akademik/pedoman' },
+            {
+                type: 'group',
+                name: 'Pedoman Akademik',
+                children: [
+                    { type: 'link', name: 'Kelola Halaman', href: '/admin/akademik/pedoman', icon: Settings },
+                    { type: 'link', name: 'Lihat Halaman', href: '/akademik/pedoman', icon: ExternalLink },
+                ]
+            },
             {
                 type: 'group',
                 name: 'Kalender Akademik',
                 children: [
                     { type: 'link', name: 'Kelola Halaman', href: '/admin/akademik/kalender', icon: Settings },
                     { type: 'link', name: 'Lihat Halaman', href: '/akademik/kalender-akademik', icon: ExternalLink },
+                ]
+            },
+            {
+                type: 'group',
+                name: 'Kurikulum',
+                children: [
+                    { type: 'link', name: 'Kelola Halaman', href: '/admin/akademik/kurikulum', icon: Settings },
+                    { type: 'link', name: 'Lihat Halaman', href: '/akademik/kurikulum', icon: ExternalLink },
                 ]
             },
             {
