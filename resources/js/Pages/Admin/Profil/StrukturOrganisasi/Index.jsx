@@ -144,9 +144,9 @@ export default function Index({ auth, organisasi, jabatanTree, pengaturan }) {
                 <div className={`min-w-0 flex-1 transition-all duration-700 ease-out transform ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
                     <div className="py-8 px-4 sm:px-6 lg:px-8">
                         <div className="flex justify-between items-center mb-6">
-                            <div>
-                                <h1 className="text-2xl font-bold text-slate-800">Struktur Organisasi</h1>
-                                <p className="text-sm text-slate-500">Kelola daftar pimpinan dan pengurus Pascasarjana IAI Persis Bandung.</p>
+                            <div className="mb-6">
+                                <h1 className="text-2xl font-bold text-slate-800">Kelola Halaman: Struktur Organisasi</h1>
+                                <p className="text-sm text-slate-500">Ubah isi konten yang akan tampil di halaman publik Struktur Organisasi.</p>
                             </div>
                             <Link href={route('admin.profil.struktur-organisasi.create')}>
                                 <PrimaryButton className="bg-emerald-600 hover:bg-emerald-700 gap-2">
@@ -171,7 +171,7 @@ export default function Index({ auth, organisasi, jabatanTree, pengaturan }) {
                                         <label className="block text-sm font-medium text-slate-700">Gambar Banner Saat Ini</label>
                                         <div className="relative w-full h-64 bg-slate-100 rounded-lg overflow-hidden border border-slate-200">
                                             <img 
-                                                src={previewBanner ? previewBanner : (pengaturan?.banner_image ? `/storage/${pengaturan.banner_image}` : "/images/default-banner.jpg")} 
+                                                src={previewBanner ? previewBanner : (pengaturan?.banner_image ? (pengaturan.banner_image.startsWith('/storage/') || pengaturan.banner_image.startsWith('http') ? pengaturan.banner_image : `/storage/${pengaturan.banner_image}`) : "/images/default-banner.jpg")} 
                                                 alt="Preview" 
                                                 className="w-full h-full object-cover" 
                                             />

@@ -42,21 +42,10 @@ export default function Index({ auth, institusi, prodis, riwayats, pengaturan })
                 <Sidebar />
                 <div className="flex-1 overflow-y-auto p-4 md:p-6">
                     <div className="max-w-7xl mx-auto space-y-6">
-                        
-                        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-                            <div>
-                                <h1 className="text-2xl font-bold text-slate-800">Manajemen Akreditasi</h1>
-                                <p className="text-slate-500 text-sm mt-1">Kelola data akreditasi institusi, program studi, dan riwayat.</p>
+                         <div className="mb-6">
+                                <h1 className="text-2xl font-bold text-slate-800">Kelola Halaman: Akreditasi</h1>
+                                <p className="text-sm text-slate-500">Ubah isi konten yang akan tampil di halaman publik Akreditasi.</p>
                             </div>
-                            <Link
-                                href={route('public.akreditasi')}
-                                className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-50 text-emerald-600 rounded-lg font-medium hover:bg-emerald-100 transition-colors"
-                            >
-                                <Award className="w-4 h-4" />
-                                Lihat Halaman Publik
-                            </Link>
-                        </div>
-
                         {/* Tabs */}
                         <div className="flex border-b border-slate-200 bg-white px-2 pt-2 rounded-t-xl overflow-x-auto">
                             <button
@@ -205,7 +194,7 @@ function InstitusiTab({ institusi, pengaturan }) {
                                 <label className="block text-sm font-medium text-slate-700">Gambar Banner Saat Ini</label>
                                 <div className="relative w-full h-64 bg-slate-100 rounded-lg overflow-hidden border border-slate-200">
                                     <img 
-                                        src={previewBanner ? previewBanner : (pengaturan?.banner_image ? `/storage/${pengaturan.banner_image}` : "/images/default-banner.jpg")} 
+                                        src={previewBanner ? previewBanner : (pengaturan?.banner_image ? (pengaturan.banner_image.startsWith('/storage/') || pengaturan.banner_image.startsWith('http') ? pengaturan.banner_image : `/storage/${pengaturan.banner_image}`) : "/images/default-banner.jpg")} 
                                         alt="Preview" 
                                         className="w-full h-full object-cover" 
                                     />

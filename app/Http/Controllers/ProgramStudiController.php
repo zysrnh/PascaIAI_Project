@@ -65,6 +65,7 @@ class ProgramStudiController extends Controller
     {
         $request->validate([
             'nama' => 'required|string|max:255',
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
             'kode' => 'nullable|string|max:255',
             'jenjang' => 'required|string|max:50',
             'fakultas_id' => 'required|exists:fakultas,id',
@@ -96,6 +97,10 @@ class ProgramStudiController extends Controller
             $data['kurikulum_file_path'] = $request->file('kurikulum_file')->store('program_studi', 'public');
         }
 
+        if ($request->hasFile('gambar')) {
+            $data['gambar'] = $request->file('gambar')->store('program_studi/gambar', 'public');
+        }
+
         ProgramStudi::create($data);
 
         return redirect()->back()->with('success', 'Program Studi berhasil ditambahkan!');
@@ -105,6 +110,7 @@ class ProgramStudiController extends Controller
     {
         $request->validate([
             'nama' => 'required|string|max:255',
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
             'kode' => 'nullable|string|max:255',
             'jenjang' => 'required|string|max:50',
             'fakultas_id' => 'required|exists:fakultas,id',
@@ -139,6 +145,13 @@ class ProgramStudiController extends Controller
             $data['kurikulum_file_path'] = $request->file('kurikulum_file')->store('program_studi', 'public');
         }
 
+        if ($request->hasFile('gambar')) {
+            if ($prodi->gambar) {
+                Storage::disk('public')->delete($prodi->gambar);
+            }
+            $data['gambar'] = $request->file('gambar')->store('program_studi/gambar', 'public');
+        }
+
         $prodi->update($data);
 
         return redirect()->back()->with('success', 'Program Studi berhasil diperbarui!');
@@ -150,6 +163,10 @@ class ProgramStudiController extends Controller
         
         if ($prodi->kurikulum_file_path) {
             Storage::disk('public')->delete($prodi->kurikulum_file_path);
+        }
+        
+        if ($prodi->gambar) {
+            Storage::disk('public')->delete($prodi->gambar);
         }
         
         $prodi->delete();

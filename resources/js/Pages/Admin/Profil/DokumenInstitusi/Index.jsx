@@ -107,9 +107,9 @@ export default function Index({ auth, dokumen, pengaturan }) {
                 <div className="min-w-0 flex-1 py-8 px-4 sm:px-6 lg:px-8 space-y-8">
                     
                     <div className="flex justify-between items-center mb-2">
-                        <div>
-                            <h1 className="text-2xl font-bold text-slate-800">Dokumen Institusi</h1>
-                            <p className="text-sm text-slate-500">Kelola daftar dokumen yang dapat diunduh publik.</p>
+                        <div className="mb-6">
+                            <h1 className="text-2xl font-bold text-slate-800">Kelola Halaman: Dokumen Institusi</h1>
+                            <p className="text-sm text-slate-500">Ubah isi konten yang akan tampil di halaman publik Dokumen Institusi.</p>
                         </div>
                     </div>
                     
@@ -128,7 +128,7 @@ export default function Index({ auth, dokumen, pengaturan }) {
                                     <label className="block text-sm font-medium text-slate-700">Gambar Banner Saat Ini</label>
                                     <div className="relative w-full h-64 bg-slate-100 rounded-lg overflow-hidden border border-slate-200">
                                         <img 
-                                            src={previewBanner ? previewBanner : (pengaturan?.banner_image ? `/storage/${pengaturan.banner_image}` : "/images/default-banner.jpg")} 
+                                            src={previewBanner ? previewBanner : (pengaturan?.banner_image ? (pengaturan.banner_image.startsWith('/storage/') || pengaturan.banner_image.startsWith('http') ? pengaturan.banner_image : `/storage/${pengaturan.banner_image}`) : "/images/default-banner.jpg")} 
                                             alt="Preview" 
                                             className="w-full h-full object-cover" 
                                         />

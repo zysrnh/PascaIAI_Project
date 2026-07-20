@@ -59,7 +59,7 @@ export default function KurikulumPublic({ kurikulums, activeKurikulum, fakultas,
             <div className="relative w-full h-[350px] md:h-[450px] bg-emerald-950 flex flex-col justify-end">
                 <div className="absolute inset-0">
                     <img 
-                        src={pengaturan?.banner_image ? `/storage/${pengaturan.banner_image}` : "/images/default-banner.jpg"}
+                        src={pengaturan?.banner_image ? (pengaturan.banner_image.startsWith('/storage/') || pengaturan.banner_image.startsWith('http') ? pengaturan.banner_image : `/storage/${pengaturan.banner_image}`) : "/images/default-banner.jpg"}
                         alt="Kurikulum Banner" 
                         className="w-full h-full object-cover opacity-60"
                     />

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Head, router } from '@inertiajs/react';
 import PublicLayout from '@/Layouts/PublicLayout';
-import { Users, GraduationCap, Award, BookOpen, User, ExternalLink, Search, Filter } from 'lucide-react';
+import { Users, GraduationCap, Award, BookOpen, User, ExternalLink, Search, Filter, ChevronRight } from 'lucide-react';
 
 export default function Index({ dosens, programStudis, pengaturan, stats, activeProdi }) {
     const defaultBanner = "/images/default-banner.jpg";
@@ -34,6 +34,13 @@ export default function Index({ dosens, programStudis, pengaturan, stats, active
                     <div className="absolute inset-0 bg-emerald-950/40 mix-blend-multiply"></div>
                 </div>
                 <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pb-10">
+                    <div className="flex items-center gap-2 text-white/80 text-sm font-medium mb-4">
+                        <Link href="/" className="hover:text-white transition-colors">Beranda</Link>
+                        <ChevronRight className="w-4 h-4" />
+                        <span>Fakultas</span>
+                        <ChevronRight className="w-4 h-4" />
+                        <span className="text-white">Data Dosen</span>
+                    </div>
                     <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-2 uppercase tracking-tight">
                         Data Dosen
                     </h1>

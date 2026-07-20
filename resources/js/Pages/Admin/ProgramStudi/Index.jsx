@@ -26,6 +26,7 @@ export default function Index({ programStudis, fakultas, pengaturan }) {
         visi_misi: '',
         cpl: '',
         kurikulum_file: null,
+        gambar: null,
         jumlah_mahasiswa: 0,
         jumlah_dosen: 0,
         jumlah_lulusan: 0,
@@ -61,6 +62,7 @@ export default function Index({ programStudis, fakultas, pengaturan }) {
                 visi_misi: prodi.visi_misi || '',
                 cpl: prodi.cpl || '',
                 kurikulum_file: null,
+                gambar: null,
                 jumlah_mahasiswa: prodi.jumlah_mahasiswa || 0,
                 jumlah_dosen: prodi.jumlah_dosen || 0,
                 jumlah_lulusan: prodi.jumlah_lulusan || 0,
@@ -122,9 +124,7 @@ export default function Index({ programStudis, fakultas, pengaturan }) {
 
     const currentBannerUrl = previewBanner 
         ? previewBanner 
-        : (pengaturan?.banner_image 
-            ? `/storage/${pengaturan.banner_image}` 
-            : "/images/default-banner.jpg");
+        : (pengaturan?.banner_image ? (pengaturan.banner_image.startsWith('/storage/') || pengaturan.banner_image.startsWith('http') ? pengaturan.banner_image : `/storage/${pengaturan.banner_image}`) : "/images/default-banner.jpg");
 
     return (
         <AuthenticatedLayout
@@ -468,6 +468,15 @@ export default function Index({ programStudis, fakultas, pengaturan }) {
                                             type="file"
                                             accept=".pdf"
                                             onChange={e => form.setData('kurikulum_file', e.target.files[0])}
+                                            className="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-emerald-50 file:text-emerald-700"
+                                        />
+                                    </div>
+                                    <div className="md:col-span-2 space-y-2">
+                                        <label className="text-sm font-bold text-slate-700">Gambar Cover Prodi (JPG/PNG, opsional)</label>
+                                        <input
+                                            type="file"
+                                            accept="image/*"
+                                            onChange={e => form.setData('gambar', e.target.files[0])}
                                             className="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-emerald-50 file:text-emerald-700"
                                         />
                                     </div>

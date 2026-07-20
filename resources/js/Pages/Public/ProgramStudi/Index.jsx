@@ -45,6 +45,13 @@ export default function Index({ programStudis, pengaturan }) {
                     <div className="absolute inset-0 bg-gradient-to-t from-emerald-950 via-emerald-950/40 to-transparent"></div>
                 </div>
                 <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pb-12">
+                    <div className="flex items-center gap-2 text-white/80 text-sm font-medium mb-4">
+                        <Link href="/" className="hover:text-white transition-colors">Beranda</Link>
+                        <ChevronRight className="w-4 h-4" />
+                        <span>Fakultas</span>
+                        <ChevronRight className="w-4 h-4" />
+                        <span className="text-white">Program Studi</span>
+                    </div>
                     <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-2 drop-shadow-md uppercase tracking-tight">
                         Program Studi
                     </h1>

@@ -147,7 +147,7 @@ export default function Index({ auth, pedomans, pengaturan }) {
     const currentBannerUrl = previewBanner 
         ? previewBanner 
         : (pengaturan?.banner_image 
-            ? `/storage/${pengaturan.banner_image}` 
+            ? (pengaturan.banner_image.startsWith('/storage/') || pengaturan.banner_image.startsWith('http') ? pengaturan.banner_image : `/storage/${pengaturan.banner_image}`)
             : null);
 
     return (

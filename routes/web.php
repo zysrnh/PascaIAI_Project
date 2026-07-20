@@ -20,12 +20,31 @@ Route::get('/', function () {
         ]
     );
 
+    $umum = \App\Models\PengaturanUmum::firstOrCreate(
+        ['id' => 1],
+        [
+            'email' => 'pascasarjana@iaipibandung.ac.id',
+            'telepon' => '(022) 5441951',
+            'alamat' => 'Jl. Ciganitri No.2, Cipagalo, Kec. Bojongsoang, Kabupaten Bandung, Jawa Barat 40287',
+            'facebook_url' => 'https://facebook.com',
+            'instagram_url' => 'https://instagram.com',
+            'youtube_url' => 'https://youtube.com',
+            'twitter_url' => 'https://twitter.com',
+        ]
+    );
+
+    $programStudi = \App\Models\ProgramStudi::where('status', 1)->select('id', 'nama', 'jenjang', 'gelar_lulusan', 'deskripsi')->get();
+    $sambutan = \App\Models\SambutanPimpinan::first();
+
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
-        'setting' => $setting
+        'setting' => $setting,
+        'umum' => $umum,
+        'programStudi' => $programStudi,
+        'sambutan' => $sambutan
     ]);
 });
 
@@ -58,6 +77,9 @@ Route::get('/dokumen-institusi', function () {
 })->name('public.dokumen-institusi');
 
 Route::get('/profil/akreditasi', [\App\Http\Controllers\AkreditasiController::class, 'publicIndex'])->name('public.akreditasi');
+
+Route::post('/konsultasi', [\App\Http\Controllers\KonsultasiPendaftaranController::class, 'store'])->name('public.konsultasi.store');
+
 Route::get('/fakultas/daftarfakultas', [\App\Http\Controllers\FakultasController::class, 'publicIndex'])->name('public.fakultas');
 Route::get('/fakultas/programstudi', [\App\Http\Controllers\ProgramStudiController::class, 'publicIndex'])->name('public.program_studi');
 Route::get('/fakultas/dosen', [\App\Http\Controllers\DosenController::class, 'indexPublic'])->name('public.dosen');
@@ -66,7 +88,7 @@ Route::get('/fakultas/prospek-karir', [\App\Http\Controllers\ProspekKarirControl
 Route::get('/akademik/kalender-akademik', [\App\Http\Controllers\KalenderAkademikController::class, 'publicIndex'])->name('public.akademik.kalender');
 Route::get('/akademik/jadwal-perkuliahan', [\App\Http\Controllers\JadwalPerkuliahanController::class, 'publicIndex'])->name('public.akademik.jadwal');
 Route::get('/akademik/pedoman', [\App\Http\Controllers\PedomanAkademikController::class, 'indexPublic'])->name('public.akademik.pedoman');
-Route::get('/akademik/kurikulum', [\App\Http\Controllers\KurikulumController::class, 'publicIndex'])->name('public.akademik.kurikulum');
+Route::get('/akademik/kurikulum', [\App\Http\Controllers\KurikulumController::class, 'index'])->name('public.akademik.kurikulum');
 Route::get('/akademik/sistem-akademik', [\App\Http\Controllers\SistemAkademikController::class, 'indexPublic'])->name('public.akademik.sistem');
 
 // LPPM Public Routes
@@ -115,6 +137,12 @@ Route::middleware('auth')->group(function () {
     Route::post('/admin/profil/dokumen-institusi', [\App\Http\Controllers\DokumenInstitusiController::class, 'store'])->name('admin.profil.dokumen-institusi.store');
     Route::get('/admin/profil/dokumen-institusi/{id}/edit', [\App\Http\Controllers\DokumenInstitusiController::class, 'edit'])->name('admin.profil.dokumen-institusi.edit');
     Route::post('/admin/profil/dokumen-institusi/{id}', [\App\Http\Controllers\DokumenInstitusiController::class, 'update'])->name('admin.profil.dokumen-institusi.update'); 
+    Route::resource('dokumen', App\Http\Controllers\Admin\DokumenInstitusiController::class)->only(['index', 'store', 'update', 'destroy']);
+    
+    // Konsultasi PMB
+    Route::get('/konsultasi', [App\Http\Controllers\KonsultasiPendaftaranController::class, 'index'])->name('admin.konsultasi.index');
+    Route::delete('/konsultasi/{konsultasi}', [App\Http\Controllers\KonsultasiPendaftaranController::class, 'destroy'])->name('admin.konsultasi.destroy');
+
     Route::post('/admin/profil/dokumen-institusi/bulk-destroy', [\App\Http\Controllers\DokumenInstitusiController::class, 'bulkDestroy'])->name('admin.profil.dokumen-institusi.bulk-destroy');
     Route::delete('/admin/profil/dokumen-institusi/{id}', [\App\Http\Controllers\DokumenInstitusiController::class, 'destroy'])->name('admin.profil.dokumen-institusi.destroy');
 

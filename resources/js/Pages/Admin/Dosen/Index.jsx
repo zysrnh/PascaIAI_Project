@@ -160,7 +160,7 @@ export default function Index({ dosens, programStudis, pengaturan }) {
                                         <label className="block text-sm font-medium text-slate-700">Gambar Banner Saat Ini</label>
                                         <div className="relative w-full h-64 bg-slate-100 rounded-lg overflow-hidden border border-slate-200">
                                             <img 
-                                                src={previewBanner ? previewBanner : (pengaturan?.banner_image ? `/storage/${pengaturan.banner_image}` : "/images/default-banner.jpg")} 
+                                                src={previewBanner ? previewBanner : (pengaturan?.banner_image ? (pengaturan.banner_image.startsWith('/storage/') || pengaturan.banner_image.startsWith('http') ? pengaturan.banner_image : `/storage/${pengaturan.banner_image}`) : "/images/default-banner.jpg")} 
                                                 alt="Preview" 
                                                 className="w-full h-full object-cover" 
                                             />

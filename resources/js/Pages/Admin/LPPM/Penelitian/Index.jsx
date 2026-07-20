@@ -122,7 +122,7 @@ export default function Index({ auth, penelitian }) {
                                                 type="text" 
                                                 value={data.judul} 
                                                 onChange={e => setData('judul', e.target.value)} 
-                                                className="bg-transparent text-3xl font-extrabold mb-2 drop-shadow-md border-b border-dashed border-white/50 focus:border-white focus:ring-0 p-0 hover:bg-white/10 transition-colors w-full sm:w-1/2"
+                                                className="bg-transparent text-3xl font-extrabold mb-2 drop-shadow-md border-0 focus:border-0 focus:ring-0 p-0 hover:bg-white/10 transition-colors w-full sm:w-1/2"
                                                 placeholder="Judul Halaman (Misal: Penelitian)"
                                             />
                                             <div className="w-16 h-1.5 bg-amber-500 rounded-sm mb-4"></div>

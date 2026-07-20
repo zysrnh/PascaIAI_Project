@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
-import { Head, Link } from '@inertiajs/react';
+import { Head, Link, useForm, router } from '@inertiajs/react';
 
-export default function Welcome({ setting }) {
+export default function Welcome({ setting, umum, programStudi = [], sambutan }) {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isLoaded, setIsLoaded] = useState(false);
-    const [waForm, setWaForm] = useState({
+    const { data: waForm, setData: setWaForm, post, processing } = useForm({
         nama: '',
         whatsapp: '',
         prodi: ''
@@ -18,15 +18,30 @@ export default function Welcome({ setting }) {
         }
 
         const adminPhone = setting?.pmb_hotline_number || "6282116116133";
-        let prodiName = "";
-        if (waForm.prodi === "pai") prodiName = "S2 Pendidikan Agama Islam (M.Pd.)";
-        else if (waForm.prodi === "hes") prodiName = "S2 Hukum Ekonomi Syariah (M.H.)";
-        else prodiName = waForm.prodi;
-
-        const message = `Halo Admin PMB Pascasarjana IAI Persis Bandung, saya berminat untuk mendaftar dan ingin berkonsultasi.\n\n*Nama Lengkap*: ${waForm.nama}\n*No WhatsApp*: ${waForm.whatsapp}\n*Pilihan Prodi*: ${prodiName}\n\nMohon informasi lebih lanjut terkait pendaftaran. Terima kasih.`;
-        const encodedMessage = encodeURIComponent(message);
+        const selectedProdi = programStudi.find(p => p.id.toString() === waForm.prodi);
+        const prodiName = selectedProdi ? `${selectedProdi.jenjang} ${selectedProdi.nama} (${selectedProdi.gelar_lulusan})` : waForm.prodi;
         
-        window.open(`https://wa.me/${adminPhone}?text=${encodedMessage}`, '_blank');
+        const message = `Halo Admin PMB Pascasarjana IAI Persis Bandung, saya berminat untuk mendaftar dan ingin berkonsultasi.\n\n*Nama Lengkap*: ${waForm.nama}\n*No WhatsApp*: ${waForm.whatsapp}\n*Pilihan Prodi*: ${prodiName}\n\nMohon informasi lebih lanjut terkait pendaftaran. Terima kasih.`;
+        
+        const encodedMessage = encodeURIComponent(message);
+        const waUrl = `https://wa.me/${adminPhone}?text=${encodedMessage}`;
+        
+        // Open WA first to prevent browser popup blockers
+        window.open(waUrl, '_blank');
+        
+        // Post data to DB
+        router.post(route('public.konsultasi.store'), {
+            nama: waForm.nama,
+            no_hp: waForm.whatsapp,
+            pesan: message
+        }, {
+            preserveScroll: true,
+            onSuccess: () => {
+                setWaForm('nama', '');
+                setWaForm('whatsapp', '');
+                setWaForm('prodi', '');
+            }
+        });
     };
 
     useEffect(() => {
@@ -59,14 +74,14 @@ export default function Welcome({ setting }) {
                 <div className="bg-emerald-950 text-emerald-100 text-xs py-2 px-4 hidden md:block">
                     <div className="max-w-7xl mx-auto flex justify-between items-center">
                         <div className="flex items-center space-x-6">
-                            <span><i className="fa-solid fa-envelope text-amber-500 mr-1"></i> pascasarjana@iaipersis.ac.id</span>
-                            <span><i className="fa-solid fa-phone text-amber-500 mr-1"></i> (022) 5441951</span>
+                            <span><i className="fa-solid fa-envelope text-amber-500 mr-1"></i> {umum?.email || 'pascasarjana@iaipibandung.ac.id'}</span>
+                            <span><i className="fa-solid fa-phone text-amber-500 mr-1"></i> {umum?.telepon || '(022) 5441951'}</span>
                             <span><i className="fa-solid fa-location-dot text-amber-500 mr-1"></i> Bojongsoang, Bandung</span>
                         </div>
                         <div className="flex items-center space-x-4">
-                            <a href="#" className="hover:text-amber-400 transition"><i className="fa-brands fa-facebook-f"></i></a>
-                            <a href="#" className="hover:text-amber-400 transition"><i className="fa-brands fa-instagram"></i></a>
-                            <a href="#" className="hover:text-amber-400 transition"><i className="fa-brands fa-youtube"></i></a>
+                            <a href={umum?.facebook_url || '#'} className="hover:text-amber-400 transition"><i className="fa-brands fa-facebook-f"></i></a>
+                            <a href={umum?.instagram_url || '#'} className="hover:text-amber-400 transition"><i className="fa-brands fa-instagram"></i></a>
+                            <a href={umum?.youtube_url || '#'} className="hover:text-amber-400 transition"><i className="fa-brands fa-youtube"></i></a>
                         </div>
                     </div>
                 </div>
@@ -243,19 +258,35 @@ export default function Welcome({ setting }) {
                 </header>
 
                 {/* Hero Section */}
-                <section className="bg-[linear-gradient(rgba(4,47,31,0.85),rgba(2,44,29,0.9)),url('/images/default-banner.jpg')] bg-cover bg-center min-h-[85vh] flex items-center justify-center text-white relative py-20">
+                <section 
+                    className="bg-cover bg-center min-h-[85vh] flex items-center justify-center text-white relative py-20"
+                    style={{
+                        backgroundImage: `linear-gradient(rgba(4,47,31,0.85),rgba(2,44,29,0.9)), url(${setting?.hero_bg ? '/storage/' + setting.hero_bg : '/images/default-banner.jpg'})`
+                    }}
+                >
                     <div className="absolute inset-0 bg-gradient-to-t from-emerald-950/90 via-transparent to-transparent"></div>
                     <div className={`relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center transition-all duration-1000 ease-out transform ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
                         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-sm bg-emerald-800 border border-emerald-600 text-emerald-200 text-xs sm:text-sm font-semibold mb-6 shadow-sm">
                             <span className="w-2.5 h-2.5 rounded-sm-full bg-amber-500 animate-pulse"></span>
                             Penerimaan Mahasiswa Baru Gelombang 1 Dibuka!
                         </div>
-                        <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold mb-6 leading-tight tracking-tight">
-                            Membentuk Akademisi Islami <br className="hidden sm:inline" />
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-emerald-300">Unggul & Berintegritas</span>
+                        <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold text-white leading-tight mb-6">
+                            {setting?.hero_title ? (
+                                <>
+                                    {setting.hero_title.split(' ').slice(0, -2).join(' ')} <br className="hidden sm:block" />
+                                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-emerald-300">
+                                        {setting.hero_title.split(' ').slice(-2).join(' ')}
+                                    </span>
+                                </>
+                            ) : (
+                                <>
+                                    Membentuk Akademisi Islami <br className="hidden sm:block" />
+                                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-emerald-300">Unggul & Berintegritas</span>
+                                </>
+                            )}
                         </h1>
                         <p className="text-base sm:text-lg lg:text-xl text-slate-200 mb-10 max-w-3xl mx-auto leading-relaxed">
-                            Program Pascasarjana Institut Agama Islam Persatuan Islam (IAI PERSIS) Bandung berkomitmen melahirkan intelektual yang kritis, transformatif, berlandaskan nilai luhur Al-Qur'an dan As-Sunnah.
+                            {setting?.hero_subtitle || "Program Pascasarjana Institut Agama Islam Persatuan Islam (IAI PERSIS) Bandung berkomitmen melahirkan intelektual yang kritis, transformatif, berlandaskan nilai luhur Al-Qur'an dan As-Sunnah."}
                         </p>
                         <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
                             <a href="#program" className="w-full sm:w-auto bg-amber-500 hover:bg-amber-600 text-emerald-950 font-bold px-8 py-4 rounded-sm shadow-lg shadow-amber-500/20 transition hover:-translate-y-0.5">
@@ -274,7 +305,7 @@ export default function Welcome({ setting }) {
                         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center animate-on-scroll opacity-0 translate-y-12 transition-all duration-1000 ease-out">
                             <div className="lg:col-span-5 relative">
                                 <div className="absolute inset-0 bg-emerald-800 rounded-sm rotate-3 scale-95 opacity-20"></div>
-                                <img src="https://web-persis.s3.ap-southeast-1.amazonaws.com/files/shares/persis-cd5-0c543921-d668-4ee6-ac15-4f0ff791007e.jpg?q=80&w=600&auto=format&fit=crop" alt="Direktur Pascasarjana IAI Persis" className="rounded-sm shadow-2xl relative z-10 w-full h-[400px] object-cover object-top border-4 border-white" />
+                                <img src={sambutan?.foto || "https://web-persis.s3.ap-southeast-1.amazonaws.com/files/shares/persis-cd5-0c543921-d668-4ee6-ac15-4f0ff791007e.jpg?q=80&w=600&auto=format&fit=crop"} alt={sambutan?.nama || "Direktur Pascasarjana"} className="rounded-sm shadow-2xl relative z-10 w-full h-[400px] object-cover object-top border-4 border-white" />
                                 <div className="absolute -bottom-6 -right-6 bg-amber-500 text-emerald-950 p-6 rounded-sm shadow-xl z-20 hidden sm:block max-w-[240px]">
                                     <p className="font-arabic text-2xl font-bold mb-1">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</p>
                                     <p className="text-xs font-semibold">Berkomitmen menjaga tradisi ilmiah Islam moderat.</p>
@@ -282,16 +313,29 @@ export default function Welcome({ setting }) {
                             </div>
                             <div className="lg:col-span-7">
                                 <span className="text-emerald-700 font-bold text-sm tracking-widest uppercase">KATA SAMBUTAN</span>
-                                <h2 className="text-3xl sm:text-4xl font-extrabold text-emerald-950 mt-2 mb-6">Mewujudkan Masa Depan Pendidikan Islam Gemilang</h2>
-                                <p className="text-slate-600 leading-relaxed mb-6">
-                                    "Selamat datang di Pascasarjana IAI PERSIS Bandung. Kami menyelenggarakan pendidikan tingkat lanjut yang dirancang khusus untuk merespon dinamika global tanpa mencabut akar nilai Keislaman. Kurikulum kami merupakan perpaduan harmonis antara integrasi keilmuan kontemporer dan khazanah Islam klasik (Tafaqquh Fiddin)."
-                                </p>
-                                <p className="text-slate-600 leading-relaxed mb-6">
-                                    Kami mengundang para pendidik, praktisi hukum, akademisi, dan profesional Muslim untuk bersama-sama mengembangkan kapasitas kepemimpinan intelektual yang berkontribusi nyata bagi kemaslahatan umat dan bangsa.
-                                </p>
-                                <div>
-                                    <h4 className="text-lg font-bold text-emerald-900">Dr. H. Latief Awaludin, MA.ME.</h4>
-                                    <p className="text-sm text-slate-500 font-medium">Direktur Pascasarjana IAI PERSIS Bandung</p>
+                                <h2 className="text-3xl sm:text-4xl font-extrabold text-emerald-950 mt-2 mb-6">{sambutan?.sambutan_singkat || "Mewujudkan Masa Depan Pendidikan Islam Gemilang"}</h2>
+                                
+                                {sambutan?.sambutan_lengkap ? (
+                                    <div className="text-slate-600 leading-relaxed mb-6 space-y-4" dangerouslySetInnerHTML={{ __html: sambutan.sambutan_lengkap.substring(0, 400) + '...' }} />
+                                ) : (
+                                    <>
+                                        <p className="text-slate-600 leading-relaxed mb-6">
+                                            "Selamat datang di Pascasarjana IAI PERSIS Bandung. Kami menyelenggarakan pendidikan tingkat lanjut yang dirancang khusus untuk merespon dinamika global tanpa mencabut akar nilai Keislaman. Kurikulum kami merupakan perpaduan harmonis antara integrasi keilmuan kontemporer dan khazanah Islam klasik (Tafaqquh Fiddin)."
+                                        </p>
+                                        <p className="text-slate-600 leading-relaxed mb-6">
+                                            Kami mengundang para pendidik, praktisi hukum, akademisi, dan profesional Muslim untuk bersama-sama mengembangkan kapasitas kepemimpinan intelektual yang berkontribusi nyata bagi kemaslahatan umat dan bangsa.
+                                        </p>
+                                    </>
+                                )}
+                                
+                                <div className="mt-6 flex flex-col justify-between items-start gap-4">
+                                    <div>
+                                        <h4 className="text-lg font-bold text-emerald-900">{sambutan?.nama || "Dr. H. Latief Awaludin, MA.ME."}</h4>
+                                        <p className="text-sm text-slate-500 font-medium">{sambutan?.jabatan || "Direktur Pascasarjana IAI PERSIS Bandung"}</p>
+                                    </div>
+                                    <Link href="/profil/sambutan-pimpinan" className="text-sm font-semibold text-emerald-700 hover:text-emerald-900">
+                                        Baca Selengkapnya &rarr;
+                                    </Link>
                                 </div>
                             </div>
                         </div>
@@ -311,29 +355,29 @@ export default function Welcome({ setting }) {
                                 <div className="w-12 h-12 bg-emerald-100 text-emerald-800 rounded-sm flex items-center justify-center text-xl mb-6">
                                     <i className="fa-solid fa-certificate"></i>
                                 </div>
-                                <h3 className="text-lg font-bold text-emerald-950 mb-3">Akreditasi B (Baik Sekali)</h3>
-                                <p className="text-slate-500 text-sm leading-relaxed">Seluruh program studi pascasarjana telah terakreditasi resmi BAN-PT dengan jaminan mutu tata kelola institusi.</p>
+                                <h3 className="text-lg font-bold text-emerald-950 mb-3">{setting?.pilar_1_title || "Akreditasi B (Baik Sekali)"}</h3>
+                                <p className="text-slate-500 text-sm leading-relaxed">{setting?.pilar_1_desc || "Seluruh program studi pascasarjana telah terakreditasi resmi BAN-PT dengan jaminan mutu tata kelola institusi."}</p>
                             </div>
                             <div className="bg-white p-8 rounded-sm shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition duration-300">
                                 <div className="w-12 h-12 bg-emerald-100 text-emerald-800 rounded-sm flex items-center justify-center text-xl mb-6">
                                     <i className="fa-solid fa-users-gear"></i>
                                 </div>
-                                <h3 className="text-lg font-bold text-emerald-950 mb-3">Dosen Berkualifikasi Doktor</h3>
-                                <p className="text-slate-500 text-sm leading-relaxed">Diajar oleh profesor dan doktor lulusan universitas terkemuka dalam dan luar negeri, ahli di bidangnya.</p>
+                                <h3 className="text-lg font-bold text-emerald-950 mb-3">{setting?.pilar_2_title || "Dosen Berkualifikasi Doktor"}</h3>
+                                <p className="text-slate-500 text-sm leading-relaxed">{setting?.pilar_2_desc || "Diajar oleh profesor dan doktor lulusan universitas terkemuka dalam dan luar negeri, ahli di bidangnya."}</p>
                             </div>
                             <div className="bg-white p-8 rounded-sm shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition duration-300">
                                 <div className="w-12 h-12 bg-emerald-100 text-emerald-800 rounded-sm flex items-center justify-center text-xl mb-6">
-                                    <i className="fa-solid fa-book-atlas"></i>
+                                    <i className="fa-solid fa-book-quran"></i>
                                 </div>
-                                <h3 className="text-lg font-bold text-emerald-950 mb-3">Kurikulum Integratif</h3>
-                                <p className="text-slate-500 text-sm leading-relaxed">Sistem perkuliahan mutakhir yang mensinergikan sains modern dengan nilai-nilai syariah murni.</p>
+                                <h3 className="text-lg font-bold text-emerald-950 mb-3">{setting?.pilar_3_title || "Kurikulum Integratif"}</h3>
+                                <p className="text-slate-500 text-sm leading-relaxed">{setting?.pilar_3_desc || "Sistem perkuliahan mutakhir yang mensinergikan sains modern dengan nilai-nilai syariah murni."}</p>
                             </div>
                             <div className="bg-white p-8 rounded-sm shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition duration-300">
                                 <div className="w-12 h-12 bg-emerald-100 text-emerald-800 rounded-sm flex items-center justify-center text-xl mb-6">
                                     <i className="fa-solid fa-handshake-angle"></i>
                                 </div>
-                                <h3 className="text-lg font-bold text-emerald-950 mb-3">Beasiswa & Kemitraan</h3>
-                                <p className="text-slate-500 text-sm leading-relaxed">Tersedia jaringan beasiswa internal pesantren serta kemitraan riset tingkat nasional dan internasional.</p>
+                                <h3 className="text-lg font-bold text-emerald-950 mb-3">{setting?.pilar_4_title || "Beasiswa & Kemitraan"}</h3>
+                                <p className="text-slate-500 text-sm leading-relaxed">{setting?.pilar_4_desc || "Tersedia jaringan beasiswa internal pesantren serta kemitraan riset tingkat nasional dan internasional."}</p>
                             </div>
                         </div>
                     </div>
@@ -348,67 +392,38 @@ export default function Welcome({ setting }) {
                             <p className="text-slate-600">Pilih peminatan keilmuan yang paling relevan dengan misi karir profesional dan akademis Anda.</p>
                         </div>
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 max-w-5xl mx-auto animate-on-scroll opacity-0 translate-y-12 transition-all duration-1000 ease-out delay-100">
-                            <div className="bg-slate-50 rounded-sm overflow-hidden shadow-sm border border-slate-100 hover:shadow-2xl hover:border-emerald-200 transition duration-300 flex flex-col">
-                                <div className="relative h-64 bg-slate-200">
-                                    <img src="/images/default-banner.jpg" alt="Magister Pendidikan Agama Islam" className="w-full h-full object-cover" />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                                    <div className="absolute bottom-6 left-6">
-                                        <span className="bg-amber-500 text-emerald-950 text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-sm">Akreditasi B</span>
-                                    </div>
-                                </div>
-                                <div className="p-8 flex-grow flex flex-col justify-between">
-                                    <div>
-                                        <h3 className="text-2xl font-bold text-emerald-950 mb-4">S2 Pendidikan Agama Islam</h3>
-                                        <p className="text-slate-600 text-sm leading-relaxed mb-6">
-                                            Mengkaji teori-teori pendidikan mutakhir, metodologi pengajaran berbasis moralitas Islam, pengembangan kurikulum mandiri, serta kepemimpinan lembaga pendidikan Islam kontemporer.
-                                        </p>
-                                        <div className="grid grid-cols-2 gap-4 mb-6 border-t border-slate-200/60 pt-6">
-                                            <div>
-                                                <span className="text-slate-400 text-xs uppercase font-bold tracking-wider block">Gelar Lulusan</span>
-                                                <span className="text-emerald-900 font-bold">M.Pd.</span>
-                                            </div>
-                                            <div>
-                                                <span className="text-slate-400 text-xs uppercase font-bold tracking-wider block">Lama Studi</span>
-                                                <span className="text-emerald-900 font-bold">4 Semester (2 Tahun)</span>
-                                            </div>
+                            {programStudi.map(prodi => (
+                                <div key={prodi.id} className="bg-slate-50 rounded-sm overflow-hidden shadow-sm border border-slate-100 hover:shadow-2xl hover:border-emerald-200 transition duration-300 flex flex-col">
+                                    <div className="relative h-64 bg-slate-200">
+                                        <img src={prodi.gambar ? `/storage/${prodi.gambar}` : "/images/default-banner.jpg"} alt={prodi.nama} className="w-full h-full object-cover" />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                                        <div className="absolute bottom-6 left-6">
+                                            <span className="bg-amber-500 text-emerald-950 text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-sm">Akreditasi B</span>
                                         </div>
                                     </div>
-                                    <a href="#" className="w-full text-center bg-emerald-800 hover:bg-emerald-900 text-white font-semibold py-3 px-6 rounded-sm transition flex items-center justify-center gap-2">
-                                        <span>Detail Kurikulum</span> <i className="fa-solid fa-arrow-right text-sm"></i>
-                                    </a>
-                                </div>
-                            </div>
-
-                            <div className="bg-slate-50 rounded-sm overflow-hidden shadow-sm border border-slate-100 hover:shadow-2xl hover:border-emerald-200 transition duration-300 flex flex-col">
-                                <div className="relative h-64 bg-slate-200">
-                                    <img src="/images/default-banner.jpg" alt="Magister Hukum Ekonomi Syariah" className="w-full h-full object-cover" />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                                    <div className="absolute bottom-6 left-6">
-                                        <span className="bg-amber-500 text-emerald-950 text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-sm">Akreditasi B</span>
-                                    </div>
-                                </div>
-                                <div className="p-8 flex-grow flex flex-col justify-between">
-                                    <div>
-                                        <h3 className="text-2xl font-bold text-emerald-950 mb-4">S2 Hukum Ekonomi Syariah</h3>
-                                        <p className="text-slate-600 text-sm leading-relaxed mb-6">
-                                            Mempelajari peradilan agama, regulasi perbankan syariah, manajemen zakat dan wakaf, serta regulasi transaksi ekonomi makro & mikro modern sesuai prinsip fiqh muamalah.
-                                        </p>
-                                        <div className="grid grid-cols-2 gap-4 mb-6 border-t border-slate-200/60 pt-6">
-                                            <div>
-                                                <span className="text-slate-400 text-xs uppercase font-bold tracking-wider block">Gelar Lulusan</span>
-                                                <span className="text-emerald-900 font-bold">M.H.</span>
-                                            </div>
-                                            <div>
-                                                <span className="text-slate-400 text-xs uppercase font-bold tracking-wider block">Lama Studi</span>
-                                                <span className="text-emerald-900 font-bold">4 Semester (2 Tahun)</span>
+                                    <div className="p-8 flex-grow flex flex-col justify-between">
+                                        <div>
+                                            <h3 className="text-2xl font-bold text-emerald-950 mb-4">{prodi.jenjang} {prodi.nama}</h3>
+                                            <p className="text-slate-600 text-sm leading-relaxed mb-6">
+                                                {prodi.deskripsi || 'Belum ada deskripsi untuk program studi ini.'}
+                                            </p>
+                                            <div className="grid grid-cols-2 gap-4 mb-6 border-t border-slate-200/60 pt-6">
+                                                <div>
+                                                    <span className="text-slate-400 text-xs uppercase font-bold tracking-wider block">Gelar Lulusan</span>
+                                                    <span className="text-emerald-900 font-bold">{prodi.gelar_lulusan || '-'}</span>
+                                                </div>
+                                                <div>
+                                                    <span className="text-slate-400 text-xs uppercase font-bold tracking-wider block">Lama Studi</span>
+                                                    <span className="text-emerald-900 font-bold">4 Semester (2 Tahun)</span>
+                                                </div>
                                             </div>
                                         </div>
+                                        <a href={`/fakultas/programstudi`} className="w-full text-center bg-emerald-800 hover:bg-emerald-900 text-white font-semibold py-3 px-6 rounded-sm transition flex items-center justify-center gap-2">
+                                            <span>Detail Kurikulum</span> <i className="fa-solid fa-arrow-right text-sm"></i>
+                                        </a>
                                     </div>
-                                    <a href="#" className="w-full text-center bg-emerald-800 hover:bg-emerald-900 text-white font-semibold py-3 px-6 rounded-sm transition flex items-center justify-center gap-2">
-                                        <span>Detail Kurikulum</span> <i className="fa-solid fa-arrow-right text-sm"></i>
-                                    </a>
                                 </div>
-                            </div>
+                            ))}
                         </div>
                     </div>
                 </section>
@@ -481,7 +496,7 @@ export default function Welcome({ setting }) {
                                             placeholder="Masukkan nama lengkap" 
                                             className="w-full px-4 py-3 rounded-sm border border-slate-200 focus:outline-none focus:border-emerald-700 focus:ring-1 focus:ring-emerald-700 text-sm transition"
                                             value={waForm.nama}
-                                            onChange={(e) => setWaForm({...waForm, nama: e.target.value})}
+                                            onChange={(e) => setWaForm('nama', e.target.value)}
                                             required
                                         />
                                     </div>
@@ -492,7 +507,7 @@ export default function Welcome({ setting }) {
                                             placeholder="Contoh: 081234567890" 
                                             className="w-full px-4 py-3 rounded-sm border border-slate-200 focus:outline-none focus:border-emerald-700 focus:ring-1 focus:ring-emerald-700 text-sm transition"
                                             value={waForm.whatsapp}
-                                            onChange={(e) => setWaForm({...waForm, whatsapp: e.target.value})}
+                                            onChange={(e) => setWaForm('whatsapp', e.target.value)}
                                             required
                                         />
                                     </div>
@@ -501,16 +516,19 @@ export default function Welcome({ setting }) {
                                         <select 
                                             className="w-full px-4 py-3 rounded-sm border border-slate-200 focus:outline-none focus:border-emerald-700 focus:ring-1 focus:ring-emerald-700 text-sm bg-white transition"
                                             value={waForm.prodi}
-                                            onChange={(e) => setWaForm({...waForm, prodi: e.target.value})}
+                                            onChange={(e) => setWaForm('prodi', e.target.value)}
                                             required
                                         >
                                             <option value="">Pilih Program Studi</option>
-                                            <option value="pai">S2 Pendidikan Agama Islam (M.Pd.)</option>
-                                            <option value="hes">S2 Hukum Ekonomi Syariah (M.H.)</option>
+                                            {programStudi.map((prodi) => (
+                                                <option key={prodi.id} value={prodi.id}>
+                                                    {prodi.jenjang} {prodi.nama} ({prodi.gelar_lulusan})
+                                                </option>
+                                            ))}
                                         </select>
                                     </div>
-                                    <button type="submit" className="w-full bg-amber-500 hover:bg-amber-600 text-emerald-950 font-bold py-3.5 px-6 rounded-sm shadow-md shadow-amber-500/10 transition mt-2">
-                                        Kirim Pertanyaan via WhatsApp <i className="fa-brands fa-whatsapp ml-1"></i>
+                                    <button type="submit" disabled={processing} className="w-full bg-amber-500 hover:bg-amber-600 text-emerald-950 font-bold py-3.5 px-6 rounded-sm shadow-md shadow-amber-500/10 transition mt-2 disabled:opacity-70">
+                                        {processing ? 'Menyimpan...' : 'Kirim Pertanyaan via WhatsApp'} <i className="fa-brands fa-whatsapp ml-1"></i>
                                     </button>
                                 </form>
                             </div>
@@ -533,9 +551,9 @@ export default function Welcome({ setting }) {
                                     Pascasarjana Institut Agama Islam Persatuan Islam (IAI PERSIS) Bandung berkomitmen menyelenggarakan kajian ilmiah integratif yang menghasilkan pakar handal berlandaskan tradisi akademis Islam otentik.
                                 </p>
                                 <div className="flex items-center space-x-3">
-                                    <a href="#" className="w-9 h-9 bg-emerald-900 hover:bg-emerald-800 flex items-center justify-center text-emerald-100 hover:text-amber-400 transition"><i className="fa-brands fa-facebook-f text-sm"></i></a>
-                                    <a href="#" className="w-9 h-9 bg-emerald-900 hover:bg-emerald-800 flex items-center justify-center text-emerald-100 hover:text-amber-400 transition"><i className="fa-brands fa-instagram text-sm"></i></a>
-                                    <a href="#" className="w-9 h-9 bg-emerald-900 hover:bg-emerald-800 flex items-center justify-center text-emerald-100 hover:text-amber-400 transition"><i className="fa-brands fa-youtube text-sm"></i></a>
+                                    <a href={umum?.facebook_url || '#'} className="w-9 h-9 bg-emerald-900 hover:bg-emerald-800 flex items-center justify-center text-emerald-100 hover:text-amber-400 transition"><i className="fa-brands fa-facebook-f text-sm"></i></a>
+                                    <a href={umum?.instagram_url || '#'} className="w-9 h-9 bg-emerald-900 hover:bg-emerald-800 flex items-center justify-center text-emerald-100 hover:text-amber-400 transition"><i className="fa-brands fa-instagram text-sm"></i></a>
+                                    <a href={umum?.youtube_url || '#'} className="w-9 h-9 bg-emerald-900 hover:bg-emerald-800 flex items-center justify-center text-emerald-100 hover:text-amber-400 transition"><i className="fa-brands fa-youtube text-sm"></i></a>
                                 </div>
                             </div>
                             <div className="md:col-span-3">
@@ -553,15 +571,15 @@ export default function Welcome({ setting }) {
                                 <ul className="space-y-4 text-sm text-emerald-200/80">
                                     <li className="flex items-start gap-3">
                                         <i className="fa-solid fa-location-dot mt-1 text-amber-500"></i>
-                                        <span>Jl. Ciganitri No.2, Cipagalo, Kec. Bojongsoang, Kabupaten Bandung, Jawa Barat 40287</span>
+                                        <span>{umum?.alamat || 'Jl. Ciganitri No.2, Cipagalo, Kec. Bojongsoang, Kabupaten Bandung, Jawa Barat 40287'}</span>
                                     </li>
                                     <li className="flex items-center gap-3">
                                         <i className="fa-solid fa-phone text-amber-500"></i>
-                                        <span>(022) 5441951</span>
+                                        <span>{umum?.telepon || '(022) 5441951'}</span>
                                     </li>
                                     <li className="flex items-center gap-3">
                                         <i className="fa-solid fa-envelope text-amber-500"></i>
-                                        <span>pascasarjana@iaipibandung.ac.id</span>
+                                        <span>{umum?.email || 'pascasarjana@iaipibandung.ac.id'}</span>
                                     </li>
                                 </ul>
                             </div>

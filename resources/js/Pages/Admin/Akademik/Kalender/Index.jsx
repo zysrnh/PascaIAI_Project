@@ -112,9 +112,7 @@ export default function Index({ pengaturan, kalenders }) {
 
     const currentBannerUrl = previewBanner 
         ? previewBanner 
-        : (pengaturan?.banner_image 
-            ? `/storage/${pengaturan.banner_image}` 
-            : "/images/default-banner.jpg");
+        : (pengaturan?.banner_image ? (pengaturan.banner_image.startsWith('/storage/') || pengaturan.banner_image.startsWith('http') ? pengaturan.banner_image : `/storage/${pengaturan.banner_image}`) : "/images/default-banner.jpg");
 
     return (
         <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-white leading-tight">Kelola Kalender Akademik</h2>}>

@@ -114,9 +114,7 @@ export default function KurikulumIndex({ auth, kurikulums, pengaturan }) {
 
     const currentBannerUrl = bannerPreview 
         ? bannerPreview 
-        : (pengaturan?.banner_image 
-            ? `/storage/${pengaturan.banner_image}` 
-            : "/images/default-banner.jpg");
+        : (pengaturan?.banner_image ? (pengaturan.banner_image.startsWith('/storage/') || pengaturan.banner_image.startsWith('http') ? pengaturan.banner_image : `/storage/${pengaturan.banner_image}`) : "/images/default-banner.jpg");
 
     return (
         <AuthenticatedLayout
