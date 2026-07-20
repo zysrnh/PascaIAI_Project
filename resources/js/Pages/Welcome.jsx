@@ -1,9 +1,34 @@
 import { useState, useEffect } from 'react';
 import { Head, Link } from '@inertiajs/react';
 
-export default function Welcome() {
+export default function Welcome({ setting }) {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isLoaded, setIsLoaded] = useState(false);
+    const [waForm, setWaForm] = useState({
+        nama: '',
+        whatsapp: '',
+        prodi: ''
+    });
+
+    const handleWaSubmit = (e) => {
+        e.preventDefault();
+        if (!waForm.nama || !waForm.whatsapp || !waForm.prodi) {
+            alert("Harap lengkapi semua field terlebih dahulu.");
+            return;
+        }
+
+        const adminPhone = setting?.pmb_hotline_number || "6282116116133";
+        let prodiName = "";
+        if (waForm.prodi === "pai") prodiName = "S2 Pendidikan Agama Islam (M.Pd.)";
+        else if (waForm.prodi === "hes") prodiName = "S2 Hukum Ekonomi Syariah (M.H.)";
+        else prodiName = waForm.prodi;
+
+        const message = `Halo Admin PMB Pascasarjana IAI Persis Bandung, saya berminat untuk mendaftar dan ingin berkonsultasi.\n\n*Nama Lengkap*: ${waForm.nama}\n*No WhatsApp*: ${waForm.whatsapp}\n*Pilihan Prodi*: ${prodiName}\n\nMohon informasi lebih lanjut terkait pendaftaran. Terima kasih.`;
+        const encodedMessage = encodeURIComponent(message);
+        
+        window.open(`https://wa.me/${adminPhone}?text=${encodedMessage}`, '_blank');
+    };
+
     useEffect(() => {
         setIsLoaded(true);
 
@@ -127,7 +152,7 @@ export default function Welcome() {
                                     </div>
                                 </div>
 
-                                <a href="#pendaftaran" className="bg-emerald-800 hover:bg-emerald-900 text-white px-5 py-2.5 rounded-sm-full font-semibold shadow-md shadow-emerald-900/10 hover:shadow-lg transition text-sm">PMB 2026/2027</a>
+                                <a href={setting?.pmb_link || "#pendaftaran"} className="bg-emerald-800 hover:bg-emerald-900 text-white px-5 py-2.5 rounded-sm-full font-semibold shadow-md shadow-emerald-900/10 hover:shadow-lg transition text-sm">PMB 2026/2027</a>
                             </nav>
 
                             {/* Mobile Menu Toggle Button */}
@@ -218,7 +243,7 @@ export default function Welcome() {
                 </header>
 
                 {/* Hero Section */}
-                <section className="bg-[linear-gradient(rgba(4,47,31,0.85),rgba(2,44,29,0.9)),url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=1600&auto=format&fit=crop')] bg-cover bg-center min-h-[85vh] flex items-center justify-center text-white relative py-20">
+                <section className="bg-[linear-gradient(rgba(4,47,31,0.85),rgba(2,44,29,0.9)),url('/images/default-banner.jpg')] bg-cover bg-center min-h-[85vh] flex items-center justify-center text-white relative py-20">
                     <div className="absolute inset-0 bg-gradient-to-t from-emerald-950/90 via-transparent to-transparent"></div>
                     <div className={`relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center transition-all duration-1000 ease-out transform ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
                         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-sm bg-emerald-800 border border-emerald-600 text-emerald-200 text-xs sm:text-sm font-semibold mb-6 shadow-sm">
@@ -325,7 +350,7 @@ export default function Welcome() {
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 max-w-5xl mx-auto animate-on-scroll opacity-0 translate-y-12 transition-all duration-1000 ease-out delay-100">
                             <div className="bg-slate-50 rounded-sm overflow-hidden shadow-sm border border-slate-100 hover:shadow-2xl hover:border-emerald-200 transition duration-300 flex flex-col">
                                 <div className="relative h-64 bg-slate-200">
-                                    <img src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?q=80&w=600&auto=format&fit=crop" alt="Magister Pendidikan Agama Islam" className="w-full h-full object-cover" />
+                                    <img src="/images/default-banner.jpg" alt="Magister Pendidikan Agama Islam" className="w-full h-full object-cover" />
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                                     <div className="absolute bottom-6 left-6">
                                         <span className="bg-amber-500 text-emerald-950 text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-sm">Akreditasi B</span>
@@ -356,7 +381,7 @@ export default function Welcome() {
 
                             <div className="bg-slate-50 rounded-sm overflow-hidden shadow-sm border border-slate-100 hover:shadow-2xl hover:border-emerald-200 transition duration-300 flex flex-col">
                                 <div className="relative h-64 bg-slate-200">
-                                    <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=600&auto=format&fit=crop" alt="Magister Hukum Ekonomi Syariah" className="w-full h-full object-cover" />
+                                    <img src="/images/default-banner.jpg" alt="Magister Hukum Ekonomi Syariah" className="w-full h-full object-cover" />
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                                     <div className="absolute bottom-6 left-6">
                                         <span className="bg-amber-500 text-emerald-950 text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-sm">Akreditasi B</span>
@@ -424,7 +449,7 @@ export default function Welcome() {
                 {/* Form Pendaftaran */}
                 <section id="pendaftaran" className="py-20 bg-emerald-950 text-white relative overflow-hidden">
                     <div className="absolute inset-0 opacity-10">
-                        <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=1200&auto=format&fit=crop" alt="Students" className="w-full h-full object-cover" />
+                        <img src="/images/default-banner.jpg" alt="Students" className="w-full h-full object-cover" />
                     </div>
                     <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
                         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
@@ -436,11 +461,11 @@ export default function Welcome() {
                                 <div className="space-y-4">
                                     <div className="flex items-center gap-3">
                                         <span className="w-8 h-8 rounded-sm bg-emerald-800 flex items-center justify-center text-amber-400"><i className="fa-solid fa-clock"></i></span>
-                                        <span className="text-sm font-medium text-emerald-100">Gelombang I: Ditutup 30 Agustus 2026</span>
+                                        <span className="text-sm font-medium text-emerald-100">{setting?.pmb_gelombang_text || 'Gelombang I: Ditutup 30 Agustus 2026'}</span>
                                     </div>
                                     <div className="flex items-center gap-3">
                                         <span className="w-8 h-8 rounded-sm bg-emerald-800 flex items-center justify-center text-amber-400"><i className="fa-solid fa-circle-info"></i></span>
-                                        <span className="text-sm font-medium text-emerald-100">Hotline PMB: +62 821-1611-6133 (Admin)</span>
+                                        <span className="text-sm font-medium text-emerald-100">{setting?.pmb_hotline_text || 'Hotline PMB: +62 821-1611-6133 (Admin)'}</span>
                                     </div>
                                 </div>
                             </div>
@@ -448,18 +473,37 @@ export default function Welcome() {
                                 <h3 className="text-xl font-bold text-emerald-950 mb-1">Konsultasi Pendaftaran</h3>
                                 <p className="text-xs text-slate-400 mb-6">Kirim formulir singkat berikut dan admin kami akan menghubungi Anda.</p>
                                 
-                                <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
+                                <form className="space-y-4" onSubmit={handleWaSubmit}>
                                     <div>
                                         <label className="block text-xs font-bold text-slate-600 uppercase mb-1.5">Nama Lengkap</label>
-                                        <input type="text" placeholder="Masukkan nama lengkap" className="w-full px-4 py-3 rounded-sm border border-slate-200 focus:outline-none focus:border-emerald-700 focus:ring-1 focus:ring-emerald-700 text-sm transition" />
+                                        <input 
+                                            type="text" 
+                                            placeholder="Masukkan nama lengkap" 
+                                            className="w-full px-4 py-3 rounded-sm border border-slate-200 focus:outline-none focus:border-emerald-700 focus:ring-1 focus:ring-emerald-700 text-sm transition"
+                                            value={waForm.nama}
+                                            onChange={(e) => setWaForm({...waForm, nama: e.target.value})}
+                                            required
+                                        />
                                     </div>
                                     <div>
                                         <label className="block text-xs font-bold text-slate-600 uppercase mb-1.5">Nomor WhatsApp</label>
-                                        <input type="tel" placeholder="Contoh: 081234567890" className="w-full px-4 py-3 rounded-sm border border-slate-200 focus:outline-none focus:border-emerald-700 focus:ring-1 focus:ring-emerald-700 text-sm transition" />
+                                        <input 
+                                            type="tel" 
+                                            placeholder="Contoh: 081234567890" 
+                                            className="w-full px-4 py-3 rounded-sm border border-slate-200 focus:outline-none focus:border-emerald-700 focus:ring-1 focus:ring-emerald-700 text-sm transition"
+                                            value={waForm.whatsapp}
+                                            onChange={(e) => setWaForm({...waForm, whatsapp: e.target.value})}
+                                            required
+                                        />
                                     </div>
                                     <div>
                                         <label className="block text-xs font-bold text-slate-600 uppercase mb-1.5">Program Studi Pilihan</label>
-                                        <select className="w-full px-4 py-3 rounded-sm border border-slate-200 focus:outline-none focus:border-emerald-700 focus:ring-1 focus:ring-emerald-700 text-sm bg-white transition">
+                                        <select 
+                                            className="w-full px-4 py-3 rounded-sm border border-slate-200 focus:outline-none focus:border-emerald-700 focus:ring-1 focus:ring-emerald-700 text-sm bg-white transition"
+                                            value={waForm.prodi}
+                                            onChange={(e) => setWaForm({...waForm, prodi: e.target.value})}
+                                            required
+                                        >
                                             <option value="">Pilih Program Studi</option>
                                             <option value="pai">S2 Pendidikan Agama Islam (M.Pd.)</option>
                                             <option value="hes">S2 Hukum Ekonomi Syariah (M.H.)</option>

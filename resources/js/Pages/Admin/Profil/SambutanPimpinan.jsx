@@ -71,7 +71,7 @@ export default function SambutanPimpinan({ sambutan }) {
                                                 <label className="block text-sm font-bold text-slate-700 mb-2">Gambar Banner Saat Ini</label>
                                                 <div className="relative w-full h-64 bg-slate-100 rounded-lg overflow-hidden border border-slate-200">
                                                     <img 
-                                                        src={bannerPreviewUrl || sambutan?.gambar_banner || "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=1600&auto=format&fit=crop"} 
+                                                        src={bannerPreviewUrl || sambutan?.gambar_banner || "/images/default-banner.jpg"} 
                                                         alt="Preview" 
                                                         className="w-full h-full object-cover" 
                                                     />

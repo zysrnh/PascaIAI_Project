@@ -10,11 +10,22 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', function () {
+    $setting = \App\Models\BerandaSetting::firstOrCreate(
+        ['id' => 1],
+        [
+            'pmb_gelombang_text' => 'Gelombang I: Ditutup 30 Agustus 2026',
+            'pmb_hotline_number' => '6282116116133',
+            'pmb_hotline_text' => '+62 821-1611-6133 (Admin)',
+            'pmb_link' => 'https://iaipibdg.sevimaplatform.com/spmbfront'
+        ]
+    );
+
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
+        'setting' => $setting
     ]);
 });
 
@@ -80,8 +91,8 @@ Route::middleware('auth')->group(function () {
     Route::put('/admin/profil/tentang-kampus', [TentangKampusController::class, 'update'])->name('admin.profil.tentang-kampus.update');
 
     // Admin Profil - Sambutan Pimpinan
-    Route::get('/admin/profil/sambutan-pimpinan', [SambutanPimpinanController::class, 'edit'])->name('admin.profil.sambutan-pimpinan');
-    Route::post('/admin/profil/sambutan-pimpinan', [SambutanPimpinanController::class, 'update'])->name('admin.profil.sambutan-pimpinan.update');
+    Route::get('/admin/profil/sambutan-pimpinan', [\App\Http\Controllers\SambutanPimpinanController::class, 'edit'])->name('admin.profil.sambutan-pimpinan');
+    Route::post('/admin/profil/sambutan-pimpinan', [\App\Http\Controllers\SambutanPimpinanController::class, 'update'])->name('admin.profil.sambutan-pimpinan.update');
 
     // Admin Profil - Visi Misi
     Route::get('/admin/profil/visi-misi', [\App\Http\Controllers\VisiMisiController::class, 'edit'])->name('admin.profil.visi-misi');
@@ -208,9 +219,14 @@ Route::middleware('auth')->group(function () {
 
     // Admin LPPM - Repository
     Route::get('/admin/lppm/repository', [\App\Http\Controllers\RepositoryController::class, 'index'])->name('admin.lppm.repository.index');
+    Route::post('/admin/lppm/repository/setting', [\App\Http\Controllers\RepositoryController::class, 'updateSetting'])->name('admin.lppm.repository.setting');
     Route::post('/admin/lppm/repository', [\App\Http\Controllers\RepositoryController::class, 'store'])->name('admin.lppm.repository.store');
     Route::post('/admin/lppm/repository/{id}', [\App\Http\Controllers\RepositoryController::class, 'update'])->name('admin.lppm.repository.update');
     Route::delete('/admin/lppm/repository/{id}', [\App\Http\Controllers\RepositoryController::class, 'destroy'])->name('admin.lppm.repository.destroy');
+
+    // Admin Beranda (PMB)
+    Route::get('/admin/beranda', [\App\Http\Controllers\BerandaSettingController::class, 'edit'])->name('admin.beranda.index');
+    Route::post('/admin/beranda', [\App\Http\Controllers\BerandaSettingController::class, 'update'])->name('admin.beranda.update');
 
 });
 

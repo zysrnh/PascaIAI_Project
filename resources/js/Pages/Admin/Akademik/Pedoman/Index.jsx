@@ -186,7 +186,7 @@ export default function Index({ auth, pedomans, pengaturan }) {
                                             {currentBannerUrl ? (
                                                 <img src={currentBannerUrl} alt="Preview" className="w-full h-full object-cover" />
                                             ) : (
-                                                <img src="https://images.unsplash.com/photo-1506784365847-bbad939e9335?q=80&w=1600&auto=format&fit=crop" alt="Default Preview" className="w-full h-full object-cover" />
+                                                <img src="/images/default-banner.jpg" alt="Default Preview" className="w-full h-full object-cover" />
                                             )}
                                             <div className="absolute inset-0 bg-gradient-to-t from-emerald-950 via-emerald-950/40 to-transparent"></div>
                                             <div className="absolute bottom-6 left-6 z-10 text-white">

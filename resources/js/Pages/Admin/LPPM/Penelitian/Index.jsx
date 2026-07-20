@@ -114,7 +114,7 @@ export default function Index({ auth, penelitian }) {
                                         {bannerPreview ? (
                                             <img src={bannerPreview} alt="Preview" className="w-full h-full object-cover" />
                                         ) : (
-                                            <img src={penelitian?.banner_image || 'https://images.unsplash.com/photo-1532094349884-543bc11b234d?q=80&w=1600&auto=format&fit=crop'} alt="Default Preview" className="w-full h-full object-cover" />
+                                            <img src={penelitian?.banner_image || '/images/default-banner.jpg'} alt="Default Preview" className="w-full h-full object-cover" />
                                         )}
                                         <div className="absolute inset-0 bg-gradient-to-t from-emerald-950 via-emerald-950/60 to-transparent"></div>
                                         <div className="absolute bottom-6 left-6 z-10 text-white w-full pr-6">

@@ -93,7 +93,7 @@ export default function Index({ auth, siakad }) {
                                         {bannerPreview ? (
                                             <img src={bannerPreview} alt="Preview" className="w-full h-full object-cover" />
                                         ) : (
-                                            <img src={siakad?.banner_image || 'https://images.unsplash.com/photo-1531403009284-440f080d1e12?q=80&w=1600&auto=format&fit=crop'} alt="Default Preview" className="w-full h-full object-cover" />
+                                            <img src={siakad?.banner_image || '/images/default-banner.jpg'} alt="Default Preview" className="w-full h-full object-cover" />
                                         )}
                                         <div className="absolute inset-0 bg-gradient-to-t from-emerald-950 via-emerald-950/60 to-transparent"></div>
                                         <div className="absolute bottom-6 left-6 z-10 text-white w-full pr-6">

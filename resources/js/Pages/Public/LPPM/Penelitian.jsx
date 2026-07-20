@@ -9,7 +9,7 @@ export default function Penelitian({ penelitian }) {
     const data = penelitian || {
         judul: 'Penelitian (Hibah & Roadmap)',
         deskripsi_banner: '',
-        banner_image: 'https://images.unsplash.com/photo-1532094349884-543bc11b234d?q=80&w=1600&auto=format&fit=crop',
+        banner_image: '/images/default-banner.jpg',
         roadmap_text: '',
         fokus_unggulan: [],
         skema_internal: '',
@@ -28,7 +28,7 @@ export default function Penelitian({ penelitian }) {
             <div className="relative w-full h-[350px] md:h-[450px] bg-emerald-950 flex flex-col justify-end">
                 <div className="absolute inset-0">
                     <img 
-                        src={data.banner_image || 'https://images.unsplash.com/photo-1532094349884-543bc11b234d?q=80&w=1600&auto=format&fit=crop'} 
+                        src={data.banner_image || '/images/default-banner.jpg'} 
                         alt="Penelitian Banner" 
                         className="w-full h-full object-cover opacity-50"
                     />

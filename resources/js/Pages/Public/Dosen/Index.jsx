@@ -4,7 +4,7 @@ import PublicLayout from '@/Layouts/PublicLayout';
 import { Users, GraduationCap, Award, BookOpen, User, ExternalLink, Search, Filter } from 'lucide-react';
 
 export default function Index({ dosens, programStudis, pengaturan, stats, activeProdi }) {
-    const defaultBanner = "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=80&w=2000&auto=format&fit=crop";
+    const defaultBanner = "/images/default-banner.jpg";
     const bannerUrl = pengaturan?.banner_image || defaultBanner;
 
     const [search, setSearch] = useState('');

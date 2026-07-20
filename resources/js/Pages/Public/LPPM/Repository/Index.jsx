@@ -4,7 +4,7 @@ import PublicLayout from '@/Layouts/PublicLayout';
 import Breadcrumb from '@/Components/Public/Breadcrumb';
 import { Archive, Search, Filter, BookOpen, GraduationCap, ChevronRight } from 'lucide-react';
 
-export default function Index({ repositories, prodis, tahuns, filters }) {
+export default function Index({ repositories, prodis, tahuns, setting, filters }) {
     const [search, setSearch] = useState(filters.search || '');
     const [prodi, setProdi] = useState(filters.prodi || '');
     const [jenis, setJenis] = useState(filters.jenis || '');
@@ -25,28 +25,25 @@ export default function Index({ repositories, prodis, tahuns, filters }) {
 
     return (
         <PublicLayout>
-            <Head title="Repository Karya Ilmiah | Pascasarjana IAI Persis Bandung" />
+            <Head title={`${setting?.judul || 'Repository Karya Ilmiah'} | Pascasarjana IAI Persis Bandung`} />
 
             {/* Banner Section */}
-            <div className="relative w-full h-[300px] md:h-[400px] bg-slate-900 flex flex-col justify-end overflow-hidden">
+            <div className="relative w-full h-[350px] md:h-[450px] bg-emerald-950 flex flex-col justify-end">
                 <div className="absolute inset-0">
-                    <div className="absolute inset-0 bg-emerald-950/80 mix-blend-multiply z-10"></div>
                     <img 
-                        src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=1600&auto=format&fit=crop" 
+                        src={setting?.banner_image || "/images/default-banner.jpg"} 
                         alt="Repository Banner" 
-                        className="w-full h-full object-cover opacity-60"
+                        className="w-full h-full object-cover opacity-50"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent z-10"></div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-emerald-950 via-emerald-950/60 to-transparent"></div>
                 </div>
-                <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pb-12 animate-fade-in-up">
-                    <div className="flex items-center gap-3 mb-4">
-                        <Archive className="w-8 h-8 text-emerald-400" />
-                        <h1 className="text-4xl md:text-5xl font-extrabold text-white tracking-tight drop-shadow-md">
-                            Repository
-                        </h1>
-                    </div>
-                    <p className="text-emerald-50 max-w-2xl text-lg md:text-xl leading-relaxed drop-shadow">
-                        Arsip digital Tesis, Disertasi, dan karya ilmiah civitas akademika Pascasarjana IAI Persis Bandung.
+                <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pb-12 animate-fade-in-up">
+                    <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-2 drop-shadow-md tracking-tight">
+                        {setting?.judul || 'Repository'}
+                    </h1>
+                    <div className="w-20 h-1.5 bg-amber-500 rounded-sm mb-4"></div>
+                    <p className="text-white/90 max-w-2xl text-lg md:text-xl leading-relaxed drop-shadow">
+                        {setting?.deskripsi || 'Arsip digital Tesis, Disertasi, dan karya ilmiah civitas akademika Pascasarjana IAI Persis Bandung.'}
                     </p>
                 </div>
             </div>

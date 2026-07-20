@@ -221,6 +221,7 @@ const navigation = [
     },
     { type: 'link', name: 'Berita', href: '/berita', icon: Newspaper, badge: 45 },
     { type: 'link', name: 'Dokumen Institusi', href: '/dokumen', icon: FileText },
+    { type: 'link', name: 'Pengaturan Beranda', href: '/admin/beranda', icon: Settings },
     { type: 'link', name: 'Manajemen User', href: '/users', icon: Users },
 ];
 

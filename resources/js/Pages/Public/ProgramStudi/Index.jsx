@@ -27,7 +27,7 @@ export default function Index({ programStudis, pengaturan }) {
     }, [previewPdf]);
 
     // Default banner if not set
-    const defaultBanner = "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=2000&auto=format&fit=crop";
+    const defaultBanner = "/images/default-banner.jpg";
     const bannerUrl = pengaturan?.banner_image || defaultBanner;
 
     return (

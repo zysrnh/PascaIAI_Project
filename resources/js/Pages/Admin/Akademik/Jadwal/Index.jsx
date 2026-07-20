@@ -143,7 +143,7 @@ export default function Index({ pengaturan, periodes, programStudis, dosens }) {
 
     const currentBannerUrl = previewBanner 
         ? previewBanner 
-        : (pengaturan?.banner_image ? `/storage/${pengaturan.banner_image}` : "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=1600&auto=format&fit=crop");
+        : (pengaturan?.banner_image ? `/storage/${pengaturan.banner_image}` : "/images/default-banner.jpg");
 
     return (
         <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-white leading-tight">Kelola Jadwal Perkuliahan</h2>}>

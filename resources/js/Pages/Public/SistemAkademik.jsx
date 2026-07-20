@@ -20,7 +20,7 @@ export default function SistemAkademik({ siakad }) {
         link_panduan: '#',
         kontak_bantuan: '',
         deskripsi_banner: 'Portal Terpadu Layanan Akademik Mahasiswa',
-        banner_image: 'https://images.unsplash.com/photo-1531403009284-440f080d1e12?q=80&w=1600&auto=format&fit=crop'
+        banner_image: '/images/default-banner.jpg'
     };
 
     const waNumber = data.kontak_bantuan ? data.kontak_bantuan.replace(/\D/g, '').replace(/^0/, '62') : null;
@@ -33,7 +33,7 @@ export default function SistemAkademik({ siakad }) {
             <div className="relative w-full h-[350px] md:h-[450px] bg-emerald-950 flex flex-col justify-end">
                 <div className="absolute inset-0">
                     <img 
-                        src={data.banner_image || 'https://images.unsplash.com/photo-1531403009284-440f080d1e12?q=80&w=1600&auto=format&fit=crop'} 
+                        src={data.banner_image || '/images/default-banner.jpg'} 
                         alt="Sistem Akademik Banner" 
                         className="w-full h-full object-cover opacity-50"
                     />

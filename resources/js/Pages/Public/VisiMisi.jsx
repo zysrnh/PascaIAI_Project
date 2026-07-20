@@ -6,8 +6,8 @@ import Breadcrumb from '@/Components/Public/Breadcrumb';
 export default function VisiMisi({ visimisi }) {
     // Gunakan data dari backend, atau fallback kalau kosong
     const data = visimisi || {
-        gambar_banner: "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=1600&auto=format&fit=crop",
-        gambar_bg: "https://images.unsplash.com/photo-1585036156171-384164a8c675?q=80&w=1600&auto=format&fit=crop",
+        gambar_banner: "/images/default-banner.jpg",
+        gambar_bg: "/images/default-banner.jpg",
         visi: "Visi belum diatur.",
         misi: ["Misi belum diatur."],
         tujuan: ["Tujuan belum diatur."]

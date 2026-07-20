@@ -27,7 +27,7 @@ export default function TentangKampus({ tentang }) {
             <div className="relative w-full h-[350px] md:h-[450px] bg-emerald-950 flex flex-col justify-end">
                 <div className="absolute inset-0">
                     <img 
-                        src={tentang?.gambar_banner || "https://images.unsplash.com/photo-1562774053-701939374585?q=80&w=1600&auto=format&fit=crop"} 
+                        src={tentang?.gambar_banner || "/images/default-banner.jpg"} 
                         alt="Gedung Kampus" 
                         className="w-full h-full object-cover opacity-60"
                     />
@@ -80,7 +80,7 @@ export default function TentangKampus({ tentang }) {
                         ) : (
                             <a href={tentang?.video_url} target="_blank" rel="noreferrer" className="block relative rounded-sm overflow-hidden shadow-xl border-4 border-emerald-900 group cursor-pointer aspect-video bg-slate-900">
                                 <img 
-                                    src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=1200&auto=format&fit=crop" 
+                                    src="/images/default-banner.jpg" 
                                     alt="Video Thumbnail" 
                                     className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500"
                                 />

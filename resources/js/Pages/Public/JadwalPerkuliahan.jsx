@@ -64,7 +64,7 @@ export default function JadwalPerkuliahan({ pengaturan, periodes, programStudis 
             <div className="relative w-full h-[350px] md:h-[450px] bg-emerald-950 flex flex-col justify-end">
                 <div className="absolute inset-0">
                     <img 
-                        src={pengaturan?.banner_image || "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=1600&auto=format&fit=crop"}
+                        src={pengaturan?.banner_image || "/images/default-banner.jpg"}
                         alt="Jadwal Perkuliahan Banner" 
                         className="w-full h-full object-cover opacity-60"
                     />

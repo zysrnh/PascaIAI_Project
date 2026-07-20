@@ -114,7 +114,7 @@ export default function Index({ auth, fakultas }) {
         ? previewBanner 
         : (auth?.pengaturan?.banner_image 
             ? `/storage/${auth.pengaturan.banner_image}` 
-            : "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=1600&auto=format&fit=crop");
+            : "/images/default-banner.jpg");
 
     return (
         <>

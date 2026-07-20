@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Repository as RepositoryModel;
 use App\Models\ProgramStudi;
+use App\Models\RepositorySetting;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Storage;
@@ -41,11 +42,20 @@ class RepositoryController extends Controller
         $repositories = $query->paginate(10)->withQueryString();
         $prodis = ProgramStudi::select('id', 'nama', 'jenjang')->get();
         $tahuns = RepositoryModel::select('tahun')->distinct()->orderBy('tahun', 'desc')->pluck('tahun');
+        
+        $setting = RepositorySetting::firstOrCreate(
+            ['id' => 1],
+            [
+                'judul' => 'Repository',
+                'deskripsi' => 'Arsip digital Tesis, Disertasi, dan karya ilmiah civitas akademika Pascasarjana IAI Persis Bandung.'
+            ]
+        );
 
         return Inertia::render('Public/LPPM/Repository/Index', [
             'repositories' => $repositories,
             'prodis' => $prodis,
             'tahuns' => $tahuns,
+            'setting' => $setting,
             'filters' => $request->only(['search', 'prodi', 'jenis', 'tahun'])
         ]);
     }
@@ -76,11 +86,43 @@ class RepositoryController extends Controller
         $repositories = $query->paginate(10)->withQueryString();
         $prodis = ProgramStudi::select('id', 'nama', 'jenjang')->get();
 
+        $setting = RepositorySetting::firstOrCreate(
+            ['id' => 1],
+            [
+                'judul' => 'Repository',
+                'deskripsi' => 'Arsip digital Tesis, Disertasi, dan karya ilmiah civitas akademika Pascasarjana IAI Persis Bandung.'
+            ]
+        );
+
         return Inertia::render('Admin/LPPM/Repository/Index', [
             'repositories' => $repositories,
             'prodis' => $prodis,
+            'setting' => $setting,
             'filters' => $request->only(['search'])
         ]);
+    }
+
+    public function updateSetting(Request $request)
+    {
+        $setting = RepositorySetting::firstOrFail();
+
+        $validated = $request->validate([
+            'judul' => 'nullable|string',
+            'deskripsi' => 'nullable|string',
+            'banner_image' => 'nullable|image|max:2048',
+        ]);
+
+        if ($request->hasFile('banner_image')) {
+            if ($setting->banner_image && strpos($setting->banner_image, '/storage/') === 0) {
+                Storage::disk('public')->delete(str_replace('/storage/', '', $setting->banner_image));
+            }
+            $path = $request->file('banner_image')->store('lppm/banner', 'public');
+            $validated['banner_image'] = '/storage/' . $path;
+        }
+
+        $setting->update($validated);
+
+        return redirect()->back()->with('success', 'Pengaturan Halaman Repository berhasil diperbarui.');
     }
 
     public function store(Request $request)

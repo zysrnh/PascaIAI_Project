@@ -19,7 +19,7 @@ const CATEGORY_STYLES = [
 ];
 
 export default function DokumenInstitusi({ dokumens, pengaturan }) {
-    const bannerImg = pengaturan?.banner_image || "https://images.unsplash.com/photo-1568667256549-094345857637?q=80&w=1600&auto=format&fit=crop";
+    const bannerImg = pengaturan?.banner_image || "/images/default-banner.jpg";
 
     // Grouped once per `dokumens` change instead of on every render, so it stays
     // a stable reference and doesn't re-trigger the effect below unnecessarily.

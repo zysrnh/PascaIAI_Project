@@ -133,7 +133,7 @@ export default function Index({ pengaturan, konten, karirs }) {
         ? previewBanner 
         : (pengaturan?.banner_image 
             ? `/storage/${pengaturan.banner_image}` 
-            : "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=1600&auto=format&fit=crop");
+            : "/images/default-banner.jpg");
 
     return (
         <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-white leading-tight">Kelola Prospek Karir</h2>}>

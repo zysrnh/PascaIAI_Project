@@ -4,7 +4,7 @@ import { ChevronRight, ArrowRight, Building2, BookOpen, GraduationCap } from 'lu
 
 export default function Index({ fakultas, pengaturan }) {
     // Default banner if not set
-    const defaultBanner = "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=2000&auto=format&fit=crop";
+    const defaultBanner = "/images/default-banner.jpg";
     const bannerUrl = pengaturan?.banner_image || defaultBanner;
 
     return (

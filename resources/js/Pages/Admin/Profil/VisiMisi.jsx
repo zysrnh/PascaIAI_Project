@@ -94,7 +94,7 @@ export default function VisiMisiEdit({ auth, visimisi }) {
                                     
                                     <div className="relative w-full h-48 bg-slate-100 rounded-lg overflow-hidden border border-slate-200 mb-4">
                                         <img 
-                                            src={data.gambar_banner ? URL.createObjectURL(data.gambar_banner) : (visimisi?.gambar_banner || "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=1600&auto=format&fit=crop")} 
+                                            src={data.gambar_banner ? URL.createObjectURL(data.gambar_banner) : (visimisi?.gambar_banner || "/images/default-banner.jpg")} 
                                             alt="Preview Banner" 
                                             className="w-full h-full object-cover" 
                                         />

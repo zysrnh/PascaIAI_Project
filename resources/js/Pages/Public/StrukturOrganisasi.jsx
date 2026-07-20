@@ -63,7 +63,7 @@ const TreeNode = ({ node }) => {
 };
 
 export default function StrukturOrganisasi({ organisasi, jabatanTree, pengaturan }) {
-    const bannerImg = pengaturan?.banner_image || "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=1600&auto=format&fit=crop";
+    const bannerImg = pengaturan?.banner_image || "/images/default-banner.jpg";
 
     return (
         <PublicLayout>

@@ -8,7 +8,7 @@ export default function Pengabdian({ pengabdian }) {
     const data = pengabdian || {
         judul: 'Pengabdian Masyarakat (KKN)',
         deskripsi_banner: '',
-        banner_image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=1600&auto=format&fit=crop',
+        banner_image: '/images/default-banner.jpg',
         deskripsi_program: '',
         periode_pelaksanaan: '',
         syarat_peserta: '',
@@ -27,7 +27,7 @@ export default function Pengabdian({ pengabdian }) {
             <div className="relative w-full h-[350px] md:h-[450px] bg-emerald-950 flex flex-col justify-end">
                 <div className="absolute inset-0">
                     <img 
-                        src={data.banner_image || 'https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=1600&auto=format&fit=crop'} 
+                        src={data.banner_image || '/images/default-banner.jpg'} 
                         alt="Pengabdian Banner" 
                         className="w-full h-full object-cover opacity-50"
                     />

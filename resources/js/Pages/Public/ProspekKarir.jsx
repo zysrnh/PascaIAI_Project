@@ -25,7 +25,7 @@ export default function ProspekKarir({ pengaturan, konten, karirs }) {
             <div className="relative w-full h-[350px] md:h-[450px] bg-emerald-950 flex flex-col justify-end">
                 <div className="absolute inset-0">
                     <img 
-                        src={pengaturan?.banner_image || "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=1600&auto=format&fit=crop"}
+                        src={pengaturan?.banner_image || "/images/default-banner.jpg"}
                         alt="Prospek Karir Banner" 
                         className="w-full h-full object-cover opacity-60"
                     />
