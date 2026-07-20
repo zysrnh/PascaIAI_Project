@@ -2,6 +2,7 @@ import React from 'react';
 import { Head, Link } from '@inertiajs/react';
 import PublicLayout from '@/Layouts/PublicLayout';
 import { ArrowRight, Briefcase, GraduationCap, Building2, BookOpen, PenTool, Users, ArrowUpRight, CheckCircle2 } from 'lucide-react';
+import Breadcrumb from '@/Components/Public/Breadcrumb';
 
 export default function ProspekKarir({ pengaturan, konten, karirs }) {
     const renderIcon = (iconName) => {
@@ -43,6 +44,12 @@ export default function ProspekKarir({ pengaturan, konten, karirs }) {
                     )}
                 </div>
             </div>
+
+            {/* Breadcrumb Navigation */}
+            <Breadcrumb items={[
+                { label: 'Profil' },
+                { label: 'Prospek Karir' }
+            ]} />
 
             {/* Main Content Area */}
             <div className="bg-slate-50 py-16 lg:py-24 border-b border-slate-200">

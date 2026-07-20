@@ -1,6 +1,7 @@
 import React from 'react';
 import { Head } from '@inertiajs/react';
 import PublicLayout from '@/Layouts/PublicLayout';
+import Breadcrumb from '@/Components/Public/Breadcrumb';
 
 export default function VisiMisi({ visimisi }) {
     // Gunakan data dari backend, atau fallback kalau kosong
@@ -42,6 +43,12 @@ export default function VisiMisi({ visimisi }) {
                     )}
                 </div>
             </div>
+
+            {/* Breadcrumb Navigation */}
+            <Breadcrumb items={[
+                { label: 'Profil' },
+                { label: 'Visi, Misi & Tujuan' }
+            ]} />
 
             {/* Main Content - Satu kesatuan background menyambung */}
             <div className="relative py-24 overflow-hidden bg-white">

@@ -162,6 +162,14 @@ const navigation = [
                     { type: 'link', name: 'Lihat Halaman', href: '/akademik/jadwal-perkuliahan', icon: ExternalLink },
                 ]
             },
+            {
+                type: 'group',
+                name: 'Sistem Akademik',
+                children: [
+                    { type: 'link', name: 'Kelola Halaman', href: '/admin/akademik/sistem', icon: Settings },
+                    { type: 'link', name: 'Lihat Halaman', href: '/akademik/sistem-akademik', icon: ExternalLink },
+                ]
+            },
         ],
     },
     {

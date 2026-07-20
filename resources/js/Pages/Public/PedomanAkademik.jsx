@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import { Head } from '@inertiajs/react';
 import PublicLayout from '@/Layouts/PublicLayout';
 import { BookOpen, Download, FileText, Search, Eye, X } from 'lucide-react';
+import Breadcrumb from '@/Components/Public/Breadcrumb';
 
 export default function PedomanAkademik({ pedomans, pengaturan }) {
     const [searchTerm, setSearchTerm] = useState('');
@@ -37,6 +38,12 @@ export default function PedomanAkademik({ pedomans, pengaturan }) {
                     </p>
                 </div>
             </div>
+
+            {/* Breadcrumb Navigation */}
+            <Breadcrumb items={[
+                { label: 'Akademik' },
+                { label: 'Pedoman Akademik' }
+            ]} />
 
             {/* Main Content Area */}
             <div className="bg-slate-50 py-12 lg:py-20 border-b border-slate-200">

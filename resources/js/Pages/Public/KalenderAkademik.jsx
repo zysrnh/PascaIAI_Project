@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Head } from '@inertiajs/react';
 import PublicLayout from '@/Layouts/PublicLayout';
 import { Calendar, ChevronDown, Download, FileText } from 'lucide-react';
+import Breadcrumb from '@/Components/Public/Breadcrumb';
 
 export default function KalenderAkademik({ pengaturan, kalenders }) {
     // Select the first calendar as active by default, if any exists
@@ -35,6 +36,12 @@ export default function KalenderAkademik({ pengaturan, kalenders }) {
                     )}
                 </div>
             </div>
+
+            {/* Breadcrumb Navigation */}
+            <Breadcrumb items={[
+                { label: 'Akademik' },
+                { label: 'Kalender Akademik' }
+            ]} />
 
             {/* Main Content Area */}
             <div className="bg-slate-50 py-12 lg:py-20 border-b border-slate-200">

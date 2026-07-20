@@ -1,6 +1,7 @@
 import React from 'react';
 import { Head } from '@inertiajs/react';
 import PublicLayout from '@/Layouts/PublicLayout';
+import Breadcrumb from '@/Components/Public/Breadcrumb';
 const getInitials = (name) => {
     if (!name) return '??';
     return name.substring(0, 2).toUpperCase();
@@ -90,6 +91,12 @@ export default function StrukturOrganisasi({ organisasi, jabatanTree, pengaturan
                     )}
                 </div>
             </div>
+
+            {/* Breadcrumb Navigation */}
+            <Breadcrumb items={[
+                { label: 'Profil' },
+                { label: 'Struktur Organisasi' }
+            ]} />
 
             {/* Main Content */}
             <div className="py-20 bg-slate-50 relative overflow-hidden min-h-screen">

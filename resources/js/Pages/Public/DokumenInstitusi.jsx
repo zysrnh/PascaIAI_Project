@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import { Head } from '@inertiajs/react';
 import PublicLayout from '@/Layouts/PublicLayout';
 import { FileText, Download, ChevronRight, BookOpen, Scale, FileSpreadsheet, Activity, Target, Eye, X } from 'lucide-react';
+import Breadcrumb from '@/Components/Public/Breadcrumb';
 
 // Literal Tailwind classes per category — template strings like `bg-${color}-100`
 // get purged in production because Tailwind's JIT only picks up classes it can
@@ -109,6 +110,12 @@ export default function DokumenInstitusi({ dokumens, pengaturan }) {
                     )}
                 </div>
             </div>
+
+            {/* Breadcrumb Navigation */}
+            <Breadcrumb items={[
+                { label: 'Tentang Kampus' },
+                { label: 'Dokumen Institusi' }
+            ]} />
 
             {/* Main Content */}
             <div className="py-16 bg-slate-50 relative min-h-screen">

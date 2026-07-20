@@ -18,8 +18,7 @@ class KurikulumController extends Controller
     public function adminIndex()
     {
         $kurikulums = Kurikulum::orderBy('created_at', 'desc')->get();
-        $pengaturan = PengaturanHalaman::where('kunci', 'banner_kurikulum')->first();
-        $pengaturan = $pengaturan ? json_decode($pengaturan->nilai) : null;
+        $pengaturan = PengaturanHalaman::where('halaman', 'kurikulum')->first();
 
         return Inertia::render('Admin/Akademik/Kurikulum/Index', [
             'kurikulums' => $kurikulums,
@@ -129,20 +128,18 @@ class KurikulumController extends Controller
             'banner_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048'
         ]);
 
-        $pengaturan = PengaturanHalaman::firstOrNew(['kunci' => 'banner_kurikulum']);
-        $nilai = $pengaturan->exists ? json_decode($pengaturan->nilai, true) : [];
+        $pengaturan = PengaturanHalaman::firstOrNew(['halaman' => 'kurikulum']);
         
-        $nilai['deskripsi'] = $request->deskripsi;
+        $pengaturan->deskripsi = $request->deskripsi;
 
         if ($request->hasFile('banner_image')) {
-            if (isset($nilai['banner_image']) && Storage::disk('public')->exists($nilai['banner_image'])) {
-                Storage::disk('public')->delete($nilai['banner_image']);
+            if ($pengaturan->banner_image && Storage::disk('public')->exists($pengaturan->banner_image)) {
+                Storage::disk('public')->delete($pengaturan->banner_image);
             }
             $path = $request->file('banner_image')->store('pengaturan', 'public');
-            $nilai['banner_image'] = $path;
+            $pengaturan->banner_image = $path;
         }
 
-        $pengaturan->nilai = json_encode($nilai);
         $pengaturan->save();
 
         return back()->with('success', 'Pengaturan halaman kurikulum berhasil disimpan.');
@@ -175,8 +172,7 @@ class KurikulumController extends Controller
             }
         }])->get();
 
-        $pengaturan = PengaturanHalaman::where('kunci', 'banner_kurikulum')->first();
-        $pengaturan = $pengaturan ? json_decode($pengaturan->nilai) : null;
+        $pengaturan = PengaturanHalaman::where('halaman', 'kurikulum')->first();
 
         return Inertia::render('Public/Kurikulum', [
             'kurikulums' => $kurikulums,

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { Head, Link } from '@inertiajs/react';
 import PublicLayout from '@/Layouts/PublicLayout';
+import Breadcrumb from '@/Components/Public/Breadcrumb';
 
 export default function TentangKampus({ tentang }) {
     const [isPimpinanModalOpen, setIsPimpinanModalOpen] = useState(false);
@@ -44,6 +45,12 @@ export default function TentangKampus({ tentang }) {
                     )}
                 </div>
             </div>
+
+            {/* Breadcrumb Navigation */}
+            <Breadcrumb items={[
+                { label: 'Profil' },
+                { label: 'Tentang Kampus' }
+            ]} />
 
             {/* Content Section */}
             <div className="bg-white py-16">

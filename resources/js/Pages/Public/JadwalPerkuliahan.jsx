@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { Head } from '@inertiajs/react';
 import PublicLayout from '@/Layouts/PublicLayout';
 import { Clock, MapPin, BookOpen, User, Filter, Download, CalendarDays, Search } from 'lucide-react';
+import Breadcrumb from '@/Components/Public/Breadcrumb';
 
 export default function JadwalPerkuliahan({ pengaturan, periodes, programStudis }) {
     // Select first active periode by default
@@ -81,6 +82,12 @@ export default function JadwalPerkuliahan({ pengaturan, periodes, programStudis 
                     )}
                 </div>
             </div>
+
+            {/* Breadcrumb Navigation */}
+            <Breadcrumb items={[
+                { label: 'Akademik' },
+                { label: 'Jadwal Perkuliahan' }
+            ]} />
 
             {/* Main Content Area */}
             <div className="bg-slate-50 py-12 border-b border-slate-200 min-h-[500px]">

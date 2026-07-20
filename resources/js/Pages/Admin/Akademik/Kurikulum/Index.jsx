@@ -62,14 +62,9 @@ export default function KurikulumIndex({ auth, kurikulums, pengaturan }) {
         e.preventDefault();
         
         const options = {
+            preserveScroll: true,
             onSuccess: () => {
                 closeModal();
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Berhasil!',
-                    text: `Kurikulum berhasil ${editingId ? 'diperbarui' : 'ditambahkan'}.`,
-                    confirmButtonColor: '#10b981',
-                });
             },
         };
 
@@ -93,14 +88,7 @@ export default function KurikulumIndex({ auth, kurikulums, pengaturan }) {
         }).then((result) => {
             if (result.isConfirmed) {
                 router.delete(route('admin.akademik.kurikulum.destroy', id), {
-                    onSuccess: () => {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Terhapus!',
-                            text: 'Kurikulum berhasil dihapus.',
-                            confirmButtonColor: '#10b981',
-                        });
-                    }
+                    preserveScroll: true
                 });
             }
         });
@@ -120,12 +108,6 @@ export default function KurikulumIndex({ auth, kurikulums, pengaturan }) {
             preserveScroll: true,
             onSuccess: () => {
                 setBannerPreview(null);
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Berhasil!',
-                    text: 'Pengaturan halaman kurikulum berhasil disimpan.',
-                    confirmButtonColor: '#10b981',
-                });
             },
         });
     };
@@ -151,17 +133,16 @@ export default function KurikulumIndex({ auth, kurikulums, pengaturan }) {
                     {/* Banner Settings Section */}
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg border border-slate-200">
                         <div className="p-6 border-b border-slate-200 bg-slate-50 flex items-center gap-3">
-                            <div className="flex items-center gap-3">
-                                <div className="p-2.5 bg-indigo-100 text-indigo-600 rounded-lg">
-                                    <ImageIcon className="w-6 h-6" />
-                                </div>
-                                <div>
-                                    <h3 className="text-lg font-bold text-slate-800">Banner Halaman</h3>
-                                    <p className="text-sm text-slate-500">Atur gambar latar belakang untuk halaman Kurikulum.</p>
-                                </div>
+                            <div className="p-2.5 bg-indigo-100 text-indigo-600 rounded-lg">
+                                <ImageIcon className="w-6 h-6" />
                             </div>
-                            <div className="p-6">
-                                <form onSubmit={submitBanner} className="space-y-6">
+                            <div>
+                                <h3 className="text-lg font-bold text-slate-800">Banner Halaman</h3>
+                                <p className="text-sm text-slate-500">Atur gambar latar belakang untuk halaman Kurikulum.</p>
+                            </div>
+                        </div>
+                        <div className="p-6">
+                            <form onSubmit={submitBanner} className="space-y-6">
                                     <div className="space-y-2">
                                         <label className="block text-sm font-medium text-slate-700">Gambar Banner Saat Ini</label>
                                         <div className="relative w-full h-64 bg-slate-100 rounded-lg overflow-hidden border border-slate-200">
@@ -301,7 +282,6 @@ export default function KurikulumIndex({ auth, kurikulums, pengaturan }) {
                         </div>
                     </div>
                 </div>
-            </div>
             </div>
             </div>
 

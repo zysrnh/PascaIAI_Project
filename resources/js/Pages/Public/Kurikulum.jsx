@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Head, Link, router } from '@inertiajs/react';
 import PublicLayout from '@/Layouts/PublicLayout';
 import { BookOpen, FileText, ChevronRight, Home, School, Filter, Library, ChevronDown } from 'lucide-react';
+import Breadcrumb from '@/Components/Public/Breadcrumb';
 
 export default function KurikulumPublic({ kurikulums, activeKurikulum, fakultas, pengaturan }) {
     const [selectedFakultas, setSelectedFakultas] = useState(fakultas.length > 0 ? fakultas[0].id : null);
@@ -76,32 +77,10 @@ export default function KurikulumPublic({ kurikulums, activeKurikulum, fakultas,
             </div>
 
             {/* Breadcrumb Navigation */}
-            <div className="bg-white border-b border-slate-200 sticky top-[72px] z-30 shadow-sm">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <nav className="flex py-4" aria-label="Breadcrumb">
-                        <ol className="flex items-center space-x-2 text-sm">
-                            <li>
-                                <Link href="/" className="text-slate-500 hover:text-emerald-600 transition-colors flex items-center gap-1">
-                                    <Home className="w-4 h-4" />
-                                    <span className="hidden sm:inline">Beranda</span>
-                                </Link>
-                            </li>
-                            <li>
-                                <div className="flex items-center">
-                                    <ChevronRight className="w-4 h-4 text-slate-400 mx-1" />
-                                    <span className="text-slate-500">Akademik</span>
-                                </div>
-                            </li>
-                            <li>
-                                <div className="flex items-center">
-                                    <ChevronRight className="w-4 h-4 text-slate-400 mx-1" />
-                                    <span className="text-emerald-600 font-medium">Kurikulum</span>
-                                </div>
-                            </li>
-                        </ol>
-                    </nav>
-                </div>
-            </div>
+            <Breadcrumb items={[
+                { label: 'Akademik' },
+                { label: 'Kurikulum' }
+            ]} />
 
             {/* Main Content Area */}
             <div className="bg-slate-50 py-12 lg:py-20 border-b border-slate-200 min-h-screen">

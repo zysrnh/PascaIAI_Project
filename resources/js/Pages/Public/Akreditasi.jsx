@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import { Head } from '@inertiajs/react';
 import PublicLayout from '@/Layouts/PublicLayout';
 import { Award, FileCheck, History, Landmark, ShieldCheck, Download, Calendar, ArrowRight, CheckCircle2, AlertTriangle, XCircle, X } from 'lucide-react';
+import Breadcrumb from '@/Components/Public/Breadcrumb';
 
 // Validity status derived from a raw expiry date — used to badge both the
 // institution-level card and each prodi card so visitors see at a glance
@@ -149,6 +150,12 @@ export default function Akreditasi({ institusi, prodis, riwayats, pengaturan }) 
                     )}
                 </div>
             </div>
+
+            {/* Breadcrumb Navigation */}
+            <Breadcrumb items={[
+                { label: 'Tentang Kampus' },
+                { label: 'Akreditasi' }
+            ]} />
 
             <div className="py-16 bg-slate-50 min-h-screen">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

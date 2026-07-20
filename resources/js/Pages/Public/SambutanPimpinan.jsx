@@ -1,6 +1,7 @@
 import React from 'react';
 import { Head } from '@inertiajs/react';
 import PublicLayout from '@/Layouts/PublicLayout';
+import Breadcrumb from '@/Components/Public/Breadcrumb';
 
 export default function SambutanPimpinan({ sambutan }) {
     return (
@@ -29,6 +30,12 @@ export default function SambutanPimpinan({ sambutan }) {
                     )}
                 </div>
             </div>
+
+            {/* Breadcrumb Navigation */}
+            <Breadcrumb items={[
+                { label: 'Profil' },
+                { label: 'Sambutan Pimpinan' }
+            ]} />
 
             {/* Content Section */}
             <div className="bg-white py-16 md:py-24">
