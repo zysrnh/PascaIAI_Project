@@ -43,6 +43,7 @@ export default function Index({ pengaturan, kalenders }) {
         e.preventDefault();
         formBanner.post(route('admin.akademik.kalender.pengaturan'), {
             preserveScroll: true,
+            forceFormData: true,
             onSuccess: () => {
                 formBanner.reset('banner_image');
                 setPreviewBanner(null);
@@ -185,7 +186,7 @@ export default function Index({ pengaturan, kalenders }) {
                                     </div>
                                     <div className="flex justify-end pt-4 border-t border-slate-100">
                                         <PrimaryButton type="submit" disabled={formBanner.processing}>
-                                            Simpan Pengaturan
+                                            Simpan Banner
                                         </PrimaryButton>
                                     </div>
                                 </form>

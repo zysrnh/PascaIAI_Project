@@ -44,6 +44,10 @@ class DosenController extends Controller
         $programStudis = ProgramStudi::where('status', true)->get();
         $pengaturan = PengaturanHalaman::where('halaman', 'dosen')->first();
 
+        if ($pengaturan && $pengaturan->banner_image) {
+            $pengaturan->banner_image = Storage::url($pengaturan->banner_image);
+        }
+
         // Calculate statistics
         $stats = [
             'total' => Dosen::where('status_aktif', true)->count(),
@@ -157,12 +161,11 @@ class DosenController extends Controller
 
         if ($request->hasFile('banner_image')) {
             if ($pengaturan->banner_image) {
-                $oldPath = str_replace('/storage/', '', parse_url($pengaturan->banner_image, PHP_URL_PATH));
-                Storage::disk('public')->delete($oldPath);
+                Storage::disk('public')->delete($pengaturan->banner_image);
             }
             
-            $path = $request->file('banner_image')->store('banners', 'public');
-            $pengaturan->banner_image = Storage::url($path);
+            $path = $request->file('banner_image')->store('pengaturan', 'public');
+            $pengaturan->banner_image = $path;
         }
 
         $pengaturan->deskripsi = $request->deskripsi;

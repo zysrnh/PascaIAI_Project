@@ -162,6 +162,7 @@ export default function Index({ auth, fakultas }) {
                                     e.preventDefault();
                                     pengaturanForm.post(route('admin.fakultas.pengaturan'), { 
                                         preserveScroll: true,
+                                        forceFormData: true,
                                         onSuccess: () => {
                                             pengaturanForm.reset('banner_image');
                                             setPreviewBanner(null);
@@ -212,7 +213,7 @@ export default function Index({ auth, fakultas }) {
                                         </div>
                                     </div>
                                     <div className="flex justify-end pt-4 border-t border-slate-100">
-                                        <PrimaryButton type="submit" disabled={pengaturanForm.processing || !pengaturanForm.data.banner_image}>
+                                        <PrimaryButton type="submit" disabled={pengaturanForm.processing}>
                                             Simpan Banner
                                         </PrimaryButton>
                                     </div>

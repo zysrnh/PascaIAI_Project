@@ -87,6 +87,7 @@ export default function Index({ auth, dokumen, pengaturan }) {
         e.preventDefault();
         postBanner(route('admin.profil.dokumen-institusi.update-banner'), {
             preserveScroll: true,
+            forceFormData: true,
             onSuccess: () => {
                 setBannerData('banner_image', null);
             }
@@ -171,7 +172,7 @@ export default function Index({ auth, dokumen, pengaturan }) {
                                     </div>
                                 </div>
                                 <div className="flex justify-end pt-4 border-t border-slate-100">
-                                    <PrimaryButton type="submit" disabled={processingBanner || !bannerData.banner_image}>
+                                    <PrimaryButton type="submit" disabled={processingBanner}>
                                         Simpan Banner
                                     </PrimaryButton>
                                 </div>

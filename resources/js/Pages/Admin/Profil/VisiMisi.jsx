@@ -28,7 +28,10 @@ export default function VisiMisiEdit({ auth, visimisi }) {
 
     const submit = (e) => {
         e.preventDefault();
-        post(route('admin.profil.visi-misi.update'));
+        post(route('admin.profil.visi-misi.update'), {
+            forceFormData: true,
+            preserveScroll: true
+        });
     };
 
     const addMisi = () => {

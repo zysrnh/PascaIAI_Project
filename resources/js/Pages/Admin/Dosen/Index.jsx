@@ -75,10 +75,12 @@ export default function Index({ dosens, programStudis, pengaturan }) {
         e.preventDefault();
         if (isEditing) {
             form.post(route('admin.dosen.update', editId), {
+                forceFormData: true,
                 onSuccess: () => closeModal(),
             });
         } else {
             form.post(route('admin.dosen.store'), {
+                forceFormData: true,
                 onSuccess: () => closeModal(),
             });
         }
@@ -147,18 +149,10 @@ export default function Index({ dosens, programStudis, pengaturan }) {
                                     e.preventDefault();
                                     pengaturanForm.post(route('admin.dosen.pengaturan'), {
                                         preserveScroll: true,
+                                        forceFormData: true,
                                         onSuccess: () => {
                                             pengaturanForm.reset('banner_image');
                                             setPreviewBanner(null);
-                                            Swal.fire({
-                                                icon: 'success',
-                                                title: 'Berhasil',
-                                                text: 'Banner halaman berhasil diperbarui!',
-                                                toast: true,
-                                                position: 'top-end',
-                                                showConfirmButton: false,
-                                                timer: 3000
-                                            });
                                         }
                                     });
                                 }} className="space-y-6">

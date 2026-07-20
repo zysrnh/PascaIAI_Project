@@ -55,18 +55,10 @@ export default function Index({ pengaturan, konten, karirs }) {
         e.preventDefault();
         formBanner.post(route('admin.fakultas.prospek-karir.pengaturan'), {
             preserveScroll: true,
+            forceFormData: true,
             onSuccess: () => {
                 formBanner.reset('banner_image');
                 setPreviewBanner(null);
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Berhasil',
-                    text: 'Pengaturan banner berhasil diperbarui!',
-                    toast: true,
-                    position: 'top-end',
-                    showConfirmButton: false,
-                    timer: 3000
-                });
             },
         });
     };

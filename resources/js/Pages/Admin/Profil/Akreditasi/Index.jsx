@@ -279,7 +279,7 @@ function InstitusiTab({ institusi, pengaturan }) {
 
                             <div className="flex justify-end pt-4 border-t border-slate-100">
                                 <PrimaryButton type="submit" disabled={formPengaturan.processing}>
-                                    Simpan Pengaturan
+                                    Simpan Banner
                                 </PrimaryButton>
                             </div>
                         </form>
