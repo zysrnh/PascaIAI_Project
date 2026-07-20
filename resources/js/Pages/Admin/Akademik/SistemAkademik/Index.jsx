@@ -1,7 +1,10 @@
 import React, { useState, useRef } from 'react';
 import { Head, useForm } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Save, Image as ImageIcon, ExternalLink, Globe, Book, Phone, Plus, Trash2, ShieldCheck, Activity } from 'lucide-react';
+import Sidebar from '@/Components/Admin/Sidebar';
+import { Save, Image as ImageIcon, ExternalLink, Globe, Book, Phone, Plus, Trash2, ShieldCheck, Activity, Upload } from 'lucide-react';
+import InputLabel from '@/Components/InputLabel';
+import PrimaryButton from '@/Components/PrimaryButton';
 
 export default function Index({ auth, siakad }) {
     const fileInputRef = useRef(null);
@@ -56,82 +59,86 @@ export default function Index({ auth, siakad }) {
     return (
         <AuthenticatedLayout
             user={auth.user}
-            header={<h2 className="font-semibold text-xl text-slate-800 leading-tight">Kelola Sistem Akademik</h2>}
+            header={<h2 className="font-semibold text-xl text-white leading-tight">Kelola Sistem Akademik</h2>}
         >
             <Head title="Kelola Sistem Akademik" />
 
-            <div className="py-12">
-                <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                    
-                    <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="flex bg-slate-50 min-h-screen">
+                <Sidebar />
+                <div className="min-w-0 flex-1 transition-all duration-700 ease-out transform opacity-100 translate-y-0">
+                    <div className="py-8 px-4 sm:px-6 lg:px-8 space-y-6">
+                        
+                        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                            <div>
+                                <h1 className="text-2xl font-bold text-slate-800">Sistem Akademik</h1>
+                                <p className="text-slate-500 mt-1">Kelola portal akses Sistem Informasi Akademik.</p>
+                            </div>
+                        </div>
+
+                        <form onSubmit={handleSubmit} className="space-y-6">
                         
                         {/* Panel 1: Pengaturan Banner & Header */}
-                        <div className="bg-white overflow-hidden shadow-sm sm:rounded-2xl border border-slate-200">
-                            <div className="border-b border-slate-200 bg-slate-50/50 p-6 flex items-center gap-3">
-                                <div className="p-2 bg-emerald-100 text-emerald-600 rounded-lg">
-                                    <ImageIcon className="w-5 h-5" />
-                                </div>
+                        <div className="bg-white overflow-hidden shadow-sm sm:rounded-xl border border-slate-200">
+                            <div className="p-6 border-b border-slate-200 bg-slate-50 flex items-center gap-3">
+                                <div className="p-2 bg-blue-100 text-blue-600 rounded-lg"><ImageIcon className="w-5 h-5" /></div>
                                 <div>
-                                    <h3 className="text-lg font-bold text-slate-800">Banner & Header Halaman</h3>
-                                    <p className="text-sm text-slate-500">Atur tampilan hero section pada halaman publik SIAKAD.</p>
+                                    <h3 className="text-lg font-bold text-slate-800">Banner Halaman</h3>
+                                    <p className="text-sm text-slate-500">Atur gambar latar belakang untuk halaman Sistem Akademik.</p>
                                 </div>
                             </div>
-                            
-                            <div className="p-6 md:p-8 space-y-8">
-                                <div>
-                                    <label className="block text-sm font-bold text-slate-700 mb-3">Gambar Banner (Opsional)</label>
-                                    <div className="flex flex-col md:flex-row gap-6">
-                                        <div 
-                                            className="w-full md:w-1/2 aspect-video bg-slate-100 rounded-xl border-2 border-dashed border-slate-300 flex flex-col items-center justify-center relative overflow-hidden group cursor-pointer hover:border-emerald-500 transition-colors"
-                                            onClick={() => fileInputRef.current?.click()}
-                                        >
-                                            {bannerPreview ? (
-                                                <>
-                                                    <img src={bannerPreview} alt="Preview" className="w-full h-full object-cover" />
-                                                    <div className="absolute inset-0 bg-slate-900/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                                                        <span className="text-white font-medium flex items-center gap-2">
-                                                            <ImageIcon className="w-5 h-5" /> Ganti Banner
-                                                        </span>
-                                                    </div>
-                                                </>
-                                            ) : (
-                                                <div className="text-center p-6">
-                                                    <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center mx-auto mb-3 shadow-sm">
-                                                        <ImageIcon className="w-6 h-6 text-slate-400" />
-                                                    </div>
-                                                    <span className="text-sm font-medium text-slate-600 block mb-1">Klik untuk upload banner</span>
-                                                    <span className="text-xs text-slate-400">Rekomendasi: 1920x600px (Max 2MB)</span>
-                                                </div>
+                            <div className="p-6 space-y-6">
+                                <div className="space-y-2">
+                                    <label className="block text-sm font-medium text-slate-700">Gambar Banner Saat Ini</label>
+                                    <div className="relative w-full h-64 bg-slate-100 rounded-lg overflow-hidden border border-slate-200">
+                                        {bannerPreview ? (
+                                            <img src={bannerPreview} alt="Preview" className="w-full h-full object-cover" />
+                                        ) : (
+                                            <img src={siakad?.banner_image || 'https://images.unsplash.com/photo-1531403009284-440f080d1e12?q=80&w=1600&auto=format&fit=crop'} alt="Default Preview" className="w-full h-full object-cover" />
+                                        )}
+                                        <div className="absolute inset-0 bg-gradient-to-t from-emerald-950 via-emerald-950/60 to-transparent"></div>
+                                        <div className="absolute bottom-6 left-6 z-10 text-white w-full pr-6">
+                                            <h1 className="text-3xl font-extrabold mb-2 drop-shadow-md">{data.judul || 'Sistem Informasi Akademik'}</h1>
+                                            <div className="w-16 h-1.5 bg-amber-500 rounded-sm mb-4"></div>
+                                            {data.deskripsi_banner && (
+                                                <p className="text-white/90 max-w-2xl text-sm leading-relaxed drop-shadow">
+                                                    {data.deskripsi_banner}
+                                                </p>
                                             )}
                                         </div>
-                                        <input
-                                            type="file"
-                                            ref={fileInputRef}
-                                            onChange={handleBannerChange}
-                                            className="hidden"
-                                            accept="image/*"
-                                        />
-                                        <div className="w-full md:w-1/2 space-y-4">
-                                            <div>
-                                                <label className="block text-sm font-semibold text-slate-700 mb-1">Deskripsi Banner</label>
-                                                <textarea
-                                                    value={data.deskripsi_banner}
-                                                    onChange={e => setData('deskripsi_banner', e.target.value)}
-                                                    rows={4}
-                                                    className="w-full border-slate-300 focus:border-emerald-500 focus:ring-emerald-500 rounded-lg shadow-sm"
-                                                    placeholder="Contoh: Portal Terpadu Layanan Akademik Mahasiswa Pascasarjana IAI Persis Bandung."
-                                                ></textarea>
-                                                {errors.deskripsi_banner && <p className="text-red-500 text-xs mt-1">{errors.deskripsi_banner}</p>}
-                                            </div>
-                                        </div>
                                     </div>
-                                    {errors.banner_image && <p className="text-red-500 text-xs mt-2">{errors.banner_image}</p>}
+                                </div>
+                                <div className="space-y-4">
+                                    <div className="space-y-2">
+                                        <InputLabel htmlFor="deskripsi_banner" value="Deskripsi Banner (Opsional)" />
+                                        <textarea
+                                            id="deskripsi_banner"
+                                            rows="3"
+                                            className="mt-1 block w-full border-slate-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                            placeholder="Tuliskan deskripsi singkat mengenai sistem akademik..."
+                                            value={data.deskripsi_banner}
+                                            onChange={e => setData('deskripsi_banner', e.target.value)}
+                                        ></textarea>
+                                        {errors.deskripsi_banner && <p className="text-sm text-red-600 mt-1">{errors.deskripsi_banner}</p>}
+                                    </div>
+                                    <div className="space-y-2">
+                                        <label className="block text-sm font-medium text-slate-700">Ganti Banner (Maks. 2MB, JPG/PNG)</label>
+                                        <label className={`flex justify-center w-full h-32 px-4 transition bg-white border-2 border-slate-300 border-dashed rounded-md cursor-pointer hover:border-emerald-500 ${errors.banner_image ? 'border-red-500' : ''}`}>
+                                            <span className="flex items-center space-x-2"><Upload className="w-6 h-6 text-slate-600" /><span className="font-medium text-slate-600">Klik untuk mengunggah file gambar</span></span>
+                                            <input type="file" ref={fileInputRef} name="banner_image" className="hidden" accept="image/*" onChange={handleBannerChange} />
+                                        </label>
+                                        {errors.banner_image && <p className="text-sm text-red-600 mt-1">{errors.banner_image}</p>}
+                                    </div>
+                                </div>
+                                <div className="flex justify-end pt-4 border-t border-slate-100">
+                                    <PrimaryButton type="submit" disabled={processing}>
+                                        Simpan Banner
+                                    </PrimaryButton>
                                 </div>
                             </div>
                         </div>
 
                         {/* Panel 2: Detail SIAKAD */}
-                        <div className="bg-white overflow-hidden shadow-sm sm:rounded-2xl border border-slate-200">
+                        <div className="bg-white overflow-hidden shadow-sm sm:rounded-xl border border-slate-200">
                             <div className="border-b border-slate-200 bg-slate-50/50 p-6 flex items-center gap-3">
                                 <div className="p-2 bg-blue-100 text-blue-600 rounded-lg">
                                     <Activity className="w-5 h-5" />
@@ -164,7 +171,7 @@ export default function Index({ auth, siakad }) {
                                                 <Globe className="h-5 w-5 text-slate-400" />
                                             </div>
                                             <input
-                                                type="url"
+                                                type="text"
                                                 value={data.link_siakad}
                                                 onChange={e => setData('link_siakad', e.target.value)}
                                                 className="w-full pl-10 border-slate-300 focus:border-emerald-500 focus:ring-emerald-500 rounded-lg shadow-sm"
@@ -196,7 +203,7 @@ export default function Index({ auth, siakad }) {
                                                 <Book className="h-5 w-5 text-slate-400" />
                                             </div>
                                             <input
-                                                type="url"
+                                                type="text"
                                                 value={data.link_panduan}
                                                 onChange={e => setData('link_panduan', e.target.value)}
                                                 className="w-full pl-10 border-slate-300 focus:border-emerald-500 focus:ring-emerald-500 rounded-lg shadow-sm"
@@ -225,7 +232,7 @@ export default function Index({ auth, siakad }) {
                         </div>
 
                         {/* Panel 3: Fitur Utama */}
-                        <div className="bg-white overflow-hidden shadow-sm sm:rounded-2xl border border-slate-200">
+                        <div className="bg-white overflow-hidden shadow-sm sm:rounded-xl border border-slate-200">
                             <div className="border-b border-slate-200 bg-slate-50/50 p-6 flex items-center justify-between">
                                 <div className="flex items-center gap-3">
                                     <div className="p-2 bg-amber-100 text-amber-600 rounded-lg">
@@ -288,7 +295,7 @@ export default function Index({ auth, siakad }) {
                             </button>
                         </div>
                     </form>
-
+                    </div>
                 </div>
             </div>
         </AuthenticatedLayout>
