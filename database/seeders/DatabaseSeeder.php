@@ -15,11 +15,24 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        \Illuminate\Support\Facades\Schema::disableForeignKeyConstraints();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        $this->call([
+            RoleSeeder::class,
+            FakultasSeeder::class,
+            ProgramStudiSeeder::class,
+            TentangKampusSeeder::class,
+            VisiMisiSeeder::class,
+            SambutanPimpinanSeeder::class,
+            StrukturOrganisasiSeeder::class,
+            JadwalPerkuliahanSeeder::class,
+            DosenSeeder::class,
+            BeritaSeeder::class,
+            KonsultasiPendaftaranSeeder::class,
+            AkreditasiSeeder::class,
+            KalenderAkademikSeeder::class,
+            DokumenInstitusiSeeder::class,
+            LppmInformasiHibahSeeder::class,
         ]);
     }
 }

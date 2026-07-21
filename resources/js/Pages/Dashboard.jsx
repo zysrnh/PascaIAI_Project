@@ -1,21 +1,89 @@
 import React, { useState, useEffect } from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head } from '@inertiajs/react';
+import { Head, router, usePage } from '@inertiajs/react';
 import Sidebar from '@/Components/Admin/Sidebar';
 import StatCard from '@/Components/Admin/StatCard';
 import RecentActivity from '@/Components/Admin/RecentActivity';
+import { AlertCircle, CalendarClock, ExternalLink, ArrowRight, Settings, Database, Download, FileText, MessageSquare, Newspaper, Users } from 'lucide-react';
+import Swal from 'sweetalert2';
 
-export default function Dashboard() {
+export default function Dashboard({ stats, activities, flash }) {
     const [isLoaded, setIsLoaded] = useState(false);
+    const { auth } = usePage().props;
+
     useEffect(() => {
         setIsLoaded(true);
-    }, []);
+        if (flash?.success) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil',
+                text: flash.success,
+                timer: 3000,
+                showConfirmButton: false
+            });
+        }
+        if (flash?.error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal',
+                text: flash.error,
+                timer: 3000,
+                showConfirmButton: false
+            });
+        }
+    }, [flash]);
+
+    const handleOptimize = () => {
+        Swal.fire({
+            title: 'Optimasi Sistem?',
+            text: 'Ini akan membersihkan cache aplikasi dan konfigurasi.',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Ya, Optimasi',
+            cancelButtonText: 'Batal',
+            confirmButtonColor: '#059669',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                router.post(route('sys.optimize'));
+            }
+        });
+    };
+
+    const handleReset = () => {
+        Swal.fire({
+            title: 'Reset Database?',
+            text: 'PERINGATAN: Semua data akan dihapus dan di-seed ulang. Aksi ini tidak dapat dibatalkan!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Ya, Reset Total!',
+            cancelButtonText: 'Batal',
+            confirmButtonColor: '#e11d48',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                router.post(route('sys.migrate-seed'));
+            }
+        });
+    };
+
+    const greeting = (() => {
+        const hour = new Date().getHours();
+        if (hour < 11) return 'Selamat pagi';
+        if (hour < 17) return 'Selamat siang';
+        return 'Selamat malam';
+    })();
+
     return (
         <AuthenticatedLayout
             header={
-                <h2 className="text-xl font-semibold leading-tight text-white">
-                    Overview Dashboard
-                </h2>
+                <div className="flex justify-between items-center w-full">
+                    <h2 className="text-xl font-semibold leading-tight text-white">
+                        Dashboard
+                    </h2>
+                    <a href="/" target="_blank" className="inline-flex items-center gap-2 text-sm text-white/90 hover:text-white bg-emerald-800/50 hover:bg-emerald-800 px-4 py-2 rounded-[5px] transition-colors border border-emerald-700/50">
+                        <ExternalLink className="w-4 h-4" />
+                        Lihat sebagai pengunjung
+                    </a>
+                </div>
             }
         >
             <Head title="Dashboard" />
@@ -23,83 +91,140 @@ export default function Dashboard() {
             <div className="flex bg-slate-50">
                 <Sidebar />
 
-                <div className={`min-w-0 flex-1 transition-all duration-700 ease-out transform ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-                    <div className="py-12">
+                <div className={`min-w-0 flex-1 transition-all duration-500 ease-out ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
+                    <div className="py-10">
                         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                            {/* Stats Grid */}
-                            <div className="mb-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+
+                            {/* Greeting */}
+                            <div className="mb-8">
+                                <p className="text-lg text-slate-700">
+                                    {greeting}, <span className="font-semibold text-slate-900">{auth?.user?.name}</span>.
+                                </p>
+                            </div>
+
+                            {/* Stats */}
+                            <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
                                 <StatCard
-                                    title="Total Mahasiswa"
-                                    value="1,248"
-                                    icon={
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-                                        </svg>
-                                    }
-                                    trend="up"
-                                    trendValue="12%"
+                                    title="Konsultasi PMB"
+                                    value={stats?.konsultasi || 0}
+                                    href="/konsultasi"
+                                    icon={<MessageSquare className="h-5 w-5" />}
+                                    trendValue="Cek →"
                                 />
                                 <StatCard
-                                    title="Berita Publikasi"
-                                    value="45"
-                                    icon={
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2.5 2.5 0 00-2.5-2.5H15M9 11l3 3L22 4" />
-                                        </svg>
-                                    }
-                                    trend="up"
-                                    trendValue="4%"
+                                    title="Dosen Aktif"
+                                    value={stats?.dosen || 0}
+                                    href="/admin/fakultas/dosen"
+                                    icon={<Users className="h-5 w-5" />}
+                                    trendValue="Terdata"
                                 />
                                 <StatCard
-                                    title="Dokumen Institusi"
-                                    value="18"
-                                    icon={
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                                        </svg>
-                                    }
+                                    title="Berita"
+                                    value={stats?.berita || 0}
+                                    href="/admin/berita"
+                                    icon={<Newspaper className="h-5 w-5" />}
+                                    trendValue="Terbaru"
                                 />
                                 <StatCard
-                                    title="Info Hibah LPPM"
-                                    value="3"
-                                    icon={
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                                        </svg>
-                                    }
-                                    trend="down"
-                                    trendValue="1"
+                                    title="Program Studi"
+                                    value={stats?.mahasiswa || 0}
+                                    href="/admin/program-studi"
+                                    icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>}
+                                    trendValue="Aktif"
                                 />
                             </div>
 
-                            {/* Main Content Area */}
+                            {/* Content Grid */}
                             <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-                                <div className="lg:col-span-2 overflow-hidden rounded-[5px] border border-slate-200 bg-white shadow-sm">
-                                    <div className="p-8">
-                                        <h3 className="mb-2 text-xl font-bold text-slate-800">Selamat Datang di Portal Admin!</h3>
-                                        <p className="mb-6 text-slate-600">
-                                            Anda memiliki akses penuh untuk mengelola konten website Pascasarjana IAI Persis Bandung.
-                                            Gunakan navigasi di samping untuk mengelola Profil Kampus, Berita, Fakultas, dan lainnya.
-                                        </p>
-                                        <div className="flex gap-4">
-                                            <a href="/admin/profil/tentang-kampus" className="rounded-[5px] bg-emerald-700 px-6 py-2.5 font-medium text-white shadow-sm transition-colors hover:bg-emerald-800">
-                                                Kelola Profil Kampus
-                                            </a>
-                                            <a href="/admin/profil/sambutan-pimpinan" className="rounded-[5px] bg-slate-800 px-6 py-2.5 font-medium text-white shadow-sm transition-colors hover:bg-slate-900">
-                                                Update Sambutan
-                                            </a>
+
+                                {/* Left column */}
+                                <div className="lg:col-span-2 space-y-6">
+
+                                    {/* Health Checks */}
+                                    {stats?.healthChecks && stats.healthChecks.length > 0 && (
+                                        <div className="rounded-[5px] border border-amber-200 bg-white shadow-sm">
+                                            <div className="flex items-center gap-2 border-b border-amber-100 px-5 py-3">
+                                                <AlertCircle className="h-4 w-4 text-amber-600" />
+                                                <h3 className="text-sm font-semibold text-slate-800">Perlu Dilengkapi</h3>
+                                            </div>
+                                            <div className="divide-y divide-slate-100">
+                                                {stats.healthChecks.map((check, i) => (
+                                                    <a key={i} href={check.url} className="flex items-center justify-between px-5 py-3 transition-colors hover:bg-amber-50/50 group">
+                                                        <span className="text-sm text-slate-700 group-hover:text-amber-700">{check.message}</span>
+                                                        <ArrowRight className="h-3.5 w-3.5 text-slate-300 group-hover:text-amber-600 shrink-0 ml-3" />
+                                                    </a>
+                                                ))}
+                                            </div>
                                         </div>
-                                    </div>
+                                    )}
+
+                                    {/* Recent Activity */}
+                                    <RecentActivity activities={activities || []} />
                                 </div>
 
-                                <div className="lg:col-span-1">
-                                    <RecentActivity
-                                        activities={[
-                                            { title: 'Mengupdate Pedoman Akademik', user: 'Admin Akademik', time: '2 jam yang lalu', type: 'update' },
-                                            { title: 'Menambahkan Berita Baru', user: 'Humas', time: '5 jam yang lalu', type: 'create' },
-                                            { title: 'Upload SK Rektor', user: 'Super Admin', time: '1 hari yang lalu', type: 'create' },
-                                        ]}
-                                    />
+                                {/* Right column */}
+                                <div className="space-y-6">
+
+                                    {/* Reminders */}
+                                    {stats?.upcomingReminders && stats.upcomingReminders.length > 0 && (
+                                        <div className="rounded-[5px] border border-slate-200 bg-white shadow-sm">
+                                            <div className="flex items-center gap-2 border-b border-slate-100 px-5 py-3">
+                                                <CalendarClock className="h-4 w-4 text-slate-500" />
+                                                <h3 className="text-sm font-semibold text-slate-800">Jadwal Mendatang</h3>
+                                            </div>
+                                            <div className="divide-y divide-slate-100">
+                                                {stats.upcomingReminders.map((reminder, i) => (
+                                                    <div key={i} className="px-5 py-3">
+                                                        <p className="text-sm font-medium text-slate-800">{reminder.title}</p>
+                                                        <p className="mt-0.5 text-xs text-slate-500">{reminder.time}</p>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {/* System Actions */}
+                                    {auth?.user?.role === 'superadmin' && (
+                                        <div className="rounded-[5px] border border-slate-200 bg-white shadow-sm">
+                                            <div className="flex items-center gap-2 border-b border-slate-100 px-5 py-3">
+                                                <Settings className="h-4 w-4 text-slate-500" />
+                                                <h3 className="text-sm font-semibold text-slate-800">Sistem</h3>
+                                            </div>
+                                            <div className="p-4 flex flex-col gap-2">
+                                                <button
+                                                    onClick={handleOptimize}
+                                                    className="w-full inline-flex items-center gap-2.5 rounded-[5px] px-3.5 py-2 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-50"
+                                                >
+                                                    <Settings className="h-4 w-4 text-slate-400" />
+                                                    Optimasi Cache
+                                                </button>
+                                                <a
+                                                    href={route('sys.backup-db')}
+                                                    className="w-full inline-flex items-center gap-2.5 rounded-[5px] px-3.5 py-2 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-50"
+                                                >
+                                                    <Download className="h-4 w-4 text-slate-400" />
+                                                    Backup Database
+                                                </a>
+                                                <a
+                                                    href={route('sys.download-log')}
+                                                    className="w-full inline-flex items-center gap-2.5 rounded-[5px] px-3.5 py-2 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-50"
+                                                >
+                                                    <FileText className="h-4 w-4 text-slate-400" />
+                                                    Download Log
+                                                </a>
+
+                                                <div className="my-1 border-t border-slate-100" />
+
+                                                <button
+                                                    onClick={handleReset}
+                                                    className="w-full inline-flex items-center gap-2.5 rounded-[5px] px-3.5 py-2 text-sm font-medium text-red-600 transition-colors hover:bg-red-50"
+                                                >
+                                                    <Database className="h-4 w-4" />
+                                                    Reset Database
+                                                </button>
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         </div>

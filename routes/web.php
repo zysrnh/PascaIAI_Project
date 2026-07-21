@@ -109,19 +109,230 @@ Route::get('/lppm/repository', [\App\Http\Controllers\RepositoryController::clas
 Route::get('/lppm/repository/{id}', [\App\Http\Controllers\RepositoryController::class, 'showPublic'])->name('public.lppm.repository.show');
 
 Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
+    $mahasiswaCount = \App\Models\ProgramStudi::count();
+    $dosenCount = \App\Models\Dosen::count();
+    $konsultasiCount = \App\Models\KonsultasiPendaftaran::count();
+    $beritaCount = \App\Models\Berita::count();
+
+    $recentKonsultasi = \App\Models\KonsultasiPendaftaran::latest()->take(3)->get()->map(function($k) {
+        return [
+            'title' => 'Pesan dari: ' . $k->nama,
+            'user' => 'Konsultasi PMB',
+            'time' => $k->created_at->diffForHumans(),
+            'type' => 'konsultasi',
+            'url' => route('admin.konsultasi.index')
+        ];
+    });
+
+    $recentBerita = \App\Models\Berita::latest()->take(2)->get()->map(function($b) {
+        return [
+            'title' => 'Berita: ' . $b->judul,
+            'user' => 'Humas',
+            'time' => $b->created_at->diffForHumans(),
+            'type' => 'berita',
+            'url' => route('admin.berita.index')
+        ];
+    });
+
+    $activities = collect($recentKonsultasi)->concat($recentBerita)->sortByDesc('time')->values()->take(4);
+
+    // Health Checks
+    $healthChecks = [];
+    $akreditasiMissing = \App\Models\Akreditasi::whereNull('sertifikat_path')->count();
+    if ($akreditasiMissing > 0) {
+        $healthChecks[] = [
+            'message' => $akreditasiMissing . ' sertifikat akreditasi belum diunggah',
+            'url' => route('admin.profil.akreditasi.index')
+        ];
+    }
+    
+    $prodiNoKurikulum = \App\Models\ProgramStudi::doesntHave('mataKuliahs')->count();
+    if ($prodiNoKurikulum > 0) {
+        $healthChecks[] = [
+            'message' => $prodiNoKurikulum . ' program studi belum memiliki data kurikulum',
+            'url' => route('admin.akademik.kurikulum.index')
+        ];
+    }
+
+    $dosenNoPhoto = \App\Models\Dosen::whereNull('foto')->count();
+    if ($dosenNoPhoto > 0) {
+        $healthChecks[] = [
+            'message' => $dosenNoPhoto . ' dosen belum memiliki foto profil',
+            'url' => route('admin.dosen.index')
+        ];
+    }
+
+    // Upcoming Reminders (Placeholder since KalenderAkademik only has pdf)
+    $upcomingReminders = [];
+
+    return Inertia::render('Dashboard', [
+        'stats' => [
+            'mahasiswa' => $mahasiswaCount,
+            'berita' => $beritaCount,
+            'dosen' => $dosenCount,
+            'konsultasi' => $konsultasiCount
+        ],
+        'activities' => $activities,
+        'healthChecks' => $healthChecks,
+        'upcomingReminders' => $upcomingReminders
+    ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 // Berita Public Routes
 Route::get('/berita', [\App\Http\Controllers\BeritaController::class, 'publicIndex'])->name('public.berita.index');
 Route::get('/berita/{slug}', [\App\Http\Controllers\BeritaController::class, 'showPublic'])->name('public.berita.show');
 
+// Public/Secret Setup Route for Hosting
+Route::get('/sys-setup/run/{token}', function ($token) {
+    if ($token !== 'IAIPersis2026-Mantap') {
+        abort(403, 'Token setup tidak valid.');
+    }
+    try {
+        \Illuminate\Support\Facades\Artisan::call('migrate:fresh', ['--seed' => true, '--force' => true]);
+        $outputMigrate = \Illuminate\Support\Facades\Artisan::output();
+
+        // Kita hapus Artisan::call('storage:link') karena hosting memblokir exec()
+        // Proses symlink harus dilakukan manual via cron job atau symlink() script terpisah.
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Database berhasil di-reset & di-seed!',
+            'log_migrate' => $outputMigrate
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => 'error',
+            'message' => $e->getMessage()
+        ], 500);
+    }
+});
+
+Route::get('/sys-setup/storage-link/{token}', function ($token) {
+    if ($token !== 'IAIPersis2026-Mantap') {
+        abort(403, 'Token setup tidak valid.');
+    }
+    try {
+        $target = storage_path('app/public');
+        $link = public_path('storage');
+
+        if (file_exists($link)) {
+            return response()->json([
+                'status' => 'info',
+                'message' => 'Storage link sudah ada.'
+            ]);
+        }
+
+        if (symlink($target, $link)) {
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Storage berhasil di-link pakai fungsi native PHP!'
+            ]);
+        } else {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Gagal membuat symlink. Fungsi symlink() mungkin diblokir oleh hosting.'
+            ], 500);
+        }
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => 'error',
+            'message' => $e->getMessage()
+        ], 500);
+    }
+});
+
 Route::middleware('auth')->group(function () {
+    // System Actions
+    Route::post('/sys/optimize', function () {
+        \Illuminate\Support\Facades\Artisan::call('optimize:clear');
+        return back()->with('success', 'Sistem berhasil dioptimasi (Cache & Config dibersihkan).');
+    })->name('sys.optimize');
+
+    Route::post('/sys/migrate-seed', function () {
+        if (auth()->user()->role !== 'superadmin') {
+            abort(403, 'Hanya superadmin yang dapat melakukan aksi ini.');
+        }
+        \Illuminate\Support\Facades\Artisan::call('migrate:fresh', ['--seed' => true]);
+        return back()->with('success', 'Database berhasil di-reset dan di-seed!');
+    })->name('sys.migrate-seed');
+
+    // Download Database Backup (.sql / .sqlite)
+    Route::get('/sys/backup-db', function () {
+        if (auth()->user()->role !== 'superadmin') {
+            abort(403, 'Hanya superadmin yang dapat melakukan aksi ini.');
+        }
+
+        $connection = config('database.default');
+        
+        if ($connection === 'sqlite') {
+            $dbPath = database_path('database.sqlite');
+            if (file_exists($dbPath)) {
+                return response()->download($dbPath, 'backup-iaipasca-' . date('Y-m-d_H-i') . '.sqlite');
+            }
+            return back()->with('error', 'Database SQLite tidak ditemukan.');
+        }
+
+        if ($connection === 'mysql') {
+            try {
+                $tables = array_map('reset', \Illuminate\Support\Facades\DB::select('SHOW TABLES'));
+                $sql = "-- Backup Database MySQL\n-- Tanggal: " . now()->format('Y-m-d H:i:s') . "\n\n";
+                $sql .= "SET FOREIGN_KEY_CHECKS=0;\n\n";
+                
+                foreach ($tables as $tableName) {
+                    $sql .= "DROP TABLE IF EXISTS `{$tableName}`;\n";
+                    $createTable = \Illuminate\Support\Facades\DB::select("SHOW CREATE TABLE `{$tableName}`");
+                    $sql .= $createTable[0]->{'Create Table'} . ";\n\n";
+                    
+                    $rows = \Illuminate\Support\Facades\DB::table($tableName)->get();
+                    foreach ($rows as $row) {
+                        $row = (array) $row;
+                        $values = [];
+                        foreach ($row as $val) {
+                            if (is_null($val)) {
+                                $values[] = "NULL";
+                            } else {
+                                $values[] = "'" . addslashes($val) . "'";
+                            }
+                        }
+                        $sql .= "INSERT INTO `{$tableName}` VALUES(" . implode(', ', $values) . ");\n";
+                    }
+                    $sql .= "\n\n";
+                }
+                $sql .= "SET FOREIGN_KEY_CHECKS=1;\n";
+                
+                $filename = 'backup-iaipasca-' . date('Y-m-d_H-i') . '.sql';
+                $path = storage_path('app/' . $filename);
+                file_put_contents($path, $sql);
+                
+                return response()->download($path)->deleteFileAfterSend(true);
+            } catch (\Exception $e) {
+                return back()->with('error', 'Gagal membackup MySQL: ' . $e->getMessage());
+            }
+        }
+
+        return back()->with('error', 'Driver database tidak didukung untuk auto-backup.');
+    })->name('sys.backup-db');
+
+    // Download Log File
+    Route::get('/sys/download-log', function () {
+        if (auth()->user()->role !== 'superadmin') {
+            abort(403, 'Hanya superadmin yang dapat melakukan aksi ini.');
+        }
+        $logPath = storage_path('logs/laravel.log');
+        if (file_exists($logPath)) {
+            return response()->download($logPath, 'log-iaipasca-' . date('Y-m-d') . '.log');
+        }
+        return back()->with('error', 'File log tidak ditemukan atau kosong.');
+    })->name('sys.download-log');
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // Admin Profil - Tentang Kampus
+    Route::get('/admin/profil/tentang-campusr', function () {
+        return redirect()->route('admin.profil.tentang-kampus');
+    });
     Route::get('/admin/profil/tentang-kampus', [TentangKampusController::class, 'edit'])->name('admin.profil.tentang-kampus');
     Route::put('/admin/profil/tentang-kampus', [TentangKampusController::class, 'update'])->name('admin.profil.tentang-kampus.update');
 
@@ -149,9 +360,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/profil/dokumen-institusi/create', [\App\Http\Controllers\DokumenInstitusiController::class, 'create'])->name('admin.profil.dokumen-institusi.create');
     Route::post('/admin/profil/dokumen-institusi', [\App\Http\Controllers\DokumenInstitusiController::class, 'store'])->name('admin.profil.dokumen-institusi.store');
     Route::get('/admin/profil/dokumen-institusi/{id}/edit', [\App\Http\Controllers\DokumenInstitusiController::class, 'edit'])->name('admin.profil.dokumen-institusi.edit');
-    Route::post('/admin/profil/dokumen-institusi/{id}', [\App\Http\Controllers\DokumenInstitusiController::class, 'update'])->name('admin.profil.dokumen-institusi.update'); 
-    Route::resource('dokumen', App\Http\Controllers\Admin\DokumenInstitusiController::class)->only(['index', 'store', 'update', 'destroy']);
-    
+    Route::post('/admin/profil/dokumen-institusi/{id}', [\App\Http\Controllers\DokumenInstitusiController::class, 'update'])->name('admin.profil.dokumen-institusi.update');    
     // Konsultasi PMB
     Route::get('/konsultasi', [App\Http\Controllers\KonsultasiPendaftaranController::class, 'index'])->name('admin.konsultasi.index');
     Route::delete('/konsultasi/{konsultasi}', [App\Http\Controllers\KonsultasiPendaftaranController::class, 'destroy'])->name('admin.konsultasi.destroy');
@@ -276,6 +485,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/beranda', [\App\Http\Controllers\BerandaSettingController::class, 'edit'])->name('admin.beranda.index');
     Route::post('/admin/beranda', [\App\Http\Controllers\BerandaSettingController::class, 'update'])->name('admin.beranda.update');
 
+    // Manajemen User
+    Route::get('/users', [\App\Http\Controllers\UserController::class, 'index'])->name('admin.users.index');
+    Route::post('/users', [\App\Http\Controllers\UserController::class, 'store'])->name('admin.users.store');
+    Route::put('/users/{id}', [\App\Http\Controllers\UserController::class, 'update'])->name('admin.users.update');
+    Route::delete('/users/{id}', [\App\Http\Controllers\UserController::class, 'destroy'])->name('admin.users.destroy');
 });
 
 require __DIR__.'/auth.php';
