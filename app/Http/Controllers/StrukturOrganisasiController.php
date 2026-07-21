@@ -79,11 +79,17 @@ class StrukturOrganisasiController extends Controller
             'urutan' => 'required|string|max:50',
             'foto' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
             'parent_id' => 'nullable|exists:struktur_organisasis,id',
+            'delete_foto' => 'nullable|boolean',
         ]);
 
-        $data = $request->except('foto');
+        $data = $request->except(['foto', 'delete_foto']);
 
-        if ($request->hasFile('foto')) {
+        if ($request->boolean('delete_foto')) {
+            if ($anggota->foto && !str_starts_with($anggota->foto, 'http')) {
+                Storage::disk('public')->delete(str_replace('/storage/', '', $anggota->foto));
+            }
+            $data['foto'] = null;
+        } elseif ($request->hasFile('foto')) {
             if ($anggota->foto && !str_starts_with($anggota->foto, 'http')) {
                 Storage::disk('public')->delete(str_replace('/storage/', '', $anggota->foto));
             }

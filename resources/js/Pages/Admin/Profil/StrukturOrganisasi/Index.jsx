@@ -15,13 +15,11 @@ const TreeNode = ({ node }) => {
     return (
         <li>
             <div className="inline-flex flex-col items-center bg-white rounded-lg shadow-sm border border-slate-200 p-3 w-48 relative z-10 hover:border-emerald-300 transition-colors">
-                <div className="w-16 h-20 mb-3 rounded-md overflow-hidden border border-slate-100 relative bg-slate-200 flex items-center justify-center">
-                    {node.foto ? (
+                {node.foto && (
+                    <div className="w-16 h-20 mb-3 rounded-md overflow-hidden border border-slate-100 relative bg-slate-200 flex items-center justify-center">
                         <img src={node.foto} className="w-full h-full object-cover" />
-                    ) : (
-                        <span className="text-slate-600 font-bold text-sm">{getInitials(node.nama)}</span>
-                    )}
-                </div>
+                    </div>
+                )}
                 <h3 className="text-xs font-bold text-slate-700 mb-0.5 leading-tight text-center">{node.nama}</h3>
                 <p className="text-[10px] text-slate-500 text-center">{node.jabatan}</p>
 
@@ -305,9 +303,7 @@ export default function Index({ auth, organisasi, jabatanTree, pengaturan }) {
                                                         {item.foto ? (
                                                             <img src={item.foto} alt={item.nama} className="w-12 h-16 rounded-md object-cover border border-slate-200" />
                                                         ) : (
-                                                            <div className="w-12 h-16 rounded-md bg-slate-100 text-slate-600 font-bold flex items-center justify-center border border-slate-200">
-                                                                {getInitials(item.nama)}
-                                                            </div>
+                                                            <span className="text-slate-400 italic text-xs">Tanpa Foto</span>
                                                         )}
                                                     </td>
                                                     <td className="px-6 py-4 font-medium text-slate-900">

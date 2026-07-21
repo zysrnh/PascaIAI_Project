@@ -6,7 +6,7 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import InputLabel from '@/Components/InputLabel';
 import TextInput from '@/Components/TextInput';
 import InputError from '@/Components/InputError';
-import { Save, ArrowLeft, Image as ImageIcon } from 'lucide-react';
+import { Save, ArrowLeft, Image as ImageIcon, Trash2 } from 'lucide-react';
 
 export default function Form({ auth, anggota, defaultUrutan = 0, defaultParentId = null }) {
     const isEdit = !!anggota;
@@ -18,7 +18,7 @@ export default function Form({ auth, anggota, defaultUrutan = 0, defaultParentId
         urutan: anggota?.urutan || defaultUrutan,
         parent_id: anggota?.parent_id || defaultParentId,
         foto: null,
-        _method: isEdit ? 'PUT' : 'POST',
+        delete_foto: false,
     });
 
     const submit = (e) => {
@@ -101,10 +101,33 @@ export default function Form({ auth, anggota, defaultUrutan = 0, defaultParentId
                                 <div>
                                     <InputLabel htmlFor="foto" value="Foto Profil" className="font-bold text-slate-700 mb-2" />
                                     
-                                    {isEdit && anggota?.foto && !data.foto && (
+                                    {isEdit && anggota?.foto && !data.foto && !data.delete_foto && (
                                         <div className="mb-4">
                                             <p className="text-sm text-slate-500 mb-2">Foto saat ini:</p>
-                                            <img src={anggota.foto} alt="Foto" className="w-32 h-32 object-cover rounded-md border border-slate-200" />
+                                            <div className="flex items-start gap-4">
+                                                <img src={anggota.foto} alt="Foto" className="w-32 h-32 object-cover rounded-md border border-slate-200" />
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setData('delete_foto', true)}
+                                                    className="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-red-600 bg-red-50 hover:bg-red-100 rounded-[5px] transition-colors"
+                                                >
+                                                    <Trash2 className="w-4 h-4" />
+                                                    Hapus Foto
+                                                </button>
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {data.delete_foto && !data.foto && (
+                                        <div className="mb-4 p-3 bg-amber-50 border border-amber-200 rounded-[5px]">
+                                            <p className="text-sm text-amber-700 font-medium">Foto saat ini akan dihapus saat disimpan.</p>
+                                            <button
+                                                type="button"
+                                                onClick={() => setData('delete_foto', false)}
+                                                className="text-sm text-amber-600 hover:text-amber-800 underline mt-1"
+                                            >
+                                                Batal Hapus
+                                            </button>
                                         </div>
                                     )}
 

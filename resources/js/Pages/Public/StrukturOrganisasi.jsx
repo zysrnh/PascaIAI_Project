@@ -36,15 +36,11 @@ const TreeNode = ({ node }) => {
     return (
         <li>
             <div className={wrapperStyle}>
-                <div className={imgContainerStyle}>
-                    {node.foto ? (
+                {node.foto && (
+                    <div className={imgContainerStyle}>
                         <img src={node.foto} alt={node.nama} className="w-full h-full object-cover" />
-                    ) : (
-                        <span className={`text-slate-600 font-bold ${isLevel1 ? 'text-2xl' : isLevel2 ? 'text-xl' : 'text-lg'}`}>
-                            {getInitials(node.nama)}
-                        </span>
-                    )}
-                </div>
+                    </div>
+                )}
                 <h3 className={`font-bold text-slate-700 mb-1 leading-tight ${isLevel1 ? 'text-md text-slate-800' : isLevel2 ? 'text-sm' : 'text-xs'}`}>
                     {node.nama}
                 </h3>

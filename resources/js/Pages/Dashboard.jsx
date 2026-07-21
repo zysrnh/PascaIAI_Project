@@ -50,19 +50,7 @@ export default function Dashboard({ stats, activities, flash }) {
     };
 
     const handleReset = () => {
-        Swal.fire({
-            title: 'Reset Database?',
-            text: 'PERINGATAN: Semua data akan dihapus dan di-seed ulang. Aksi ini tidak dapat dibatalkan!',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Ya, Reset Total!',
-            cancelButtonText: 'Batal',
-            confirmButtonColor: '#e11d48',
-        }).then((result) => {
-            if (result.isConfirmed) {
-                router.post(route('sys.migrate-seed'));
-            }
-        });
+        // Disabled for production
     };
 
     const greeting = (() => {
@@ -183,48 +171,7 @@ export default function Dashboard({ stats, activities, flash }) {
                                         </div>
                                     )}
 
-                                    {/* System Actions */}
-                                    {auth?.user?.role === 'superadmin' && (
-                                        <div className="rounded-[5px] border border-slate-200 bg-white shadow-sm">
-                                            <div className="flex items-center gap-2 border-b border-slate-100 px-5 py-3">
-                                                <Settings className="h-4 w-4 text-slate-500" />
-                                                <h3 className="text-sm font-semibold text-slate-800">Sistem</h3>
-                                            </div>
-                                            <div className="p-4 flex flex-col gap-2">
-                                                <button
-                                                    onClick={handleOptimize}
-                                                    className="w-full inline-flex items-center gap-2.5 rounded-[5px] px-3.5 py-2 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-50"
-                                                >
-                                                    <Settings className="h-4 w-4 text-slate-400" />
-                                                    Optimasi Cache
-                                                </button>
-                                                <a
-                                                    href={route('sys.backup-db')}
-                                                    className="w-full inline-flex items-center gap-2.5 rounded-[5px] px-3.5 py-2 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-50"
-                                                >
-                                                    <Download className="h-4 w-4 text-slate-400" />
-                                                    Backup Database
-                                                </a>
-                                                <a
-                                                    href={route('sys.download-log')}
-                                                    className="w-full inline-flex items-center gap-2.5 rounded-[5px] px-3.5 py-2 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-50"
-                                                >
-                                                    <FileText className="h-4 w-4 text-slate-400" />
-                                                    Download Log
-                                                </a>
-
-                                                <div className="my-1 border-t border-slate-100" />
-
-                                                <button
-                                                    onClick={handleReset}
-                                                    className="w-full inline-flex items-center gap-2.5 rounded-[5px] px-3.5 py-2 text-sm font-medium text-red-600 transition-colors hover:bg-red-50"
-                                                >
-                                                    <Database className="h-4 w-4" />
-                                                    Reset Database
-                                                </button>
-                                            </div>
-                                        </div>
-                                    )}
+                                     {/* System Actions Disabled */}
                                 </div>
                             </div>
                         </div>
