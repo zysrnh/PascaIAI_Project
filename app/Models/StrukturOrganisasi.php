@@ -16,7 +16,7 @@ class StrukturOrganisasi extends Model
 
     public function children()
     {
-        return $this->hasMany(StrukturOrganisasi::class, 'parent_id')->orderBy('urutan', 'asc');
+        return $this->hasMany(StrukturOrganisasi::class, 'parent_id')->with('children')->orderBy('urutan', 'asc');
     }
 
     public function parent()

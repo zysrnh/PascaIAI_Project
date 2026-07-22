@@ -14,8 +14,10 @@ class StrukturOrganisasiController extends Controller
     public function index()
     {
         $organisasi = StrukturOrganisasi::orderBy('urutan', 'asc')->get();
-        // Ambil data tree (hirarki)
-        $jabatanTree = StrukturOrganisasi::whereNull('parent_id')->with('children.children')->orderBy('urutan', 'asc')->get();
+        // Ambil data tree (hirarki) tanpa batas kedalaman (rekursif otomatis dari model)
+        $jabatanTree = StrukturOrganisasi::whereNull('parent_id')
+            ->with('children')
+            ->orderBy('urutan', 'asc')->get();
         $pengaturan = PengaturanHalaman::firstOrCreate(['halaman' => 'struktur-organisasi']);
 
         return Inertia::render('Admin/Profil/StrukturOrganisasi/Index', [
@@ -164,7 +166,9 @@ class StrukturOrganisasiController extends Controller
     public function publicIndex()
     {
         $organisasi = StrukturOrganisasi::orderBy('urutan', 'asc')->get();
-        $jabatanTree = StrukturOrganisasi::whereNull('parent_id')->with('children.children')->orderBy('urutan', 'asc')->get();
+        $jabatanTree = StrukturOrganisasi::whereNull('parent_id')
+            ->with('children')
+            ->orderBy('urutan', 'asc')->get();
         $pengaturan = PengaturanHalaman::where('halaman', 'struktur-organisasi')->first();
 
         return Inertia::render('Public/StrukturOrganisasi', [

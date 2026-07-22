@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useState, useLayoutEffect } from 'react';
 import { Head } from '@inertiajs/react';
 import PublicLayout from '@/Layouts/PublicLayout';
 import Breadcrumb from '@/Components/Public/Breadcrumb';
@@ -28,10 +28,10 @@ const TreeNode = ({ node }) => {
 
     // Style jabatan badge
     const badgeStyle = isLevel1
-        ? "text-xs font-semibold text-white bg-emerald-600 px-3 py-1.5 rounded-lg mt-1 block shadow-sm w-full text-center leading-snug"
+        ? "text-sm font-medium text-slate-500 mt-1 block w-full text-center leading-snug"
         : isLevel2
-        ? "text-xs font-medium text-amber-700 bg-amber-100 px-2 py-1.5 rounded-lg mt-1 w-full text-center leading-snug"
-        : "text-[11px] font-medium text-slate-700 bg-slate-100 px-2 py-1 rounded-md w-full text-center leading-snug";
+        ? "text-xs font-medium text-slate-500 mt-1 w-full text-center leading-snug"
+        : "text-xs font-medium text-slate-500 mt-1 w-full text-center leading-snug";
 
     return (
         <li>
@@ -60,6 +60,34 @@ const TreeNode = ({ node }) => {
 
 export default function StrukturOrganisasi({ organisasi, jabatanTree, pengaturan }) {
     const bannerImg = pengaturan?.banner_image || "/images/default-banner.jpg";
+    
+    const containerRef = useRef(null);
+    const contentRef = useRef(null);
+    const [scale, setScale] = useState(1);
+    const [scaledHeight, setScaledHeight] = useState('auto');
+
+    useLayoutEffect(() => {
+        const updateScale = () => {
+            if (containerRef.current && contentRef.current) {
+                const containerWidth = containerRef.current.clientWidth - 40; // padding
+                const contentWidth = contentRef.current.scrollWidth;
+                const contentHeight = contentRef.current.scrollHeight;
+                
+                if (contentWidth > containerWidth && containerWidth > 0) {
+                    const newScale = containerWidth / contentWidth;
+                    setScale(newScale);
+                    setScaledHeight(`${contentHeight * newScale}px`);
+                } else {
+                    setScale(1);
+                    setScaledHeight('auto');
+                }
+            }
+        };
+
+        updateScale();
+        window.addEventListener('resize', updateScale);
+        return () => window.removeEventListener('resize', updateScale);
+    }, [jabatanTree]);
 
     return (
         <PublicLayout>
@@ -106,8 +134,17 @@ export default function StrukturOrganisasi({ organisasi, jabatanTree, pengaturan
                     </div>
 
                     {organisasi && organisasi.length > 0 ? (
-                        <div className="flex flex-col items-center w-full overflow-x-auto pb-10">
-                            <div className="min-w-[800px] flex flex-col items-center">
+                        <div ref={containerRef} className="flex flex-col items-center w-full pb-10 overflow-hidden" style={{ height: scaledHeight !== 'auto' ? `calc(${scaledHeight} + 2.5rem)` : 'auto' }}>
+                            <div 
+                                ref={contentRef}
+                                style={{
+                                    transform: `scale(${scale})`,
+                                    transformOrigin: 'top center',
+                                    transition: 'transform 0.3s ease-out',
+                                    width: 'max-content'
+                                }}
+                                className="flex flex-col items-center"
+                            >
                                 {/* CSS untuk Garis Struktur (menggunakan pseudo-elements) */}
                                 <style dangerouslySetInnerHTML={{__html: `
                                     .organogram ul {

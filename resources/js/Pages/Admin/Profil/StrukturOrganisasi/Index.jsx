@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useLayoutEffect } from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link, useForm, router } from '@inertiajs/react';
 import PrimaryButton from '@/Components/PrimaryButton';
@@ -12,28 +12,41 @@ const getInitials = (name) => {
 };
 
 const TreeNode = ({ node }) => {
+    const [imgError, setImgError] = useState(false);
+    const showPhoto = node.foto && !imgError;
+
     return (
         <li>
             <div className="inline-flex flex-col items-center bg-white rounded-lg shadow-sm border border-slate-200 p-3 w-48 relative z-10 hover:border-emerald-300 transition-colors">
-                {node.foto && (
-                    <div className="w-16 h-20 mb-3 rounded-md overflow-hidden border border-slate-100 relative bg-slate-200 flex items-center justify-center">
-                        <img src={node.foto} className="w-full h-full object-cover" />
-                    </div>
-                )}
+                {/* Kotak foto SELALU dirender, tinggi tetap, biar semua card sejajar */}
+                <div className="w-16 h-20 mb-3 rounded-md overflow-hidden border border-slate-100 relative bg-slate-200 flex items-center justify-center flex-shrink-0">
+                    {showPhoto ? (
+                        <img
+                            src={node.foto}
+                            className="w-full h-full object-cover"
+                            onError={() => setImgError(true)}
+                        />
+                    ) : (
+                        <span className="text-slate-500 font-bold text-sm">
+                            {getInitials(node.nama)}
+                        </span>
+                    )}
+                </div>
+
                 <h3 className="text-xs font-bold text-slate-700 mb-0.5 leading-tight text-center">{node.nama}</h3>
                 <p className="text-[10px] text-slate-500 text-center">{node.jabatan}</p>
 
                 <Link href={`${route('admin.profil.struktur-organisasi.create')}?urutan=${encodeURIComponent(node.urutan + 'A')}&parent_id=${node.id}`} className="absolute -bottom-3 left-1/2 -translate-x-1/2 w-5 h-5 bg-white border border-slate-300 rounded-full flex items-center justify-center text-slate-400 hover:text-emerald-600 hover:border-emerald-500 hover:shadow-sm transition-all z-20" title="Tambah Bawahan">
                     <Plus className="w-3 h-3" />
                 </Link>
-                
+
                 {node.parent_id && (
                     <Link href={`${route('admin.profil.struktur-organisasi.create')}?urutan=${encodeURIComponent(node.urutan)}&parent_id=${node.parent_id}`} className="absolute top-1/2 -right-2.5 -translate-y-1/2 w-5 h-5 bg-white border border-slate-300 rounded-full flex items-center justify-center text-slate-400 hover:text-emerald-600 hover:border-emerald-500 hover:shadow-sm transition-all z-20" title="Tambah Sejajar">
                         <Plus className="w-3 h-3" />
                     </Link>
                 )}
             </div>
-            
+
             {node.children && node.children.length > 0 && (
                 <ul>
                     {node.children.map(child => (
@@ -50,6 +63,36 @@ export default function Index({ auth, organisasi, jabatanTree, pengaturan }) {
     const [isLoaded, setIsLoaded] = useState(true);
     const [selectedIds, setSelectedIds] = useState([]);
     const [previewBanner, setPreviewBanner] = useState(null);
+    const [imgError, setImgError] = useState(false);
+
+    // Scaling Logic
+    const containerRef = useRef(null);
+    const contentRef = useRef(null);
+    const [scale, setScale] = useState(1);
+    const [scaledHeight, setScaledHeight] = useState('auto');
+
+    useLayoutEffect(() => {
+        const updateScale = () => {
+            if (containerRef.current && contentRef.current) {
+                const containerWidth = containerRef.current.clientWidth - 48; // padding
+                const contentWidth = contentRef.current.scrollWidth;
+                const contentHeight = contentRef.current.scrollHeight;
+                
+                if (contentWidth > containerWidth && containerWidth > 0) {
+                    const newScale = containerWidth / contentWidth;
+                    setScale(newScale);
+                    setScaledHeight(`${contentHeight * newScale}px`);
+                } else {
+                    setScale(1);
+                    setScaledHeight('auto');
+                }
+            }
+        };
+
+        updateScale();
+        window.addEventListener('resize', updateScale);
+        return () => window.removeEventListener('resize', updateScale);
+    }, [jabatanTree]);
 
     const { data: bannerData, setData: setBannerData, post: postBanner, processing: processingBanner, errors: errorsBanner } = useForm({
         banner_image: null,
@@ -227,26 +270,37 @@ export default function Index({ auth, organisasi, jabatanTree, pengaturan }) {
                             <p className="text-sm text-slate-500 mb-6">Bagan organisasi berdasarkan urutan level. Anda dapat menambahkan bawahan/sejajar menggunakan tombol (+).</p>
                             
                             {jabatanTree && jabatanTree.length > 0 ? (
-                                <div className="min-w-[800px] flex flex-col items-center">
-                                    <style dangerouslySetInnerHTML={{__html: `
-                                        .admin-org ul { padding-top: 20px; position: relative; display: flex; justify-content: center; }
-                                        .admin-org li { float: left; text-align: center; list-style-type: none; position: relative; padding: 20px 10px 0 10px; }
-                                        .admin-org li::before, .admin-org li::after { content: ''; position: absolute; top: 0; right: 50%; border-top: 2px solid #cbd5e1; width: 50%; height: 20px; }
-                                        .admin-org li::after { right: auto; left: 50%; border-left: 2px solid #cbd5e1; }
-                                        .admin-org li:only-child::after, .admin-org li:only-child::before { display: none; }
-                                        .admin-org li:only-child { padding-top: 0; }
-                                        .admin-org li:first-child::before, .admin-org li:last-child::after { border: 0 none; }
-                                        .admin-org li:last-child::before { border-right: 2px solid #cbd5e1; border-radius: 0 5px 0 0; }
-                                        .admin-org li:first-child::after { border-radius: 5px 0 0 0; }
-                                        .admin-org ul ul::before { content: ''; position: absolute; top: 0; left: 50%; border-left: 2px solid #cbd5e1; width: 0; height: 20px; }
-                                    `}} />
+                                <div ref={containerRef} className="flex flex-col items-center w-full overflow-hidden" style={{ height: scaledHeight !== 'auto' ? `calc(${scaledHeight} + 2rem)` : 'auto' }}>
+                                    <div 
+                                        ref={contentRef}
+                                        style={{
+                                            transform: `scale(${scale})`,
+                                            transformOrigin: 'top center',
+                                            transition: 'transform 0.3s ease-out',
+                                            width: 'max-content'
+                                        }}
+                                        className="flex flex-col items-center"
+                                    >
+                                        <style dangerouslySetInnerHTML={{__html: `
+                                            .admin-org ul { padding-top: 20px; position: relative; display: flex; justify-content: center; }
+                                            .admin-org li { float: left; text-align: center; list-style-type: none; position: relative; padding: 20px 10px 0 10px; }
+                                            .admin-org li::before, .admin-org li::after { content: ''; position: absolute; top: 0; right: 50%; border-top: 2px solid #cbd5e1; width: 50%; height: 20px; }
+                                            .admin-org li::after { right: auto; left: 50%; border-left: 2px solid #cbd5e1; }
+                                            .admin-org li:only-child::after, .admin-org li:only-child::before { display: none; }
+                                            .admin-org li:only-child { padding-top: 0; }
+                                            .admin-org li:first-child::before, .admin-org li:last-child::after { border: 0 none; }
+                                            .admin-org li:last-child::before { border-right: 2px solid #cbd5e1; border-radius: 0 5px 0 0; }
+                                            .admin-org li:first-child::after { border-radius: 5px 0 0 0; }
+                                            .admin-org ul ul::before { content: ''; position: absolute; top: 0; left: 50%; border-left: 2px solid #cbd5e1; width: 0; height: 20px; }
+                                        `}} />
 
-                                    <div className="admin-org">
-                                        <ul>
-                                            {jabatanTree.map(rootNode => (
-                                                <TreeNode key={rootNode.id} node={rootNode} />
-                                            ))}
-                                        </ul>
+                                        <div className="admin-org">
+                                            <ul>
+                                                {jabatanTree.map(rootNode => (
+                                                    <TreeNode key={rootNode.id} node={rootNode} />
+                                                ))}
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
                             ) : (
