@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Head, router } from '@inertiajs/react';
+import { Head, Link, router } from '@inertiajs/react';
 import PublicLayout from '@/Layouts/PublicLayout';
 import { Users, GraduationCap, Award, BookOpen, User, ExternalLink, Search, Filter, ChevronRight } from 'lucide-react';
 
