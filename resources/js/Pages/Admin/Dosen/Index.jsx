@@ -31,7 +31,11 @@ export default function Index({ dosens, programStudis, pengaturan }) {
 
     const pengaturanForm = useForm({
         banner_image: null,
-        deskripsi: pengaturan?.deskripsi || ''
+        deskripsi: pengaturan?.deskripsi || '',
+        jumlah_mahasiswa: pengaturan?.jumlah_mahasiswa ?? 250,
+        jumlah_alumni: pengaturan?.jumlah_alumni ?? 180,
+        jumlah_penelitian: pengaturan?.jumlah_penelitian ?? 25,
+        jumlah_publikasi: pengaturan?.jumlah_publikasi ?? 42,
     });
 
     const filteredDosens = dosens.filter(dosen => 
@@ -187,6 +191,49 @@ export default function Index({ dosens, programStudis, pengaturan }) {
                                                 value={pengaturanForm.data.deskripsi}
                                                 onChange={e => pengaturanForm.setData('deskripsi', e.target.value)}
                                             ></textarea>
+                                        </div>
+
+                                        {/* Input Angka Statistik */}
+                                        <div className="bg-slate-50 p-4 rounded-lg border border-slate-200 space-y-3">
+                                            <h4 className="text-sm font-bold text-slate-800">Ubah Angka Statistik Cards</h4>
+                                            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                                                <div>
+                                                    <label className="block text-xs font-semibold text-slate-600 mb-1">Jumlah Mahasiswa</label>
+                                                    <input
+                                                        type="number"
+                                                        className="w-full border-slate-300 rounded-md text-sm focus:ring-emerald-500 focus:border-emerald-500"
+                                                        value={pengaturanForm.data.jumlah_mahasiswa}
+                                                        onChange={e => pengaturanForm.setData('jumlah_mahasiswa', e.target.value)}
+                                                    />
+                                                </div>
+                                                <div>
+                                                    <label className="block text-xs font-semibold text-slate-600 mb-1">Jumlah Alumni</label>
+                                                    <input
+                                                        type="number"
+                                                        className="w-full border-slate-300 rounded-md text-sm focus:ring-emerald-500 focus:border-emerald-500"
+                                                        value={pengaturanForm.data.jumlah_alumni}
+                                                        onChange={e => pengaturanForm.setData('jumlah_alumni', e.target.value)}
+                                                    />
+                                                </div>
+                                                <div>
+                                                    <label className="block text-xs font-semibold text-slate-600 mb-1">Jumlah Penelitian</label>
+                                                    <input
+                                                        type="number"
+                                                        className="w-full border-slate-300 rounded-md text-sm focus:ring-emerald-500 focus:border-emerald-500"
+                                                        value={pengaturanForm.data.jumlah_penelitian}
+                                                        onChange={e => pengaturanForm.setData('jumlah_penelitian', e.target.value)}
+                                                    />
+                                                </div>
+                                                <div>
+                                                    <label className="block text-xs font-semibold text-slate-600 mb-1">Jumlah Publikasi</label>
+                                                    <input
+                                                        type="number"
+                                                        className="w-full border-slate-300 rounded-md text-sm focus:ring-emerald-500 focus:border-emerald-500"
+                                                        value={pengaturanForm.data.jumlah_publikasi}
+                                                        onChange={e => pengaturanForm.setData('jumlah_publikasi', e.target.value)}
+                                                    />
+                                                </div>
+                                            </div>
                                         </div>
                                         <div className="space-y-2">
                                             <label className="block text-sm font-medium text-slate-700">Ganti Banner (Maks. 2MB, JPG/PNG)</label>

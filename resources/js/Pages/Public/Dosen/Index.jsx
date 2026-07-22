@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Head, Link, router } from '@inertiajs/react';
 import PublicLayout from '@/Layouts/PublicLayout';
-import { Users, GraduationCap, Award, BookOpen, User, ExternalLink, Search, Filter, ChevronRight } from 'lucide-react';
+import { Users, GraduationCap, Award, BookOpen, User, ExternalLink, Search, Filter, ChevronRight, UserCheck, FileText } from 'lucide-react';
 
 export default function Index({ dosens, programStudis, pengaturan, stats, activeProdi }) {
     const defaultBanner = "/images/default-banner.jpg";
@@ -21,14 +21,14 @@ export default function Index({ dosens, programStudis, pengaturan, stats, active
 
     return (
         <PublicLayout>
-            <Head title="Data Dosen" />
+            <Head title="Statistik" />
 
             {/* Hero Section */}
             <div className="relative w-full h-[350px] md:h-[450px] bg-emerald-950 flex flex-col justify-end">
                 <div className="absolute inset-0">
                     <img 
                         src={bannerUrl} 
-                        alt="Banner Data Dosen" 
+                        alt="Banner Statistik" 
                         className="w-full h-full object-cover opacity-50"
                     />
                     <div className="absolute inset-0 bg-emerald-950/40 mix-blend-multiply"></div>
@@ -39,10 +39,10 @@ export default function Index({ dosens, programStudis, pengaturan, stats, active
                         <ChevronRight className="w-4 h-4" />
                         <span>Fakultas</span>
                         <ChevronRight className="w-4 h-4" />
-                        <span className="text-white">Data Dosen</span>
+                        <span className="text-white">Statistik</span>
                     </div>
                     <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-2 uppercase tracking-tight">
-                        Data Dosen
+                        Statistik
                     </h1>
                     <div className="w-16 h-1.5 bg-amber-500 rounded-sm mb-4"></div>
                     {pengaturan?.deskripsi && (
@@ -60,28 +60,28 @@ export default function Index({ dosens, programStudis, pengaturan, stats, active
                     <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-12">
                         <div className="bg-white p-5 rounded-lg border border-slate-200 shadow-sm flex flex-col items-center justify-center text-center">
                             <Users className="w-6 h-6 text-emerald-600 mb-2" />
-                            <p className="text-2xl font-bold text-slate-800 leading-none mb-1">{stats.total}</p>
+                            <p className="text-2xl font-bold text-slate-800 leading-none mb-1">{stats?.total ?? 0}</p>
                             <p className="text-[11px] font-semibold text-slate-500 uppercase tracking-widest">Total Dosen</p>
                         </div>
                         <div className="bg-white p-5 rounded-lg border border-slate-200 shadow-sm flex flex-col items-center justify-center text-center">
-                            <Award className="w-6 h-6 text-amber-500 mb-2" />
-                            <p className="text-2xl font-bold text-slate-800 leading-none mb-1">{stats.guru_besar}</p>
-                            <p className="text-[11px] font-semibold text-slate-500 uppercase tracking-widest">Guru Besar</p>
+                            <GraduationCap className="w-6 h-6 text-amber-500 mb-2" />
+                            <p className="text-2xl font-bold text-slate-800 leading-none mb-1">{stats?.mahasiswa ?? stats?.guru_besar ?? 0}</p>
+                            <p className="text-[11px] font-semibold text-slate-500 uppercase tracking-widest">Jumlah Mahasiswa</p>
                         </div>
                         <div className="bg-white p-5 rounded-lg border border-slate-200 shadow-sm flex flex-col items-center justify-center text-center">
-                            <BookOpen className="w-6 h-6 text-blue-600 mb-2" />
-                            <p className="text-2xl font-bold text-slate-800 leading-none mb-1">{stats.lektor_kepala}</p>
-                            <p className="text-[11px] font-semibold text-slate-500 uppercase tracking-widest">Lektor Kepala</p>
+                            <UserCheck className="w-6 h-6 text-blue-600 mb-2" />
+                            <p className="text-2xl font-bold text-slate-800 leading-none mb-1">{stats?.alumni ?? stats?.lektor_kepala ?? 0}</p>
+                            <p className="text-[11px] font-semibold text-slate-500 uppercase tracking-widest">Jumlah Alumni</p>
                         </div>
                         <div className="bg-white p-5 rounded-lg border border-slate-200 shadow-sm flex flex-col items-center justify-center text-center">
-                            <GraduationCap className="w-6 h-6 text-purple-600 mb-2" />
-                            <p className="text-2xl font-bold text-slate-800 leading-none mb-1">{stats.lektor}</p>
-                            <p className="text-[11px] font-semibold text-slate-500 uppercase tracking-widest">Lektor</p>
+                            <BookOpen className="w-6 h-6 text-purple-600 mb-2" />
+                            <p className="text-2xl font-bold text-slate-800 leading-none mb-1">{stats?.penelitian ?? stats?.lektor ?? 0}</p>
+                            <p className="text-[11px] font-semibold text-slate-500 uppercase tracking-widest">Jumlah Penelitian</p>
                         </div>
                         <div className="bg-white p-5 rounded-lg border border-slate-200 shadow-sm flex flex-col items-center justify-center text-center col-span-2 md:col-span-1">
-                            <User className="w-6 h-6 text-slate-600 mb-2" />
-                            <p className="text-2xl font-bold text-slate-800 leading-none mb-1">{stats.asisten_ahli}</p>
-                            <p className="text-[11px] font-semibold text-slate-500 uppercase tracking-widest">Asisten Ahli</p>
+                            <Award className="w-6 h-6 text-slate-600 mb-2" />
+                            <p className="text-2xl font-bold text-slate-800 leading-none mb-1">{stats?.publikasi ?? stats?.asisten_ahli ?? 0}</p>
+                            <p className="text-[11px] font-semibold text-slate-500 uppercase tracking-widest">Jumlah Publikasi</p>
                         </div>
                     </div>
 

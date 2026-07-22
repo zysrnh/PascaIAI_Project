@@ -132,7 +132,7 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                                         <div className="p-2 space-y-0.5">
                                             <Link href="/fakultas/daftarfakultas" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Daftar Fakultas</Link>
                                             <Link href="/fakultas/programstudi" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Program Studi</Link>
-                                            <Link href="/fakultas/dosen" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Data Dosen</Link>
+                                            <Link href="/fakultas/dosen" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Statistik</Link>
                                             <Link href={route('public.prospek-karir')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Prospek Karir</Link>
                                         </div>
                                     </div>
@@ -221,7 +221,7 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                                 <div className="pl-4 pb-2 space-y-1 border-l-2 border-emerald-100 ml-3 mt-1">
                                     <Link href="/fakultas/daftarfakultas" className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Daftar Fakultas</Link>
                                     <Link href="/fakultas/programstudi" className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Program Studi</Link>
-                                    <Link href="/fakultas/dosen" className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Data Dosen</Link>
+                                    <Link href="/fakultas/dosen" className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Statistik</Link>
                                     <Link href={route('public.prospek-karir')} className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Prospek Karir</Link>
                                 </div>
                             </details>

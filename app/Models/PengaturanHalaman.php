@@ -11,5 +11,9 @@ class PengaturanHalaman extends Model
         'banner_image',
         'deskripsi',
         'whatsapp_lpm',
+        'jumlah_mahasiswa',
+        'jumlah_alumni',
+        'jumlah_penelitian',
+        'jumlah_publikasi',
     ];
 }

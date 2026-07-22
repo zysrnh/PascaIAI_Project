@@ -55,6 +55,11 @@ class DosenController extends Controller
             'lektor_kepala' => Dosen::where('status_aktif', true)->where('jabatan_fungsional', 'Lektor Kepala')->count(),
             'lektor' => Dosen::where('status_aktif', true)->where('jabatan_fungsional', 'Lektor')->count(),
             'asisten_ahli' => Dosen::where('status_aktif', true)->where('jabatan_fungsional', 'Asisten Ahli')->count(),
+            
+            'mahasiswa' => $pengaturan->jumlah_mahasiswa ?? 250,
+            'alumni' => $pengaturan->jumlah_alumni ?? 180,
+            'penelitian' => $pengaturan->jumlah_penelitian ?? 25,
+            'publikasi' => $pengaturan->jumlah_publikasi ?? 42,
         ];
 
         return Inertia::render('Public/Dosen/Index', [
@@ -146,13 +151,17 @@ class DosenController extends Controller
     }
 
     /**
-     * Update settings (Banner).
+     * Update settings (Banner & Stats).
      */
     public function updatePengaturan(Request $request)
     {
         $request->validate([
             'banner_image' => 'nullable|image|max:2048',
-            'deskripsi' => 'nullable|string'
+            'deskripsi' => 'nullable|string',
+            'jumlah_mahasiswa' => 'nullable|integer|min:0',
+            'jumlah_alumni' => 'nullable|integer|min:0',
+            'jumlah_penelitian' => 'nullable|integer|min:0',
+            'jumlah_publikasi' => 'nullable|integer|min:0',
         ]);
 
         $pengaturan = PengaturanHalaman::firstOrCreate(
@@ -169,8 +178,12 @@ class DosenController extends Controller
         }
 
         $pengaturan->deskripsi = $request->deskripsi;
+        $pengaturan->jumlah_mahasiswa = $request->jumlah_mahasiswa ?? 250;
+        $pengaturan->jumlah_alumni = $request->jumlah_alumni ?? 180;
+        $pengaturan->jumlah_penelitian = $request->jumlah_penelitian ?? 25;
+        $pengaturan->jumlah_publikasi = $request->jumlah_publikasi ?? 42;
         $pengaturan->save();
 
-        return redirect()->back()->with('success', 'Banner dan Deskripsi halaman berhasil diperbarui!');
+        return redirect()->back()->with('success', 'Pengaturan Halaman dan Angka Statistik berhasil diperbarui!');
     }
 }
