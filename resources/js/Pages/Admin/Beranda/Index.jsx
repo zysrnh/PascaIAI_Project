@@ -1,10 +1,10 @@
-import React from 'react';
-import { Head, useForm } from '@inertiajs/react';
+import React, { useState } from 'react';
+import { Head, useForm, router } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import Sidebar from '@/Components/Admin/Sidebar';
-import { Settings, Save } from 'lucide-react';
+import { Settings, Save, Link2, Plus, Pencil, Trash2, X, ExternalLink } from 'lucide-react';
 
-export default function Index({ auth, setting, umum }) {
+export default function Index({ auth, setting, umum, quickAccesses = [] }) {
     const { data, setData, post, processing, errors } = useForm({
         pmb_gelombang_text: setting?.pmb_gelombang_text || '',
         pmb_hotline_number: setting?.pmb_hotline_number || '',
@@ -29,6 +29,81 @@ export default function Index({ auth, setting, umum }) {
         youtube_url: umum?.youtube_url || '',
         twitter_url: umum?.twitter_url || '',
     });
+
+    const [quickModalOpen, setQuickModalOpen] = useState(false);
+    const [editingQuick, setEditingQuick] = useState(null);
+    const quickForm = useForm({
+        nama: '',
+        url: '',
+        deskripsi: '',
+        ikon: 'fa-laptop-code',
+        urutan: 1,
+        is_active: true,
+    });
+
+    const openQuickModal = (item = null) => {
+        if (item) {
+            setEditingQuick(item);
+            quickForm.setData({
+                nama: item.nama || '',
+                url: item.url || '',
+                deskripsi: item.deskripsi || '',
+                ikon: item.ikon || 'fa-link',
+                urutan: item.urutan || 1,
+                is_active: item.is_active ?? true,
+            });
+        } else {
+            setEditingQuick(null);
+            quickForm.setData({
+                nama: '',
+                url: '',
+                deskripsi: '',
+                ikon: 'fa-laptop-code',
+                urutan: (quickAccesses?.length || 0) + 1,
+                is_active: true,
+            });
+        }
+        setQuickModalOpen(true);
+    };
+
+    const handleQuickSubmit = (e) => {
+        e.preventDefault();
+
+        const payload = {
+            nama: quickForm.data.nama,
+            url: quickForm.data.url,
+            deskripsi: quickForm.data.deskripsi || '',
+            ikon: quickForm.data.ikon || 'fa-link',
+            urutan: quickForm.data.urutan || 1,
+            is_active: quickForm.data.is_active ? 1 : 0,
+        };
+
+        if (editingQuick) {
+            router.post(route('admin.quick-access.update', editingQuick.id), payload, {
+                onSuccess: () => {
+                    setQuickModalOpen(false);
+                    quickForm.reset();
+                },
+                preserveScroll: true,
+            });
+        } else {
+            router.post(route('admin.quick-access.store'), payload, {
+                onSuccess: () => {
+                    setQuickModalOpen(false);
+                    quickForm.reset();
+                },
+                preserveScroll: true,
+            });
+        }
+    };
+
+    const handleQuickDelete = (id) => {
+        if (confirm('Yakin ingin menghapus item Akses Cepat ini?')) {
+            router.delete(route('admin.quick-access.destroy', id), {
+                preserveScroll: true,
+            });
+        }
+    };
 
     const [bgPreview, setBgPreview] = React.useState(
         setting?.hero_bg ? '/storage/' + setting.hero_bg : null
@@ -62,6 +137,73 @@ export default function Index({ auth, setting, umum }) {
                 <Sidebar />
                 <div className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 bg-slate-50">
                     <div className="max-w-4xl mx-auto space-y-6">
+
+                        <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+                                <div className="flex items-center gap-3">
+                                    <div className="p-2 bg-emerald-100 text-emerald-700 rounded-lg">
+                                        <Link2 className="w-5 h-5" />
+                                    </div>
+                                    <div>
+                                        <h3 className="text-lg font-bold text-slate-800">Kelola Akses Cepat (Quick Access)</h3>
+                                        <p className="text-sm text-slate-500">Tautan cepat di halaman utama (Beranda) di atas Kata Sambutan.</p>
+                                    </div>
+                                </div>
+                                <button
+                                    type="button"
+                                    onClick={() => openQuickModal()}
+                                    className="inline-flex items-center gap-2 px-3.5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-sm rounded-lg transition shadow-sm self-start sm:self-auto"
+                                >
+                                    <Plus className="w-4 h-4" />
+                                    Tambah Akses Cepat
+                                </button>
+                            </div>
+
+                            {quickAccesses && quickAccesses.length > 0 ? (
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    {quickAccesses.map((item) => (
+                                        <div key={item.id} className="p-4 rounded-lg border border-slate-200 bg-slate-50/50 hover:bg-slate-50 flex items-start justify-between gap-3 transition">
+                                            <div className="flex items-start gap-3">
+                                                <div className="w-10 h-10 rounded-lg bg-emerald-100 text-emerald-800 flex items-center justify-center text-lg shrink-0">
+                                                    <i className={`fa-solid ${item.ikon || 'fa-link'}`}></i>
+                                                </div>
+                                                <div>
+                                                    <div className="flex items-center gap-2">
+                                                        <h4 className="font-bold text-slate-800 text-sm">{item.nama}</h4>
+                                                        <span className="text-[10px] bg-slate-200 text-slate-600 px-1.5 py-0.5 rounded font-mono">#{item.urutan}</span>
+                                                    </div>
+                                                    <p className="text-xs text-slate-500 mb-1">{item.deskripsi || 'Tidak ada deskripsi'}</p>
+                                                    <a href={item.url} target="_blank" rel="noreferrer" className="text-[11px] text-emerald-600 font-semibold hover:underline flex items-center gap-1">
+                                                        {item.url} <ExternalLink className="w-3 h-3" />
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div className="flex items-center gap-1 shrink-0">
+                                                <button
+                                                    onClick={() => openQuickModal(item)}
+                                                    className="p-1.5 text-slate-600 hover:text-blue-600 hover:bg-blue-50 rounded transition"
+                                                    title="Edit Akses Cepat"
+                                                >
+                                                    <Pencil className="w-4 h-4" />
+                                                </button>
+                                                <button
+                                                    onClick={() => handleQuickDelete(item.id)}
+                                                    className="p-1.5 text-slate-600 hover:text-red-600 hover:bg-red-50 rounded transition"
+                                                    title="Hapus Akses Cepat"
+                                                >
+                                                    <Trash2 className="w-4 h-4" />
+                                                </button>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            ) : (
+                                <div className="text-center py-8 bg-slate-50 rounded-lg border border-dashed border-slate-300">
+                                    <p className="text-sm text-slate-500">Belum ada item Akses Cepat. Klik "Tambah Akses Cepat" untuk menambahkan.</p>
+                                </div>
+                            )}
+                        </div>
+
                         <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
                             <div className="flex items-center gap-3 mb-6">
                                 <div className="p-2 bg-blue-100 text-blue-600 rounded-lg">
@@ -98,74 +240,20 @@ export default function Index({ auth, setting, umum }) {
                                     <div>
                                         <label className="block text-sm font-medium text-slate-700 mb-2">Background Image (Hero Section)</label>
                                         {bgPreview && (
-                                            <div className="mb-3">
-                                                <img src={bgPreview} alt="Preview" className="w-full h-48 object-cover rounded-md shadow-sm border border-slate-200" />
+                                            <div className="mb-2">
+                                                <img src={bgPreview} alt="Hero Preview" className="h-32 w-auto object-cover rounded border" />
                                             </div>
                                         )}
                                         <input
                                             type="file"
                                             onChange={handleBgChange}
                                             accept="image/*"
-                                            className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100 transition"
+                                            className="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100"
                                         />
                                         {errors.hero_bg && <p className="text-red-500 text-sm mt-1">{errors.hero_bg}</p>}
                                     </div>
                                 </div>
 
-                                <div className="space-y-4 bg-slate-50 p-4 rounded-lg border border-slate-200">
-                                    <h4 className="font-semibold text-slate-800">Informasi PMB</h4>
-                                    <div>
-                                    <label className="block text-sm font-medium text-slate-700 mb-1">Teks Informasi Gelombang PMB</label>
-                                    <input
-                                        type="text"
-                                        value={data.pmb_gelombang_text}
-                                        onChange={e => setData('pmb_gelombang_text', e.target.value)}
-                                        className="w-full rounded-md border-slate-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500"
-                                        placeholder="Contoh: Gelombang I: Ditutup 30 Agustus 2026"
-                                    />
-                                    {errors.pmb_gelombang_text && <p className="text-red-500 text-sm mt-1">{errors.pmb_gelombang_text}</p>}
-                                </div>
-
-                                <div>
-                                    <label className="block text-sm font-medium text-slate-700 mb-1">Teks Hotline PMB (Tampil di layar)</label>
-                                    <input
-                                        type="text"
-                                        value={data.pmb_hotline_text}
-                                        onChange={e => setData('pmb_hotline_text', e.target.value)}
-                                        className="w-full rounded-md border-slate-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500"
-                                        placeholder="Contoh: +62 821-1611-6133 (Admin)"
-                                    />
-                                    {errors.pmb_hotline_text && <p className="text-red-500 text-sm mt-1">{errors.pmb_hotline_text}</p>}
-                                </div>
-
-                                <div>
-                                    <label className="block text-sm font-medium text-slate-700 mb-1">Nomor WA Admin PMB (Untuk tombol WhatsApp)</label>
-                                    <p className="text-xs text-slate-500 mb-2">Gunakan format 62 tanpa + atau 0. Contoh: 6282116116133</p>
-                                    <input
-                                        type="text"
-                                        value={data.pmb_hotline_number}
-                                        onChange={e => setData('pmb_hotline_number', e.target.value)}
-                                        className="w-full rounded-md border-slate-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500"
-                                        placeholder="62821..."
-                                    />
-                                    {errors.pmb_hotline_number && <p className="text-red-500 text-sm mt-1">{errors.pmb_hotline_number}</p>}
-                                </div>
-
-                                <div>
-                                    <label className="block text-sm font-medium text-slate-700 mb-1">Link Pendaftaran (SIAKAD/SPMB)</label>
-                                    <input
-                                        type="url"
-                                        value={data.pmb_link}
-                                        onChange={e => setData('pmb_link', e.target.value)}
-                                        className="w-full rounded-md border-slate-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500"
-                                        placeholder="https://..."
-                                    />
-                                    {errors.pmb_link && <p className="text-red-500 text-sm mt-1">{errors.pmb_link}</p>}
-                                </div>
-                                </div>
-
-                                <hr className="my-6 border-slate-200" />
-                                
                                 <div className="flex items-center gap-3 mb-6">
                                     <div className="p-2 bg-emerald-100 text-emerald-600 rounded-lg">
                                         <Settings className="w-5 h-5" />
@@ -255,7 +343,7 @@ export default function Index({ auth, setting, umum }) {
                                 </div>
 
                                 <hr className="my-6 border-slate-200" />
-                                
+
                                 <div className="flex items-center gap-3 mb-6">
                                     <div className="p-2 bg-indigo-100 text-indigo-600 rounded-lg">
                                         <Settings className="w-5 h-5" />
@@ -288,7 +376,7 @@ export default function Index({ auth, setting, umum }) {
                                         />
                                     </div>
                                 </div>
-                                
+
                                 <div>
                                     <label className="block text-sm font-medium text-slate-700 mb-1">Alamat Lengkap</label>
                                     <textarea
@@ -334,6 +422,100 @@ export default function Index({ auth, setting, umum }) {
                     </div>
                 </div>
             </div>
+
+            {/* Quick Access Modal */}
+            {quickModalOpen && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm">
+                    <div className="bg-white rounded-xl shadow-xl max-w-lg w-full p-6 space-y-4">
+                        <div className="flex justify-between items-center border-b pb-3">
+                            <h3 className="text-lg font-bold text-slate-800">
+                                {editingQuick ? 'Edit Akses Cepat' : 'Tambah Akses Cepat Baru'}
+                            </h3>
+                            <button onClick={() => setQuickModalOpen(false)} className="text-slate-400 hover:text-slate-600">
+                                <X className="w-5 h-5" />
+                            </button>
+                        </div>
+                        <form onSubmit={handleQuickSubmit} className="space-y-4">
+                            <div>
+                                <label className="block text-sm font-medium text-slate-700 mb-1">Nama / Judul Akses Cepat *</label>
+                                <input
+                                    type="text"
+                                    required
+                                    placeholder="Contoh: SIAKAD, PMB Online, E-Library..."
+                                    value={quickForm.data.nama}
+                                    onChange={e => quickForm.setData('nama', e.target.value)}
+                                    className="w-full rounded-md border-slate-300 shadow-sm text-sm focus:ring-emerald-500 focus:border-emerald-500"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-slate-700 mb-1">Target URL / Link *</label>
+                                <input
+                                    type="text"
+                                    required
+                                    placeholder="Contoh: https://siakad.iaipibandung.ac.id atau /akademik/kalender"
+                                    value={quickForm.data.url}
+                                    onChange={e => quickForm.setData('url', e.target.value)}
+                                    className="w-full rounded-md border-slate-300 shadow-sm text-sm focus:ring-emerald-500 focus:border-emerald-500"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-slate-700 mb-1">Deskripsi Singkat (Opsional)</label>
+                                <input
+                                    type="text"
+                                    placeholder="Contoh: Portal layanan akademik mahasiswa..."
+                                    value={quickForm.data.deskripsi}
+                                    onChange={e => quickForm.setData('deskripsi', e.target.value)}
+                                    className="w-full rounded-md border-slate-300 shadow-sm text-sm focus:ring-emerald-500 focus:border-emerald-500"
+                                />
+                            </div>
+                            <div className="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label className="block text-sm font-medium text-slate-700 mb-1">Ikon FontAwesome</label>
+                                    <select
+                                        value={quickForm.data.ikon}
+                                        onChange={e => quickForm.setData('ikon', e.target.value)}
+                                        className="w-full rounded-md border-slate-300 shadow-sm text-sm focus:ring-emerald-500 focus:border-emerald-500"
+                                    >
+                                        <option value="fa-laptop-code">💻 fa-laptop-code (SIAKAD/Portal)</option>
+                                        <option value="fa-user-graduate">🎓 fa-user-graduate (PMB/Wisuda)</option>
+                                        <option value="fa-book-bookmark">📚 fa-book-bookmark (Jurnal/Perpus)</option>
+                                        <option value="fa-calendar-days">📅 fa-calendar-days (Kalender)</option>
+                                        <option value="fa-newspaper">📰 fa-newspaper (Berita)</option>
+                                        <option value="fa-building-columns">🏛️ fa-building-columns (Kampus)</option>
+                                        <option value="fa-file-lines">📄 fa-file-lines (Dokumen)</option>
+                                        <option value="fa-link">🔗 fa-link (Tautan Umum)</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-slate-700 mb-1">Urutan Tampil</label>
+                                    <input
+                                        type="number"
+                                        value={quickForm.data.urutan}
+                                        onChange={e => quickForm.setData('urutan', e.target.value)}
+                                        className="w-full rounded-md border-slate-300 shadow-sm text-sm focus:ring-emerald-500 focus:border-emerald-500"
+                                    />
+                                </div>
+                            </div>
+                            <div className="flex justify-end gap-2 pt-4 border-t">
+                                <button
+                                    type="button"
+                                    onClick={() => setQuickModalOpen(false)}
+                                    className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-medium rounded-lg"
+                                >
+                                    Batal
+                                </button>
+                                <button
+                                    type="submit"
+                                    disabled={quickForm.processing}
+                                    className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold rounded-lg shadow-sm"
+                                >
+                                    {editingQuick ? 'Simpan Perubahan' : 'Tambah Akses Cepat'}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
         </AuthenticatedLayout>
     );
 }

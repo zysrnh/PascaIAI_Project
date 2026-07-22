@@ -44,6 +44,8 @@ Route::get('/', function () {
         return $item;
     });
 
+    $quickAccesses = \App\Models\QuickAccess::where('is_active', true)->orderBy('urutan', 'asc')->get();
+
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
@@ -51,10 +53,26 @@ Route::get('/', function () {
         'phpVersion' => PHP_VERSION,
         'setting' => $setting,
         'umum' => $umum,
-        'beritas' => $beritas,
         'programStudi' => $programStudi,
-        'sambutan' => $sambutan
+        'sambutan' => $sambutan,
+        'beritas' => $beritas,
+        'quickAccesses' => $quickAccesses,
     ]);
+});
+
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/dashboard', function () {
+        return Inertia::render('Dashboard');
+    })->name('dashboard');
+
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // Admin Quick Access Routes
+    Route::post('/admin/quick-access', [\App\Http\Controllers\QuickAccessController::class, 'store'])->name('admin.quick-access.store');
+    Route::post('/admin/quick-access/{id}', [\App\Http\Controllers\QuickAccessController::class, 'update'])->name('admin.quick-access.update');
+    Route::delete('/admin/quick-access/{id}', [\App\Http\Controllers\QuickAccessController::class, 'destroy'])->name('admin.quick-access.destroy');
 });
 
 Route::get('/profil/tentang-kampus', function () {
@@ -493,3 +511,26 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+// Route helper sementara untuk jalankan migration & seeder di hosting tanpa SSH terminal
+Route::get('/jalankan-migrate-seed', function () {
+    $out = '<h2>Proses Migration & Seeder Akses Cepat (Quick Access)</h2>';
+    
+    // 1. Jalankan Migration
+    try {
+        \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+        $out .= '<h3 style="color:green;">✓ Migration Berhasil:</h3><pre>' . e(\Illuminate\Support\Facades\Artisan::output()) . '</pre>';
+    } catch (\Throwable $e) {
+        $out .= '<h3 style="color:red;">✗ Migration Error / Already Ran:</h3><pre>' . e($e->getMessage()) . '</pre>';
+    }
+
+    // 2. Jalankan QuickAccessSeeder
+    try {
+        \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'QuickAccessSeeder', '--force' => true]);
+        $out .= '<h3 style="color:green;">✓ QuickAccessSeeder Berhasil:</h3><pre>' . e(\Illuminate\Support\Facades\Artisan::output()) . '</pre>';
+    } catch (\Throwable $e) {
+        $out .= '<h3 style="color:orange;">ℹ Info Seeder:</h3><pre>' . e($e->getMessage()) . '</pre>';
+    }
+
+    return $out;
+});

@@ -3,7 +3,7 @@ import { Head, Link, useForm, router } from '@inertiajs/react';
 import { Calendar, Eye } from 'lucide-react';
 import Swal from 'sweetalert2';
 
-export default function Welcome({ setting, umum, programStudi = [], sambutan, beritas = [] }) {
+export default function Welcome({ setting, umum, programStudi = [], sambutan, beritas = [], quickAccesses = [] }) {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isLoaded, setIsLoaded] = useState(false);
     const { data: waForm, setData: setWaForm, post, processing } = useForm({
@@ -22,15 +22,15 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
         const adminPhone = setting?.pmb_hotline_number || "6282116116133";
         const selectedProdi = programStudi.find(p => p.id.toString() === waForm.prodi);
         const prodiName = selectedProdi ? `${selectedProdi.jenjang} ${selectedProdi.nama} (${selectedProdi.gelar_lulusan})` : waForm.prodi;
-        
+
         const message = `Halo Admin PMB Pascasarjana IAI Persis Bandung, saya berminat untuk mendaftar dan ingin berkonsultasi.\n\n*Nama Lengkap*: ${waForm.nama}\n*No WhatsApp*: ${waForm.whatsapp}\n*Pilihan Prodi*: ${prodiName}\n\nMohon informasi lebih lanjut terkait pendaftaran. Terima kasih.`;
-        
+
         const encodedMessage = encodeURIComponent(message);
         const waUrl = `https://wa.me/${adminPhone}?text=${encodedMessage}`;
-        
+
         // Open WA first to prevent browser popup blockers
         window.open(waUrl, '_blank');
-        
+
         // Post data to DB
         router.post(route('public.konsultasi.store'), {
             nama: waForm.nama,
@@ -105,7 +105,7 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                             <nav className="hidden lg:flex items-center space-x-6">
                                 <Link href="/" className="text-emerald-800 font-semibold border-b-2 border-emerald-800 px-1 py-1">Beranda</Link>
                                 <Link href="/berita" className={`font-semibold border-b-2 px-1 py-1 transition ${route().current('public.berita.*') ? 'text-emerald-800 border-emerald-800' : 'text-slate-600 hover:text-emerald-800 border-transparent hover:border-emerald-800'}`}>Berita</Link>
-                                
+
                                 {/* Profil Dropdown */}
                                 <div className="relative group">
                                     <button className="text-slate-600 hover:text-emerald-700 font-medium px-1 py-1 transition flex items-center gap-1">
@@ -174,8 +174,8 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                             </nav>
 
                             {/* Mobile Menu Toggle Button */}
-                            <button 
-                                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} 
+                            <button
+                                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                                 className="lg:hidden p-2 rounded-sm text-emerald-900 hover:bg-slate-100 focus:outline-none"
                             >
                                 <i className="fa-solid fa-bars text-2xl"></i>
@@ -197,7 +197,7 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                             `}</style>
                             <a href="#" className="block px-3 py-2.5 rounded-sm bg-emerald-50 text-emerald-800 font-semibold mb-2">Beranda</a>
                             <Link href="/berita" className="block px-3 py-2.5 rounded-sm text-slate-700 hover:bg-slate-50 font-medium mb-2">Berita</Link>
-                            
+
                             {/* Profil Mobile Dropdown */}
                             <details className="group">
                                 <summary className="flex justify-between items-center px-3 py-2.5 rounded-sm text-slate-700 hover:bg-slate-50 font-medium cursor-pointer list-none">
@@ -262,7 +262,7 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                 </header>
 
                 {/* Hero Section */}
-                <section 
+                <section
                     className="bg-cover bg-center min-h-[85vh] flex items-center justify-center text-white relative py-20"
                     style={{
                         backgroundImage: `linear-gradient(rgba(4,47,31,0.85),rgba(2,44,29,0.9)), url(${setting?.hero_bg ? '/storage/' + setting.hero_bg : '/images/default-banner.jpg'})`
@@ -303,6 +303,52 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                     </div>
                 </section>
 
+                {/* Akses Cepat (Quick Access) */}
+                {quickAccesses && quickAccesses.length > 0 && (
+                    <section className="relative z-20 -mt-10 sm:-mt-14 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-4">
+                        <div className="bg-white/95 backdrop-blur-md rounded-xl shadow-xl border border-slate-200/80 p-5 sm:p-6 transition-all duration-300 hover:shadow-2xl">
+                            <div className="flex items-center justify-between mb-4 border-b border-slate-100 pb-3">
+                                <div className="flex items-center gap-2.5">
+                                    <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></div>
+                                    <h3 className="text-xs sm:text-sm font-bold text-slate-800 uppercase tracking-wider flex items-center gap-2">
+                                        <i className="fa-solid fa-bolt text-amber-500"></i> Akses Cepat Layanan
+                                    </h3>
+                                </div>
+                                <span className="text-[11px] text-slate-400 font-medium hidden sm:inline-block">Pintasan Layanan Pascasarjana IAI PERSIS Bandung</span>
+                            </div>
+                            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+                                {quickAccesses.map((item) => {
+                                    const isExternal = item.url.startsWith('http');
+                                    const LinkComponent = isExternal ? 'a' : Link;
+                                    const linkProps = isExternal ? { href: item.url, target: '_blank', rel: 'noreferrer' } : { href: item.url };
+
+                                    return (
+                                        <LinkComponent
+                                            key={item.id}
+                                            {...linkProps}
+                                            className="group p-4 rounded-xl bg-slate-50/80 hover:bg-emerald-800 border border-slate-200/80 hover:border-emerald-700 transition-all duration-300 flex items-center gap-3.5 shadow-sm hover:shadow-lg hover:-translate-y-0.5"
+                                        >
+                                            <div className="w-11 h-11 rounded-lg bg-emerald-100 group-hover:bg-emerald-700/60 text-emerald-800 group-hover:text-amber-400 flex items-center justify-center text-lg shrink-0 transition-colors shadow-inner">
+                                                <i className={`fa-solid ${item.ikon || 'fa-link'}`}></i>
+                                            </div>
+                                            <div className="overflow-hidden">
+                                                <h4 className="font-bold text-slate-800 group-hover:text-white text-xs sm:text-sm truncate transition-colors leading-tight">
+                                                    {item.nama}
+                                                </h4>
+                                                {item.deskripsi && (
+                                                    <p className="text-[11px] text-slate-500 group-hover:text-emerald-100/90 truncate transition-colors mt-0.5">
+                                                        {item.deskripsi}
+                                                    </p>
+                                                )}
+                                            </div>
+                                        </LinkComponent>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    </section>
+                )}
+
                 {/* Sambutan Direktur */}
                 <section id="sambutan" className="py-20 bg-white">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -318,7 +364,7 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                             <div className="lg:col-span-7">
                                 <span className="text-emerald-700 font-bold text-sm tracking-widest uppercase">KATA SAMBUTAN</span>
                                 <h2 className="text-3xl sm:text-4xl font-extrabold text-emerald-950 mt-2 mb-6">{sambutan?.sambutan_singkat || "Mewujudkan Masa Depan Pendidikan Islam Gemilang"}</h2>
-                                
+
                                 {sambutan?.sambutan_lengkap ? (
                                     <div className="text-slate-600 leading-relaxed mb-6 space-y-4" dangerouslySetInnerHTML={{ __html: sambutan.sambutan_lengkap.substring(0, 400) + '...' }} />
                                 ) : (
@@ -331,7 +377,7 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                                         </p>
                                     </>
                                 )}
-                                
+
                                 <div className="mt-6 flex flex-col justify-between items-start gap-4">
                                     <div>
                                         <h4 className="text-lg font-bold text-emerald-900">{sambutan?.nama || "Dr. H. Latief Awaludin, MA.ME."}</h4>
@@ -491,13 +537,13 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                             <div className="lg:col-span-6 bg-white rounded-sm p-8 text-slate-800 shadow-2xl animate-on-scroll opacity-0 translate-x-12 transition-all duration-1000 ease-out delay-100">
                                 <h3 className="text-xl font-bold text-emerald-950 mb-1">Konsultasi Pendaftaran</h3>
                                 <p className="text-xs text-slate-400 mb-6">Kirim formulir singkat berikut dan admin kami akan menghubungi Anda.</p>
-                                
+
                                 <form className="space-y-4" onSubmit={handleWaSubmit}>
                                     <div>
                                         <label className="block text-xs font-bold text-slate-600 uppercase mb-1.5">Nama Lengkap</label>
-                                        <input 
-                                            type="text" 
-                                            placeholder="Masukkan nama lengkap" 
+                                        <input
+                                            type="text"
+                                            placeholder="Masukkan nama lengkap"
                                             className="w-full px-4 py-3 rounded-sm border border-slate-200 focus:outline-none focus:border-emerald-700 focus:ring-1 focus:ring-emerald-700 text-sm transition"
                                             value={waForm.nama}
                                             onChange={(e) => setWaForm('nama', e.target.value)}
@@ -506,9 +552,9 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                                     </div>
                                     <div>
                                         <label className="block text-xs font-bold text-slate-600 uppercase mb-1.5">Nomor WhatsApp</label>
-                                        <input 
-                                            type="tel" 
-                                            placeholder="Contoh: 081234567890" 
+                                        <input
+                                            type="tel"
+                                            placeholder="Contoh: 081234567890"
                                             className="w-full px-4 py-3 rounded-sm border border-slate-200 focus:outline-none focus:border-emerald-700 focus:ring-1 focus:ring-emerald-700 text-sm transition"
                                             value={waForm.whatsapp}
                                             onChange={(e) => setWaForm('whatsapp', e.target.value)}
@@ -517,7 +563,7 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                                     </div>
                                     <div>
                                         <label className="block text-xs font-bold text-slate-600 uppercase mb-1.5">Program Studi Pilihan</label>
-                                        <select 
+                                        <select
                                             className="w-full px-4 py-3 rounded-sm border border-slate-200 focus:outline-none focus:border-emerald-700 focus:ring-1 focus:ring-emerald-700 text-sm bg-white transition"
                                             value={waForm.prodi}
                                             onChange={(e) => setWaForm('prodi', e.target.value)}
@@ -553,16 +599,16 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                                 Lihat Semua Berita <i className="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
                             </Link>
                         </div>
-                        
+
                         {beritas && beritas.length > 0 ? (
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 animate-on-scroll opacity-0 translate-y-12 transition-all duration-1000 ease-out delay-100">
                                 {beritas.map((berita) => (
                                     <div key={berita.id} className="bg-slate-50 rounded-xl shadow-sm border border-slate-100 overflow-hidden group hover:shadow-xl transition-all duration-300 flex flex-col">
                                         <div className="aspect-video bg-slate-200 relative overflow-hidden">
                                             {berita.gambar_url ? (
-                                                <img 
-                                                    src={berita.gambar_url} 
-                                                    alt={berita.judul} 
+                                                <img
+                                                    src={berita.gambar_url}
+                                                    alt={berita.judul}
                                                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                                 />
                                             ) : (
@@ -575,26 +621,26 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                                             <div className="flex items-center gap-4 text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-3">
                                                 <div className="flex items-center gap-1.5">
                                                     <Calendar className="w-3.5 h-3.5 text-emerald-600" />
-                                                    {new Date(berita.created_at).toLocaleDateString('id-ID', {day: 'numeric', month: 'short', year: 'numeric'})}
+                                                    {new Date(berita.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}
                                                 </div>
                                                 <div className="flex items-center gap-1.5">
                                                     <Eye className="w-3.5 h-3.5 text-emerald-600" />
                                                     {berita.views} x
                                                 </div>
                                             </div>
-                                            
+
                                             <h3 className="text-xl font-bold text-slate-800 mb-3 line-clamp-2 group-hover:text-emerald-700 transition-colors">
                                                 <Link href={`/berita/${berita.slug}`}>
                                                     {berita.judul}
                                                 </Link>
                                             </h3>
-                                            
+
                                             <p className="text-slate-600 text-sm line-clamp-3 mb-6">
                                                 {berita.konten.replace(/<[^>]+>/g, '')}
                                             </p>
-                                            
+
                                             <div className="mt-auto pt-4 border-t border-slate-200">
-                                                <Link 
+                                                <Link
                                                     href={`/berita/${berita.slug}`}
                                                     className="inline-flex items-center gap-2 text-sm font-bold text-emerald-600 hover:text-emerald-700 group/link"
                                                 >
@@ -611,7 +657,7 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                                 <p className="text-slate-500">Belum ada berita terbaru.</p>
                             </div>
                         )}
-                        
+
                         <div className="mt-8 text-center md:hidden animate-on-scroll opacity-0 translate-y-12 transition-all duration-1000 ease-out delay-200">
                             <Link href="/berita" className="inline-flex items-center gap-2 text-emerald-700 font-bold hover:text-emerald-800 transition-colors">
                                 Lihat Semua Berita <i className="fa-solid fa-arrow-right"></i>

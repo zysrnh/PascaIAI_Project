@@ -34,9 +34,12 @@ class BerandaSettingController extends Controller
             ]
         );
 
+        $quickAccesses = \App\Models\QuickAccess::orderBy('urutan', 'asc')->get();
+
         return Inertia::render('Admin/Beranda/Index', [
             'setting' => $setting,
-            'umum' => $umum
+            'umum' => $umum,
+            'quickAccesses' => $quickAccesses,
         ]);
     }
 
