@@ -46,6 +46,15 @@ Route::get('/', function () {
 
     $quickAccesses = \App\Models\QuickAccess::where('is_active', true)->orderBy('urutan', 'asc')->get();
 
+    $pengaturanDosen = \App\Models\PengaturanHalaman::where('halaman', 'dosen')->first();
+    $stats = [
+        'total' => \App\Models\Dosen::where('status_aktif', true)->count(),
+        'mahasiswa' => $pengaturanDosen->jumlah_mahasiswa ?? 111,
+        'alumni' => $pengaturanDosen->jumlah_alumni ?? 180,
+        'penelitian' => $pengaturanDosen->jumlah_penelitian ?? 25,
+        'publikasi' => $pengaturanDosen->jumlah_publikasi ?? 42,
+    ];
+
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
@@ -57,6 +66,7 @@ Route::get('/', function () {
         'sambutan' => $sambutan,
         'beritas' => $beritas,
         'quickAccesses' => $quickAccesses,
+        'stats' => $stats,
     ]);
 });
 

@@ -3,7 +3,7 @@ import { Head, Link, useForm, router } from '@inertiajs/react';
 import { Calendar, Eye } from 'lucide-react';
 import Swal from 'sweetalert2';
 
-export default function Welcome({ setting, umum, programStudi = [], sambutan, beritas = [], quickAccesses = [] }) {
+export default function Welcome({ setting, umum, programStudi = [], sambutan, beritas = [], quickAccesses = [], stats = {} }) {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isLoaded, setIsLoaded] = useState(false);
     const { data: waForm, setData: setWaForm, post, processing } = useForm({
@@ -132,7 +132,7 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                                         <div className="p-2 space-y-0.5">
                                             <Link href="/fakultas/daftarfakultas" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Daftar Fakultas</Link>
                                             <Link href="/fakultas/programstudi" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Program Studi</Link>
-                                            <Link href="/fakultas/dosen" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Statistik</Link>
+                                            <Link href="/fakultas/dosen" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Dosen</Link>
                                             <Link href={route('public.prospek-karir')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Prospek Karir</Link>
                                         </div>
                                     </div>
@@ -221,7 +221,7 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                                 <div className="pl-4 pb-2 space-y-1 border-l-2 border-emerald-100 ml-3 mt-1">
                                     <Link href="/fakultas/daftarfakultas" className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Daftar Fakultas</Link>
                                     <Link href="/fakultas/programstudi" className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Program Studi</Link>
-                                    <Link href="/fakultas/dosen" className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Statistik</Link>
+                                    <Link href="/fakultas/dosen" className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Dosen</Link>
                                     <Link href={route('public.prospek-karir')} className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Prospek Karir</Link>
                                 </div>
                             </details>
@@ -348,6 +348,76 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                         </div>
                     </section>
                 )}
+
+                {/* 5 Cards Statistik Utama */}
+                <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12 relative z-20">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
+                        {/* Total Dosen */}
+                        <div className="bg-white p-4 sm:p-5 rounded-xl shadow-md border border-slate-100 flex flex-col items-center justify-center text-center hover:shadow-lg transition hover:-translate-y-0.5">
+                            <div className="w-10 h-10 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center text-lg mb-2">
+                                <i className="fa-solid fa-users"></i>
+                            </div>
+                            <span className="text-2xl sm:text-3xl font-extrabold text-slate-800 tracking-tight">
+                                {stats?.total ?? 7}
+                            </span>
+                            <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mt-1">
+                                TOTAL DOSEN
+                            </span>
+                        </div>
+
+                        {/* Jumlah Mahasiswa */}
+                        <div className="bg-white p-4 sm:p-5 rounded-xl shadow-md border border-slate-100 flex flex-col items-center justify-center text-center hover:shadow-lg transition hover:-translate-y-0.5">
+                            <div className="w-10 h-10 rounded-full bg-amber-50 text-amber-500 flex items-center justify-center text-lg mb-2">
+                                <i className="fa-solid fa-graduation-cap"></i>
+                            </div>
+                            <span className="text-2xl sm:text-3xl font-extrabold text-slate-800 tracking-tight">
+                                {stats?.mahasiswa ?? 111}
+                            </span>
+                            <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mt-1">
+                                JUMLAH MAHASISWA
+                            </span>
+                        </div>
+
+                        {/* Jumlah Alumni */}
+                        <div className="bg-white p-4 sm:p-5 rounded-xl shadow-md border border-slate-100 flex flex-col items-center justify-center text-center hover:shadow-lg transition hover:-translate-y-0.5">
+                            <div className="w-10 h-10 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center text-lg mb-2">
+                                <i className="fa-solid fa-user-check"></i>
+                            </div>
+                            <span className="text-2xl sm:text-3xl font-extrabold text-slate-800 tracking-tight">
+                                {stats?.alumni ?? 180}
+                            </span>
+                            <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mt-1">
+                                JUMLAH ALUMNI
+                            </span>
+                        </div>
+
+                        {/* Jumlah Penelitian */}
+                        <div className="bg-white p-4 sm:p-5 rounded-xl shadow-md border border-slate-100 flex flex-col items-center justify-center text-center hover:shadow-lg transition hover:-translate-y-0.5">
+                            <div className="w-10 h-10 rounded-full bg-purple-50 text-purple-600 flex items-center justify-center text-lg mb-2">
+                                <i className="fa-solid fa-book-open"></i>
+                            </div>
+                            <span className="text-2xl sm:text-3xl font-extrabold text-slate-800 tracking-tight">
+                                {stats?.penelitian ?? 25}
+                            </span>
+                            <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mt-1">
+                                JUMLAH PENELITIAN
+                            </span>
+                        </div>
+
+                        {/* Jumlah Publikasi */}
+                        <div className="bg-white p-4 sm:p-5 rounded-xl shadow-md border border-slate-100 flex flex-col items-center justify-center text-center hover:shadow-lg transition hover:-translate-y-0.5 col-span-2 sm:col-span-1">
+                            <div className="w-10 h-10 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center text-lg mb-2">
+                                <i className="fa-solid fa-award"></i>
+                            </div>
+                            <span className="text-2xl sm:text-3xl font-extrabold text-slate-800 tracking-tight">
+                                {stats?.publikasi ?? 42}
+                            </span>
+                            <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mt-1">
+                                JUMLAH PUBLIKASI
+                            </span>
+                        </div>
+                    </div>
+                </section>
 
                 {/* Sambutan Direktur */}
                 <section id="sambutan" className="py-20 bg-white">

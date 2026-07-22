@@ -437,6 +437,7 @@ export default function Index({ dosens, programStudis, pengaturan }) {
                                             onChange={e => form.setData('pendidikan_terakhir', e.target.value)}
                                             className="w-full border-slate-300 rounded-lg focus:ring-emerald-500 focus:border-emerald-500"
                                         >
+                                            <option value="S1">S1 (Sarjana)</option>
                                             <option value="S2">S2 (Magister)</option>
                                             <option value="S3">S3 (Doktor)</option>
                                         </select>
