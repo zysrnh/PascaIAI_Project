@@ -363,7 +363,7 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                             </div>
                             <div className="lg:col-span-7">
                                 <span className="text-emerald-700 font-bold text-sm tracking-widest uppercase">KATA SAMBUTAN</span>
-                                <h2 className="text-3xl sm:text-4xl font-extrabold text-emerald-950 mt-2 mb-6">{sambutan?.sambutan_singkat || "Mewujudkan Masa Depan Pendidikan Islam Gemilang"}</h2>
+                                <h2 className="text-xl sm:text-2xl font-bold text-emerald-950 mt-2 mb-6 leading-snug">{sambutan?.sambutan_singkat || "Mewujudkan Masa Depan Pendidikan Islam Gemilang"}</h2>
 
                                 {sambutan?.sambutan_lengkap ? (
                                     <div className="text-slate-600 leading-relaxed mb-6 space-y-4" dangerouslySetInnerHTML={{ __html: sambutan.sambutan_lengkap.substring(0, 400) + '...' }} />

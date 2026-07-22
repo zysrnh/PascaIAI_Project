@@ -42,7 +42,6 @@ export default function Index({ auth, setting, umum, quickAccesses = [] }) {
     });
 
     const openQuickModal = (item = null) => {
-        quickForm.clearErrors();
         if (item) {
             setEditingQuick(item);
             quickForm.setData({
@@ -70,8 +69,17 @@ export default function Index({ auth, setting, umum, quickAccesses = [] }) {
     const handleQuickSubmit = (e) => {
         e.preventDefault();
 
+        const payload = {
+            nama: quickForm.data.nama,
+            url: quickForm.data.url,
+            deskripsi: quickForm.data.deskripsi || '',
+            ikon: quickForm.data.ikon || 'fa-link',
+            urutan: quickForm.data.urutan || 1,
+            is_active: quickForm.data.is_active ? 1 : 0,
+        };
+
         if (editingQuick) {
-            quickForm.post(route('admin.quick-access.update', editingQuick.id), {
+            router.post(route('admin.quick-access.update', editingQuick.id), payload, {
                 onSuccess: () => {
                     setQuickModalOpen(false);
                     quickForm.reset();
@@ -79,7 +87,7 @@ export default function Index({ auth, setting, umum, quickAccesses = [] }) {
                 preserveScroll: true,
             });
         } else {
-            quickForm.post(route('admin.quick-access.store'), {
+            router.post(route('admin.quick-access.store'), payload, {
                 onSuccess: () => {
                     setQuickModalOpen(false);
                     quickForm.reset();
@@ -438,7 +446,6 @@ export default function Index({ auth, setting, umum, quickAccesses = [] }) {
                                     onChange={e => quickForm.setData('nama', e.target.value)}
                                     className="w-full rounded-md border-slate-300 shadow-sm text-sm focus:ring-emerald-500 focus:border-emerald-500"
                                 />
-                                {quickForm.errors.nama && <p className="text-red-500 text-xs mt-1">{quickForm.errors.nama}</p>}
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-slate-700 mb-1">Target URL / Link *</label>
@@ -450,7 +457,6 @@ export default function Index({ auth, setting, umum, quickAccesses = [] }) {
                                     onChange={e => quickForm.setData('url', e.target.value)}
                                     className="w-full rounded-md border-slate-300 shadow-sm text-sm focus:ring-emerald-500 focus:border-emerald-500"
                                 />
-                                {quickForm.errors.url && <p className="text-red-500 text-xs mt-1">{quickForm.errors.url}</p>}
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-slate-700 mb-1">Deskripsi Singkat (Opsional)</label>
@@ -461,7 +467,6 @@ export default function Index({ auth, setting, umum, quickAccesses = [] }) {
                                     onChange={e => quickForm.setData('deskripsi', e.target.value)}
                                     className="w-full rounded-md border-slate-300 shadow-sm text-sm focus:ring-emerald-500 focus:border-emerald-500"
                                 />
-                                {quickForm.errors.deskripsi && <p className="text-red-500 text-xs mt-1">{quickForm.errors.deskripsi}</p>}
                             </div>
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
