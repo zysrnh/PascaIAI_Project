@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('quick_accesses', function (Blueprint $table) {
             $table->id();
             $table->string('nama');
-            $table->string('url');
-            $table->string('deskripsi')->nullable();
+            $table->text('url');
+            $table->text('deskripsi')->nullable();
             $table->string('ikon')->nullable()->default('fa-link');
             $table->integer('urutan')->default(0);
             $table->boolean('is_active')->default(true);

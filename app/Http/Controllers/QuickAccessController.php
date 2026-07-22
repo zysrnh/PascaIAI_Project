@@ -14,8 +14,8 @@ class QuickAccessController extends Controller
     {
         $validated = $request->validate([
             'nama' => 'required|string|max:255',
-            'url' => 'required|string|max:255',
-            'deskripsi' => 'nullable|string|max:255',
+            'url' => 'required|string',
+            'deskripsi' => 'nullable|string',
             'ikon' => 'nullable|string|max:255',
             'urutan' => 'nullable|integer',
             'is_active' => 'boolean',
@@ -39,8 +39,8 @@ class QuickAccessController extends Controller
 
         $validated = $request->validate([
             'nama' => 'required|string|max:255',
-            'url' => 'required|string|max:255',
-            'deskripsi' => 'nullable|string|max:255',
+            'url' => 'required|string',
+            'deskripsi' => 'nullable|string',
             'ikon' => 'nullable|string|max:255',
             'urutan' => 'nullable|integer',
             'is_active' => 'boolean',
