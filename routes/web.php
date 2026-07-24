@@ -449,6 +449,12 @@ Route::middleware('auth')->group(function () {
     Route::delete('/admin/akademik/pedoman/{id}', [\App\Http\Controllers\PedomanAkademikController::class, 'destroy'])->name('admin.akademik.pedoman.destroy');
     Route::post('/admin/akademik/pedoman-pengaturan', [\App\Http\Controllers\PedomanAkademikController::class, 'updatePengaturan'])->name('admin.akademik.pedoman.pengaturan');
 
+    // Admin Akademik - Pedoman Folder CRUD
+    Route::post('/admin/akademik/pedoman-folder', [\App\Http\Controllers\PedomanFolderController::class, 'store'])->name('admin.akademik.pedoman.folder.store');
+    Route::post('/admin/akademik/pedoman-folder/{id}', [\App\Http\Controllers\PedomanFolderController::class, 'update'])->name('admin.akademik.pedoman.folder.update');
+    Route::delete('/admin/akademik/pedoman-folder/{id}', [\App\Http\Controllers\PedomanFolderController::class, 'destroy'])->name('admin.akademik.pedoman.folder.destroy');
+
+
     // Admin Akademik - Kalender Akademik
     Route::get('/admin/akademik/kalender', [\App\Http\Controllers\KalenderAkademikController::class, 'index'])->name('admin.akademik.kalender.index');
     Route::post('/admin/akademik/kalender', [\App\Http\Controllers\KalenderAkademikController::class, 'store'])->name('admin.akademik.kalender.store');
@@ -540,6 +546,14 @@ Route::get('/jalankan-migrate-seed', function () {
         $out .= '<h3 style="color:green;">✓ QuickAccessSeeder Berhasil:</h3><pre>' . e(\Illuminate\Support\Facades\Artisan::output()) . '</pre>';
     } catch (\Throwable $e) {
         $out .= '<h3 style="color:orange;">ℹ Info Seeder:</h3><pre>' . e($e->getMessage()) . '</pre>';
+    }
+
+    // 3. Jalankan Storage Link
+    try {
+        \Illuminate\Support\Facades\Artisan::call('storage:link');
+        $out .= '<h3 style="color:green;">✓ Storage Link Berhasil:</h3><pre>' . e(\Illuminate\Support\Facades\Artisan::output()) . '</pre>';
+    } catch (\Throwable $e) {
+        $out .= '<h3 style="color:orange;">ℹ Info Storage Link:</h3><pre>' . e($e->getMessage()) . '</pre>';
     }
 
     return $out;

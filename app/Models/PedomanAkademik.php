@@ -10,5 +10,15 @@ class PedomanAkademik extends Model
         'judul',
         'deskripsi',
         'file_path',
+        'folder_id',
+        'tipe_file',
     ];
+
+    /**
+     * Folder relationship.
+     */
+    public function folder()
+    {
+        return $this->belongsTo(PedomanFolder::class, 'folder_id');
+    }
 }

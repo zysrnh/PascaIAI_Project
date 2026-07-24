@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\PedomanAkademik;
+use App\Models\PedomanFolder;
 use App\Models\PengaturanHalaman;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -11,25 +12,72 @@ use Inertia\Inertia;
 class PedomanAkademikController extends Controller
 {
     /**
-     * Display the Admin page for Pedoman Akademik.
+     * Display the Admin page for Pedoman Akademik (Google Drive style).
      */
-    public function indexAdmin()
+    public function indexAdmin(Request $request)
     {
-        $pedomans = PedomanAkademik::orderBy('id', 'desc')->get();
+        $folderId = $request->query('folder_id');
+        $currentFolder = null;
+        $breadcrumb = [];
+
+        if ($folderId) {
+            $currentFolder = PedomanFolder::findOrFail($folderId);
+            // Build breadcrumb
+            $breadcrumb = $currentFolder->breadcrumb->map(fn($f) => [
+                'id' => $f->id,
+                'nama' => $f->nama,
+            ])->toArray();
+        }
+
+        // Get folders in current level
+        $folders = PedomanFolder::where('parent_id', $folderId)
+            ->orderBy('urutan')
+            ->orderBy('nama')
+            ->get();
+
+        // Get documents in current level
+        $documents = PedomanAkademik::where('folder_id', $folderId)
+            ->orderBy('id', 'desc')
+            ->get();
+
         $pengaturan = PengaturanHalaman::where('halaman', 'pedoman_akademik')->first();
 
         return Inertia::render('Admin/Akademik/Pedoman/Index', [
-            'pedomans' => $pedomans,
-            'pengaturan' => $pengaturan
+            'folders' => $folders,
+            'documents' => $documents,
+            'currentFolder' => $currentFolder,
+            'breadcrumb' => $breadcrumb,
+            'pengaturan' => $pengaturan,
+            'currentFolderId' => $folderId ? (int)$folderId : null,
         ]);
     }
 
     /**
      * Display the Public page for Pedoman Akademik.
      */
-    public function indexPublic()
+    public function indexPublic(Request $request)
     {
-        $pedomans = PedomanAkademik::orderBy('id', 'desc')->get();
+        $folderId = $request->query('folder_id');
+        $currentFolder = null;
+        $breadcrumb = [];
+
+        if ($folderId) {
+            $currentFolder = PedomanFolder::findOrFail($folderId);
+            $breadcrumb = $currentFolder->breadcrumb->map(fn($f) => [
+                'id' => $f->id,
+                'nama' => $f->nama,
+            ])->toArray();
+        }
+
+        $folders = PedomanFolder::where('parent_id', $folderId)
+            ->orderBy('urutan')
+            ->orderBy('nama')
+            ->get();
+
+        $documents = PedomanAkademik::where('folder_id', $folderId)
+            ->orderBy('id', 'desc')
+            ->get();
+
         $pengaturan = PengaturanHalaman::where('halaman', 'pedoman_akademik')->first();
 
         // Format banner image path if exists
@@ -38,37 +86,46 @@ class PedomanAkademikController extends Controller
         }
 
         return Inertia::render('Public/PedomanAkademik', [
-            'pedomans' => $pedomans,
-            'pengaturan' => $pengaturan
+            'folders' => $folders,
+            'documents' => $documents,
+            'currentFolder' => $currentFolder,
+            'breadcrumb' => $breadcrumb,
+            'pengaturan' => $pengaturan,
+            'currentFolderId' => $folderId ? (int)$folderId : null,
         ]);
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created document in storage.
      */
     public function store(Request $request)
     {
         $validated = $request->validate([
             'judul' => 'required|string|max:255',
             'deskripsi' => 'nullable|string',
-            'file_pdf' => 'required|mimes:pdf|max:10240', // max 10MB
+            'file_pdf' => 'required|mimes:pdf,doc,docx,xls,xlsx,ppt,pptx|max:20480', // max 20MB
+            'folder_id' => 'nullable|exists:pedoman_folders,id',
         ]);
 
         if ($request->hasFile('file_pdf')) {
-            $path = $request->file('file_pdf')->store('pedoman', 'public');
+            $file = $request->file('file_pdf');
+            $path = $file->store('pedoman', 'public');
+            $extension = strtolower($file->getClientOriginalExtension());
             
             PedomanAkademik::create([
                 'judul' => $validated['judul'],
                 'deskripsi' => $validated['deskripsi'],
                 'file_path' => $path,
+                'folder_id' => $validated['folder_id'] ?? null,
+                'tipe_file' => $extension,
             ]);
         }
 
-        return redirect()->back()->with('success', 'Pedoman Akademik berhasil ditambahkan!');
+        return redirect()->back()->with('success', 'Dokumen berhasil ditambahkan!');
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified document in storage.
      */
     public function update(Request $request, string $id)
     {
@@ -77,7 +134,7 @@ class PedomanAkademikController extends Controller
         $validated = $request->validate([
             'judul' => 'required|string|max:255',
             'deskripsi' => 'nullable|string',
-            'file_pdf' => 'nullable|mimes:pdf|max:10240', // max 10MB
+            'file_pdf' => 'nullable|mimes:pdf,doc,docx,xls,xlsx,ppt,pptx|max:20480',
         ]);
 
         $pedoman->judul = $validated['judul'];
@@ -87,16 +144,18 @@ class PedomanAkademikController extends Controller
             if ($pedoman->file_path) {
                 Storage::disk('public')->delete($pedoman->file_path);
             }
-            $pedoman->file_path = $request->file('file_pdf')->store('pedoman', 'public');
+            $file = $request->file('file_pdf');
+            $pedoman->file_path = $file->store('pedoman', 'public');
+            $pedoman->tipe_file = strtolower($file->getClientOriginalExtension());
         }
 
         $pedoman->save();
 
-        return redirect()->back()->with('success', 'Pedoman Akademik berhasil diperbarui!');
+        return redirect()->back()->with('success', 'Dokumen berhasil diperbarui!');
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified document from storage.
      */
     public function destroy(string $id)
     {
@@ -108,7 +167,7 @@ class PedomanAkademikController extends Controller
         
         $pedoman->delete();
 
-        return redirect()->back()->with('success', 'Pedoman Akademik berhasil dihapus!');
+        return redirect()->back()->with('success', 'Dokumen berhasil dihapus!');
     }
 
     /**
