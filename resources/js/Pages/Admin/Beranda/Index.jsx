@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { Head, useForm, router } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import Sidebar from '@/Components/Admin/Sidebar';
-import { Settings, Save, Link2, Plus, Pencil, Trash2, X, ExternalLink } from 'lucide-react';
+import { Settings, Save, Link2, Plus, Pencil, Trash2, X, ExternalLink, Image as ImageIcon, Layers } from 'lucide-react';
 
-export default function Index({ auth, setting, umum, quickAccesses = [] }) {
+export default function Index({ auth, setting, umum, quickAccesses = [], heroSliders = [] }) {
     const { data, setData, post, processing, errors } = useForm({
         pmb_gelombang_text: setting?.pmb_gelombang_text || '',
         pmb_hotline_number: setting?.pmb_hotline_number || '',
@@ -40,6 +40,90 @@ export default function Index({ auth, setting, umum, quickAccesses = [] }) {
         urutan: 1,
         is_active: true,
     });
+
+    // Slider State
+    const [sliderModalOpen, setSliderModalOpen] = useState(false);
+    const [editingSlider, setEditingSlider] = useState(null);
+    const [sliderImgPreview, setSliderImgPreview] = useState(null);
+    const sliderForm = useForm({
+        judul: '',
+        subjudul: '',
+        gambar: null,
+        badge_text: '',
+        text_button_1: '',
+        link_button_1: '',
+        text_button_2: '',
+        link_button_2: '',
+        urutan: 1,
+        is_active: true,
+    });
+
+    const openSliderModal = (item = null) => {
+        sliderForm.clearErrors();
+        if (item) {
+            setEditingSlider(item);
+            setSliderImgPreview(item.gambar ? '/storage/' + item.gambar : null);
+            sliderForm.setData({
+                judul: item.judul || '',
+                subjudul: item.subjudul || '',
+                gambar: null,
+                badge_text: item.badge_text || '',
+                text_button_1: item.text_button_1 || '',
+                link_button_1: item.link_button_1 || '',
+                text_button_2: item.text_button_2 || '',
+                link_button_2: item.link_button_2 || '',
+                urutan: item.urutan || 1,
+                is_active: item.is_active ?? true,
+            });
+        } else {
+            setEditingSlider(null);
+            setSliderImgPreview(null);
+            sliderForm.setData({
+                judul: '',
+                subjudul: '',
+                gambar: null,
+                badge_text: 'Penerimaan Mahasiswa Baru Gelombang 1 Dibuka!',
+                text_button_1: 'Jelajahi Program Studi',
+                link_button_1: '#program',
+                text_button_2: 'Prosedur Pendaftaran',
+                link_button_2: '#pendaftaran',
+                urutan: (heroSliders?.length || 0) + 1,
+                is_active: true,
+            });
+        }
+        setSliderModalOpen(true);
+    };
+
+    const handleSliderSubmit = (e) => {
+        e.preventDefault();
+        if (editingSlider) {
+            sliderForm.post(route('admin.beranda.slider.update', editingSlider.id), {
+                forceFormData: true,
+                preserveScroll: true,
+                onSuccess: () => {
+                    setSliderModalOpen(false);
+                    sliderForm.reset();
+                }
+            });
+        } else {
+            sliderForm.post(route('admin.beranda.slider.store'), {
+                forceFormData: true,
+                preserveScroll: true,
+                onSuccess: () => {
+                    setSliderModalOpen(false);
+                    sliderForm.reset();
+                }
+            });
+        }
+    };
+
+    const handleSliderDelete = (id) => {
+        if (confirm('Yakin ingin menghapus Slide Banner ini?')) {
+            router.delete(route('admin.beranda.slider.destroy', id), {
+                preserveScroll: true,
+            });
+        }
+    };
 
     const openQuickModal = (item = null) => {
         if (item) {
@@ -137,6 +221,81 @@ export default function Index({ auth, setting, umum, quickAccesses = [] }) {
                 <Sidebar />
                 <div className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 bg-slate-50">
                     <div className="max-w-4xl mx-auto space-y-6">
+
+                        {/* ===== KELOLA HERO SLIDERS CAROUSEL ===== */}
+                        <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+                                <div className="flex items-center gap-3">
+                                    <div className="p-2 bg-amber-100 text-amber-700 rounded-lg">
+                                        <Layers className="w-5 h-5" />
+                                    </div>
+                                    <div>
+                                        <h3 className="text-lg font-bold text-slate-800">Kelola Slide Banner (Hero Carousel)</h3>
+                                        <p className="text-sm text-slate-500">Atur beberapa gambar background slider & teks promosi di bagian paling atas Beranda.</p>
+                                    </div>
+                                </div>
+                                <button
+                                    type="button"
+                                    onClick={() => openSliderModal()}
+                                    className="inline-flex items-center gap-2 px-3.5 py-2 bg-amber-600 hover:bg-amber-700 text-white font-semibold text-sm rounded-lg transition shadow-sm self-start sm:self-auto"
+                                >
+                                    <Plus className="w-4 h-4" />
+                                    Tambah Slide Banner
+                                </button>
+                            </div>
+
+                            {heroSliders && heroSliders.length > 0 ? (
+                                <div className="grid grid-cols-1 gap-4">
+                                    {heroSliders.map((slide) => (
+                                        <div key={slide.id} className="p-4 rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-slate-50 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 transition">
+                                            <div className="flex items-center gap-4 w-full sm:w-auto">
+                                                <div className="w-24 h-16 rounded-lg bg-slate-200 overflow-hidden shrink-0 border border-slate-300 relative">
+                                                    <img src={`/storage/${slide.gambar}`} alt={slide.judul || 'Slide'} className="w-full h-full object-cover" />
+                                                    {!slide.is_active && (
+                                                        <span className="absolute inset-0 bg-slate-900/60 text-white text-[10px] font-bold flex items-center justify-center">Non-Aktif</span>
+                                                    )}
+                                                </div>
+                                                <div className="min-w-0 flex-1">
+                                                    <div className="flex items-center gap-2 flex-wrap mb-1">
+                                                        <h4 className="font-bold text-slate-800 text-sm truncate">{slide.judul || 'Tanpa Judul'}</h4>
+                                                        <span className="text-[10px] bg-amber-100 text-amber-800 font-bold px-2 py-0.5 rounded-full">Urutan #{slide.urutan}</span>
+                                                        {slide.badge_text && (
+                                                            <span className="text-[10px] bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full truncate max-w-[200px]">{slide.badge_text}</span>
+                                                        )}
+                                                    </div>
+                                                    <p className="text-xs text-slate-500 line-clamp-1">{slide.subjudul || 'Tidak ada deskripsi'}</p>
+                                                </div>
+                                            </div>
+                                            <div className="flex items-center gap-2 self-end sm:self-center shrink-0">
+                                                <button
+                                                    onClick={() => openSliderModal(slide)}
+                                                    className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-slate-700 hover:text-blue-700 bg-white hover:bg-blue-50 border border-slate-200 rounded-lg transition"
+                                                >
+                                                    <Pencil className="w-3.5 h-3.5" /> Edit
+                                                </button>
+                                                <button
+                                                    onClick={() => handleSliderDelete(slide.id)}
+                                                    className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-red-600 hover:bg-red-50 bg-white border border-slate-200 rounded-lg transition"
+                                                >
+                                                    <Trash2 className="w-3.5 h-3.5" /> Hapus
+                                                </button>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            ) : (
+                                <div className="text-center py-8 bg-slate-50 rounded-lg border border-dashed border-slate-300">
+                                    <p className="text-sm text-slate-500 mb-2">Belum ada Slide Banner khusus. Banner default statis akan digunakan.</p>
+                                    <button
+                                        type="button"
+                                        onClick={() => openSliderModal()}
+                                        className="inline-flex items-center gap-2 px-3 py-1.5 bg-amber-600 hover:bg-amber-700 text-white font-semibold text-xs rounded-md transition"
+                                    >
+                                        <Plus className="w-3.5 h-3.5" /> Tambah Slide Pertama
+                                    </button>
+                                </div>
+                            )}
+                        </div>
 
                         <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
                             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
@@ -510,6 +669,159 @@ export default function Index({ auth, setting, umum, quickAccesses = [] }) {
                                     className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold rounded-lg shadow-sm"
                                 >
                                     {editingQuick ? 'Simpan Perubahan' : 'Tambah Akses Cepat'}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
+            {/* Hero Slider Modal */}
+            {sliderModalOpen && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm overflow-y-auto">
+                    <div className="bg-white rounded-xl shadow-xl max-w-2xl w-full p-6 space-y-4 my-8">
+                        <div className="flex justify-between items-center border-b pb-3">
+                            <div className="flex items-center gap-2">
+                                <ImageIcon className="w-5 h-5 text-amber-600" />
+                                <h3 className="text-lg font-bold text-slate-800">
+                                    {editingSlider ? 'Edit Slide Banner' : 'Tambah Slide Banner Baru'}
+                                </h3>
+                            </div>
+                            <button onClick={() => setSliderModalOpen(false)} className="text-slate-400 hover:text-slate-600">
+                                <X className="w-5 h-5" />
+                            </button>
+                        </div>
+                        <form onSubmit={handleSliderSubmit} className="space-y-4">
+                            <div>
+                                <label className="block text-sm font-medium text-slate-700 mb-1">
+                                    Gambar Background Slide {!editingSlider && '*'}
+                                </label>
+                                {sliderImgPreview && (
+                                    <div className="mb-2 relative rounded-lg overflow-hidden border border-slate-200 bg-slate-100 max-h-48">
+                                        <img src={sliderImgPreview} alt="Preview" className="w-full h-44 object-cover" />
+                                    </div>
+                                )}
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    required={!editingSlider}
+                                    onChange={(e) => {
+                                        const file = e.target.files[0];
+                                        sliderForm.setData('gambar', file);
+                                        if (file) setSliderImgPreview(URL.createObjectURL(file));
+                                    }}
+                                    className="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-amber-50 file:text-amber-700 hover:file:bg-amber-100"
+                                />
+                                {sliderForm.errors.gambar && <p className="text-red-500 text-xs mt-1">{sliderForm.errors.gambar}</p>}
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-medium text-slate-700 mb-1">Teks Badge (Contoh: Banner Promosi PMB)</label>
+                                <input
+                                    type="text"
+                                    placeholder="Contoh: Penerimaan Mahasiswa Baru Gelombang 1 Dibuka!"
+                                    value={sliderForm.data.badge_text}
+                                    onChange={e => sliderForm.setData('badge_text', e.target.value)}
+                                    className="w-full rounded-md border-slate-300 shadow-sm text-sm focus:ring-amber-500 focus:border-amber-500"
+                                />
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-medium text-slate-700 mb-1">Judul Utama Slide</label>
+                                <input
+                                    type="text"
+                                    placeholder="Contoh: Membentuk Akademisi Islami Unggul & Berintegritas"
+                                    value={sliderForm.data.judul}
+                                    onChange={e => sliderForm.setData('judul', e.target.value)}
+                                    className="w-full rounded-md border-slate-300 shadow-sm text-sm focus:ring-amber-500 focus:border-amber-500"
+                                />
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-medium text-slate-700 mb-1">Subjudul / Deskripsi Slide</label>
+                                <textarea
+                                    rows="2"
+                                    placeholder="Deskripsi singkat slide..."
+                                    value={sliderForm.data.subjudul}
+                                    onChange={e => sliderForm.setData('subjudul', e.target.value)}
+                                    className="w-full rounded-md border-slate-300 shadow-sm text-sm focus:ring-amber-500 focus:border-amber-500"
+                                />
+                            </div>
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-slate-50 p-3 rounded-lg border border-slate-200">
+                                <div>
+                                    <label className="block text-xs font-semibold text-slate-700 mb-1">Tombol Utama 1 (Teks & Link)</label>
+                                    <input
+                                        type="text"
+                                        placeholder="Teks Tombol 1 (misal: Jelajahi Program)"
+                                        value={sliderForm.data.text_button_1}
+                                        onChange={e => sliderForm.setData('text_button_1', e.target.value)}
+                                        className="w-full rounded-md border-slate-300 shadow-sm text-xs mb-2 focus:ring-amber-500 focus:border-amber-500"
+                                    />
+                                    <input
+                                        type="text"
+                                        placeholder="URL Link (misal: #program atau https://...)"
+                                        value={sliderForm.data.link_button_1}
+                                        onChange={e => sliderForm.setData('link_button_1', e.target.value)}
+                                        className="w-full rounded-md border-slate-300 shadow-sm text-xs focus:ring-amber-500 focus:border-amber-500 font-mono"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-xs font-semibold text-slate-700 mb-1">Tombol Kedua 2 (Teks & Link)</label>
+                                    <input
+                                        type="text"
+                                        placeholder="Teks Tombol 2 (misal: Prosedur Pendaftaran)"
+                                        value={sliderForm.data.text_button_2}
+                                        onChange={e => sliderForm.setData('text_button_2', e.target.value)}
+                                        className="w-full rounded-md border-slate-300 shadow-sm text-xs mb-2 focus:ring-amber-500 focus:border-amber-500"
+                                    />
+                                    <input
+                                        type="text"
+                                        placeholder="URL Link (misal: #pendaftaran atau https://...)"
+                                        value={sliderForm.data.link_button_2}
+                                        onChange={e => sliderForm.setData('link_button_2', e.target.value)}
+                                        className="w-full rounded-md border-slate-300 shadow-sm text-xs focus:ring-amber-500 focus:border-amber-500 font-mono"
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="grid grid-cols-2 gap-4 items-center">
+                                <div>
+                                    <label className="block text-xs font-medium text-slate-700 mb-1">Urutan Tampil</label>
+                                    <input
+                                        type="number"
+                                        min="1"
+                                        value={sliderForm.data.urutan}
+                                        onChange={e => sliderForm.setData('urutan', parseInt(e.target.value) || 1)}
+                                        className="w-full rounded-md border-slate-300 shadow-sm text-sm focus:ring-amber-500 focus:border-amber-500"
+                                    />
+                                </div>
+                                <div className="pt-5">
+                                    <label className="inline-flex items-center cursor-pointer">
+                                        <input
+                                            type="checkbox"
+                                            checked={sliderForm.data.is_active}
+                                            onChange={e => sliderForm.setData('is_active', e.target.checked)}
+                                            className="rounded border-slate-300 text-amber-600 shadow-sm focus:ring-amber-500 h-4 w-4"
+                                        />
+                                        <span className="ml-2 text-sm font-semibold text-slate-700">Tampilkan Slide ini (Aktif)</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div className="flex justify-end gap-2 pt-4 border-t">
+                                <button
+                                    type="button"
+                                    onClick={() => setSliderModalOpen(false)}
+                                    className="px-4 py-2 bg-slate-100 text-slate-700 font-semibold rounded-lg hover:bg-slate-200 transition text-sm"
+                                >
+                                    Batal
+                                </button>
+                                <button
+                                    type="submit"
+                                    disabled={sliderForm.processing}
+                                    className="px-4 py-2 bg-amber-600 text-white font-semibold rounded-lg hover:bg-amber-700 transition text-sm disabled:opacity-50"
+                                >
+                                    {editingSlider ? 'Simpan Perubahan' : 'Tambah Slide'}
                                 </button>
                             </div>
                         </form>

@@ -45,6 +45,7 @@ Route::get('/', function () {
     });
 
     $quickAccesses = \App\Models\QuickAccess::where('is_active', true)->orderBy('urutan', 'asc')->get();
+    $heroSliders = \App\Models\HeroSlider::where('is_active', true)->orderBy('urutan', 'asc')->get();
 
     $pengaturanDosen = \App\Models\PengaturanHalaman::where('halaman', 'dosen')->first();
     $stats = [
@@ -66,6 +67,7 @@ Route::get('/', function () {
         'sambutan' => $sambutan,
         'beritas' => $beritas,
         'quickAccesses' => $quickAccesses,
+        'heroSliders' => $heroSliders,
         'stats' => $stats,
     ]);
 });
@@ -518,6 +520,11 @@ Route::middleware('auth')->group(function () {
     // Admin Beranda (PMB)
     Route::get('/admin/beranda', [\App\Http\Controllers\BerandaSettingController::class, 'edit'])->name('admin.beranda.index');
     Route::post('/admin/beranda', [\App\Http\Controllers\BerandaSettingController::class, 'update'])->name('admin.beranda.update');
+
+    // Admin Beranda Hero Sliders
+    Route::post('/admin/beranda/slider', [\App\Http\Controllers\HeroSliderController::class, 'store'])->name('admin.beranda.slider.store');
+    Route::post('/admin/beranda/slider/{id}', [\App\Http\Controllers\HeroSliderController::class, 'update'])->name('admin.beranda.slider.update');
+    Route::delete('/admin/beranda/slider/{id}', [\App\Http\Controllers\HeroSliderController::class, 'destroy'])->name('admin.beranda.slider.destroy');
 
     // Manajemen User
     Route::get('/users', [\App\Http\Controllers\UserController::class, 'index'])->name('admin.users.index');

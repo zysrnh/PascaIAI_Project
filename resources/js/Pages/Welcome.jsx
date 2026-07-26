@@ -3,9 +3,29 @@ import { Head, Link, useForm, router } from '@inertiajs/react';
 import { Calendar, Eye } from 'lucide-react';
 import Swal from 'sweetalert2';
 
-export default function Welcome({ setting, umum, programStudi = [], sambutan, beritas = [], quickAccesses = [], stats = {} }) {
+export default function Welcome({ setting, umum, programStudi = [], sambutan, beritas = [], quickAccesses = [], heroSliders = [], stats = {} }) {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isLoaded, setIsLoaded] = useState(false);
+    const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
+
+    // Hero Carousel Auto Play
+    useEffect(() => {
+        if (!heroSliders || heroSliders.length <= 1) return;
+        const interval = setInterval(() => {
+            setCurrentSlideIndex((prev) => (prev + 1) % heroSliders.length);
+        }, 6000);
+        return () => clearInterval(interval);
+    }, [heroSliders]);
+
+    const nextSlide = () => {
+        if (!heroSliders || heroSliders.length === 0) return;
+        setCurrentSlideIndex((prev) => (prev + 1) % heroSliders.length);
+    };
+
+    const prevSlide = () => {
+        if (!heroSliders || heroSliders.length === 0) return;
+        setCurrentSlideIndex((prev) => (prev - 1 + heroSliders.length) % heroSliders.length);
+    };
     const { data: waForm, setData: setWaForm, post, processing } = useForm({
         nama: '',
         whatsapp: '',
@@ -261,47 +281,140 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                     </div>
                 </header>
 
-                {/* Hero Section */}
-                <section
-                    className="bg-cover bg-center min-h-[85vh] flex items-center justify-center text-white relative py-20"
-                    style={{
-                        backgroundImage: `linear-gradient(rgba(4,47,31,0.85),rgba(2,44,29,0.9)), url(${setting?.hero_bg ? '/storage/' + setting.hero_bg : '/images/default-banner.jpg'})`
-                    }}
-                >
-                    <div className="absolute inset-0 bg-gradient-to-t from-emerald-950/90 via-transparent to-transparent"></div>
-                    <div className={`relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center transition-all duration-1000 ease-out transform ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
-                        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-sm bg-emerald-800 border border-emerald-600 text-emerald-200 text-xs sm:text-sm font-semibold mb-6 shadow-sm">
-                            <span className="w-2.5 h-2.5 rounded-sm-full bg-amber-500 animate-pulse"></span>
-                            Penerimaan Mahasiswa Baru Gelombang 1 Dibuka!
+                {/* Hero Carousel Section */}
+                {heroSliders && heroSliders.length > 0 ? (
+                    <section className="relative bg-emerald-950 min-h-[85vh] flex items-center justify-center text-white overflow-hidden py-20">
+                        {/* Slide Items */}
+                        {heroSliders.map((slide, index) => {
+                            const isActive = index === currentSlideIndex;
+                            return (
+                                <div 
+                                    key={slide.id}
+                                    className={`absolute inset-0 w-full h-full transition-opacity duration-1000 ease-in-out ${isActive ? 'opacity-100 z-10 pointer-events-auto' : 'opacity-0 z-0 pointer-events-none'}`}
+                                    style={{
+                                        backgroundImage: `linear-gradient(rgba(4,47,31,0.85),rgba(2,44,29,0.9)), url(${slide.gambar ? '/storage/' + slide.gambar : '/images/default-banner.jpg'})`,
+                                        backgroundSize: 'cover',
+                                        backgroundPosition: 'center',
+                                    }}
+                                >
+                                    <div className="absolute inset-0 bg-gradient-to-t from-emerald-950/95 via-transparent to-emerald-950/30"></div>
+                                    <div className="relative z-10 h-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col justify-center items-center py-20">
+                                        {slide.badge_text && (
+                                            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-sm bg-emerald-800/90 border border-emerald-600/80 text-emerald-200 text-xs sm:text-sm font-semibold mb-6 shadow-sm backdrop-blur-sm animate-fade-in">
+                                                <span className="w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse"></span>
+                                                {slide.badge_text}
+                                            </div>
+                                        )}
+
+                                        {slide.judul && (
+                                            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold text-white leading-tight mb-6 tracking-tight drop-shadow-md">
+                                                {slide.judul.split(' ').slice(0, -2).join(' ')} <br className="hidden sm:block" />
+                                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-emerald-300">
+                                                    {slide.judul.split(' ').slice(-2).join(' ')}
+                                                </span>
+                                            </h1>
+                                        )}
+
+                                        {slide.subjudul && (
+                                            <p className="text-base sm:text-lg lg:text-xl text-slate-200 mb-10 max-w-3xl mx-auto leading-relaxed drop-shadow">
+                                                {slide.subjudul}
+                                            </p>
+                                        )}
+
+                                        <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
+                                            {slide.text_button_1 && (
+                                                <a href={slide.link_button_1 || '#program'} className="w-full sm:w-auto bg-amber-500 hover:bg-amber-600 text-emerald-950 font-bold px-8 py-4 rounded-sm shadow-lg shadow-amber-500/20 transition hover:-translate-y-0.5 flex items-center justify-center gap-2">
+                                                    <i className="fa-solid fa-graduation-cap"></i> {slide.text_button_1}
+                                                </a>
+                                            )}
+                                            {slide.text_button_2 && (
+                                                <a href={slide.link_button_2 || '#pendaftaran'} className="w-full sm:w-auto bg-transparent text-white font-semibold px-8 py-4 rounded-sm border border-white/80 hover:border-white transition hover:bg-white/10 flex items-center justify-center gap-2">
+                                                    {slide.text_button_2}
+                                                </a>
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+                            );
+                        })}
+
+                        {/* Navigation Arrows */}
+                        {heroSliders.length > 1 && (
+                            <>
+                                <button 
+                                    onClick={prevSlide}
+                                    aria-label="Slide Sebelumnya"
+                                    className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-20 w-11 h-11 sm:w-13 sm:h-13 rounded-full bg-emerald-950/50 hover:bg-emerald-800 text-white flex items-center justify-center backdrop-blur-md border border-white/20 transition-all hover:scale-110 shadow-lg"
+                                >
+                                    <i className="fa-solid fa-chevron-left text-lg"></i>
+                                </button>
+                                <button 
+                                    onClick={nextSlide}
+                                    aria-label="Slide Selanjutnya"
+                                    className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-20 w-11 h-11 sm:w-13 sm:h-13 rounded-full bg-emerald-950/50 hover:bg-emerald-800 text-white flex items-center justify-center backdrop-blur-md border border-white/20 transition-all hover:scale-110 shadow-lg"
+                                >
+                                    <i className="fa-solid fa-chevron-right text-lg"></i>
+                                </button>
+                            </>
+                        )}
+
+                        {/* Slide Indicator Dots */}
+                        {heroSliders.length > 1 && (
+                            <div className="absolute bottom-6 left-0 right-0 z-20 flex justify-center items-center gap-2">
+                                {heroSliders.map((_, idx) => (
+                                    <button
+                                        key={idx}
+                                        onClick={() => setCurrentSlideIndex(idx)}
+                                        aria-label={`Go to slide ${idx + 1}`}
+                                        className={`h-2.5 rounded-full transition-all duration-300 ${idx === currentSlideIndex ? 'w-8 bg-amber-400' : 'w-2.5 bg-white/50 hover:bg-white'}`}
+                                    ></button>
+                                ))}
+                            </div>
+                        )}
+                    </section>
+                ) : (
+                    /* Fallback Static Hero Section */
+                    <section
+                        className="bg-cover bg-center min-h-[85vh] flex items-center justify-center text-white relative py-20"
+                        style={{
+                            backgroundImage: `linear-gradient(rgba(4,47,31,0.85),rgba(2,44,29,0.9)), url(${setting?.hero_bg ? '/storage/' + setting.hero_bg : '/images/default-banner.jpg'})`
+                        }}
+                    >
+                        <div className="absolute inset-0 bg-gradient-to-t from-emerald-950/90 via-transparent to-transparent"></div>
+                        <div className={`relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center transition-all duration-1000 ease-out transform ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
+                            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-sm bg-emerald-800 border border-emerald-600 text-emerald-200 text-xs sm:text-sm font-semibold mb-6 shadow-sm">
+                                <span className="w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse"></span>
+                                Penerimaan Mahasiswa Baru Gelombang 1 Dibuka!
+                            </div>
+                            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold text-white leading-tight mb-6">
+                                {setting?.hero_title ? (
+                                    <>
+                                        {setting.hero_title.split(' ').slice(0, -2).join(' ')} <br className="hidden sm:block" />
+                                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-emerald-300">
+                                            {setting.hero_title.split(' ').slice(-2).join(' ')}
+                                        </span>
+                                    </>
+                                ) : (
+                                    <>
+                                        Membentuk Akademisi Islami <br className="hidden sm:block" />
+                                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-emerald-300">Unggul & Berintegritas</span>
+                                    </>
+                                )}
+                            </h1>
+                            <p className="text-base sm:text-lg lg:text-xl text-slate-200 mb-10 max-w-3xl mx-auto leading-relaxed">
+                                {setting?.hero_subtitle || "Program Pascasarjana Institut Agama Islam Persatuan Islam (IAI PERSIS) Bandung berkomitmen melahirkan intelektual yang kritis, transformatif, berlandaskan nilai luhur Al-Qur'an dan As-Sunnah."}
+                            </p>
+                            <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
+                                <a href="#program" className="w-full sm:w-auto bg-amber-500 hover:bg-amber-600 text-emerald-950 font-bold px-8 py-4 rounded-sm shadow-lg shadow-amber-500/20 transition hover:-translate-y-0.5">
+                                    <i className="fa-solid fa-graduation-cap mr-2"></i> Jelajahi Program Studi
+                                </a>
+                                <a href="#pendaftaran" className="w-full sm:w-auto bg-transparent text-white font-semibold px-8 py-4 rounded-sm border border-white transition hover:bg-white/10">
+                                    Prosedur Pendaftaran
+                                </a>
+                            </div>
                         </div>
-                        <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold text-white leading-tight mb-6">
-                            {setting?.hero_title ? (
-                                <>
-                                    {setting.hero_title.split(' ').slice(0, -2).join(' ')} <br className="hidden sm:block" />
-                                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-emerald-300">
-                                        {setting.hero_title.split(' ').slice(-2).join(' ')}
-                                    </span>
-                                </>
-                            ) : (
-                                <>
-                                    Membentuk Akademisi Islami <br className="hidden sm:block" />
-                                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-emerald-300">Unggul & Berintegritas</span>
-                                </>
-                            )}
-                        </h1>
-                        <p className="text-base sm:text-lg lg:text-xl text-slate-200 mb-10 max-w-3xl mx-auto leading-relaxed">
-                            {setting?.hero_subtitle || "Program Pascasarjana Institut Agama Islam Persatuan Islam (IAI PERSIS) Bandung berkomitmen melahirkan intelektual yang kritis, transformatif, berlandaskan nilai luhur Al-Qur'an dan As-Sunnah."}
-                        </p>
-                        <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
-                            <a href="#program" className="w-full sm:w-auto bg-amber-500 hover:bg-amber-600 text-emerald-950 font-bold px-8 py-4 rounded-sm shadow-lg shadow-amber-500/20 transition hover:-translate-y-0.5">
-                                <i className="fa-solid fa-graduation-cap mr-2"></i> Jelajahi Program Studi
-                            </a>
-                            <a href="#pendaftaran" className="w-full sm:w-auto bg-transparent text-white font-semibold px-8 py-4 rounded-sm border border-white transition hover:bg-white/10">
-                                Prosedur Pendaftaran
-                            </a>
-                        </div>
-                    </div>
-                </section>
+                    </section>
+                )}
 
                 {/* Akses Cepat (Quick Access) */}
                 {quickAccesses && quickAccesses.length > 0 && (
