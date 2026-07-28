@@ -292,12 +292,14 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                                     key={slide.id}
                                     className={`absolute inset-0 w-full h-full transition-opacity duration-1000 ease-in-out ${isActive ? 'opacity-100 z-10 pointer-events-auto' : 'opacity-0 z-0 pointer-events-none'}`}
                                     style={{
-                                        backgroundImage: `linear-gradient(rgba(4,47,31,0.85),rgba(2,44,29,0.9)), url(${slide.gambar ? '/storage/' + slide.gambar : '/images/default-banner.jpg'})`,
+                                        backgroundImage: `url(${slide.gambar ? '/storage/' + slide.gambar : '/images/default-banner.jpg'})`,
                                         backgroundSize: 'cover',
                                         backgroundPosition: 'center',
+                                        backgroundRepeat: 'no-repeat',
                                     }}
                                 >
-                                    <div className="absolute inset-0 bg-gradient-to-t from-emerald-950/95 via-transparent to-emerald-950/30"></div>
+                                    <div className="absolute inset-0 bg-emerald-950/50"></div>
+                                    <div className="absolute inset-0 bg-gradient-to-t from-emerald-950/90 via-transparent to-transparent"></div>
                                     <div className="relative z-10 h-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col justify-center items-center py-20">
                                         {slide.badge_text && (
                                             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-sm bg-emerald-800/90 border border-emerald-600/80 text-emerald-200 text-xs sm:text-sm font-semibold mb-6 shadow-sm backdrop-blur-sm animate-fade-in">
