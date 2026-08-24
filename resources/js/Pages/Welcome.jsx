@@ -110,15 +110,17 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
         { id: 4, nama: 'Survei Kepuasan Mutu', deskripsi: 'Survei Mahasiswa, Dosen & Pengguna', ikon: 'fa-square-poll-vertical', url: '#survei' },
     ];
 
+    const emailDisplay = (umum?.email && !umum.email.includes('pasca')) ? umum.email : 'lpm@iaipibandung.ac.id';
+
     return (
         <>
             <Head title="Lembaga Penjaminan Mutu (LPM) | IAI Persis Bandung" />
             <div className="bg-slate-50 text-slate-800 antialiased font-sans">
                 {/* Top Bar Info */}
-                <div className="bg-emerald-950 text-emerald-100 text-xs py-2 px-4 hidden md:block border-b border-emerald-900/60">
+                <div className="bg-emerald-950 text-emerald-100 text-xs py-2.5 px-4 hidden md:block border-b border-emerald-900/60">
                     <div className="max-w-7xl mx-auto flex justify-between items-center">
                         <div className="flex items-center space-x-6">
-                            <span><i className="fa-solid fa-envelope text-amber-500 mr-1.5"></i> {umum?.email || 'lpm@iaipibandung.ac.id'}</span>
+                            <span><i className="fa-solid fa-envelope text-amber-500 mr-1.5"></i> {emailDisplay}</span>
                             <span><i className="fa-solid fa-phone text-amber-500 mr-1.5"></i> {umum?.telepon || '(022) 5441951'}</span>
                             <span><i className="fa-solid fa-location-dot text-amber-500 mr-1.5"></i> Bojongsoang, Bandung</span>
                         </div>
@@ -136,23 +138,23 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                 {/* Header / Navbar */}
                 <header className="bg-white shadow-md sticky top-0 z-50 transition-all duration-300">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <div className="flex justify-between items-center h-20">
+                        <div className="flex justify-between items-center h-20 gap-4">
                             {/* Logo & Brand Name */}
-                            <Link href="/" className="flex items-center gap-3 group">
-                                <img src="/logo_kampus.png" alt="Logo LPM IAI Persis" className="w-14 h-14 object-contain group-hover:scale-105 transition-transform drop-shadow-md" />
-                                <div>
-                                    <h1 className="font-extrabold text-base sm:text-lg text-emerald-900 leading-none">LEMBAGA PENJAMINAN MUTU</h1>
-                                    <span className="text-[10px] sm:text-xs text-emerald-600 font-bold tracking-widest block mt-1 uppercase">IAI PERSIS BANDUNG</span>
-                                </div>
+                            <Link href="/" className="flex items-center shrink-0 group py-2">
+                                <img 
+                                    src="/logo_lpm.png" 
+                                    alt="Logo LPM IAI Persis Bandung" 
+                                    className="h-10 sm:h-12 md:h-13 w-auto max-w-[210px] sm:max-w-[260px] object-contain group-hover:scale-[1.02] transition-transform drop-shadow-sm" 
+                                />
                             </Link>
 
                             {/* Desktop Navigation Menu */}
-                            <nav className="hidden lg:flex items-center space-x-6">
-                                <Link href="/" className="text-emerald-800 font-semibold border-b-2 border-emerald-800 px-1 py-1">Beranda</Link>
+                            <nav className="hidden lg:flex items-center space-x-5 xl:space-x-7 shrink-0">
+                                <Link href="/" className="text-emerald-800 font-semibold border-b-2 border-emerald-800 px-1 py-1 text-sm xl:text-base">Beranda</Link>
 
                                 {/* Profil Dropdown */}
                                 <div className="relative group">
-                                    <button className="text-slate-600 hover:text-emerald-700 font-medium px-1 py-1 transition flex items-center gap-1">
+                                    <button className="text-slate-600 hover:text-emerald-700 font-medium px-1 py-1 text-sm xl:text-base transition flex items-center gap-1">
                                         Profil LPM <i className="fa-solid fa-chevron-down text-[10px]"></i>
                                     </button>
                                     <div className="absolute top-full left-0 mt-2 w-56 bg-white border border-slate-200 rounded-md shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50">
@@ -167,7 +169,7 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
 
                                 {/* Dokumen SPMI Dropdown */}
                                 <div className="relative group">
-                                    <button className="text-slate-600 hover:text-emerald-700 font-medium px-1 py-1 transition flex items-center gap-1">
+                                    <button className="text-slate-600 hover:text-emerald-700 font-medium px-1 py-1 text-sm xl:text-base transition flex items-center gap-1">
                                         Dokumen SPMI <i className="fa-solid fa-chevron-down text-[10px]"></i>
                                     </button>
                                     <div className="absolute top-full left-0 mt-2 w-56 bg-white border border-slate-200 rounded-md shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50">
@@ -966,13 +968,7 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                         <div className="grid grid-cols-1 md:grid-cols-12 gap-10">
                             <div className="md:col-span-5">
                                 <div className="flex items-center gap-3 mb-6">
-                                    <div className="w-10 h-10 bg-emerald-800 flex items-center justify-center text-white rounded-md">
-                                        <i className="fa-solid fa-shield-halved text-lg text-amber-400"></i>
-                                    </div>
-                                    <div>
-                                        <h3 className="text-lg font-bold text-white tracking-wider">LPM IAI PERSIS BANDUNG</h3>
-                                        <p className="text-xs text-emerald-400 font-semibold">Lembaga Penjaminan Mutu</p>
-                                    </div>
+                                    <img src="/logo_lpm.png" alt="LPM IAI PERSIS BANDUNG" className="h-12 w-auto object-contain bg-white rounded-md p-1.5 shadow-sm" />
                                 </div>
                                 <p className="text-sm text-emerald-200/80 leading-relaxed mb-6">
                                     Lembaga Penjaminan Mutu (LPM) Institut Agama Islam Persatuan Islam (IAI PERSIS) Bandung bertugas mengawal, merencanakan, dan meningkatkan mutu akademik maupun non-akademik secara berkelanjutan berlandaskan siklus PPEPP.

@@ -211,9 +211,7 @@ function SidebarContent() {
         <div className="flex h-full flex-col bg-white select-none">
             {/* Header Instansi */}
             <div className="flex items-center gap-3 border-b border-slate-100 px-6 py-5">
-                <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-slate-50 p-1 ring-1 ring-slate-200/50">
-                    <img src="/logi.jpeg" alt="Logo" className="w-full h-full object-contain rounded" />
-                </div>
+                <img src="/logo_lpm.png" alt="Logo LPM" className="h-10 w-auto object-contain rounded" />
                 <div className="min-w-0">
                     <p className="text-sm font-bold leading-tight text-slate-900 truncate">LPM IAI Persis</p>
                     <p className="text-xs text-slate-500 font-medium truncate">Lembaga Penjaminan Mutu</p>

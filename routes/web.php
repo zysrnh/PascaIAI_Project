@@ -20,9 +20,9 @@ Route::get('/', function () {
         ]
     );
 
-    $umum = \App\Models\PengaturanUmum::firstOrCreate(
-        ['id' => 1],
-        [
+    $umum = \App\Models\PengaturanUmum::first();
+    if (!$umum) {
+        $umum = \App\Models\PengaturanUmum::create([
             'email' => 'lpm@iaipibandung.ac.id',
             'telepon' => '(022) 5441951',
             'alamat' => 'Jl. Ciganitri No.2, Cipagalo, Kec. Bojongsoang, Kabupaten Bandung, Jawa Barat 40287',
@@ -30,8 +30,11 @@ Route::get('/', function () {
             'instagram_url' => 'https://instagram.com',
             'youtube_url' => 'https://youtube.com',
             'twitter_url' => 'https://twitter.com',
-        ]
-    );
+        ]);
+    } else if (str_contains($umum->email ?? '', 'pasca')) {
+        $umum->email = 'lpm@iaipibandung.ac.id';
+        $umum->save();
+    }
 
     $programStudi = \App\Models\ProgramStudi::where('status', 1)->select('id', 'nama', 'jenjang', 'gelar_lulusan', 'deskripsi', 'gambar')->get();
     $sambutan = \App\Models\SambutanPimpinan::first();

@@ -26,26 +26,25 @@ export default function Login({ status, canResetPassword }) {
             {/* Brand panel kiri */}
             <div className="hidden w-[45%] flex-col justify-between bg-emerald-950 p-10 lg:flex xl:p-12">
                 <div className="flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-[5px] bg-white p-1">
-                        <img src="/logi.jpeg" alt="Logo IAI Persis" className="h-full w-full object-contain" />
-                    </div>
-                    <span className="text-sm font-medium text-emerald-200">Pascasarjana IAI Persis Bandung</span>
+                    <img src="/logo_lpm.png" alt="Logo LPM IAI Persis" className="h-10 w-auto object-contain bg-white rounded-md p-1" />
+                    <span className="text-sm font-medium text-emerald-200">LPM IAI Persis Bandung</span>
                 </div>
 
                 <div className="space-y-4">
                     <h1 className="text-3xl font-bold leading-snug text-white xl:text-4xl">
-                        Portal Admin<br />Pascasarjana
+                        Portal Admin<br />Penjaminan Mutu
                     </h1>
                     <p className="max-w-xs text-sm leading-relaxed text-emerald-300/80">
-                        Kelola konten akademik, publikasi, dan layanan Pascasarjana IAI Persis Bandung.
+                        Kelola dokumen SPMI, data akreditasi, instrumen AMI, dan layanan mutu IAI Persis Bandung.
                     </p>
-                    <div className="flex gap-2 pt-2">
-                        <span className="inline-block rounded-[5px] bg-emerald-800/60 px-3 py-1 text-xs font-medium text-emerald-200">Magister PAI</span>
-                        <span className="inline-block rounded-[5px] bg-emerald-800/60 px-3 py-1 text-xs font-medium text-emerald-200">Magister Hukum Keluarga</span>
+                    <div className="flex flex-wrap gap-2 pt-2">
+                        <span className="inline-block rounded-[5px] bg-emerald-800/60 px-3 py-1 text-xs font-medium text-emerald-200">Sistem SPMI</span>
+                        <span className="inline-block rounded-[5px] bg-emerald-800/60 px-3 py-1 text-xs font-medium text-emerald-200">Audit AMI</span>
+                        <span className="inline-block rounded-[5px] bg-emerald-800/60 px-3 py-1 text-xs font-medium text-emerald-200">Akreditasi BAN-PT</span>
                     </div>
                 </div>
 
-                <p className="text-xs text-emerald-700">© {new Date().getFullYear()} IAI Persis Bandung</p>
+                <p className="text-xs text-emerald-700">© {new Date().getFullYear()} LPM IAI Persis Bandung</p>
             </div>
 
             {/* Form panel kanan */}
@@ -53,10 +52,8 @@ export default function Login({ status, canResetPassword }) {
                 <div className="w-full max-w-md">
                     {/* Header mobile */}
                     <div className="mb-10 flex items-center gap-3 lg:hidden">
-                        <div className="flex h-10 w-10 items-center justify-center rounded-[5px] bg-white p-1 shadow-sm ring-1 ring-slate-200">
-                            <img src="/logi.jpeg" alt="Logo IAI Persis" className="h-full w-full object-contain" />
-                        </div>
-                        <span className="text-sm font-medium text-slate-600">Pascasarjana IAI Persis Bandung</span>
+                        <img src="/logo_lpm.png" alt="Logo LPM IAI Persis" className="h-10 w-auto object-contain bg-white rounded-md p-1 shadow-sm ring-1 ring-slate-200" />
+                        <span className="text-sm font-medium text-slate-700">LPM IAI Persis Bandung</span>
                     </div>
 
                     <h2 className="mb-1 text-xl font-bold text-slate-800">Masuk ke Dashboard</h2>
