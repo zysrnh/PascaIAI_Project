@@ -13,17 +13,17 @@ Route::get('/', function () {
     $setting = \App\Models\BerandaSetting::firstOrCreate(
         ['id' => 1],
         [
-            'pmb_gelombang_text' => 'Gelombang I: Ditutup 30 Agustus 2026',
+            'pmb_gelombang_text' => 'Audit Mutu Internal (AMI) Siklus 2026',
             'pmb_hotline_number' => '6282116116133',
-            'pmb_hotline_text' => '+62 821-1611-6133 (Admin)',
-            'pmb_link' => 'https://iaipibdg.sevimaplatform.com/spmbfront'
+            'pmb_hotline_text' => '+62 821-1611-6133 (Helpdesk LPM)',
+            'pmb_link' => '/profil/dokumen-institusi'
         ]
     );
 
     $umum = \App\Models\PengaturanUmum::firstOrCreate(
         ['id' => 1],
         [
-            'email' => 'pascasarjana@iaipibandung.ac.id',
+            'email' => 'lpm@iaipibandung.ac.id',
             'telepon' => '(022) 5441951',
             'alamat' => 'Jl. Ciganitri No.2, Cipagalo, Kec. Bojongsoang, Kabupaten Bandung, Jawa Barat 40287',
             'facebook_url' => 'https://facebook.com',

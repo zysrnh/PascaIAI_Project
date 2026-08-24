@@ -86,25 +86,25 @@ export default function PedomanAkademik({ folders, documents, currentFolder, bre
 
     return (
         <PublicLayout>
-            <Head title="Pedoman Akademik - Pascasarjana IAI Persis Bandung" />
+            <Head title="Pedoman & Instrumen AMI | LPM IAI Persis Bandung" />
 
             {/* Banner Section */}
             <div className="relative w-full h-[350px] md:h-[450px] bg-emerald-950 flex flex-col justify-end">
                 <div className="absolute inset-0">
                     <img 
                         src={pengaturan?.banner_image || "/images/default-banner.jpg"}
-                        alt="Pedoman Akademik Banner" 
+                        alt="Pedoman & Instrumen Mutu Banner" 
                         className="w-full h-full object-cover opacity-60"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-emerald-950 via-emerald-950/40 to-transparent"></div>
                 </div>
                 <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pb-12 animate-fade-in-up">
                     <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-2 drop-shadow-md tracking-tight">
-                        Pedoman Akademik
+                        Pedoman & Instrumen AMI
                     </h1>
                     <div className="w-20 h-1.5 bg-amber-500 rounded-sm mb-4"></div>
                     <p className="text-white/90 max-w-2xl text-lg md:text-xl leading-relaxed drop-shadow">
-                        {pengaturan?.deskripsi || 'Dokumen panduan penyelenggaraan pendidikan dan aturan akademik Pascasarjana IAI Persis Bandung.'}
+                        {pengaturan?.deskripsi || 'Dokumen panduan, instrumen audit mutu internal, dan petunjuk teknis penjaminan mutu IAI Persis Bandung.'}
                     </p>
                 </div>
             </div>

@@ -25,8 +25,8 @@ export default function AuthenticatedLayout({ header, children }) {
                                         <img src="/logi.jpeg" alt="Logo" className="w-9 h-9 object-contain bg-white rounded-[5px] p-0.5" />
                                     </div>
                                     <div className="hidden sm:block">
-                                        <p className="text-sm font-bold leading-tight text-white">IAI Persis</p>
-                                        <p className="text-[11px] text-emerald-300">Pascasarjana Bandung</p>
+                                        <p className="text-sm font-bold leading-tight text-white">LPM IAI Persis</p>
+                                        <p className="text-[11px] text-emerald-300">Lembaga Penjaminan Mutu</p>
                                     </div>
                                 </Link>
                             </div>

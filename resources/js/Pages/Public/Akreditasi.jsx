@@ -117,7 +117,7 @@ export default function Akreditasi({ institusi, prodis, riwayats, pengaturan }) 
 
     return (
         <PublicLayout>
-            <Head title="Akreditasi | Pascasarjana IAI Persis Bandung" />
+            <Head title="Data Akreditasi BAN-PT & LAM | LPM IAI Persis Bandung" />
             <style>{`
                 @keyframes fadeInUp {
                     from { opacity: 0; transform: translateY(15px); }
@@ -140,7 +140,7 @@ export default function Akreditasi({ institusi, prodis, riwayats, pengaturan }) 
                 </div>
                 <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pb-12">
                     <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-2 drop-shadow-md">
-                        Akreditasi Institusi
+                        Akreditasi Institusi & Program Studi
                     </h1>
                     <div className="w-20 h-1.5 bg-amber-500 rounded-sm mb-4"></div>
                     {pengaturan?.deskripsi && (
@@ -153,8 +153,8 @@ export default function Akreditasi({ institusi, prodis, riwayats, pengaturan }) 
 
             {/* Breadcrumb Navigation */}
             <Breadcrumb items={[
-                { label: 'Tentang Kampus' },
-                { label: 'Akreditasi' }
+                { label: 'Penjaminan Mutu' },
+                { label: 'Status & Data Akreditasi' }
             ]} />
 
             <div className="py-16 bg-slate-50 min-h-screen">
@@ -164,7 +164,7 @@ export default function Akreditasi({ institusi, prodis, riwayats, pengaturan }) 
                     <div className="text-center mb-16 animate-fade-in-up">
                         <h2 className="text-3xl font-extrabold text-emerald-950 mb-4">Status & Peringkat Akreditasi</h2>
                         <p className="text-slate-600 max-w-3xl mx-auto">
-                            Program Pascasarjana IAI Persis Bandung berkomitmen penuh terhadap penjaminan mutu akademik yang diwujudkan melalui perolehan status akreditasi resmi dari lembaga berwenang.
+                            Lembaga Penjaminan Mutu (LPM) IAI Persis Bandung berkomitmen penuh terhadap akuntabilitas dan penjaminan mutu eksternal yang diwujudkan melalui perolehan status akreditasi resmi dari BAN-PT dan Lembaga Akreditasi Mandiri (LAM).
                         </p>
                     </div>
 

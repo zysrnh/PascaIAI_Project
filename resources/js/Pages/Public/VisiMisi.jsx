@@ -19,7 +19,7 @@ export default function VisiMisi({ visimisi }) {
 
     return (
         <PublicLayout>
-            <Head title="Visi, Misi & Tujuan | Pascasarjana IAI Persis Bandung" />
+            <Head title="Visi, Misi & Tujuan | LPM IAI Persis Bandung" />
 
             {/* Hero Section / Banner - Konsisten dengan halaman lain */}
             <div className="relative w-full h-[350px] md:h-[450px] bg-emerald-950 flex flex-col justify-end">
@@ -33,7 +33,7 @@ export default function VisiMisi({ visimisi }) {
                 </div>
                 <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pb-12">
                     <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-2 drop-shadow-md">
-                        Visi, Misi & Tujuan
+                        Visi, Misi & Tujuan Mutu
                     </h1>
                     <div className="w-20 h-1.5 bg-amber-500 rounded-sm mb-4"></div>
                     {data.deskripsi_banner && (
@@ -46,7 +46,7 @@ export default function VisiMisi({ visimisi }) {
 
             {/* Breadcrumb Navigation */}
             <Breadcrumb items={[
-                { label: 'Profil' },
+                { label: 'Profil LPM' },
                 { label: 'Visi, Misi & Tujuan' }
             ]} />
 

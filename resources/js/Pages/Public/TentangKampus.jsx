@@ -21,21 +21,21 @@ export default function TentangKampus({ tentang }) {
     const videoId = getYoutubeId(tentang?.video_url);
     return (
         <PublicLayout>
-            <Head title="Tentang Kampus | Pascasarjana IAI Persis Bandung" />
+            <Head title="Tentang LPM | Lembaga Penjaminan Mutu IAI Persis Bandung" />
 
             {/* Hero Section / Banner */}
             <div className="relative w-full h-[350px] md:h-[450px] bg-emerald-950 flex flex-col justify-end">
                 <div className="absolute inset-0">
                     <img 
                         src={tentang?.gambar_banner || "/images/default-banner.jpg"} 
-                        alt="Gedung Kampus" 
+                        alt="LPM IAI Persis" 
                         className="w-full h-full object-cover opacity-60"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-emerald-950 via-emerald-950/40 to-transparent"></div>
                 </div>
                 <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pb-12">
                     <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-2 drop-shadow-md">
-                        {tentang?.judul || 'Tentang Pascasarjana'}
+                        {tentang?.judul || 'Tentang Lembaga Penjaminan Mutu (LPM)'}
                     </h1>
                     <div className="w-20 h-1.5 bg-amber-500 rounded-sm-full mb-4"></div>
                     {tentang?.deskripsi_banner && (
@@ -48,8 +48,8 @@ export default function TentangKampus({ tentang }) {
 
             {/* Breadcrumb Navigation */}
             <Breadcrumb items={[
-                { label: 'Profil' },
-                { label: 'Tentang Kampus' }
+                { label: 'Profil LPM' },
+                { label: 'Tentang LPM' }
             ]} />
 
             {/* Content Section */}

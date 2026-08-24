@@ -77,7 +77,7 @@ export default function DokumenInstitusi({ dokumens, pengaturan }) {
 
     return (
         <PublicLayout>
-            <Head title="Dokumen Institusi | Pascasarjana IAI Persis Bandung" />
+            <Head title="Dokumen Mutu & SPMI | LPM IAI Persis Bandung" />
             <style>{`
                 @keyframes fadeInUp {
                     from { opacity: 0; transform: translateY(15px); }
@@ -93,14 +93,14 @@ export default function DokumenInstitusi({ dokumens, pengaturan }) {
                 <div className="absolute inset-0">
                     <img 
                         src={bannerImg} 
-                        alt="Dokumen Institusi Banner" 
+                        alt="Dokumen SPMI Banner" 
                         className="w-full h-full object-cover opacity-60"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-emerald-950 via-emerald-950/40 to-transparent"></div>
                 </div>
                 <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pb-12">
                     <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-2 drop-shadow-md">
-                        Dokumen Institusi
+                        Dokumen Mutu & SPMI
                     </h1>
                     <div className="w-20 h-1.5 bg-amber-500 rounded-sm mb-4"></div>
                     {pengaturan?.deskripsi && (
@@ -113,8 +113,8 @@ export default function DokumenInstitusi({ dokumens, pengaturan }) {
 
             {/* Breadcrumb Navigation */}
             <Breadcrumb items={[
-                { label: 'Tentang Kampus' },
-                { label: 'Dokumen Institusi' }
+                { label: 'Dokumen SPMI' },
+                { label: 'Pusat Unduhan Dokumen Mutu' }
             ]} />
 
             {/* Main Content */}
@@ -122,9 +122,9 @@ export default function DokumenInstitusi({ dokumens, pengaturan }) {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                     
                     <div className="text-center mb-12">
-                        <h2 className="text-3xl font-extrabold text-emerald-950 mb-4">Pusat Unduhan Dokumen</h2>
+                        <h2 className="text-3xl font-extrabold text-emerald-950 mb-4">Pusat Unduhan Dokumen SPMI</h2>
                         <p className="text-slate-600 max-w-3xl mx-auto">
-                            Akses berbagai dokumen legal, panduan akademik, serta laporan resmi terkait pengelolaan dan pengembangan Program Pascasarjana IAI Persis Bandung.
+                            Akses berbagai dokumen legal, Kebijakan SPMI, Manual Mutu (PPEPP), Standar SPMI, serta SOP & Formulir resmi Lembaga Penjaminan Mutu (LPM) IAI Persis Bandung.
                         </p>
                     </div>
 

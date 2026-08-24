@@ -41,64 +41,68 @@ const navigationSections = [
         ]
     },
     {
-        title: 'Manajemen Konten',
+        title: 'Penjaminan Mutu & SPMI',
         items: [
             {
                 type: 'group',
-                name: 'Profil Kampus',
+                name: 'Profil LPM',
                 icon: Landmark,
                 children: [
-                    { type: 'link', name: 'Tentang Kampus', href: '/admin/profil/tentang-kampus', viewHref: '/profil/tentang-kampus', icon: Info },
+                    { type: 'link', name: 'Tentang LPM', href: '/admin/profil/tentang-kampus', viewHref: '/profil/tentang-kampus', icon: Info },
                     { type: 'link', name: 'Visi, Misi & Tujuan', href: '/admin/profil/visi-misi', viewHref: '/profil/visi-misi', icon: Target },
-                    { type: 'link', name: 'Sambutan Pimpinan', href: '/admin/profil/sambutan-pimpinan', viewHref: '/profil/sambutan-pimpinan', icon: MessageSquare },
-                    { type: 'link', name: 'Struktur Organisasi', href: '/admin/profil/struktur-organisasi', viewHref: '/profil/struktur-organisasi', icon: Network },
-                    { type: 'link', name: 'Dokumen Institusi', href: '/admin/profil/dokumen-institusi', viewHref: '/profil/dokumen-institusi', icon: FileText },
-                    { type: 'link', name: 'Akreditasi', href: '/admin/profil/akreditasi', viewHref: '/profil/akreditasi', icon: Award },
+                    { type: 'link', name: 'Sambutan Ketua LPM', href: '/admin/profil/sambutan-pimpinan', viewHref: '/profil/sambutan-pimpinan', icon: MessageSquare },
+                    { type: 'link', name: 'Struktur Organisasi & Tim', href: '/admin/profil/struktur-organisasi', viewHref: '/profil/struktur-organisasi', icon: Network },
                 ],
             },
             {
                 type: 'group',
-                name: 'Fakultas',
-                icon: Building2,
+                name: 'Dokumen SPMI & Akreditasi',
+                icon: FileText,
                 children: [
-                    { type: 'link', name: 'Daftar Fakultas', href: '/admin/fakultas', viewHref: '/fakultas/daftarfakultas', icon: Building2 },
-                    { type: 'link', name: 'Program Studi', href: '/admin/program-studi', viewHref: '/fakultas/programstudi', icon: BookOpen },
-                    { type: 'link', name: 'Data Dosen', href: '/admin/fakultas/dosen', viewHref: '/fakultas/dosen', icon: Users },
-                    { type: 'link', name: 'Prospek Karir', href: '/admin/fakultas/prospek-karir', viewHref: '/fakultas/prospek-karir', icon: Briefcase },
+                    { type: 'link', name: 'Dokumen Mutu / SPMI', href: '/admin/profil/dokumen-institusi', viewHref: '/profil/dokumen-institusi', icon: FileText },
+                    { type: 'link', name: 'Data Akreditasi (BAN-PT)', href: '/admin/profil/akreditasi', viewHref: '/profil/akreditasi', icon: Award },
                 ],
             },
             {
                 type: 'group',
-                name: 'Akademik',
+                name: 'Audit Mutu Internal (AMI)',
                 icon: GraduationCap,
                 children: [
-                    { type: 'link', name: 'Pedoman Akademik', href: '/admin/akademik/pedoman', viewHref: '/akademik/pedoman', icon: FileText },
-                    { type: 'link', name: 'Kalender Akademik', href: '/admin/akademik/kalender', viewHref: '/akademik/kalender-akademik', icon: Calendar },
-                    { type: 'link', name: 'Kurikulum', href: '/admin/akademik/kurikulum', viewHref: '/akademik/kurikulum', icon: Layers },
-                    { type: 'link', name: 'Jadwal Kuliah', href: '/admin/akademik/jadwal', viewHref: '/akademik/jadwal-perkuliahan', icon: Clock },
-                    { type: 'link', name: 'Sistem Akademik', href: '/admin/akademik/sistem', viewHref: '/akademik/sistem-akademik', icon: Laptop },
+                    { type: 'link', name: 'Pedoman & Instrumen AMI', href: '/admin/akademik/pedoman', viewHref: '/akademik/pedoman', icon: FileText },
+                    { type: 'link', name: 'Jadwal & Siklus AMI', href: '/admin/akademik/jadwal', viewHref: '/akademik/jadwal-perkuliahan', icon: Clock },
+                    { type: 'link', name: 'Kalender Mutu & AMI', href: '/admin/akademik/kalender', viewHref: '/akademik/kalender-akademik', icon: Calendar },
+                    { type: 'link', name: 'Standar Mutu / Kurikulum', href: '/admin/akademik/kurikulum', viewHref: '/akademik/kurikulum', icon: Layers },
                 ],
             },
             {
                 type: 'group',
-                name: 'Penelitian & Pengabdian',
-                icon: Lightbulb,
+                name: 'Data Unit & Program Studi',
+                icon: Building2,
                 children: [
-                    { type: 'link', name: 'LPPM', href: '/admin/lppm/lppm', viewHref: '/lppm/lppm', icon: Landmark },
-                    { type: 'link', name: 'Penelitian', href: '/admin/lppm/penelitian', viewHref: '/lppm/penelitian', icon: FlaskConical },
-                    { type: 'link', name: 'Pengabdian Masyarakat', href: '/admin/lppm/pengabdian', viewHref: '/lppm/pengabdian', icon: HeartHandshake },
-                    { type: 'link', name: 'Publikasi', href: '/admin/lppm/publikasi', viewHref: '/lppm/publikasi', icon: BookMarked },
-                    { type: 'link', name: 'Repository', href: '/admin/lppm/repository', viewHref: '/lppm/repository', icon: Archive },
+                    { type: 'link', name: 'Daftar Fakultas / Unit', href: '/admin/fakultas', viewHref: '/fakultas/daftarfakultas', icon: Building2 },
+                    { type: 'link', name: 'Program Studi & Mutu', href: '/admin/program-studi', viewHref: '/fakultas/programstudi', icon: BookOpen },
+                    { type: 'link', name: 'Data Auditor & Dosen', href: '/admin/fakultas/dosen', viewHref: '/fakultas/dosen', icon: Users },
                 ],
             },
-            { type: 'link', name: 'Berita', href: '/admin/berita', icon: Newspaper },
+            {
+                type: 'group',
+                name: 'Survei & Repository Mutu',
+                icon: Lightbulb,
+                children: [
+                    { type: 'link', name: 'Survei Mutu Penelitian', href: '/admin/lppm/penelitian', viewHref: '/lppm/penelitian', icon: FlaskConical },
+                    { type: 'link', name: 'Standar Mutu PkM', href: '/admin/lppm/pengabdian', viewHref: '/lppm/pengabdian', icon: HeartHandshake },
+                    { type: 'link', name: 'Standar Publikasi Jurnal', href: '/admin/lppm/publikasi', viewHref: '/lppm/publikasi', icon: BookMarked },
+                    { type: 'link', name: 'Repository Laporan Mutu', href: '/admin/lppm/repository', viewHref: '/lppm/repository', icon: Archive },
+                ],
+            },
+            { type: 'link', name: 'Berita & Agenda Mutu', href: '/admin/berita', icon: Newspaper },
         ]
     },
     {
         title: 'Sistem & Konfigurasi',
         items: [
-            { type: 'link', name: 'Pengaturan Beranda', href: '/admin/beranda', icon: Settings },
-            { type: 'link', name: 'Konsultasi PMB', href: '/konsultasi', icon: MessageSquare },
+            { type: 'link', name: 'Pengaturan Beranda & Banner', href: '/admin/beranda', icon: Settings },
+            { type: 'link', name: 'Pengaduan & Helpdesk Mutu', href: '/konsultasi', icon: MessageSquare },
             { type: 'link', name: 'Manajemen User', href: '/users', icon: Users },
         ]
     }
@@ -128,7 +132,7 @@ function NavLink({ item, currentUrl, nested = false }) {
         <div className={`group/item flex items-center rounded-lg transition-all duration-200 ${isActive ? 'bg-emerald-50/80 font-semibold' : 'hover:bg-slate-50'}`}>
             <Link
                 href={item.href}
-                    className={`flex flex-1 items-center justify-between gap-3 py-2 px-3 text-sm transition-transform duration-200 ${
+                className={`flex flex-1 items-center justify-between gap-3 py-2 px-3 text-sm transition-transform duration-200 ${
                     isActive 
                         ? 'text-emerald-700 font-semibold' 
                         : nested 
@@ -211,8 +215,8 @@ function SidebarContent() {
                     <img src="/logi.jpeg" alt="Logo" className="w-full h-full object-contain rounded" />
                 </div>
                 <div className="min-w-0">
-                    <p className="text-sm font-bold leading-tight text-slate-900 truncate">IAI Persis</p>
-                    <p className="text-xs text-slate-500 font-medium truncate">Pascasarjana Bandung</p>
+                    <p className="text-sm font-bold leading-tight text-slate-900 truncate">LPM IAI Persis</p>
+                    <p className="text-xs text-slate-500 font-medium truncate">Lembaga Penjaminan Mutu</p>
                 </div>
             </div>
 

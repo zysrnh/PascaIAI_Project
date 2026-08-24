@@ -91,21 +91,21 @@ export default function StrukturOrganisasi({ organisasi, jabatanTree, pengaturan
 
     return (
         <PublicLayout>
-            <Head title="Struktur Organisasi | Pascasarjana IAI Persis Bandung" />
+            <Head title="Struktur Organisasi & Tim | LPM IAI Persis Bandung" />
 
             {/* Hero Section / Banner */}
             <div className="relative w-full h-[350px] md:h-[450px] bg-emerald-950 flex flex-col justify-end">
                 <div className="absolute inset-0">
                     <img 
                         src={bannerImg} 
-                        alt="Struktur Organisasi Banner" 
+                        alt="Struktur Organisasi LPM Banner" 
                         className="w-full h-full object-cover opacity-60"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-emerald-950 via-emerald-950/40 to-transparent"></div>
                 </div>
                 <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pb-12">
                     <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-2 drop-shadow-md">
-                        Struktur Organisasi
+                        Struktur Organisasi & Tim Mutu
                     </h1>
                     <div className="w-20 h-1.5 bg-amber-500 rounded-sm mb-4"></div>
                     {pengaturan?.deskripsi && (
@@ -118,8 +118,8 @@ export default function StrukturOrganisasi({ organisasi, jabatanTree, pengaturan
 
             {/* Breadcrumb Navigation */}
             <Breadcrumb items={[
-                { label: 'Profil' },
-                { label: 'Struktur Organisasi' }
+                { label: 'Profil LPM' },
+                { label: 'Struktur Organisasi & Tim' }
             ]} />
 
             {/* Main Content */}
@@ -127,9 +127,9 @@ export default function StrukturOrganisasi({ organisasi, jabatanTree, pengaturan
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                     
                     <div className="text-center mb-16">
-                        <h2 className="text-3xl font-extrabold text-emerald-950 mb-4">Struktur Organisasi</h2>
+                        <h2 className="text-3xl font-extrabold text-emerald-950 mb-4">Struktur Organisasi & Tim Auditor Mutu</h2>
                         <p className="text-slate-600 max-w-2xl mx-auto">
-                            Susunan pengelola Program Pascasarjana IAI Persis Bandung yang berkomitmen untuk menyelenggarakan pendidikan dan pelayanan akademik terbaik.
+                            Susunan pengelola Lembaga Penjaminan Mutu (LPM) IAI Persis Bandung dan Gugus Kendali Mutu yang berkomitmen mengawal standar mutu institusi.
                         </p>
                     </div>
 
