@@ -1,9 +1,9 @@
 :root {
-    --pasca-darkest: #344E41;
-    --pasca-dark: #3A5A40;
-    --pasca-primary: #588157;
-    --pasca-sage: #A3B18A;
-    --pasca-light: #DAD7CD;
+    --pasca-darkest: #0F2E24;
+    --pasca-dark: #1F4D3A;
+    --pasca-primary: #4F8F75;
+    --pasca-sage: #9FC3B2;
+    --pasca-light: #E7F1EC;
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');

@@ -12,26 +12,26 @@ export default {
 
     theme: {
         extend: {
-            colors: {
+                        colors: {
                 emerald: {
-                    50: '#F5F4F0',
-                    100: '#DAD7CD',
-                    200: '#BFCAB0',
-                    300: '#A3B18A',
-                    400: '#7D9B70',
-                    500: '#588157',
-                    600: '#4B704A',
-                    700: '#3F5E3E',
-                    800: '#3A5A40',
-                    900: '#344E41',
-                    950: '#22332B',
+                    50: '#F4F8F6',
+                    100: '#E7F1EC',
+                    200: '#CBE0D6',
+                    300: '#9FC3B2',
+                    400: '#71A892',
+                    500: '#4F8F75',
+                    600: '#3D7760',
+                    700: '#2D5F4C',
+                    800: '#1F4D3A',
+                    900: '#153D2F',
+                    950: '#0F2E24',
                 },
                 pasca: {
-                    darkest: '#344E41',
-                    dark: '#3A5A40',
-                    primary: '#588157',
-                    sage: '#A3B18A',
-                    light: '#DAD7CD',
+                    darkest: '#0F2E24',
+                    dark: '#1F4D3A',
+                    primary: '#4F8F75',
+                    sage: '#9FC3B2',
+                    light: '#E7F1EC',
                 },
             },
             fontFamily: {

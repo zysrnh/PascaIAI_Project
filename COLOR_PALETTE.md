@@ -1,32 +1,11 @@
-# Color Palette Resmi — Pascasarjana IAI Persis Bandung
+# Color Palette Resmi — Deep Forest & Eucalyptus
 
-Palet warna earth-tone bernuansa forest dan sage green yang digunakan pada antarmuka website Program Pascasarjana (Magister S2) Institut Agama Islam Persatuan Islam (IAI Persis) Bandung.
+Palet warna premium bertema **Deep Forest, Moss Shadow, Eucalyptus, Sage Mist, dan Pale Lichen** yang digunakan di seluruh antarmuka website Program Studi KPI / IAI Persis Bandung.
 
 | Swatch | Name | HEX | RGB | Tailwind Class | Penggunaan Utama |
 | :---: | :--- | :---: | :---: | :--- | :--- |
-| ![#344E41](https://via.placeholder.com/20/344E41/344E41.png) | **Darkest Forest** | `#344E41` | `rgb(52, 78, 65)` | `bg-pasca-darkest`, `text-pasca-darkest` | Background gelap, header, footer |
-| ![#3A5A40](https://via.placeholder.com/20/3A5A40/3A5A40.png) | **Hunter Green** | `#3A5A40` | `rgb(58, 90, 64)` | `bg-pasca-dark`, `text-pasca-dark` | Hover states, aksen kontras |
-| ![#588157](https://via.placeholder.com/20/588157/588157.png) | **Fern Primary** | `#588157` | `rgb(88, 129, 87)` | `bg-pasca-primary`, `text-pasca-primary` | Tombol CTA utama, link aktif |
-| ![#A3B18A](https://via.placeholder.com/20/A3B18A/A3B18A.png) | **Sage Green** | `#A3B18A` | `rgb(163, 177, 138)` | `bg-pasca-sage`, `text-pasca-sage` | Border, badge, tags, divider |
-| ![#DAD7CD](https://via.placeholder.com/20/DAD7CD/DAD7CD.png) | **Warm Cream / Light** | `#DAD7CD` | `rgb(218, 215, 205)` | `bg-pasca-light`, `text-pasca-light` | Background kartu, background netral |
-
-### Cara Menggunakan di Tailwind:
-```jsx
-// Background & teks
-<div className="bg-pasca-darkest text-white p-6">
-    <span className="text-pasca-sage uppercase font-bold text-xs">Program Pascasarjana</span>
-    <h2 className="text-2xl font-bold">Magister S2 IAI Persis Bandung</h2>
-    <button className="bg-pasca-primary hover:bg-pasca-dark text-white px-4 py-2 rounded-sm">
-        Daftar Sekarang
-    </button>
-</div>
-```
-
-### Cara Menggunakan di CSS / Inline:
-```css
-var(--pasca-darkest)
-var(--pasca-dark)
-var(--pasca-primary)
-var(--pasca-sage)
-var(--pasca-light)
-```
+| ![#0F2E24](https://via.placeholder.com/20/0F2E24/0F2E24.png) | **Deep Forest** | `#0F2E24` | `rgb(15, 47, 36)` | `bg-emerald-950`, `bg-pasca-darkest` | Hero banner, topbar, footer, judul utama |
+| ![#1F4D3A](https://via.placeholder.com/20/1F4D3A/1F4D3A.png) | **Moss Shadow** | `#1F4D3A` | `rgb(31, 77, 58)` | `bg-emerald-800`, `bg-pasca-dark` | Header container, hover state, card header |
+| ![#4F8F75](https://via.placeholder.com/20/4F8F75/4F8F75.png) | **Eucalyptus** | `#4F8F75` | `rgb(79, 143, 117)` | `bg-emerald-600`, `bg-pasca-primary` | Tombol CTA utama, icon sorotan, link aktif |
+| ![#9FC3B2](https://via.placeholder.com/20/9FC3B2/9FC3B2.png) | **Sage Mist** | `#9FC3B2` | `rgb(159, 195, 178)` | `bg-emerald-300`, `border-pasca-sage` | Border kartu, divider, badge secondary |
+| ![#E7F1EC](https://via.placeholder.com/20/E7F1EC/E7F1EC.png) | **Pale Lichen** | `#E7F1EC` | `rgb(231, 241, 236)` | `bg-emerald-50`, `bg-pasca-light` | Surface kartu, background netral sejuk |

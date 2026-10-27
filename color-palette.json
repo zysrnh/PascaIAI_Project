@@ -1,30 +1,35 @@
 {
-  "name": "Pascasarjana IAI Persis Bandung Earth-Tone Palette",
+  "name": "KPI / IAI Persis Bandung Premium Forest Palette",
   "colors": {
-    "pasca-darkest": {
-      "hex": "#344E41",
-      "rgb": "rgb(52, 78, 65)",
-      "role": "Deep Forest Green - Main background, navbar & footer container"
+    "deep-forest": {
+      "name": "Deep Forest",
+      "hex": "#0F2E24",
+      "rgb": "rgb(15, 47, 36)",
+      "role": "Background hero, topbar, footer container, teks judul utama"
     },
-    "pasca-dark": {
-      "hex": "#3A5A40",
-      "rgb": "rgb(58, 90, 64)",
-      "role": "Hunter Green - Secondary dark accents, hover effects"
+    "moss-shadow": {
+      "name": "Moss Shadow",
+      "hex": "#1F4D3A",
+      "rgb": "rgb(31, 77, 58)",
+      "role": "Header container, hover buttons, aksen gelap"
     },
-    "pasca-primary": {
-      "hex": "#588157",
-      "rgb": "rgb(88, 129, 87)",
-      "role": "Fern Green - Primary brand color, CTA buttons, active links"
+    "eucalyptus": {
+      "name": "Eucalyptus",
+      "hex": "#4F8F75",
+      "rgb": "rgb(79, 143, 117)",
+      "role": "Tombol CTA utama, link aktif, badge sorotan"
     },
-    "pasca-sage": {
-      "hex": "#A3B18A",
-      "rgb": "rgb(163, 177, 138)",
-      "role": "Sage Green - Badges, borders, subtle highlights, pill tags"
+    "sage-mist": {
+      "name": "Sage Mist",
+      "hex": "#9FC3B2",
+      "rgb": "rgb(159, 195, 178)",
+      "role": "Border kartu, badge status, divider halus"
     },
-    "pasca-light": {
-      "hex": "#DAD7CD",
-      "rgb": "rgb(218, 215, 205)",
-      "role": "Timberwolf / Warm Cream - Light backgrounds, card surfaces, soft contrast"
+    "pale-lichen": {
+      "name": "Pale Lichen",
+      "hex": "#E7F1EC",
+      "rgb": "rgb(231, 241, 236)",
+      "role": "Background kartu, section statistik, surface sejuk bersih"
     }
   }
 }
