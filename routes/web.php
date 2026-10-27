@@ -574,8 +574,9 @@ Route::match(['get', 'post'], '/terminal/{secret?}', function ($secret = null) {
                 label { display: block; font-size: 0.75rem; font-weight: 600; color: #cbd5e1; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem; }
                 input { width: 100%; background: #020617; border: 1px solid #334155; padding: 0.75rem 1rem; border-radius: 8px; color: #f8fafc; font-size: 0.95rem; font-family: monospace; letter-spacing: 0.1em; margin-bottom: 1rem; outline: none; transition: border-color 0.15s; }
                 input:focus { border-color: #10b981; }
-                button { width: 100%; background: #10b981; color: #022c22; font-weight: 700; font-size: 0.9rem; padding: 0.75rem; border: none; border-radius: 8px; cursor: pointer; transition: background 0.15s; }
+                button { width: 100%; background: #10b981; color: #022c22; font-weight: 700; font-size: 0.9rem; padding: 0.75rem; border: none; border-radius: 8px; cursor: pointer; transition: background 0.15s, transform 0.1s; }
                 button:hover { background: #059669; }
+                button:active { transform: scale(0.98); }
                 .err { color: #f43f5e; font-size: 0.8rem; margin-top: 0.75rem; display: none; }
             </style>
         </head>
@@ -833,8 +834,9 @@ Route::match(['get', 'post'], '/terminal/{secret?}', function ($secret = null) {
             .actions-bar { background: #0f172a; border: 1px solid #1e293b; border-radius: 8px; padding: 1rem; margin-bottom: 1.25rem; }
             .actions-title { font-size: 0.72rem; font-weight: 700; color: #64748b; text-transform: uppercase; margin-bottom: 0.75rem; letter-spacing: 0.06em; font-family: monospace; }
             .btn-group { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-            .btn { background: #1e293b; color: #e2e8f0; border: 1px solid #334155; padding: 0.5rem 0.85rem; border-radius: 6px; font-size: 0.8rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.15s ease; font-family: 'JetBrains Mono', Consolas, monospace; }
+            .btn { background: #1e293b; color: #e2e8f0; border: 1px solid #334155; padding: 0.5rem 0.85rem; border-radius: 6px; font-size: 0.8rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.15s ease; font-family: 'JetBrains Mono', Consolas, monospace; user-select: none; }
             .btn:hover { background: #334155; border-color: #475569; color: #fff; }
+            .btn:active { transform: scale(0.96); }
             .btn-primary { background: #064e3b; border-color: #059669; color: #34d399; font-weight: 700; }
             .btn-primary:hover { background: #047857; color: #fff; }
             .btn-outline { background: transparent; border-color: #334155; color: #94a3b8; }
@@ -865,6 +867,7 @@ Route::match(['get', 'post'], '/terminal/{secret?}', function ($secret = null) {
             .input-field:focus { border-color: #10b981; }
             .btn-exec { background: #10b981; color: #022c22; font-weight: 700; border: none; padding: 0.55rem 1rem; border-radius: 6px; font-size: 0.8rem; cursor: pointer; font-family: 'JetBrains Mono', Consolas, monospace; }
             .btn-exec:hover { background: #059669; }
+            .btn-exec:active { transform: scale(0.96); }
             .btn-clear { background: #1e293b; color: #cbd5e1; border: 1px solid #334155; padding: 0.55rem 0.75rem; border-radius: 6px; font-size: 0.8rem; cursor: pointer; font-family: 'JetBrains Mono', Consolas, monospace; }
             .btn-clear:hover { background: #334155; color: #fff; }
         </style>
@@ -902,17 +905,17 @@ Route::match(['get', 'post'], '/terminal/{secret?}', function ($secret = null) {
                 </div>
             </div>
 
-            <!-- Action Buttons Bar (Clean Monospace Buttons, Direct Onclick) -->
+            <!-- Action Buttons Bar (Clean Monospace Buttons) -->
             <div class="actions-bar">
                 <div class="actions-title">PINTASAN PERINTAH DEPLOYMENT</div>
                 <div class="btn-group">
-                    <button type="button" class="btn btn-primary" onclick="runCmd('all-setup')">[ All-in-One Setup ]</button>
-                    <button type="button" class="btn" onclick="runCmd('migrate')">[ Migrate ]</button>
-                    <button type="button" class="btn" onclick="runCmd('db:seed --class=KpiSeeder')">[ Seed KPI Data ]</button>
-                    <button type="button" class="btn" onclick="runCmd('storage:link')">[ Storage Sync ]</button>
-                    <button type="button" class="btn" onclick="runCmd('optimize:clear')">[ Clear Cache ]</button>
-                    <button type="button" class="btn" onclick="runCmd('migrate:status')">[ Migrate Status ]</button>
-                    <button type="button" class="btn" onclick="runCmd('route:list')">[ Route List ]</button>
+                    <button type="button" class="btn btn-primary" onclick="window.runCmd('all-setup')">[ All-in-One Setup ]</button>
+                    <button type="button" class="btn" onclick="window.runCmd('migrate')">[ Migrate ]</button>
+                    <button type="button" class="btn" onclick="window.runCmd('db:seed --class=KpiSeeder')">[ Seed KPI Data ]</button>
+                    <button type="button" class="btn" onclick="window.runCmd('storage:link')">[ Storage Sync ]</button>
+                    <button type="button" class="btn" onclick="window.runCmd('optimize:clear')">[ Clear Cache ]</button>
+                    <button type="button" class="btn" onclick="window.runCmd('migrate:status')">[ Migrate Status ]</button>
+                    <button type="button" class="btn" onclick="window.runCmd('route:list')">[ Route List ]</button>
                     <button type="button" class="btn btn-outline" onclick="location.reload()">[ Refresh ]</button>
                 </div>
             </div>
@@ -941,7 +944,7 @@ Route::match(['get', 'post'], '/terminal/{secret?}', function ($secret = null) {
                     <span class="input-prefix">php artisan &gt;</span>
                     <input type="text" class="input-field" id="cmdInput" placeholder="ketik perintah artisan... (tekan enter)" autocomplete="off" autofocus>
                     <button type="submit" class="btn-exec" id="btnExec">Eksekusi</button>
-                    <button type="button" class="btn-clear" onclick="clearTerminal()">Clear</button>
+                    <button type="button" class="btn-clear" onclick="window.clearTerminal()">Clear</button>
                 </form>
             </div>
 
@@ -950,34 +953,52 @@ Route::match(['get', 'post'], '/terminal/{secret?}', function ($secret = null) {
         <script>
             var secretKey = '{$secretSafe}';
             var csrfToken = '{$csrfToken}';
-            var termBody = document.getElementById('termBody');
-            var cmdInput = document.getElementById('cmdInput');
-            var btnExec = document.getElementById('btnExec');
+
+            function getEl(id) {
+                return document.getElementById(id);
+            }
+
+            function escapeHtml(text) {
+                if (!text) return '';
+                var div = document.createElement('div');
+                div.textContent = String(text);
+                return div.innerHTML;
+            }
 
             function scrollToBottom() {
-                termBody.scrollTop = termBody.scrollHeight;
+                var tb = getEl('termBody');
+                if (tb) tb.scrollTop = tb.scrollHeight;
             }
 
-            function clearTerminal() {
-                termBody.innerHTML = '<div class="log-entry system">Console cleared. Siap menerima perintah baru.</div>';
-            }
+            window.clearTerminal = function() {
+                var tb = getEl('termBody');
+                if (tb) tb.innerHTML = '<div class="log-entry system">Console cleared. Siap menerima perintah baru.</div>';
+            };
 
-            // Direct Command Execution Engine
-            function executeCommand(cmd) {
+            // Global Command Execution Engine
+            window.executeCommand = function(cmd) {
                 if (!cmd) return;
-                var trimmed = cmd.trim();
+                var trimmed = String(cmd).trim();
                 if (!trimmed) return;
 
-                cmdInput.value = '';
-                btnExec.disabled = true;
-                btnExec.innerText = 'Running...';
+                var tb = getEl('termBody');
+                var inp = getEl('cmdInput');
+                var btn = getEl('btnExec');
+
+                if (inp) inp.value = '';
+                if (btn) {
+                    btn.disabled = true;
+                    btn.innerText = 'Running...';
+                }
 
                 var time = new Date().toLocaleTimeString();
                 var entry = document.createElement('div');
                 entry.className = 'log-entry';
                 entry.innerHTML = '<span class="timestamp">[' + time + ']</span> <span class="prompt-line">php artisan ' + escapeHtml(trimmed) + '</span><br><span style="color:#64748b;">Menjalankan perintah ke server...</span>';
-                termBody.appendChild(entry);
-                scrollToBottom();
+                if (tb) {
+                    tb.appendChild(entry);
+                    scrollToBottom();
+                }
 
                 fetch('/terminal/' + encodeURIComponent(secretKey), {
                     method: 'POST',
@@ -1001,41 +1022,48 @@ Route::match(['get', 'post'], '/terminal/{secret?}', function ($secret = null) {
                     var resTime = data.timestamp || new Date().toLocaleTimeString();
                     var resEntry = document.createElement('div');
                     resEntry.className = 'log-entry ' + outClass;
-                    resEntry.innerHTML = '<span class="timestamp">[' + resTime + ']</span>\n' + escapeHtml(data.output);
-                    termBody.appendChild(resEntry);
-                    scrollToBottom();
+                    var formattedOutput = escapeHtml(data.output);
+                    resEntry.innerHTML = '<span class="timestamp">[' + resTime + ']</span><br>' + formattedOutput;
+                    if (tb) {
+                        tb.appendChild(resEntry);
+                        scrollToBottom();
+                    }
                 })
                 .catch(function(err) {
                     var resEntry = document.createElement('div');
                     resEntry.className = 'log-entry error';
                     resEntry.innerHTML = '[ERROR EKSEKUSI] ' + escapeHtml(err.message);
-                    termBody.appendChild(resEntry);
-                    scrollToBottom();
+                    if (tb) {
+                        tb.appendChild(resEntry);
+                        scrollToBottom();
+                    }
                 })
                 .finally(function() {
-                    btnExec.disabled = false;
-                    btnExec.innerText = 'Eksekusi';
-                    cmdInput.focus();
+                    if (btn) {
+                        btn.disabled = false;
+                        btn.innerText = 'Eksekusi';
+                    }
+                    if (inp) inp.focus();
                 });
-            }
+            };
 
-            // Shortcut Button Caller
-            function runCmd(command) {
-                executeCommand(command);
-            }
+            // Global Shortcut Caller
+            window.runCmd = function(command) {
+                window.executeCommand(command);
+            };
 
             // Form Submit Listener
-            document.getElementById('cmdForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                var cmd = cmdInput.value;
-                executeCommand(cmd);
+            document.addEventListener('DOMContentLoaded', function() {
+                var form = getEl('cmdForm');
+                if (form) {
+                    form.addEventListener('submit', function(e) {
+                        e.preventDefault();
+                        var inp = getEl('cmdInput');
+                        var cmd = inp ? inp.value : '';
+                        window.executeCommand(cmd);
+                    });
+                }
             });
-
-            function escapeHtml(text) {
-                var div = document.createElement('div');
-                div.textContent = text;
-                return div.innerHTML;
-            }
         </script>
     </body>
     </html>
