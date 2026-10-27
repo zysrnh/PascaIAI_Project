@@ -538,33 +538,521 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
-// Route helper sementara untuk jalankan migration & seeder di hosting tanpa SSH terminal
-Route::get('/jalankan-migrate-seed', function () {
-    $out = '<h2>Proses Migration & Seeder Akses Cepat (Quick Access)</h2>';
-    
-    // 1. Jalankan Migration
-    try {
-        \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
-        $out .= '<h3 style="color:green;">✓ Migration Berhasil:</h3><pre>' . e(\Illuminate\Support\Facades\Artisan::output()) . '</pre>';
-    } catch (\Throwable $e) {
-        $out .= '<h3 style="color:red;">✗ Migration Error / Already Ran:</h3><pre>' . e($e->getMessage()) . '</pre>';
+// ============================================================================
+// Interactive Web Artisan Terminal & Deploy Suite (cPanel No-SSH)
+// ============================================================================
+Route::match(['get', 'post'], '/terminal/{secret?}', function ($secret = null) {
+    $expectedKey = env('DEPLOY_SECRET_KEY', 'pasca2026persis');
+    $providedKey = $secret ?: request('secret') ?: request()->cookie('terminal_secret');
+
+    // 1. Authentication check
+    if ($providedKey !== $expectedKey) {
+        if (request()->isMethod('post')) {
+            $inputKey = request('secret_input');
+            if ($inputKey === $expectedKey) {
+                return response()->json(['success' => true, 'redirect' => url('/terminal/' . $inputKey)])
+                    ->cookie('terminal_secret', $inputKey, 120);
+            }
+            return response()->json(['success' => false, 'message' => 'Token akses ditolak!'], 403);
+        }
+
+        // Tampilan Login / Masukkan Token
+        return response(<<<HTML
+        <!DOCTYPE html>
+        <html lang="id">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Terminal Access Lock - Pascasarjana</title>
+            <style>
+                * { box-sizing: border-box; margin: 0; padding: 0; }
+                body { background: #0b0f19; color: #f1f5f9; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; }
+                .card { background: #111827; border: 1px solid #1f2937; padding: 2.5rem; border-radius: 12px; width: 100%; max-width: 420px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.5); text-align: center; }
+                .badge { background: #1e293b; color: #10b981; font-size: 0.75rem; font-weight: 700; padding: 4px 10px; border-radius: 999px; display: inline-block; margin-bottom: 1rem; border: 1px solid #334155; }
+                h1 { font-size: 1.25rem; font-weight: 800; margin-bottom: 0.5rem; color: #fff; }
+                p { color: #94a3b8; font-size: 0.85rem; margin-bottom: 1.5rem; line-height: 1.5; }
+                input { width: 100%; background: #030712; border: 1px solid #374151; padding: 0.75rem 1rem; border-radius: 8px; color: #f8fafc; font-size: 0.95rem; font-family: monospace; text-align: center; margin-bottom: 1rem; outline: none; transition: border-color 0.2s; }
+                input:focus { border-color: #10b981; box-shadow: 0 0 0 2px rgba(16,185,129,0.2); }
+                button { width: 100%; background: #10b981; color: #042f2e; font-weight: 700; font-size: 0.9rem; padding: 0.75rem; border: none; border-radius: 8px; cursor: pointer; transition: background 0.2s; }
+                button:hover { background: #059669; }
+                .err { color: #ef4444; font-size: 0.8rem; margin-top: 0.75rem; display: none; }
+            </style>
+        </head>
+        <body>
+            <div class="card">
+                <span class="badge">🔒 RESTRICTED CONSOLE</span>
+                <h1>Pasca Web Terminal</h1>
+                <p>Masukkan token secret untuk membuka konsol perintah server tanpa terminal SSH.</p>
+                <form id="authForm">
+                    <input type="password" id="secretInput" placeholder="Masukkan Secret Token..." required autofocus>
+                    <button type="submit">Buka Terminal</button>
+                    <div id="errMsg" class="err">Token tidak cocok!</div>
+                </form>
+            </div>
+            <script>
+                document.getElementById('authForm').addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    var val = document.getElementById('secretInput').value.trim();
+                    if (!val) return;
+                    window.location.href = window.location.origin + '/terminal/' + encodeURIComponent(val);
+                });
+            </script>
+        </body>
+        </html>
+        HTML);
     }
 
-    // 2. Jalankan QuickAccessSeeder
-    try {
-        \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'QuickAccessSeeder', '--force' => true]);
-        $out .= '<h3 style="color:green;">✓ QuickAccessSeeder Berhasil:</h3><pre>' . e(\Illuminate\Support\Facades\Artisan::output()) . '</pre>';
-    } catch (\Throwable $e) {
-        $out .= '<h3 style="color:orange;">ℹ Info Seeder:</h3><pre>' . e($e->getMessage()) . '</pre>';
+    // 2. POST Command Execution via AJAX
+    if (request()->isMethod('post')) {
+        $cmd = trim(request('command', ''));
+        if (str_starts_with($cmd, 'php artisan ')) {
+            $cmd = substr($cmd, 12);
+        } elseif (str_starts_with($cmd, 'artisan ')) {
+            $cmd = substr($cmd, 8);
+        }
+
+        // Action: Smart Storage Sync (Anti-Error 500 saat symlink dimatikan cPanel)
+        if ($cmd === 'smart-storage' || $cmd === 'storage:link') {
+            $target = storage_path('app/public');
+            $link = public_path('storage');
+            $log = [];
+
+            $copied = 0;
+            $copyRecursive = function($src, $dst) use (&$copyRecursive, &$copied) {
+                if (!file_exists($src)) return;
+                @mkdir($dst, 0755, true);
+                $dir = @opendir($src);
+                if (!$dir) return;
+                while (false !== ($file = readdir($dir))) {
+                    if ($file != '.' && $file != '..') {
+                        if (is_dir($src . '/' . $file)) {
+                            $copyRecursive($src . '/' . $file, $dst . '/' . $file);
+                        } else {
+                            if (@copy($src . '/' . $file, $dst . '/' . $file)) {
+                                $copied++;
+                            }
+                        }
+                    }
+                }
+                closedir($dir);
+            };
+
+            $symlinkCreated = false;
+            if (function_exists('symlink') && !file_exists($link)) {
+                try {
+                    \Illuminate\Support\Facades\Artisan::call('storage:link');
+                    $log[] = "[ARTISAN storage:link]
+" . \Illuminate\Support\Facades\Artisan::output();
+                    $symlinkCreated = file_exists($link);
+                } catch (\Throwable $e) {
+                    $log[] = "[INFO] Artisan storage:link dilewati: " . $e->getMessage();
+                }
+            }
+
+            if (!$symlinkCreated && !is_link($link)) {
+                @mkdir($link, 0755, true);
+                if (file_exists($target)) {
+                    $copyRecursive($target, $link);
+                    $log[] = "✅ [SMART STORAGE SYNC SUCCESS]";
+                    $log[] = "Hosting cPanel mematikan fungsi PHP symlink().";
+                    $log[] = "Berhasil membuat folder 'public/storage' dan menyinkronkan {$copied} aset file gambar secara native!";
+                } else {
+                    $log[] = "ℹ️ [INFO] Folder 'storage/app/public' belum memiliki aset untuk disinkronkan.";
+                }
+            } else {
+                $log[] = "✅ [STORAGE LINK ACTIVE] Symlink 'public/storage' aktif dan siap melayani file gambar!";
+            }
+
+            return response()->json([
+                'success' => true,
+                'command' => 'storage:link (smart-sync)',
+                'output' => implode("
+", $log),
+                'timestamp' => date('H:i:s')
+            ]);
+        }
+
+        // Action: All-in-One Automated Setup
+        if ($cmd === 'all-setup') {
+            $log = [];
+
+            // 1. Migrate
+            try {
+                \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+                $log[] = "✅ [MIGRATE SUCCESS]
+" . trim(\Illuminate\Support\Facades\Artisan::output());
+            } catch (\Throwable $e) {
+                $log[] = "❌ [MIGRATE FAILED] " . $e->getMessage();
+            }
+
+            // 2. Seed
+            try {
+                \Illuminate\Support\Facades\Artisan::call('db:seed', ['--force' => true]);
+                $log[] = "✅ [SEED SUCCESS]
+" . trim(\Illuminate\Support\Facades\Artisan::output());
+            } catch (\Throwable $e) {
+                $log[] = "⚠️ [SEED INFO] " . $e->getMessage();
+            }
+
+            // 3. Storage
+            $target = storage_path('app/public');
+            $link = public_path('storage');
+            @mkdir($link, 0755, true);
+            $copied = 0;
+            $copyRecursive = function($src, $dst) use (&$copyRecursive, &$copied) {
+                if (!file_exists($src)) return;
+                @mkdir($dst, 0755, true);
+                $dir = @opendir($src);
+                if (!$dir) return;
+                while (false !== ($file = readdir($dir))) {
+                    if ($file != '.' && $file != '..') {
+                        if (is_dir($src . '/' . $file)) {
+                            $copyRecursive($src . '/' . $file, $dst . '/' . $file);
+                        } else {
+                            if (@copy($src . '/' . $file, $dst . '/' . $file)) $copied++;
+                        }
+                    }
+                }
+                closedir($dir);
+            };
+            if (file_exists($target)) $copyRecursive($target, $link);
+            $log[] = "✅ [STORAGE SYNC] Direktori 'public/storage' siap ({$copied} aset tersinkronkan).";
+
+            // 4. Optimize Clear
+            try {
+                \Illuminate\Support\Facades\Artisan::call('optimize:clear');
+                $log[] = "✅ [CACHE CLEAR]
+" . trim(\Illuminate\Support\Facades\Artisan::output());
+            } catch (\Throwable $e) {
+                $log[] = "❌ [CACHE ERROR] " . $e->getMessage();
+            }
+
+            return response()->json([
+                'success' => true,
+                'command' => 'all-setup (Migrate + Seed + Storage + Cache)',
+                'output' => implode("
+
+", $log),
+                'timestamp' => date('H:i:s')
+            ]);
+        }
+
+        // Action: Arbitrary Artisan Command Runner
+        try {
+            $parts = preg_split('/\s+/', $cmd, -1, PREG_SPLIT_NO_EMPTY);
+            if (empty($parts)) {
+                return response()->json(['success' => false, 'command' => '', 'output' => 'Perintah kosong.']);
+            }
+            $commandName = array_shift($parts);
+            $parameters = [];
+            foreach ($parts as $part) {
+                if (str_starts_with($part, '--')) {
+                    $opt = substr($part, 2);
+                    if (str_contains($opt, '=')) {
+                        [$k, $v] = explode('=', $opt, 2);
+                        $parameters['--' . $k] = $v;
+                    } else {
+                        $parameters['--' . $opt] = true;
+                    }
+                } else {
+                    $parameters[] = $part;
+                }
+            }
+
+            \Illuminate\Support\Facades\Artisan::call($commandName, $parameters);
+            $out = trim(\Illuminate\Support\Facades\Artisan::output());
+            if (empty($out)) {
+                $out = "Perintah '{$cmd}' berhasil dieksekusi tanpa pesan keluaran (exit code 0).";
+            }
+
+            return response()->json([
+                'success' => true,
+                'command' => $cmd,
+                'output' => $out,
+                'timestamp' => date('H:i:s')
+            ]);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'success' => false,
+                'command' => $cmd,
+                'output' => "❌ [ERROR] " . $e->getMessage(),
+                'timestamp' => date('H:i:s')
+            ]);
+        }
     }
 
-    // 3. Jalankan Storage Link
+    // 3. GET Dashboard Interface
+    $phpVersion = PHP_VERSION;
+    $laravelVersion = app()->version();
+
+    $dbStatus = 'Terputus';
+    $dbTablesCount = 0;
     try {
-        \Illuminate\Support\Facades\Artisan::call('storage:link');
-        $out .= '<h3 style="color:green;">✓ Storage Link Berhasil:</h3><pre>' . e(\Illuminate\Support\Facades\Artisan::output()) . '</pre>';
+        $tables = \Illuminate\Support\Facades\DB::select('SHOW TABLES');
+        $dbTablesCount = count($tables);
+        $dbStatus = "Terhubung ({$dbTablesCount} tabel)";
     } catch (\Throwable $e) {
-        $out .= '<h3 style="color:orange;">ℹ Info Storage Link:</h3><pre>' . e($e->getMessage()) . '</pre>';
+        $dbStatus = 'Gagal: ' . substr($e->getMessage(), 0, 45) . '...';
     }
 
-    return $out;
+    $linkPath = public_path('storage');
+    $storageStatus = 'Belum Ada';
+    if (is_link($linkPath)) {
+        $storageStatus = 'Aktif (Symlink)';
+    } elseif (is_dir($linkPath)) {
+        $storageStatus = 'Aktif (Native Folder)';
+    }
+
+    $secretSafe = htmlspecialchars($providedKey, ENT_QUOTES, 'UTF-8');
+
+    $html = <<<HTML
+    <!DOCTYPE html>
+    <html lang="id">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>⚡ Pasca Artisan Web Terminal (cPanel Console)</title>
+        <style>
+            * { box-sizing: border-box; margin: 0; padding: 0; }
+            body { background: #030712; color: #f3f4f6; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 1.5rem; min-height: 100vh; }
+            .container { max-width: 1000px; margin: 0 auto; }
+            
+            /* Header */
+            .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; border-bottom: 1px solid #1f2937; padding-bottom: 1rem; flex-wrap: wrap; gap: 0.75rem; }
+            .title-area h1 { font-size: 1.25rem; font-weight: 800; color: #f9fafb; display: flex; align-items: center; gap: 8px; }
+            .title-area p { font-size: 0.8rem; color: #9ca3af; margin-top: 2px; }
+            .badge-secure { background: #064e3b; color: #34d399; font-size: 0.7rem; font-weight: 700; padding: 3px 8px; border-radius: 4px; border: 1px solid #059669; }
+
+            /* Stats Grid */
+            .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem; margin-bottom: 1.25rem; }
+            .stat-card { background: #111827; border: 1px solid #1f2937; border-radius: 8px; padding: 0.85rem 1rem; }
+            .stat-label { font-size: 0.72rem; text-transform: uppercase; color: #6b7280; font-weight: 700; letter-spacing: 0.5px; }
+            .stat-val { font-size: 0.95rem; font-weight: 700; color: #10b981; margin-top: 4px; font-family: monospace; }
+            .stat-val.secondary { color: #60a5fa; }
+            .stat-val.warning { color: #fbbf24; }
+
+            /* Action Buttons Bar */
+            .actions-bar { background: #111827; border: 1px solid #1f2937; border-radius: 8px; padding: 1rem; margin-bottom: 1.25rem; }
+            .actions-title { font-size: 0.75rem; font-weight: 700; color: #9ca3af; text-transform: uppercase; margin-bottom: 0.75rem; letter-spacing: 0.5px; }
+            .btn-group { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+            .btn { background: #1f2937; color: #e5e7eb; border: 1px solid #374151; padding: 0.5rem 0.85rem; border-radius: 6px; font-size: 0.8rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.15s ease; }
+            .btn:hover { background: #374151; border-color: #4b5563; color: #fff; }
+            .btn-primary { background: #059669; border-color: #10b981; color: #ffffff; font-weight: 700; }
+            .btn-primary:hover { background: #047857; }
+            .btn-accent { background: #2563eb; border-color: #3b82f6; color: #fff; }
+            .btn-accent:hover { background: #1d4ed8; }
+            .btn-warning { background: #d97706; border-color: #f59e0b; color: #fff; }
+            .btn-warning:hover { background: #b45309; }
+
+            /* Terminal Window */
+            .terminal-window { background: #090d16; border: 1px solid #1f2937; border-radius: 8px; overflow: hidden; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7); }
+            .terminal-titlebar { background: #111827; border-bottom: 1px solid #1f2937; padding: 0.6rem 1rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; color: #9ca3af; font-family: monospace; }
+            .window-dots { display: flex; gap: 6px; }
+            .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+            .dot.red { background: #ef4444; }
+            .dot.yellow { background: #f59e0b; }
+            .dot.green { background: #10b981; }
+
+            /* Terminal Screen */
+            .terminal-body { height: 380px; overflow-y: auto; padding: 1rem; font-family: 'JetBrains Mono', 'Fira Code', Consolas, monospace; font-size: 0.82rem; line-height: 1.6; color: #e5e7eb; background: #050811; }
+            .log-entry { margin-bottom: 0.75rem; white-space: pre-wrap; word-break: break-all; }
+            .log-entry .prompt-line { color: #38bdf8; font-weight: 700; }
+            .log-entry .timestamp { color: #64748b; font-size: 0.75rem; margin-right: 6px; }
+            .log-entry.success { color: #34d399; }
+            .log-entry.error { color: #f87171; }
+            .log-entry.system { color: #a78bfa; }
+
+            /* Terminal Input */
+            .terminal-input-bar { background: #111827; border-top: 1px solid #1f2937; padding: 0.75rem 1rem; display: flex; align-items: center; gap: 0.5rem; }
+            .input-prefix { font-family: monospace; color: #10b981; font-weight: 700; font-size: 0.85rem; white-space: nowrap; }
+            .input-field { flex: 1; background: #030712; border: 1px solid #374151; padding: 0.55rem 0.85rem; border-radius: 6px; color: #f9fafb; font-family: monospace; font-size: 0.85rem; outline: none; }
+            .input-field:focus { border-color: #10b981; }
+            .btn-exec { background: #10b981; color: #042f2e; font-weight: 700; border: none; padding: 0.55rem 1rem; border-radius: 6px; font-size: 0.8rem; cursor: pointer; }
+            .btn-exec:hover { background: #059669; color: #fff; }
+            .btn-clear { background: #374151; color: #d1d5db; border: none; padding: 0.55rem 0.75rem; border-radius: 6px; font-size: 0.8rem; cursor: pointer; }
+            .btn-clear:hover { background: #4b5563; }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            
+            <div class="header">
+                <div class="title-area">
+                    <h1>⚡ Pasca Artisan Web Terminal <span class="badge-secure">PROTECTED</span></h1>
+                    <p>Live Console & Deployment Suite untuk Shared Hosting cPanel tanpa SSH Terminal</p>
+                </div>
+                <div>
+                    <a href="/" target="_blank" class="btn">🌐 Buka Website Utama</a>
+                </div>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">PHP Version</div>
+                    <div class="stat-val">{$phpVersion}</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Laravel Framework</div>
+                    <div class="stat-val secondary">v{$laravelVersion}</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Status Database</div>
+                    <div class="stat-val">{$dbStatus}</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Storage Public</div>
+                    <div class="stat-val warning">{$storageStatus}</div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="actions-bar">
+                <div class="actions-title">🚀 Tombol Pintas Tindakan (Quick Action 1-Klik)</div>
+                <div class="btn-group">
+                    <button class="btn btn-primary" onclick="runCmd('all-setup')">⚡ All-in-One (Migrate + Seed + Storage + Cache)</button>
+                    <button class="btn btn-accent" onclick="runCmd('migrate --force')">🗄️ Migrate Database</button>
+                    <button class="btn btn-accent" onclick="runCmd('db:seed --force')">🌱 Seed Data Awal</button>
+                    <button class="btn btn-warning" onclick="runCmd('smart-storage')">🔗 Smart Storage Sync (Anti-Error 500)</button>
+                    <button class="btn" onclick="runCmd('optimize:clear')">🧹 Clear Cache & Config</button>
+                    <button class="btn" onclick="runCmd('migrate:status')">📊 Migrate Status</button>
+                    <button class="btn" onclick="runCmd('route:list')">📜 List Routes</button>
+                    <button class="btn" onclick="location.reload()">🔄 Refresh Status</button>
+                </div>
+            </div>
+
+            <!-- Terminal Window -->
+            <div class="terminal-window">
+                <div class="terminal-titlebar">
+                    <div class="window-dots">
+                        <span class="dot red"></span>
+                        <span class="dot yellow"></span>
+                        <span class="dot green"></span>
+                    </div>
+                    <div>iais9713@pasca-cpanel: ~/public_html/pasca</div>
+                    <div>bash / artisan v{$laravelVersion}</div>
+                </div>
+
+                <div class="terminal-body" id="termBody">
+                    <div class="log-entry system">
+                        <span class="timestamp">[" . date('H:i:s') . "]</span>
+                        🚀 <strong>PASCA ARTISAN WEB CONSOLE v2.0 READY</strong><br>
+                        Gunakan tombol di atas atau ketik perintah artisan bebas di bawah (contoh: <code>migrate</code>, <code>db:seed</code>, <code>optimize:clear</code>).
+                    </div>
+                </div>
+
+                <form class="terminal-input-bar" id="cmdForm">
+                    <span class="input-prefix">php artisan &gt;</span>
+                    <input type="text" class="input-field" id="cmdInput" placeholder="ketik perintah artisan... (tekan enter)" autocomplete="off" autofocus>
+                    <button type="submit" class="btn-exec" id="btnExec">Eksekusi</button>
+                    <button type="button" class="btn-clear" onclick="clearTerminal()">Clear</button>
+                </form>
+            </div>
+
+        </div>
+
+        <script>
+            var secretKey = '{$secretSafe}';
+            var termBody = document.getElementById('termBody');
+            var cmdInput = document.getElementById('cmdInput');
+            var btnExec = document.getElementById('btnExec');
+            var cmdHistory = [];
+            var historyIdx = -1;
+
+            function scrollToBottom() {
+                termBody.scrollTop = termBody.scrollHeight;
+            }
+
+            function clearTerminal() {
+                termBody.innerHTML = '<div class="log-entry system">Console cleared. Siap menerima perintah baru.</div>';
+            }
+
+            function runCmd(command) {
+                if (!command) return;
+                cmdInput.value = command;
+                document.getElementById('cmdForm').dispatchEvent(new Event('submit'));
+            }
+
+            document.getElementById('cmdForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                var cmd = cmdInput.value.trim();
+                if (!cmd) return;
+
+                cmdHistory.unshift(cmd);
+                historyIdx = -1;
+
+                // Tampilkan command di terminal
+                var time = new Date().toLocaleTimeString();
+                var entry = document.createElement('div');
+                entry.className = 'log-entry';
+                entry.innerHTML = '<span class="timestamp">[' + time + ']</span> <span class="prompt-line">php artisan ' + escapeHtml(cmd) + '</span><br><span style="color:#94a3b8;">⏳ Sedang mengeksekusi...</span>';
+                termBody.appendChild(entry);
+                scrollToBottom();
+
+                cmdInput.value = '';
+                btnExec.disabled = true;
+                btnExec.innerText = 'Running...';
+
+                fetch('/terminal/' + encodeURIComponent(secretKey), {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    body: 'command=' + encodeURIComponent(cmd)
+                })
+                .then(function(res) { return res.json(); })
+                .then(function(data) {
+                    var outClass = data.success ? 'success' : 'error';
+                    entry.innerHTML = '<span class="timestamp">[' + (data.timestamp || time) + ']</span> <span class="prompt-line">php artisan ' + escapeHtml(data.command || cmd) + '</span><br>' + escapeHtml(data.output || '(No output)');
+                    entry.className = 'log-entry ' + outClass;
+                    scrollToBottom();
+                })
+                .catch(function(err) {
+                    entry.innerHTML = '<span class="timestamp">[' + time + ']</span> <span class="prompt-line">php artisan ' + escapeHtml(cmd) + '</span><br>❌ Request Error: ' + escapeHtml(err.message);
+                    entry.className = 'log-entry error';
+                    scrollToBottom();
+                })
+                .finally(function() {
+                    btnExec.disabled = false;
+                    btnExec.innerText = 'Eksekusi';
+                    cmdInput.focus();
+                });
+            });
+
+            // Panah atas & bawah untuk riwayat perintah
+            cmdInput.addEventListener('keydown', function(e) {
+                if (e.key === 'ArrowUp') {
+                    if (cmdHistory.length > 0 && historyIdx < cmdHistory.length - 1) {
+                        historyIdx++;
+                        cmdInput.value = cmdHistory[historyIdx];
+                    }
+                } else if (e.key === 'ArrowDown') {
+                    if (historyIdx > 0) {
+                        historyIdx--;
+                        cmdInput.value = cmdHistory[historyIdx];
+                    } else if (historyIdx === 0) {
+                        historyIdx = -1;
+                        cmdInput.value = '';
+                    }
+                }
+            });
+
+            function escapeHtml(text) {
+                var div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            }
+        </script>
+    </body>
+    </html>
+    HTML;
+
+    return response($html);
 });
+
+// Shortcut lama diarahkan ke terminal
+Route::get('/jalankan-migrate-seed', function () {
+    return redirect('/terminal/pasca2026persis');
+});
+
