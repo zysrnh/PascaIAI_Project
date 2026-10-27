@@ -22,7 +22,7 @@ export default {
                 },
             },
             fontFamily: {
-                sans: ['Montserrat', ...defaultTheme.fontFamily.sans],
+                sans: ['"Plus Jakarta Sans"', ...defaultTheme.fontFamily.sans],
                 arabic: ['Amiri', ...defaultTheme.fontFamily.serif],
             },
             keyframes: {
