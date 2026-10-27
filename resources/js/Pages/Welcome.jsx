@@ -432,74 +432,74 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                     </section>
                 )}
 
-                {/* Section Akses Cepat Dihapus */}
-
-                {/* 5 Cards Statistik Penjaminan Mutu */}
-                <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16 relative z-20">
-                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
-                        {/* Standar SPMI */}
-                        <div className="bg-white p-4 sm:p-5 rounded-xl shadow-md border border-slate-100 flex flex-col items-center justify-center text-center hover:shadow-lg transition hover:-translate-y-0.5">
-                            <div className="w-10 h-10 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center text-lg mb-2">
-                                <i className="fa-solid fa-file-contract"></i>
+                {/* 5 Cards Statistik Ringkasan - Simetris & Rapi */}
+                <section className="py-12 sm:py-16 bg-slate-50/70 border-b border-slate-200/60">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6">
+                            {/* Standar & Mutu */}
+                            <div className="bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-slate-200/80 flex flex-col items-center justify-center text-center hover:shadow-md hover:border-pasca-primary/40 transition hover:-translate-y-0.5">
+                                <div className="w-12 h-12 rounded-full bg-emerald-50 text-emerald-700 flex items-center justify-center text-xl mb-3 shadow-inner">
+                                    <i className="fa-solid fa-file-contract"></i>
+                                </div>
+                                <span className="text-2xl sm:text-3xl font-extrabold text-pasca-darkest tracking-tight font-sans">
+                                    24
+                                </span>
+                                <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider mt-1.5 leading-tight font-sans">
+                                    STANDAR MUTU
+                                </span>
                             </div>
-                            <span className="text-2xl sm:text-3xl font-extrabold text-slate-800 tracking-tight">
-                                24
-                            </span>
-                            <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mt-1">
-                                STANDAR SPMI
-                            </span>
-                        </div>
 
-                        {/* Program Studi */}
-                        <div className="bg-white p-4 sm:p-5 rounded-xl shadow-md border border-slate-100 flex flex-col items-center justify-center text-center hover:shadow-lg transition hover:-translate-y-0.5">
-                            <div className="w-10 h-10 rounded-full bg-amber-50 text-amber-500 flex items-center justify-center text-lg mb-2">
-                                <i className="fa-solid fa-graduation-cap"></i>
+                            {/* Program Studi */}
+                            <div className="bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-slate-200/80 flex flex-col items-center justify-center text-center hover:shadow-md hover:border-pasca-primary/40 transition hover:-translate-y-0.5">
+                                <div className="w-12 h-12 rounded-full bg-amber-50 text-amber-600 flex items-center justify-center text-xl mb-3 shadow-inner">
+                                    <i className="fa-solid fa-graduation-cap"></i>
+                                </div>
+                                <span className="text-2xl sm:text-3xl font-extrabold text-pasca-darkest tracking-tight font-sans">
+                                    {programStudi.length > 0 ? programStudi.length : 'S1'}
+                                </span>
+                                <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider mt-1.5 leading-tight font-sans">
+                                    PRODI TERAKREDITASI
+                                </span>
                             </div>
-                            <span className="text-2xl sm:text-3xl font-extrabold text-slate-800 tracking-tight">
-                                {programStudi.length > 0 ? programStudi.length : 8}
-                            </span>
-                            <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mt-1">
-                                PRODI TERAKREDITASI
-                            </span>
-                        </div>
 
-                        {/* Auditor Internal */}
-                        <div className="bg-white p-4 sm:p-5 rounded-xl shadow-md border border-slate-100 flex flex-col items-center justify-center text-center hover:shadow-lg transition hover:-translate-y-0.5">
-                            <div className="w-10 h-10 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center text-lg mb-2">
-                                <i className="fa-solid fa-user-check"></i>
+                            {/* Dosen & Auditor */}
+                            <div className="bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-slate-200/80 flex flex-col items-center justify-center text-center hover:shadow-md hover:border-pasca-primary/40 transition hover:-translate-y-0.5">
+                                <div className="w-12 h-12 rounded-full bg-blue-50 text-blue-700 flex items-center justify-center text-xl mb-3 shadow-inner">
+                                    <i className="fa-solid fa-user-check"></i>
+                                </div>
+                                <span className="text-2xl sm:text-3xl font-extrabold text-pasca-darkest tracking-tight font-sans">
+                                    {stats?.total ?? 12}
+                                </span>
+                                <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider mt-1.5 leading-tight font-sans">
+                                    DOSEN &amp; PENGAJAR
+                                </span>
                             </div>
-                            <span className="text-2xl sm:text-3xl font-extrabold text-slate-800 tracking-tight">
-                                {stats?.total ?? 12}
-                            </span>
-                            <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mt-1">
-                                AUDITOR MUTU INTERNAL
-                            </span>
-                        </div>
 
-                        {/* Siklus AMI */}
-                        <div className="bg-white p-4 sm:p-5 rounded-xl shadow-md border border-slate-100 flex flex-col items-center justify-center text-center hover:shadow-lg transition hover:-translate-y-0.5">
-                            <div className="w-10 h-10 rounded-full bg-purple-50 text-purple-600 flex items-center justify-center text-lg mb-2">
-                                <i className="fa-solid fa-rotate"></i>
+                            {/* Publikasi & Riset */}
+                            <div className="bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-slate-200/80 flex flex-col items-center justify-center text-center hover:shadow-md hover:border-pasca-primary/40 transition hover:-translate-y-0.5">
+                                <div className="w-12 h-12 rounded-full bg-purple-50 text-purple-700 flex items-center justify-center text-xl mb-3 shadow-inner">
+                                    <i className="fa-solid fa-book-open"></i>
+                                </div>
+                                <span className="text-2xl sm:text-3xl font-extrabold text-pasca-darkest tracking-tight font-sans">
+                                    {stats?.penelitian ?? 25}
+                                </span>
+                                <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider mt-1.5 leading-tight font-sans">
+                                    PUBLIKASI &amp; RISET
+                                </span>
                             </div>
-                            <span className="text-2xl sm:text-3xl font-extrabold text-slate-800 tracking-tight">
-                                {stats?.penelitian ?? 6}
-                            </span>
-                            <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mt-1">
-                                SIKLUS AMI TERLAKSANA
-                            </span>
-                        </div>
 
-                        {/* Kepuasan Mutu */}
-                        <div className="bg-white p-4 sm:p-5 rounded-xl shadow-md border border-slate-100 flex flex-col items-center justify-center text-center hover:shadow-lg transition hover:-translate-y-0.5 col-span-2 sm:col-span-1">
-                            <div className="w-10 h-10 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center text-lg mb-2">
-                                <i className="fa-solid fa-chart-line"></i>
+                            {/* Indeks Kepuasan */}
+                            <div className="bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-slate-200/80 flex flex-col items-center justify-center text-center hover:shadow-md hover:border-pasca-primary/40 transition hover:-translate-y-0.5 col-span-2 md:col-span-1">
+                                <div className="w-12 h-12 rounded-full bg-indigo-50 text-indigo-700 flex items-center justify-center text-xl mb-3 shadow-inner">
+                                    <i className="fa-solid fa-chart-line"></i>
+                                </div>
+                                <span className="text-2xl sm:text-3xl font-extrabold text-pasca-darkest tracking-tight font-sans">
+                                    94.8%
+                                </span>
+                                <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider mt-1.5 leading-tight font-sans">
+                                    INDEKS KEPUASAN
+                                </span>
                             </div>
-                            <span className="text-2xl sm:text-3xl font-extrabold text-slate-800 tracking-tight">
-                                94.8%
-                            </span>
-                            <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mt-1">
-                                INDEKS KEPUASAN MUTU
-                            </span>
                         </div>
                     </div>
                 </section>
