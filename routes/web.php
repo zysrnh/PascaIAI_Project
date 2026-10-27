@@ -783,12 +783,22 @@ Route::match(['get', 'post'], '/terminal/{secret?}', function ($secret = null) {
     $dbStatus = 'Terputus';
     $dbTablesCount = 0;
     try {
-        $tables = \Illuminate\Support\Facades\Schema::getTableListing();
-        $dbTablesCount = count($tables);
         $driver = \Illuminate\Support\Facades\DB::connection()->getDriverName();
+        if ($driver === 'sqlite') {
+            $tables = \Illuminate\Support\Facades\DB::select("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'");
+        } else {
+            $tables = \Illuminate\Support\Facades\DB::select("SHOW TABLES");
+        }
+        $dbTablesCount = count($tables);
         $dbStatus = "Terhubung ({$dbTablesCount} tabel, {$driver})";
     } catch (\Throwable $e) {
-        $dbStatus = 'Error: ' . substr($e->getMessage(), 0, 40);
+        try {
+            $tables = \Illuminate\Support\Facades\Schema::getTableListing();
+            $dbTablesCount = count($tables);
+            $dbStatus = "Terhubung ({$dbTablesCount} tabel, {$driver})";
+        } catch (\Throwable $e2) {
+            $dbStatus = 'Error: ' . substr($e->getMessage(), 0, 40);
+        }
     }
 
     $linkPath = public_path('storage');

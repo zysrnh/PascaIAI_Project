@@ -120,7 +120,7 @@ class KpiSeeder extends Seeder
                 'jumlah_mahasiswa' => 180,
                 'jumlah_dosen' => 12,
                 'jumlah_lulusan' => 450,
-                'status' => 'aktif',
+                'status' => true,
             ]
         );
 
