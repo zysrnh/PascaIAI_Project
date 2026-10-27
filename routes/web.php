@@ -800,6 +800,7 @@ Route::match(['get', 'post'], '/terminal/{secret?}', function ($secret = null) {
 
     $secretSafe = htmlspecialchars($providedKey, ENT_QUOTES, 'UTF-8');
     $currentTime = date('H:i:s');
+    $csrfToken = csrf_token();
 
     $html = <<<HTML
     <!DOCTYPE html>
@@ -807,6 +808,7 @@ Route::match(['get', 'post'], '/terminal/{secret?}', function ($secret = null) {
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="csrf-token" content="{$csrfToken}">
         <title>KPI Artisan Web Terminal (Deploy Console)</title>
         <style>
             * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -900,18 +902,18 @@ Route::match(['get', 'post'], '/terminal/{secret?}', function ($secret = null) {
                 </div>
             </div>
 
-            <!-- Action Buttons Bar (Clean Monospace Buttons, No Emojis) -->
+            <!-- Action Buttons Bar (Clean Monospace Buttons, Direct Onclick) -->
             <div class="actions-bar">
                 <div class="actions-title">PINTASAN PERINTAH DEPLOYMENT</div>
                 <div class="btn-group">
-                    <button class="btn btn-primary" onclick="runCmd('all-setup')">[ All-in-One Setup ]</button>
-                    <button class="btn" onclick="runCmd('migrate')">[ Migrate ]</button>
-                    <button class="btn" onclick="runCmd('db:seed --class=KpiSeeder')">[ Seed KPI Data ]</button>
-                    <button class="btn" onclick="runCmd('storage:link')">[ Storage Sync ]</button>
-                    <button class="btn" onclick="runCmd('optimize:clear')">[ Clear Cache ]</button>
-                    <button class="btn" onclick="runCmd('migrate:status')">[ Migrate Status ]</button>
-                    <button class="btn" onclick="runCmd('route:list')">[ Route List ]</button>
-                    <button class="btn btn-outline" onclick="location.reload()">[ Refresh ]</button>
+                    <button type="button" class="btn btn-primary" onclick="runCmd('all-setup')">[ All-in-One Setup ]</button>
+                    <button type="button" class="btn" onclick="runCmd('migrate')">[ Migrate ]</button>
+                    <button type="button" class="btn" onclick="runCmd('db:seed --class=KpiSeeder')">[ Seed KPI Data ]</button>
+                    <button type="button" class="btn" onclick="runCmd('storage:link')">[ Storage Sync ]</button>
+                    <button type="button" class="btn" onclick="runCmd('optimize:clear')">[ Clear Cache ]</button>
+                    <button type="button" class="btn" onclick="runCmd('migrate:status')">[ Migrate Status ]</button>
+                    <button type="button" class="btn" onclick="runCmd('route:list')">[ Route List ]</button>
+                    <button type="button" class="btn btn-outline" onclick="location.reload()">[ Refresh ]</button>
                 </div>
             </div>
 
@@ -931,7 +933,7 @@ Route::match(['get', 'post'], '/terminal/{secret?}', function ($secret = null) {
                     <div class="log-entry system">
                         <span class="timestamp">[{$currentTime}]</span>
                         <strong>KPI ARTISAN WEB CONSOLE READY</strong><br>
-                        Gunakan tombol di atas atau ketik perintah artisan bebas di bawah (contoh: migrate, db:seed, optimize:clear).
+                        Klik tombol pintasan di atas atau ketik perintah artisan di bawah (contoh: migrate, db:seed, optimize:clear).
                     </div>
                 </div>
 
@@ -947,6 +949,7 @@ Route::match(['get', 'post'], '/terminal/{secret?}', function ($secret = null) {
 
         <script>
             var secretKey = '{$secretSafe}';
+            var csrfToken = '{$csrfToken}';
             var termBody = document.getElementById('termBody');
             var cmdInput = document.getElementById('cmdInput');
             var btnExec = document.getElementById('btnExec');
@@ -959,37 +962,40 @@ Route::match(['get', 'post'], '/terminal/{secret?}', function ($secret = null) {
                 termBody.innerHTML = '<div class="log-entry system">Console cleared. Siap menerima perintah baru.</div>';
             }
 
-            function runCmd(command) {
-                if (!command) return;
-                cmdInput.value = command;
-                document.getElementById('cmdForm').dispatchEvent(new Event('submit'));
-            }
-
-            document.getElementById('cmdForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                var cmd = cmdInput.value.trim();
+            // Direct Command Execution Engine
+            function executeCommand(cmd) {
                 if (!cmd) return;
-
-                var time = new Date().toLocaleTimeString();
-                var entry = document.createElement('div');
-                entry.className = 'log-entry';
-                entry.innerHTML = '<span class="timestamp">[' + time + ']</span> <span class="prompt-line">php artisan ' + escapeHtml(cmd) + '</span><br><span style="color:#64748b;">Menjalankan perintah...</span>';
-                termBody.appendChild(entry);
-                scrollToBottom();
+                var trimmed = cmd.trim();
+                if (!trimmed) return;
 
                 cmdInput.value = '';
                 btnExec.disabled = true;
                 btnExec.innerText = 'Running...';
 
+                var time = new Date().toLocaleTimeString();
+                var entry = document.createElement('div');
+                entry.className = 'log-entry';
+                entry.innerHTML = '<span class="timestamp">[' + time + ']</span> <span class="prompt-line">php artisan ' + escapeHtml(trimmed) + '</span><br><span style="color:#64748b;">Menjalankan perintah ke server...</span>';
+                termBody.appendChild(entry);
+                scrollToBottom();
+
                 fetch('/terminal/' + encodeURIComponent(secretKey), {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
-                        'X-Requested-With': 'XMLHttpRequest'
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-CSRF-TOKEN': csrfToken
                     },
-                    body: 'command=' + encodeURIComponent(cmd)
+                    body: 'command=' + encodeURIComponent(trimmed) + '&_token=' + encodeURIComponent(csrfToken)
                 })
-                .then(function(res) { return res.json(); })
+                .then(function(res) {
+                    if (!res.ok) {
+                        return res.text().then(function(t) {
+                            throw new Error('HTTP ' + res.status + ' - ' + t.substring(0, 120));
+                        });
+                    }
+                    return res.json();
+                })
                 .then(function(data) {
                     var outClass = data.success ? 'success' : 'error';
                     var resTime = data.timestamp || new Date().toLocaleTimeString();
@@ -1002,7 +1008,7 @@ Route::match(['get', 'post'], '/terminal/{secret?}', function ($secret = null) {
                 .catch(function(err) {
                     var resEntry = document.createElement('div');
                     resEntry.className = 'log-entry error';
-                    resEntry.innerHTML = '[FETCH ERROR] Gagal mengirim perintah ke server: ' + escapeHtml(err.message);
+                    resEntry.innerHTML = '[ERROR EKSEKUSI] ' + escapeHtml(err.message);
                     termBody.appendChild(resEntry);
                     scrollToBottom();
                 })
@@ -1011,6 +1017,18 @@ Route::match(['get', 'post'], '/terminal/{secret?}', function ($secret = null) {
                     btnExec.innerText = 'Eksekusi';
                     cmdInput.focus();
                 });
+            }
+
+            // Shortcut Button Caller
+            function runCmd(command) {
+                executeCommand(command);
+            }
+
+            // Form Submit Listener
+            document.getElementById('cmdForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                var cmd = cmdInput.value;
+                executeCommand(cmd);
             });
 
             function escapeHtml(text) {
