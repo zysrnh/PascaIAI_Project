@@ -398,7 +398,7 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                     <section
                         className="bg-cover bg-center min-h-[80vh] flex items-center justify-center text-white relative py-20"
                         style={{
-                            backgroundImage: `linear-gradient(rgba(4,47,31,0.88),rgba(2,44,29,0.92)), url(${setting?.hero_bg ? '/storage/' + setting.hero_bg : '/images/default-banner.jpg'})`
+                            backgroundImage: `linear-gradient(rgba(52,78,65,0.92),rgba(34,51,43,0.96)), url(${setting?.hero_bg ? '/storage/' + setting.hero_bg : '/images/default-banner.jpg'})`
                         }}
                     >
                         <div className="absolute inset-0 bg-gradient-to-t from-emerald-950/95 via-transparent to-transparent"></div>

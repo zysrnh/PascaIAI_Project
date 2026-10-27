@@ -13,6 +13,19 @@ export default {
     theme: {
         extend: {
             colors: {
+                emerald: {
+                    50: '#F5F4F0',
+                    100: '#DAD7CD',
+                    200: '#BFCAB0',
+                    300: '#A3B18A',
+                    400: '#7D9B70',
+                    500: '#588157',
+                    600: '#4B704A',
+                    700: '#3F5E3E',
+                    800: '#3A5A40',
+                    900: '#344E41',
+                    950: '#22332B',
+                },
                 pasca: {
                     darkest: '#344E41',
                     dark: '#3A5A40',
