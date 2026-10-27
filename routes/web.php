@@ -556,35 +556,37 @@ Route::match(['get', 'post'], '/terminal/{secret?}', function ($secret = null) {
             return response()->json(['success' => false, 'message' => 'Token akses ditolak!'], 403);
         }
 
-        // Tampilan Login / Masukkan Token
+        // Tampilan Login / Masukkan Token (Flat Clean, Anti-Slop, No Emoji)
         return response(<<<HTML
         <!DOCTYPE html>
         <html lang="id">
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Terminal Access Lock - Pascasarjana</title>
+            <title>Terminal Access Lock - KPI Console</title>
             <style>
                 * { box-sizing: border-box; margin: 0; padding: 0; }
-                body { background: #0b0f19; color: #f1f5f9; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; }
-                .card { background: #111827; border: 1px solid #1f2937; padding: 2.5rem; border-radius: 12px; width: 100%; max-width: 420px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.5); text-align: center; }
-                .badge { background: #1e293b; color: #10b981; font-size: 0.75rem; font-weight: 700; padding: 4px 10px; border-radius: 999px; display: inline-block; margin-bottom: 1rem; border: 1px solid #334155; }
-                h1 { font-size: 1.25rem; font-weight: 800; margin-bottom: 0.5rem; color: #fff; }
+                body { background: #090d16; color: #f8fafc; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 1rem; }
+                .card { background: #0f172a; border: 1px solid #1e293b; padding: 2.25rem; border-radius: 12px; width: 100%; max-width: 400px; text-align: left; }
+                .badge { font-family: monospace; color: #10b981; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.75rem; display: block; }
+                h1 { font-size: 1.25rem; font-weight: 700; color: #f8fafc; margin-bottom: 0.35rem; }
                 p { color: #94a3b8; font-size: 0.85rem; margin-bottom: 1.5rem; line-height: 1.5; }
-                input { width: 100%; background: #030712; border: 1px solid #374151; padding: 0.75rem 1rem; border-radius: 8px; color: #f8fafc; font-size: 0.95rem; font-family: monospace; text-align: center; margin-bottom: 1rem; outline: none; transition: border-color 0.2s; }
-                input:focus { border-color: #10b981; box-shadow: 0 0 0 2px rgba(16,185,129,0.2); }
-                button { width: 100%; background: #10b981; color: #042f2e; font-weight: 700; font-size: 0.9rem; padding: 0.75rem; border: none; border-radius: 8px; cursor: pointer; transition: background 0.2s; }
+                label { display: block; font-size: 0.75rem; font-weight: 600; color: #cbd5e1; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem; }
+                input { width: 100%; background: #020617; border: 1px solid #334155; padding: 0.75rem 1rem; border-radius: 8px; color: #f8fafc; font-size: 0.95rem; font-family: monospace; letter-spacing: 0.1em; margin-bottom: 1rem; outline: none; transition: border-color 0.15s; }
+                input:focus { border-color: #10b981; }
+                button { width: 100%; background: #10b981; color: #022c22; font-weight: 700; font-size: 0.9rem; padding: 0.75rem; border: none; border-radius: 8px; cursor: pointer; transition: background 0.15s; }
                 button:hover { background: #059669; }
-                .err { color: #ef4444; font-size: 0.8rem; margin-top: 0.75rem; display: none; }
+                .err { color: #f43f5e; font-size: 0.8rem; margin-top: 0.75rem; display: none; }
             </style>
         </head>
         <body>
             <div class="card">
-                <span class="badge">🔒 RESTRICTED CONSOLE</span>
-                <h1>Pasca Web Terminal</h1>
-                <p>Masukkan token secret untuk membuka konsol perintah server tanpa terminal SSH.</p>
+                <span class="badge">[ RESTRICTED CONSOLE ]</span>
+                <h1>KPI Artisan Terminal</h1>
+                <p>Masukkan token rahasia untuk membuka konsol perintah server tanpa terminal SSH.</p>
                 <form id="authForm">
-                    <input type="password" id="secretInput" placeholder="Masukkan Secret Token..." required autofocus>
+                    <label for="secretInput">Secret Access Token</label>
+                    <input type="password" id="secretInput" placeholder="Masukkan token..." required autofocus>
                     <button type="submit">Buka Terminal</button>
                     <div id="errMsg" class="err">Token tidak cocok!</div>
                 </form>
@@ -611,7 +613,7 @@ Route::match(['get', 'post'], '/terminal/{secret?}', function ($secret = null) {
             $cmd = substr($cmd, 8);
         }
 
-        // Action: Smart Storage Sync (Anti-Error 500 saat symlink dimatikan cPanel)
+        // Action: Smart Storage Sync
         if ($cmd === 'smart-storage' || $cmd === 'storage:link') {
             $target = storage_path('app/public');
             $link = public_path('storage');
@@ -641,11 +643,10 @@ Route::match(['get', 'post'], '/terminal/{secret?}', function ($secret = null) {
             if (function_exists('symlink') && !file_exists($link)) {
                 try {
                     \Illuminate\Support\Facades\Artisan::call('storage:link');
-                    $log[] = "[ARTISAN storage:link]
-" . \Illuminate\Support\Facades\Artisan::output();
+                    $log[] = "[storage:link]\n" . \Illuminate\Support\Facades\Artisan::output();
                     $symlinkCreated = file_exists($link);
                 } catch (\Throwable $e) {
-                    $log[] = "[INFO] Artisan storage:link dilewati: " . $e->getMessage();
+                    $log[] = "[INFO] storage:link dilewati: " . $e->getMessage();
                 }
             }
 
@@ -653,21 +654,19 @@ Route::match(['get', 'post'], '/terminal/{secret?}', function ($secret = null) {
                 @mkdir($link, 0755, true);
                 if (file_exists($target)) {
                     $copyRecursive($target, $link);
-                    $log[] = "✅ [SMART STORAGE SYNC SUCCESS]";
-                    $log[] = "Hosting cPanel mematikan fungsi PHP symlink().";
-                    $log[] = "Berhasil membuat folder 'public/storage' dan menyinkronkan {$copied} aset file gambar secara native!";
+                    $log[] = "[STORAGE SYNC SUCCESS]";
+                    $log[] = "Folder 'public/storage' siap dan {$copied} aset berkas tersinkronkan.";
                 } else {
-                    $log[] = "ℹ️ [INFO] Folder 'storage/app/public' belum memiliki aset untuk disinkronkan.";
+                    $log[] = "[INFO] Folder 'storage/app/public' belum memiliki aset file.";
                 }
             } else {
-                $log[] = "✅ [STORAGE LINK ACTIVE] Symlink 'public/storage' aktif dan siap melayani file gambar!";
+                $log[] = "[STORAGE ACTIVE] Symlink 'public/storage' aktif dan siap melayani file berkas.";
             }
 
             return response()->json([
                 'success' => true,
                 'command' => 'storage:link (smart-sync)',
-                'output' => implode("
-", $log),
+                'output' => implode("\n", $log),
                 'timestamp' => date('H:i:s')
             ]);
         }
@@ -679,19 +678,17 @@ Route::match(['get', 'post'], '/terminal/{secret?}', function ($secret = null) {
             // 1. Migrate
             try {
                 \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
-                $log[] = "✅ [MIGRATE SUCCESS]
-" . trim(\Illuminate\Support\Facades\Artisan::output());
+                $log[] = "[MIGRATE SUCCESS]\n" . trim(\Illuminate\Support\Facades\Artisan::output());
             } catch (\Throwable $e) {
-                $log[] = "❌ [MIGRATE FAILED] " . $e->getMessage();
+                $log[] = "[MIGRATE ERROR] " . $e->getMessage();
             }
 
-            // 2. Seed
+            // 2. Seed (KpiSeeder)
             try {
-                \Illuminate\Support\Facades\Artisan::call('db:seed', ['--force' => true]);
-                $log[] = "✅ [SEED SUCCESS]
-" . trim(\Illuminate\Support\Facades\Artisan::output());
+                \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'KpiSeeder', '--force' => true]);
+                $log[] = "[SEED SUCCESS]\n" . trim(\Illuminate\Support\Facades\Artisan::output());
             } catch (\Throwable $e) {
-                $log[] = "⚠️ [SEED INFO] " . $e->getMessage();
+                $log[] = "[SEED INFO] " . $e->getMessage();
             }
 
             // 3. Storage
@@ -716,23 +713,20 @@ Route::match(['get', 'post'], '/terminal/{secret?}', function ($secret = null) {
                 closedir($dir);
             };
             if (file_exists($target)) $copyRecursive($target, $link);
-            $log[] = "✅ [STORAGE SYNC] Direktori 'public/storage' siap ({$copied} aset tersinkronkan).";
+            $log[] = "[STORAGE SYNC] Direktori 'public/storage' siap ({$copied} aset tersinkronkan).";
 
             // 4. Optimize Clear
             try {
                 \Illuminate\Support\Facades\Artisan::call('optimize:clear');
-                $log[] = "✅ [CACHE CLEAR]
-" . trim(\Illuminate\Support\Facades\Artisan::output());
+                $log[] = "[CACHE CLEAR]\n" . trim(\Illuminate\Support\Facades\Artisan::output());
             } catch (\Throwable $e) {
-                $log[] = "❌ [CACHE ERROR] " . $e->getMessage();
+                $log[] = "[CACHE ERROR] " . $e->getMessage();
             }
 
             return response()->json([
                 'success' => true,
-                'command' => 'all-setup (Migrate + Seed + Storage + Cache)',
-                'output' => implode("
-
-", $log),
+                'command' => 'all-setup (Migrate + Seed KPI + Storage + Cache)',
+                'output' => implode("\n\n", $log),
                 'timestamp' => date('H:i:s')
             ]);
         }
@@ -775,7 +769,7 @@ Route::match(['get', 'post'], '/terminal/{secret?}', function ($secret = null) {
             return response()->json([
                 'success' => false,
                 'command' => $cmd,
-                'output' => "❌ [ERROR] " . $e->getMessage(),
+                'output' => "[ERROR] " . $e->getMessage(),
                 'timestamp' => date('H:i:s')
             ]);
         }
@@ -788,11 +782,12 @@ Route::match(['get', 'post'], '/terminal/{secret?}', function ($secret = null) {
     $dbStatus = 'Terputus';
     $dbTablesCount = 0;
     try {
-        $tables = \Illuminate\Support\Facades\DB::select('SHOW TABLES');
+        $tables = \Illuminate\Support\Facades\Schema::getTableListing();
         $dbTablesCount = count($tables);
-        $dbStatus = "Terhubung ({$dbTablesCount} tabel)";
+        $driver = \Illuminate\Support\Facades\DB::connection()->getDriverName();
+        $dbStatus = "Terhubung ({$dbTablesCount} tabel, {$driver})";
     } catch (\Throwable $e) {
-        $dbStatus = 'Gagal: ' . substr($e->getMessage(), 0, 45) . '...';
+        $dbStatus = 'Error: ' . substr($e->getMessage(), 0, 40);
     }
 
     $linkPath = public_path('storage');
@@ -800,10 +795,11 @@ Route::match(['get', 'post'], '/terminal/{secret?}', function ($secret = null) {
     if (is_link($linkPath)) {
         $storageStatus = 'Aktif (Symlink)';
     } elseif (is_dir($linkPath)) {
-        $storageStatus = 'Aktif (Native Folder)';
+        $storageStatus = 'Aktif (Folder Native)';
     }
 
     $secretSafe = htmlspecialchars($providedKey, ENT_QUOTES, 'UTF-8');
+    $currentTime = date('H:i:s');
 
     $html = <<<HTML
     <!DOCTYPE html>
@@ -811,42 +807,40 @@ Route::match(['get', 'post'], '/terminal/{secret?}', function ($secret = null) {
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>⚡ Pasca Artisan Web Terminal (cPanel Console)</title>
+        <title>KPI Artisan Web Terminal (Deploy Console)</title>
         <style>
             * { box-sizing: border-box; margin: 0; padding: 0; }
-            body { background: #030712; color: #f3f4f6; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 1.5rem; min-height: 100vh; }
-            .container { max-width: 1000px; margin: 0 auto; }
+            body { background: #090d16; color: #f8fafc; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 1.5rem; min-height: 100vh; }
+            .container { max-width: 1040px; margin: 0 auto; }
             
             /* Header */
-            .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; border-bottom: 1px solid #1f2937; padding-bottom: 1rem; flex-wrap: wrap; gap: 0.75rem; }
-            .title-area h1 { font-size: 1.25rem; font-weight: 800; color: #f9fafb; display: flex; align-items: center; gap: 8px; }
-            .title-area p { font-size: 0.8rem; color: #9ca3af; margin-top: 2px; }
-            .badge-secure { background: #064e3b; color: #34d399; font-size: 0.7rem; font-weight: 700; padding: 3px 8px; border-radius: 4px; border: 1px solid #059669; }
+            .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; border-bottom: 1px solid #1e293b; padding-bottom: 1rem; flex-wrap: wrap; gap: 0.75rem; }
+            .title-area h1 { font-size: 1.2rem; font-weight: 700; color: #f8fafc; display: flex; align-items: center; gap: 8px; letter-spacing: -0.01em; }
+            .title-area p { font-size: 0.8rem; color: #94a3b8; margin-top: 3px; }
+            .badge-secure { background: #064e3b; color: #34d399; font-size: 0.68rem; font-weight: 700; padding: 2px 8px; border-radius: 4px; border: 1px solid #059669; font-family: monospace; letter-spacing: 0.05em; }
 
             /* Stats Grid */
-            .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem; margin-bottom: 1.25rem; }
-            .stat-card { background: #111827; border: 1px solid #1f2937; border-radius: 8px; padding: 0.85rem 1rem; }
-            .stat-label { font-size: 0.72rem; text-transform: uppercase; color: #6b7280; font-weight: 700; letter-spacing: 0.5px; }
-            .stat-val { font-size: 0.95rem; font-weight: 700; color: #10b981; margin-top: 4px; font-family: monospace; }
-            .stat-val.secondary { color: #60a5fa; }
-            .stat-val.warning { color: #fbbf24; }
+            .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 0.75rem; margin-bottom: 1.25rem; }
+            .stat-card { background: #0f172a; border: 1px solid #1e293b; border-radius: 8px; padding: 0.85rem 1rem; }
+            .stat-label { font-size: 0.7rem; text-transform: uppercase; color: #64748b; font-weight: 700; letter-spacing: 0.06em; font-family: monospace; }
+            .stat-val { font-size: 0.95rem; font-weight: 600; color: #10b981; margin-top: 4px; font-family: 'JetBrains Mono', Consolas, monospace; }
+            .stat-val.secondary { color: #38bdf8; }
+            .stat-val.warning { color: #f59e0b; }
 
             /* Action Buttons Bar */
-            .actions-bar { background: #111827; border: 1px solid #1f2937; border-radius: 8px; padding: 1rem; margin-bottom: 1.25rem; }
-            .actions-title { font-size: 0.75rem; font-weight: 700; color: #9ca3af; text-transform: uppercase; margin-bottom: 0.75rem; letter-spacing: 0.5px; }
+            .actions-bar { background: #0f172a; border: 1px solid #1e293b; border-radius: 8px; padding: 1rem; margin-bottom: 1.25rem; }
+            .actions-title { font-size: 0.72rem; font-weight: 700; color: #64748b; text-transform: uppercase; margin-bottom: 0.75rem; letter-spacing: 0.06em; font-family: monospace; }
             .btn-group { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-            .btn { background: #1f2937; color: #e5e7eb; border: 1px solid #374151; padding: 0.5rem 0.85rem; border-radius: 6px; font-size: 0.8rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.15s ease; }
-            .btn:hover { background: #374151; border-color: #4b5563; color: #fff; }
-            .btn-primary { background: #059669; border-color: #10b981; color: #ffffff; font-weight: 700; }
-            .btn-primary:hover { background: #047857; }
-            .btn-accent { background: #2563eb; border-color: #3b82f6; color: #fff; }
-            .btn-accent:hover { background: #1d4ed8; }
-            .btn-warning { background: #d97706; border-color: #f59e0b; color: #fff; }
-            .btn-warning:hover { background: #b45309; }
+            .btn { background: #1e293b; color: #e2e8f0; border: 1px solid #334155; padding: 0.5rem 0.85rem; border-radius: 6px; font-size: 0.8rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.15s ease; font-family: 'JetBrains Mono', Consolas, monospace; }
+            .btn:hover { background: #334155; border-color: #475569; color: #fff; }
+            .btn-primary { background: #064e3b; border-color: #059669; color: #34d399; font-weight: 700; }
+            .btn-primary:hover { background: #047857; color: #fff; }
+            .btn-outline { background: transparent; border-color: #334155; color: #94a3b8; }
+            .btn-outline:hover { background: #1e293b; color: #fff; border-color: #64748b; }
 
             /* Terminal Window */
-            .terminal-window { background: #090d16; border: 1px solid #1f2937; border-radius: 8px; overflow: hidden; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7); }
-            .terminal-titlebar { background: #111827; border-bottom: 1px solid #1f2937; padding: 0.6rem 1rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; color: #9ca3af; font-family: monospace; }
+            .terminal-window { background: #020617; border: 1px solid #1e293b; border-radius: 8px; overflow: hidden; }
+            .terminal-titlebar { background: #0f172a; border-bottom: 1px solid #1e293b; padding: 0.6rem 1rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; color: #94a3b8; font-family: 'JetBrains Mono', Consolas, monospace; }
             .window-dots { display: flex; gap: 6px; }
             .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
             .dot.red { background: #ef4444; }
@@ -854,23 +848,23 @@ Route::match(['get', 'post'], '/terminal/{secret?}', function ($secret = null) {
             .dot.green { background: #10b981; }
 
             /* Terminal Screen */
-            .terminal-body { height: 380px; overflow-y: auto; padding: 1rem; font-family: 'JetBrains Mono', 'Fira Code', Consolas, monospace; font-size: 0.82rem; line-height: 1.6; color: #e5e7eb; background: #050811; }
+            .terminal-body { height: 380px; overflow-y: auto; padding: 1rem; font-family: 'JetBrains Mono', 'Fira Code', Consolas, monospace; font-size: 0.82rem; line-height: 1.6; color: #e2e8f0; background: #020617; }
             .log-entry { margin-bottom: 0.75rem; white-space: pre-wrap; word-break: break-all; }
             .log-entry .prompt-line { color: #38bdf8; font-weight: 700; }
-            .log-entry .timestamp { color: #64748b; font-size: 0.75rem; margin-right: 6px; }
+            .log-entry .timestamp { color: #475569; font-size: 0.75rem; margin-right: 6px; }
             .log-entry.success { color: #34d399; }
-            .log-entry.error { color: #f87171; }
-            .log-entry.system { color: #a78bfa; }
+            .log-entry.error { color: #fb7185; }
+            .log-entry.system { color: #94a3b8; }
 
             /* Terminal Input */
-            .terminal-input-bar { background: #111827; border-top: 1px solid #1f2937; padding: 0.75rem 1rem; display: flex; align-items: center; gap: 0.5rem; }
-            .input-prefix { font-family: monospace; color: #10b981; font-weight: 700; font-size: 0.85rem; white-space: nowrap; }
-            .input-field { flex: 1; background: #030712; border: 1px solid #374151; padding: 0.55rem 0.85rem; border-radius: 6px; color: #f9fafb; font-family: monospace; font-size: 0.85rem; outline: none; }
+            .terminal-input-bar { background: #0f172a; border-top: 1px solid #1e293b; padding: 0.75rem 1rem; display: flex; align-items: center; gap: 0.5rem; }
+            .input-prefix { font-family: 'JetBrains Mono', Consolas, monospace; color: #10b981; font-weight: 700; font-size: 0.85rem; white-space: nowrap; }
+            .input-field { flex: 1; background: #020617; border: 1px solid #334155; padding: 0.55rem 0.85rem; border-radius: 6px; color: #f8fafc; font-family: 'JetBrains Mono', Consolas, monospace; font-size: 0.85rem; outline: none; }
             .input-field:focus { border-color: #10b981; }
-            .btn-exec { background: #10b981; color: #042f2e; font-weight: 700; border: none; padding: 0.55rem 1rem; border-radius: 6px; font-size: 0.8rem; cursor: pointer; }
-            .btn-exec:hover { background: #059669; color: #fff; }
-            .btn-clear { background: #374151; color: #d1d5db; border: none; padding: 0.55rem 0.75rem; border-radius: 6px; font-size: 0.8rem; cursor: pointer; }
-            .btn-clear:hover { background: #4b5563; }
+            .btn-exec { background: #10b981; color: #022c22; font-weight: 700; border: none; padding: 0.55rem 1rem; border-radius: 6px; font-size: 0.8rem; cursor: pointer; font-family: 'JetBrains Mono', Consolas, monospace; }
+            .btn-exec:hover { background: #059669; }
+            .btn-clear { background: #1e293b; color: #cbd5e1; border: 1px solid #334155; padding: 0.55rem 0.75rem; border-radius: 6px; font-size: 0.8rem; cursor: pointer; font-family: 'JetBrains Mono', Consolas, monospace; }
+            .btn-clear:hover { background: #334155; color: #fff; }
         </style>
     </head>
     <body>
@@ -878,46 +872,46 @@ Route::match(['get', 'post'], '/terminal/{secret?}', function ($secret = null) {
             
             <div class="header">
                 <div class="title-area">
-                    <h1>⚡ Pasca Artisan Web Terminal <span class="badge-secure">PROTECTED</span></h1>
-                    <p>Live Console & Deployment Suite untuk Shared Hosting cPanel tanpa SSH Terminal</p>
+                    <h1>KPI Artisan Console <span class="badge-secure">AUTHENTICATED</span></h1>
+                    <p>Live Console & Deployment Suite untuk cPanel tanpa SSH Terminal</p>
                 </div>
                 <div>
-                    <a href="/" target="_blank" class="btn">🌐 Buka Website Utama</a>
+                    <a href="/" target="_blank" class="btn btn-outline">[ Buka Website Utama ]</a>
                 </div>
             </div>
 
             <!-- Stats -->
             <div class="stats-grid">
                 <div class="stat-card">
-                    <div class="stat-label">PHP Version</div>
+                    <div class="stat-label">PHP VERSION</div>
                     <div class="stat-val">{$phpVersion}</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-label">Laravel Framework</div>
+                    <div class="stat-label">LARAVEL FRAMEWORK</div>
                     <div class="stat-val secondary">v{$laravelVersion}</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-label">Status Database</div>
+                    <div class="stat-label">DATABASE CONNECTION</div>
                     <div class="stat-val">{$dbStatus}</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-label">Storage Public</div>
+                    <div class="stat-label">STORAGE PUBLIC</div>
                     <div class="stat-val warning">{$storageStatus}</div>
                 </div>
             </div>
 
-            <!-- Quick Actions -->
+            <!-- Action Buttons Bar (Clean Monospace Buttons, No Emojis) -->
             <div class="actions-bar">
-                <div class="actions-title">🚀 Tombol Pintas Tindakan (Quick Action 1-Klik)</div>
+                <div class="actions-title">PINTASAN PERINTAH DEPLOYMENT</div>
                 <div class="btn-group">
-                    <button class="btn btn-primary" onclick="runCmd('all-setup')">⚡ All-in-One (Migrate + Seed + Storage + Cache)</button>
-                    <button class="btn btn-accent" onclick="runCmd('migrate --force')">🗄️ Migrate Database</button>
-                    <button class="btn btn-accent" onclick="runCmd('db:seed --force')">🌱 Seed Data Awal</button>
-                    <button class="btn btn-warning" onclick="runCmd('smart-storage')">🔗 Smart Storage Sync (Anti-Error 500)</button>
-                    <button class="btn" onclick="runCmd('optimize:clear')">🧹 Clear Cache & Config</button>
-                    <button class="btn" onclick="runCmd('migrate:status')">📊 Migrate Status</button>
-                    <button class="btn" onclick="runCmd('route:list')">📜 List Routes</button>
-                    <button class="btn" onclick="location.reload()">🔄 Refresh Status</button>
+                    <button class="btn btn-primary" onclick="runCmd('all-setup')">[ All-in-One Setup ]</button>
+                    <button class="btn" onclick="runCmd('migrate')">[ Migrate ]</button>
+                    <button class="btn" onclick="runCmd('db:seed --class=KpiSeeder')">[ Seed KPI Data ]</button>
+                    <button class="btn" onclick="runCmd('storage:link')">[ Storage Sync ]</button>
+                    <button class="btn" onclick="runCmd('optimize:clear')">[ Clear Cache ]</button>
+                    <button class="btn" onclick="runCmd('migrate:status')">[ Migrate Status ]</button>
+                    <button class="btn" onclick="runCmd('route:list')">[ Route List ]</button>
+                    <button class="btn btn-outline" onclick="location.reload()">[ Refresh ]</button>
                 </div>
             </div>
 
@@ -929,15 +923,15 @@ Route::match(['get', 'post'], '/terminal/{secret?}', function ($secret = null) {
                         <span class="dot yellow"></span>
                         <span class="dot green"></span>
                     </div>
-                    <div>iais9713@pasca-cpanel: ~/public_html/pasca</div>
-                    <div>bash / artisan v{$laravelVersion}</div>
+                    <div>kpi@iaipersis-server: ~/public_html</div>
+                    <div>artisan v{$laravelVersion}</div>
                 </div>
 
                 <div class="terminal-body" id="termBody">
                     <div class="log-entry system">
-                        <span class="timestamp">[" . date('H:i:s') . "]</span>
-                        🚀 <strong>PASCA ARTISAN WEB CONSOLE v2.0 READY</strong><br>
-                        Gunakan tombol di atas atau ketik perintah artisan bebas di bawah (contoh: <code>migrate</code>, <code>db:seed</code>, <code>optimize:clear</code>).
+                        <span class="timestamp">[{$currentTime}]</span>
+                        <strong>KPI ARTISAN WEB CONSOLE READY</strong><br>
+                        Gunakan tombol di atas atau ketik perintah artisan bebas di bawah (contoh: migrate, db:seed, optimize:clear).
                     </div>
                 </div>
 
@@ -956,8 +950,6 @@ Route::match(['get', 'post'], '/terminal/{secret?}', function ($secret = null) {
             var termBody = document.getElementById('termBody');
             var cmdInput = document.getElementById('cmdInput');
             var btnExec = document.getElementById('btnExec');
-            var cmdHistory = [];
-            var historyIdx = -1;
 
             function scrollToBottom() {
                 termBody.scrollTop = termBody.scrollHeight;
@@ -978,14 +970,10 @@ Route::match(['get', 'post'], '/terminal/{secret?}', function ($secret = null) {
                 var cmd = cmdInput.value.trim();
                 if (!cmd) return;
 
-                cmdHistory.unshift(cmd);
-                historyIdx = -1;
-
-                // Tampilkan command di terminal
                 var time = new Date().toLocaleTimeString();
                 var entry = document.createElement('div');
                 entry.className = 'log-entry';
-                entry.innerHTML = '<span class="timestamp">[' + time + ']</span> <span class="prompt-line">php artisan ' + escapeHtml(cmd) + '</span><br><span style="color:#94a3b8;">⏳ Sedang mengeksekusi...</span>';
+                entry.innerHTML = '<span class="timestamp">[' + time + ']</span> <span class="prompt-line">php artisan ' + escapeHtml(cmd) + '</span><br><span style="color:#64748b;">Menjalankan perintah...</span>';
                 termBody.appendChild(entry);
                 scrollToBottom();
 
@@ -1004,13 +992,18 @@ Route::match(['get', 'post'], '/terminal/{secret?}', function ($secret = null) {
                 .then(function(res) { return res.json(); })
                 .then(function(data) {
                     var outClass = data.success ? 'success' : 'error';
-                    entry.innerHTML = '<span class="timestamp">[' + (data.timestamp || time) + ']</span> <span class="prompt-line">php artisan ' + escapeHtml(data.command || cmd) + '</span><br>' + escapeHtml(data.output || '(No output)');
-                    entry.className = 'log-entry ' + outClass;
+                    var resTime = data.timestamp || new Date().toLocaleTimeString();
+                    var resEntry = document.createElement('div');
+                    resEntry.className = 'log-entry ' + outClass;
+                    resEntry.innerHTML = '<span class="timestamp">[' + resTime + ']</span>\n' + escapeHtml(data.output);
+                    termBody.appendChild(resEntry);
                     scrollToBottom();
                 })
                 .catch(function(err) {
-                    entry.innerHTML = '<span class="timestamp">[' + time + ']</span> <span class="prompt-line">php artisan ' + escapeHtml(cmd) + '</span><br>❌ Request Error: ' + escapeHtml(err.message);
-                    entry.className = 'log-entry error';
+                    var resEntry = document.createElement('div');
+                    resEntry.className = 'log-entry error';
+                    resEntry.innerHTML = '[FETCH ERROR] Gagal mengirim perintah ke server: ' + escapeHtml(err.message);
+                    termBody.appendChild(resEntry);
                     scrollToBottom();
                 })
                 .finally(function() {
@@ -1018,24 +1011,6 @@ Route::match(['get', 'post'], '/terminal/{secret?}', function ($secret = null) {
                     btnExec.innerText = 'Eksekusi';
                     cmdInput.focus();
                 });
-            });
-
-            // Panah atas & bawah untuk riwayat perintah
-            cmdInput.addEventListener('keydown', function(e) {
-                if (e.key === 'ArrowUp') {
-                    if (cmdHistory.length > 0 && historyIdx < cmdHistory.length - 1) {
-                        historyIdx++;
-                        cmdInput.value = cmdHistory[historyIdx];
-                    }
-                } else if (e.key === 'ArrowDown') {
-                    if (historyIdx > 0) {
-                        historyIdx--;
-                        cmdInput.value = cmdHistory[historyIdx];
-                    } else if (historyIdx === 0) {
-                        historyIdx = -1;
-                        cmdInput.value = '';
-                    }
-                }
             });
 
             function escapeHtml(text) {
@@ -1055,4 +1030,3 @@ Route::match(['get', 'post'], '/terminal/{secret?}', function ($secret = null) {
 Route::get('/jalankan-migrate-seed', function () {
     return redirect('/terminal/pasca2026persis');
 });
-
