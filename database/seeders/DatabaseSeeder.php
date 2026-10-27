@@ -33,6 +33,7 @@ class DatabaseSeeder extends Seeder
             KalenderAkademikSeeder::class,
             DokumenInstitusiSeeder::class,
             LppmInformasiHibahSeeder::class,
+            KpiSeeder::class,
         ]);
     }
 }
