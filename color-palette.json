@@ -1,0 +1,30 @@
+{
+  "name": "Pascasarjana IAI Persis Bandung Earth-Tone Palette",
+  "colors": {
+    "pasca-darkest": {
+      "hex": "#344E41",
+      "rgb": "rgb(52, 78, 65)",
+      "role": "Deep Forest Green - Main background, navbar & footer container"
+    },
+    "pasca-dark": {
+      "hex": "#3A5A40",
+      "rgb": "rgb(58, 90, 64)",
+      "role": "Hunter Green - Secondary dark accents, hover effects"
+    },
+    "pasca-primary": {
+      "hex": "#588157",
+      "rgb": "rgb(88, 129, 87)",
+      "role": "Fern Green - Primary brand color, CTA buttons, active links"
+    },
+    "pasca-sage": {
+      "hex": "#A3B18A",
+      "rgb": "rgb(163, 177, 138)",
+      "role": "Sage Green - Badges, borders, subtle highlights, pill tags"
+    },
+    "pasca-light": {
+      "hex": "#DAD7CD",
+      "rgb": "rgb(218, 215, 205)",
+      "role": "Timberwolf / Warm Cream - Light backgrounds, card surfaces, soft contrast"
+    }
+  }
+}

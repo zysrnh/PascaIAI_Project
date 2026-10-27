@@ -1,3 +1,11 @@
+:root {
+    --pasca-darkest: #344E41;
+    --pasca-dark: #3A5A40;
+    --pasca-primary: #588157;
+    --pasca-sage: #A3B18A;
+    --pasca-light: #DAD7CD;
+}
+
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;

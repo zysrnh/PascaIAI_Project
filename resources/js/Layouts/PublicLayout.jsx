@@ -36,8 +36,21 @@ export default function PublicLayout({ children }) {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between items-center h-20 gap-4">
                         {/* Logo & Brand Name */}
-                        <Link href="/" className="flex items-center shrink-0 group py-2">
-                            {/* Logo Sementara Dihilangkan */}
+                        {/* Logo & Brand Name */}
+                        <Link href="/" className="flex items-center gap-3 shrink-0 group py-2">
+                            <img 
+                                src="/logo_kampus.png" 
+                                alt="Logo IAI Persis Bandung" 
+                                className="h-10 sm:h-12 w-auto object-contain group-hover:scale-[1.02] transition-transform drop-shadow-sm" 
+                            />
+                            <div className="flex flex-col border-l border-slate-300 pl-3">
+                                <span className="font-extrabold text-sm sm:text-base tracking-wider text-emerald-950 uppercase leading-none font-sans">
+                                    PASCASARJANA
+                                </span>
+                                <span className="text-[10px] sm:text-[11px] text-slate-500 font-semibold tracking-tight leading-tight mt-1">
+                                    IAI PERSIS BANDUNG
+                                </span>
+                            </div>
                         </Link>
 
                         {/* Desktop Navigation Menu */}
@@ -215,8 +228,12 @@ export default function PublicLayout({ children }) {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="grid grid-cols-1 md:grid-cols-12 gap-10">
                         <div className="md:col-span-5">
-                            <div className="flex items-center gap-3 mb-6">
-                                
+                            <div className="flex items-center gap-3 mb-6 bg-white/10 p-2.5 rounded-md w-fit backdrop-blur-sm border border-emerald-900/40">
+                                <img src="/logo_kampus.png" alt="IAI PERSIS BANDUNG" className="h-10 w-auto object-contain bg-white rounded p-1 shadow-sm" />
+                                <div className="flex flex-col text-white pl-2">
+                                    <span className="font-bold text-sm tracking-wide text-amber-400 uppercase leading-none">PASCASARJANA</span>
+                                    <span className="text-[10px] text-emerald-200 mt-1">IAI PERSIS BANDUNG</span>
+                                </div>
                             </div>
                             <p className="text-sm text-emerald-200/80 leading-relaxed mb-6">
                                 Program Pascasarjana (Magister S2) Institut Agama Islam Persatuan Islam (IAI PERSIS) Bandung berkomitmen menyelenggarakan pendidikan tinggi Islam tingkat lanjut yang unggul, berdaya saing, dan berakhlak mulia.

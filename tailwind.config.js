@@ -12,6 +12,15 @@ export default {
 
     theme: {
         extend: {
+            colors: {
+                pasca: {
+                    darkest: '#344E41',
+                    dark: '#3A5A40',
+                    primary: '#588157',
+                    sage: '#A3B18A',
+                    light: '#DAD7CD',
+                },
+            },
             fontFamily: {
                 sans: ['Montserrat', ...defaultTheme.fontFamily.sans],
                 arabic: ['Amiri', ...defaultTheme.fontFamily.serif],

@@ -114,7 +114,7 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
 
     return (
         <>
-            <Head title="Lembaga Penjaminan Mutu (LPM) | IAI Persis Bandung" />
+            <Head title="Program Pascasarjana (Magister S2) | IAI Persis Bandung" />
             <div className="bg-slate-50 text-slate-800 antialiased font-sans">
                 {/* Top Bar Info */}
                 <div className="bg-emerald-950 text-emerald-100 text-xs py-2.5 px-4 hidden md:block border-b border-emerald-900/60">
@@ -140,9 +140,22 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                         <div className="flex justify-between items-center h-20 gap-4">
                             {/* Logo & Brand Name */}
-                            <Link href="/" className="flex items-center shrink-0 group py-2">
-                                {/* Logo Sementara Dihilangkan */}
-                            </Link>
+                            {/* Logo & Brand Name */}
+                        <Link href="/" className="flex items-center gap-3 shrink-0 group py-2">
+                            <img 
+                                src="/logo_kampus.png" 
+                                alt="Logo IAI Persis Bandung" 
+                                className="h-10 sm:h-12 w-auto object-contain group-hover:scale-[1.02] transition-transform drop-shadow-sm" 
+                            />
+                            <div className="flex flex-col border-l border-slate-300 pl-3">
+                                <span className="font-extrabold text-sm sm:text-base tracking-wider text-emerald-950 uppercase leading-none font-sans">
+                                    PASCASARJANA
+                                </span>
+                                <span className="text-[10px] sm:text-[11px] text-slate-500 font-semibold tracking-tight leading-tight mt-1">
+                                    IAI PERSIS BANDUNG
+                                </span>
+                            </div>
+                        </Link>
 
                             {/* Desktop Navigation Menu */}
                             <nav className="hidden lg:flex items-center space-x-4 xl:space-x-6 shrink-0">
@@ -322,7 +335,7 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                                 >
                                     <img
                                         src={`/storage/${slide.gambar}`}
-                                        alt={slide.judul || 'Banner LPM'}
+                                        alt={slide.judul || 'Banner Pascasarjana'}
                                         className="w-full h-full object-cover object-center transform scale-105 animate-kenburns"
                                     />
                                     <div className="absolute inset-0 bg-gradient-to-r from-emerald-950/95 via-emerald-950/75 to-transparent"></div>
@@ -412,7 +425,7 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                                 )}
                             </h1>
                             <p className="text-base sm:text-lg lg:text-xl text-slate-200 mb-10 max-w-3xl mx-auto leading-relaxed">
-                                {setting?.hero_subtitle || "Lembaga Penjaminan Mutu (LPM) IAI Persis Bandung mengawal implementasi SPMI berbasis PPEPP secara kredibel, akuntabel, dan transparan guna mewujudkan institusi pendidikan tinggi Islam yang unggul."}
+                                {setting?.hero_subtitle || "Program Pascasarjana (Magister S2) IAI Persis Bandung menyelenggarakan pendidikan tinggi Islam tingkat lanjut guna mencetak akademisi dan praktisi yang unggul, berintegritas, dan berdaya saing global."}
                             </p>
                             <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
                                 
@@ -924,9 +937,13 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                         <div className="grid grid-cols-1 md:grid-cols-12 gap-10">
                             <div className="md:col-span-5">
-                                <div className="flex items-center gap-3 mb-6">
-                                    
+                                <div className="flex items-center gap-3 mb-6 bg-white/10 p-2.5 rounded-md w-fit backdrop-blur-sm border border-emerald-900/40">
+                                <img src="/logo_kampus.png" alt="IAI PERSIS BANDUNG" className="h-10 w-auto object-contain bg-white rounded p-1 shadow-sm" />
+                                <div className="flex flex-col text-white pl-2">
+                                    <span className="font-bold text-sm tracking-wide text-amber-400 uppercase leading-none">PASCASARJANA</span>
+                                    <span className="text-[10px] text-emerald-200 mt-1">IAI PERSIS BANDUNG</span>
                                 </div>
+                            </div>
                                 <p className="text-sm text-emerald-200/80 leading-relaxed mb-6">
                                     Program Pascasarjana (Magister S2) Institut Agama Islam Persatuan Islam (IAI PERSIS) Bandung berkomitmen menyelenggarakan pendidikan tinggi Islam tingkat lanjut yang unggul, berdaya saing, dan berakhlak mulia.
                                 </p>
