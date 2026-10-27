@@ -8,7 +8,7 @@ export default function PublicLayout({ children }) {
         setIsLoaded(true);
     }, []);
 
-    const emailDisplay = 'lpm@iaipibandung.ac.id';
+    const emailDisplay = 'pasca@iaipibandung.ac.id';
 
     return (
         <div className="bg-slate-50 text-slate-800 antialiased font-sans">
@@ -21,7 +21,7 @@ export default function PublicLayout({ children }) {
                         <span><i className="fa-solid fa-location-dot text-amber-500 mr-1.5"></i> Bojongsoang, Bandung</span>
                     </div>
                     <div className="flex items-center space-x-4">
-                        <span className="text-emerald-300/90 font-medium">Sistem Penjaminan Mutu Internal (SPMI)</span>
+                        
                         <div className="flex items-center space-x-3">
                             <a href="#" className="hover:text-amber-400 transition"><i className="fa-brands fa-facebook-f"></i></a>
                             <a href="#" className="hover:text-amber-400 transition"><i className="fa-brands fa-instagram"></i></a>
@@ -37,11 +37,7 @@ export default function PublicLayout({ children }) {
                     <div className="flex justify-between items-center h-20 gap-4">
                         {/* Logo & Brand Name */}
                         <Link href="/" className="flex items-center shrink-0 group py-2">
-                            <img 
-                                src="/logo_lpm.png" 
-                                alt="Logo IAI Persis Bandung" 
-                                className="h-10 sm:h-12 md:h-13 w-auto max-w-[210px] sm:max-w-[260px] object-contain group-hover:scale-[1.02] transition-transform drop-shadow-sm" 
-                            />
+                            {/* Logo Sementara Dihilangkan */}
                         </Link>
 
                         {/* Desktop Navigation Menu */}
@@ -220,10 +216,10 @@ export default function PublicLayout({ children }) {
                     <div className="grid grid-cols-1 md:grid-cols-12 gap-10">
                         <div className="md:col-span-5">
                             <div className="flex items-center gap-3 mb-6">
-                                <img src="/logo_lpm.png" alt="LPM IAI PERSIS BANDUNG" className="h-12 w-auto object-contain bg-white rounded-md p-1.5 shadow-sm" />
+                                
                             </div>
                             <p className="text-sm text-emerald-200/80 leading-relaxed mb-6">
-                                Lembaga Penjaminan Mutu (LPM) Institut Agama Islam Persatuan Islam (IAI PERSIS) Bandung bertugas mengawal, merencanakan, dan meningkatkan mutu akademik maupun non-akademik secara berkelanjutan berlandaskan siklus PPEPP.
+                                Program Pascasarjana (Magister S2) Institut Agama Islam Persatuan Islam (IAI PERSIS) Bandung berkomitmen menyelenggarakan pendidikan tinggi Islam tingkat lanjut yang unggul, berdaya saing, dan berakhlak mulia.
                             </p>
                             <div className="flex items-center space-x-3">
                                 <a href="#" className="w-9 h-9 bg-emerald-900 hover:bg-emerald-800 flex items-center justify-center text-emerald-100 hover:text-amber-400 transition rounded-md"><i className="fa-brands fa-facebook-f text-sm"></i></a>
@@ -234,7 +230,7 @@ export default function PublicLayout({ children }) {
                         <div className="md:col-span-3">
                             <h4 className="text-white font-bold mb-6 text-sm tracking-widest uppercase">Tautan Penting</h4>
                             <ul className="space-y-3.5 text-sm text-emerald-200/80">
-                                <li><Link href="/profil/tentang-kampus" className="hover:text-amber-400 transition flex items-center gap-2"><i className="fa-solid fa-chevron-right text-[10px]"></i> Profil & Visi Misi LPM</Link></li>
+                                <li><Link href="/profil/tentang-kampus" className="hover:text-amber-400 transition flex items-center gap-2"><i className="fa-solid fa-chevron-right text-[10px]"></i> Profil & Visi Misi Pascasarjana</Link></li>
                                 <li><Link href={route('public.dokumen-institusi')} className="hover:text-amber-400 transition flex items-center gap-2"><i className="fa-solid fa-chevron-right text-[10px]"></i> Dokumen Kebijakan & Standar SPMI</Link></li>
                                 <li><Link href={route('public.akademik.pedoman')} className="hover:text-amber-400 transition flex items-center gap-2"><i className="fa-solid fa-chevron-right text-[10px]"></i> Audit Mutu Internal (AMI)</Link></li>
                                 <li><Link href={route('public.akreditasi')} className="hover:text-amber-400 transition flex items-center gap-2"><i className="fa-solid fa-chevron-right text-[10px]"></i> Data Akreditasi BAN-PT & LAM</Link></li>
@@ -242,7 +238,7 @@ export default function PublicLayout({ children }) {
                             </ul>
                         </div>
                         <div className="md:col-span-4">
-                            <h4 className="text-white font-bold mb-6 text-sm tracking-widest uppercase">Sekretariat LPM</h4>
+                            <h4 className="text-white font-bold mb-6 text-sm tracking-widest uppercase">Sekretariat Pascasarjana</h4>
                             <ul className="space-y-4 text-sm text-emerald-200/80">
                                 <li className="flex items-start gap-3">
                                     <i className="fa-solid fa-location-dot mt-1 text-amber-500"></i>
@@ -260,7 +256,7 @@ export default function PublicLayout({ children }) {
                         </div>
                     </div>
                     <div className="border-t border-emerald-900 mt-12 pt-8 text-center text-xs text-emerald-300/50">
-                        &copy; 2026 Lembaga Penjaminan Mutu (LPM) IAI PERSIS Bandung. Hak Cipta Dilindungi Undang-Undang.
+                        &copy; 2026 Program Pascasarjana IAI PERSIS Bandung. Hak Cipta Dilindungi Undang-Undang.
                     </div>
                 </div>
             </footer>

@@ -110,7 +110,7 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
         { id: 4, nama: 'Survei Kepuasan Mutu', deskripsi: 'Survei Mahasiswa, Dosen & Pengguna', ikon: 'fa-square-poll-vertical', url: '#survei' },
     ];
 
-    const emailDisplay = (umum?.email && !umum.email.includes('pasca')) ? umum.email : 'lpm@iaipibandung.ac.id';
+    const emailDisplay = (umum?.email && !umum.email.includes('pasca')) ? umum.email : 'pasca@iaipibandung.ac.id';
 
     return (
         <>
@@ -125,7 +125,7 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                             <span><i className="fa-solid fa-location-dot text-amber-500 mr-1.5"></i> Bojongsoang, Bandung</span>
                         </div>
                         <div className="flex items-center space-x-5">
-                            <span className="text-emerald-300/90 font-medium">Sistem Penjaminan Mutu Internal (SPMI)</span>
+                            
                             <div className="flex items-center space-x-3">
                                 <a href={umum?.facebook_url || '#'} className="hover:text-amber-400 transition"><i className="fa-brands fa-facebook-f"></i></a>
                                 <a href={umum?.instagram_url || '#'} className="hover:text-amber-400 transition"><i className="fa-brands fa-instagram"></i></a>
@@ -135,89 +135,88 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                     </div>
                 </div>
 
-                {/* Header / Navbar */}
+                                {/* Header / Navbar */}
                 <header className="bg-white shadow-md sticky top-0 z-50 transition-all duration-300">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                         <div className="flex justify-between items-center h-20 gap-4">
                             {/* Logo & Brand Name */}
                             <Link href="/" className="flex items-center shrink-0 group py-2">
-                                <img 
-                                    src="/logo_lpm.png" 
-                                    alt="Logo LPM IAI Persis Bandung" 
-                                    className="h-10 sm:h-12 md:h-13 w-auto max-w-[210px] sm:max-w-[260px] object-contain group-hover:scale-[1.02] transition-transform drop-shadow-sm" 
-                                />
+                                {/* Logo Sementara Dihilangkan */}
                             </Link>
 
                             {/* Desktop Navigation Menu */}
-                            <nav className="hidden lg:flex items-center space-x-5 xl:space-x-7 shrink-0">
+                            <nav className="hidden lg:flex items-center space-x-4 xl:space-x-6 shrink-0">
                                 <Link href="/" className="text-emerald-800 font-semibold border-b-2 border-emerald-800 px-1 py-1 text-sm xl:text-base">Beranda</Link>
 
                                 {/* Profil Dropdown */}
                                 <div className="relative group">
                                     <button className="text-slate-600 hover:text-emerald-700 font-medium px-1 py-1 text-sm xl:text-base transition flex items-center gap-1">
-                                        Profil LPM <i className="fa-solid fa-chevron-down text-[10px]"></i>
+                                        Profil <i className="fa-solid fa-chevron-down text-[10px]"></i>
                                     </button>
-                                    <div className="absolute top-full left-0 mt-2 w-56 bg-white border border-slate-200 rounded-md shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50">
+                                    <div className="absolute top-full left-0 mt-2 w-60 bg-white border border-slate-200 rounded-md shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50">
                                         <div className="p-2 space-y-0.5">
-                                            <Link href="/profil/tentang-kampus" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Tentang LPM</Link>
-                                            <Link href="/profil/visi-misi" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Visi, Misi & Tujuan</Link>
-                                            <Link href="/profil/sambutan-pimpinan" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Sambutan Ketua LPM</Link>
-                                            <Link href="/profil/struktur-organisasi" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Struktur Organisasi & Tim</Link>
+                                            <Link href="/profil/tentang-kampus" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Tentang &amp; Sejarah</Link>
+                                            <Link href="/profil/visi-misi" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Visi, Misi &amp; Tujuan</Link>
+                                            <Link href="/profil/sambutan-pimpinan" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Sambutan Pimpinan</Link>
+                                            <Link href="/profil/struktur-organisasi" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Struktur Organisasi &amp; Tim</Link>
+                                            <Link href={route('public.prospek-karir')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Profil Lulusan &amp; Karir</Link>
                                         </div>
                                     </div>
                                 </div>
 
-                                {/* Dokumen SPMI Dropdown */}
+                                {/* Akademik & Dosen Dropdown */}
                                 <div className="relative group">
                                     <button className="text-slate-600 hover:text-emerald-700 font-medium px-1 py-1 text-sm xl:text-base transition flex items-center gap-1">
-                                        Dokumen SPMI <i className="fa-solid fa-chevron-down text-[10px]"></i>
+                                        Akademik &amp; Dosen <i className="fa-solid fa-chevron-down text-[10px]"></i>
                                     </button>
-                                    <div className="absolute top-full left-0 mt-2 w-56 bg-white border border-slate-200 rounded-md shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50">
+                                    <div className="absolute top-full left-0 mt-2 w-64 bg-white border border-slate-200 rounded-md shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50">
                                         <div className="p-2 space-y-0.5">
-                                            <Link href={route('public.dokumen-institusi')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Semua Dokumen Mutu</Link>
-                                            <Link href={route('public.dokumen-institusi')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Kebijakan SPMI</Link>
-                                            <Link href={route('public.dokumen-institusi')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Manual SPMI (PPEPP)</Link>
-                                            <Link href={route('public.dokumen-institusi')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Standar SPMI</Link>
-                                            <Link href={route('public.dokumen-institusi')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Formulir & SOP Mutu</Link>
+                                            <Link href={route('public.akademik.kurikulum')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Kurikulum &amp; Capaian (CPL)</Link>
+                                            <Link href={route('public.dosen')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Direktori Dosen &amp; Tendik</Link>
+                                            <Link href={route('public.akademik.kalender')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Kalender Akademik</Link>
+                                            <Link href={route('public.akademik.jadwal')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Jadwal Perkuliahan</Link>
+                                            <Link href={route('public.akademik.pedoman')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Pedoman Akademik</Link>
+                                            <Link href={route('public.akademik.sistem')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Sistem Akademik (SIAKAD)</Link>
                                         </div>
                                     </div>
                                 </div>
 
-                                {/* Audit Mutu (AMI) Dropdown */}
+                                {/* Riset & Pengabdian Dropdown */}
                                 <div className="relative group">
-                                    <button className="text-slate-600 hover:text-emerald-700 font-medium px-1 py-1 transition flex items-center gap-1">
-                                        Audit Mutu (AMI) <i className="fa-solid fa-chevron-down text-[10px]"></i>
+                                    <button className="text-slate-600 hover:text-emerald-700 font-medium px-1 py-1 text-sm xl:text-base transition flex items-center gap-1">
+                                        Riset &amp; Pengabdian <i className="fa-solid fa-chevron-down text-[10px]"></i>
                                     </button>
-                                    <div className="absolute top-full left-0 mt-2 w-52 bg-white border border-slate-200 rounded-md shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50">
+                                    <div className="absolute top-full left-0 mt-2 w-64 bg-white border border-slate-200 rounded-md shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50">
                                         <div className="p-2 space-y-0.5">
-                                            <Link href={route('public.akademik.pedoman')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Pedoman & Instrumen AMI</Link>
-                                            <Link href={route('public.akademik.jadwal')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Jadwal Siklus AMI</Link>
-                                            <Link href={route('public.akademik.kalender')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Kalender Mutu & AMI</Link>
+                                            <Link href={route('public.lppm.penelitian')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Penelitian &amp; Info Hibah</Link>
+                                            <Link href={route('public.lppm.pengabdian')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Pengabdian kepada Masyarakat</Link>
+                                            <Link href={route('public.lppm.publikasi')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Publikasi Ilmiah &amp; Jurnal</Link>
+                                            <Link href={route('public.lppm.repository')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Repository Karya Ilmiah</Link>
                                         </div>
                                     </div>
                                 </div>
 
-                                {/* Akreditasi */}
-                                <Link href={route('public.akreditasi')} className={`font-semibold border-b-2 px-1 py-1 transition ${route().current('public.akreditasi') ? 'text-emerald-800 border-emerald-800' : 'text-slate-600 hover:text-emerald-800 border-transparent hover:border-emerald-800'}`}>Akreditasi</Link>
-
-                                {/* Survei & Layanan Dropdown */}
+                                {/* Akreditasi & Penjaminan Mutu Dropdown */}
                                 <div className="relative group">
-                                    <button className="text-slate-600 hover:text-emerald-700 font-medium px-1 py-1 transition flex items-center gap-1">
-                                        Survei & Layanan <i className="fa-solid fa-chevron-down text-[10px]"></i>
+                                    <button className="text-slate-600 hover:text-emerald-700 font-medium px-1 py-1 text-sm xl:text-base transition flex items-center gap-1">
+                                        Akreditasi &amp; Mutu <i className="fa-solid fa-chevron-down text-[10px]"></i>
                                     </button>
-                                    <div className="absolute top-full left-0 mt-2 w-56 bg-white border border-slate-200 rounded-md shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50">
+                                    <div className="absolute top-full left-0 mt-2 w-64 bg-white border border-slate-200 rounded-md shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50">
                                         <div className="p-2 space-y-0.5">
+                                            <Link href={route('public.akreditasi')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Data Akreditasi (BAN-PT &amp; LAM)</Link>
+                                            <Link href={route('public.dokumen-institusi')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Dokumen SPMI &amp; SOP</Link>
+                                            <Link href={route('public.akademik.pedoman')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Instrumen &amp; Siklus AMI</Link>
                                             <a href="#survei" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Survei Kepuasan Mutu</a>
-                                            <a href="#aduan" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Pengaduan & Helpdesk Mutu</a>
-                                            <Link href={route('public.lppm.repository')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Repository Laporan Mutu</Link>
                                         </div>
                                     </div>
                                 </div>
 
-                                <Link href="/berita" className={`font-semibold border-b-2 px-1 py-1 transition ${route().current('public.berita.*') ? 'text-emerald-800 border-emerald-800' : 'text-slate-600 hover:text-emerald-800 border-transparent hover:border-emerald-800'}`}>Berita</Link>
+                                {/* Berita */}
+                                <Link href="/berita" className="text-slate-600 hover:text-emerald-800 border-b-2 border-transparent hover:border-emerald-800 font-semibold px-1 py-1 transition text-sm xl:text-base">Berita</Link>
 
-                                <Link href={route('public.dokumen-institusi')} className="bg-emerald-800 hover:bg-emerald-900 text-white px-5 py-2.5 rounded-sm font-semibold shadow-md shadow-emerald-900/10 hover:shadow-lg transition text-sm flex items-center gap-2">
-                                    <i className="fa-solid fa-file-shield text-xs"></i> Dokumen SPMI
+                                {/* Tombol CTA Dokumen & Akreditasi */}
+                                <Link href={route('public.dokumen-institusi')} className="bg-emerald-800 hover:bg-emerald-900 text-white px-4 py-2 rounded-sm font-semibold shadow-md shadow-emerald-900/10 hover:shadow-lg transition text-xs xl:text-sm flex items-center gap-1.5 shrink-0">
+                                    <i className="fa-solid fa-file-shield text-xs"></i> Dokumen &amp; Mutu
                                 </Link>
                             </nav>
 
@@ -234,62 +233,77 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                     {/* Mobile Navigation Menu Dropdown */}
                     <div className={`lg:hidden bg-white shadow-lg transition-all duration-300 ease-in-out ${isMobileMenuOpen ? 'max-h-[85vh] opacity-100 border-t border-slate-100 overflow-y-auto' : 'max-h-0 opacity-0 border-t-0 overflow-hidden'}`}>
                         <div className="px-4 pt-2 pb-6 space-y-1">
-                            <Link href="/" className="block px-3 py-2.5 rounded-sm text-slate-700 hover:bg-slate-50 font-medium mb-1">Beranda</Link>
+                            <style>{`
+                                details[open] summary ~ * {
+                                    animation: slideDown 0.3s ease-in-out;
+                                }
+                                @keyframes slideDown {
+                                    0% { opacity: 0; transform: translateY(-8px); }
+                                    100% { opacity: 1; transform: translateY(0); }
+                                }
+                            `}</style>
+                            <Link href="/" className="block px-3 py-2.5 rounded-sm text-emerald-800 bg-emerald-50/60 font-semibold mb-1">Beranda</Link>
 
+                            {/* Profil Mobile Dropdown */}
                             <details className="group">
                                 <summary className="flex justify-between items-center px-3 py-2.5 rounded-sm text-slate-700 hover:bg-slate-50 font-medium cursor-pointer list-none">
-                                    Profil LPM <i className="fa-solid fa-chevron-down text-xs transition-transform group-open:rotate-180"></i>
+                                    Profil <i className="fa-solid fa-chevron-down text-xs transition-transform group-open:rotate-180"></i>
                                 </summary>
                                 <div className="pl-4 pb-2 space-y-1 border-l-2 border-emerald-100 ml-3 mt-1">
-                                    <Link href="/profil/tentang-kampus" className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Tentang LPM</Link>
-                                    <Link href="/profil/visi-misi" className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Visi, Misi & Tujuan</Link>
-                                    <Link href="/profil/sambutan-pimpinan" className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Sambutan Ketua LPM</Link>
-                                    <Link href="/profil/struktur-organisasi" className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Struktur Organisasi & Tim</Link>
+                                    <Link href="/profil/tentang-kampus" className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Tentang &amp; Sejarah</Link>
+                                    <Link href="/profil/visi-misi" className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Visi, Misi &amp; Tujuan</Link>
+                                    <Link href="/profil/sambutan-pimpinan" className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Sambutan Pimpinan</Link>
+                                    <Link href="/profil/struktur-organisasi" className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Struktur Organisasi &amp; Tim</Link>
+                                    <Link href={route('public.prospek-karir')} className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Profil Lulusan &amp; Karir</Link>
                                 </div>
                             </details>
 
+                            {/* Akademik & Dosen Mobile Dropdown */}
                             <details className="group">
                                 <summary className="flex justify-between items-center px-3 py-2.5 rounded-sm text-slate-700 hover:bg-slate-50 font-medium cursor-pointer list-none">
-                                    Dokumen SPMI <i className="fa-solid fa-chevron-down text-xs transition-transform group-open:rotate-180"></i>
+                                    Akademik &amp; Dosen <i className="fa-solid fa-chevron-down text-xs transition-transform group-open:rotate-180"></i>
                                 </summary>
                                 <div className="pl-4 pb-2 space-y-1 border-l-2 border-emerald-100 ml-3 mt-1">
-                                    <Link href={route('public.dokumen-institusi')} className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Semua Dokumen Mutu</Link>
-                                    <Link href={route('public.dokumen-institusi')} className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Kebijakan SPMI</Link>
-                                    <Link href={route('public.dokumen-institusi')} className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Manual SPMI (PPEPP)</Link>
-                                    <Link href={route('public.dokumen-institusi')} className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Standar SPMI</Link>
-                                    <Link href={route('public.dokumen-institusi')} className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Formulir & SOP Mutu</Link>
+                                    <Link href={route('public.akademik.kurikulum')} className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Kurikulum &amp; Capaian (CPL)</Link>
+                                    <Link href={route('public.dosen')} className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Direktori Dosen &amp; Tendik</Link>
+                                    <Link href={route('public.akademik.kalender')} className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Kalender Akademik</Link>
+                                    <Link href={route('public.akademik.jadwal')} className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Jadwal Perkuliahan</Link>
+                                    <Link href={route('public.akademik.pedoman')} className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Pedoman Akademik</Link>
+                                    <Link href={route('public.akademik.sistem')} className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Sistem Akademik (SIAKAD)</Link>
                                 </div>
                             </details>
 
+                            {/* Riset & Pengabdian Mobile Dropdown */}
                             <details className="group">
                                 <summary className="flex justify-between items-center px-3 py-2.5 rounded-sm text-slate-700 hover:bg-slate-50 font-medium cursor-pointer list-none">
-                                    Audit Mutu (AMI) <i className="fa-solid fa-chevron-down text-xs transition-transform group-open:rotate-180"></i>
+                                    Riset &amp; Pengabdian <i className="fa-solid fa-chevron-down text-xs transition-transform group-open:rotate-180"></i>
                                 </summary>
                                 <div className="pl-4 pb-2 space-y-1 border-l-2 border-emerald-100 ml-3 mt-1">
-                                    <Link href={route('public.akademik.pedoman')} className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Pedoman & Instrumen AMI</Link>
-                                    <Link href={route('public.akademik.jadwal')} className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Jadwal Siklus AMI</Link>
-                                    <Link href={route('public.akademik.kalender')} className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Kalender Mutu & AMI</Link>
+                                    <Link href={route('public.lppm.penelitian')} className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Penelitian &amp; Info Hibah</Link>
+                                    <Link href={route('public.lppm.pengabdian')} className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Pengabdian kepada Masyarakat</Link>
+                                    <Link href={route('public.lppm.publikasi')} className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Publikasi Ilmiah &amp; Jurnal</Link>
+                                    <Link href={route('public.lppm.repository')} className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Repository Karya Ilmiah</Link>
                                 </div>
                             </details>
 
-                            <Link href={route('public.akreditasi')} className="block px-3 py-2.5 rounded-sm text-slate-700 hover:bg-slate-50 font-medium mb-1">Akreditasi</Link>
-
+                            {/* Akreditasi & Mutu Mobile Dropdown */}
                             <details className="group">
                                 <summary className="flex justify-between items-center px-3 py-2.5 rounded-sm text-slate-700 hover:bg-slate-50 font-medium cursor-pointer list-none">
-                                    Survei & Layanan <i className="fa-solid fa-chevron-down text-xs transition-transform group-open:rotate-180"></i>
+                                    Akreditasi &amp; Mutu <i className="fa-solid fa-chevron-down text-xs transition-transform group-open:rotate-180"></i>
                                 </summary>
                                 <div className="pl-4 pb-2 space-y-1 border-l-2 border-emerald-100 ml-3 mt-1">
+                                    <Link href={route('public.akreditasi')} className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Data Akreditasi (BAN-PT &amp; LAM)</Link>
+                                    <Link href={route('public.dokumen-institusi')} className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Dokumen SPMI &amp; SOP</Link>
+                                    <Link href={route('public.akademik.pedoman')} className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Instrumen &amp; Siklus AMI</Link>
                                     <a href="#survei" className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Survei Kepuasan Mutu</a>
-                                    <a href="#aduan" className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Pengaduan & Helpdesk Mutu</a>
-                                    <Link href={route('public.lppm.repository')} className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Repository Laporan Mutu</Link>
                                 </div>
                             </details>
 
                             <Link href="/berita" className="block px-3 py-2.5 rounded-sm text-slate-700 hover:bg-slate-50 font-medium mb-1">Berita</Link>
 
-                            <div className="pt-4">
-                                <Link href={route('public.dokumen-institusi')} className="block text-center bg-emerald-800 text-white py-3 rounded-sm font-bold shadow-md">
-                                    <i className="fa-solid fa-file-shield mr-2"></i> Akses Dokumen SPMI
+                            <div className="pt-3">
+                                <Link href={route('public.dokumen-institusi')} className="block text-center bg-emerald-800 text-white py-2.5 rounded-sm font-bold shadow-md">
+                                    <i className="fa-solid fa-file-shield mr-2"></i> Akses Dokumen &amp; Mutu
                                 </Link>
                             </div>
                         </div>
@@ -316,10 +330,7 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
 
                                     <div className="relative z-20 max-w-7xl mx-auto h-full px-4 sm:px-6 lg:px-8 flex items-center">
                                         <div className="max-w-2xl text-white">
-                                            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-800/80 border border-emerald-500/30 text-emerald-200 text-xs sm:text-sm font-semibold mb-4 backdrop-blur-md">
-                                                <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
-                                                Sistem Penjaminan Mutu Internal (SPMI)
-                                            </div>
+                                            
                                             <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold leading-tight mb-4 text-white drop-shadow-md">
                                                 {slide.judul}
                                             </h2>
@@ -387,10 +398,7 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                     >
                         <div className="absolute inset-0 bg-gradient-to-t from-emerald-950/95 via-transparent to-transparent"></div>
                         <div className={`relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center transition-all duration-1000 ease-out transform ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
-                            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-800/80 border border-emerald-600 text-emerald-200 text-xs sm:text-sm font-semibold mb-6 shadow-sm">
-                                <span className="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse"></span>
-                                Penjaminan Mutu Berbasis Siklus PPEPP
-                            </div>
+                            
                             <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-6">
                                 {setting?.hero_title ? (
                                     setting.hero_title
@@ -407,9 +415,7 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                                 {setting?.hero_subtitle || "Lembaga Penjaminan Mutu (LPM) IAI Persis Bandung mengawal implementasi SPMI berbasis PPEPP secara kredibel, akuntabel, dan transparan guna mewujudkan institusi pendidikan tinggi Islam yang unggul."}
                             </p>
                             <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
-                                <Link href={route('public.dokumen-institusi')} className="w-full sm:w-auto bg-amber-500 hover:bg-amber-600 text-emerald-950 font-bold px-8 py-4 rounded-sm shadow-lg shadow-amber-500/20 transition hover:-translate-y-0.5 flex items-center justify-center gap-2">
-                                    <i className="fa-solid fa-file-shield"></i> Dokumen SPMI
-                                </Link>
+                                
                                 <Link href={route('public.akreditasi')} className="w-full sm:w-auto bg-transparent text-white font-semibold px-8 py-4 rounded-sm border border-white transition hover:bg-white/10 flex items-center justify-center gap-2">
                                     <i className="fa-solid fa-award"></i> Status Akreditasi
                                 </Link>
@@ -428,10 +434,10 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                             <div className="flex items-center gap-2.5">
                                 <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></div>
                                 <h3 className="text-xs sm:text-sm font-bold text-slate-800 uppercase tracking-wider flex items-center gap-2">
-                                    <i className="fa-solid fa-bolt text-amber-500"></i> Akses Cepat Layanan Mutu
+                                    <i className="fa-solid fa-bolt text-amber-500"></i> Akses Cepat Informasi & Layanan
                                 </h3>
                             </div>
-                            <span className="text-[11px] text-slate-400 font-medium hidden sm:inline-block">Pintasan Layanan LPM IAI PERSIS Bandung</span>
+                            
                         </div>
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
                             {displayQuickAccesses.map((item) => {
@@ -668,56 +674,7 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                             </Link>
                         </div>
 
-                        {/* Banner Ringkasan Akreditasi */}
-                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 animate-on-scroll opacity-0 translate-y-12 transition-all duration-1000 ease-out delay-100">
-                            <div className="bg-gradient-to-br from-emerald-900 to-emerald-950 text-white p-8 rounded-xl shadow-lg flex flex-col justify-between">
-                                <div>
-                                    <span className="inline-block px-3 py-1 bg-amber-400 text-emerald-950 text-xs font-bold rounded-full uppercase tracking-wider mb-4">Akreditasi Institusi</span>
-                                    <h3 className="text-2xl font-bold text-white mb-2">IAI PERSIS Bandung</h3>
-                                    <p className="text-emerald-200 text-sm leading-relaxed mb-6">
-                                        Terakreditasi resmi oleh Badan Akreditasi Nasional Perguruan Tinggi (BAN-PT).
-                                    </p>
-                                </div>
-                                <div className="border-t border-emerald-800/80 pt-4 flex items-center justify-between">
-                                    <span className="text-xs text-emerald-300">Peringkat: <strong className="text-white text-base">BAIK</strong></span>
-                                    <Link href={route('public.akreditasi')} className="text-xs font-bold text-amber-300 hover:text-amber-200 flex items-center gap-1">
-                                        Unduh SK <i className="fa-solid fa-download text-[10px]"></i>
-                                    </Link>
-                                </div>
-                            </div>
-
-                            <div className="bg-slate-50 border border-slate-200 p-8 rounded-xl shadow-sm flex flex-col justify-between">
-                                <div>
-                                    <span className="inline-block px-3 py-1 bg-emerald-100 text-emerald-800 text-xs font-bold rounded-full uppercase tracking-wider mb-4">Audit Mutu Internal (AMI)</span>
-                                    <h3 className="text-xl font-bold text-slate-800 mb-2">Siklus AMI Berkala</h3>
-                                    <p className="text-slate-600 text-sm leading-relaxed mb-6">
-                                        Seluruh program studi dan unit kerja diaudit setiap semester oleh tim auditor mutu tersertifikasi internal.
-                                    </p>
-                                </div>
-                                <div className="border-t border-slate-200 pt-4 flex items-center justify-between">
-                                    <span className="text-xs text-slate-500">Keterlaksanaan: <strong className="text-emerald-700 font-bold">100%</strong></span>
-                                    <Link href={route('public.akademik.pedoman')} className="text-xs font-bold text-emerald-700 hover:text-emerald-900 flex items-center gap-1">
-                                        Instrumen AMI <i className="fa-solid fa-arrow-right text-[10px]"></i>
-                                    </Link>
-                                </div>
-                            </div>
-
-                            <div className="bg-slate-50 border border-slate-200 p-8 rounded-xl shadow-sm flex flex-col justify-between">
-                                <div>
-                                    <span className="inline-block px-3 py-1 bg-blue-100 text-blue-800 text-xs font-bold rounded-full uppercase tracking-wider mb-4">Dokumen SPMI Mutakhir</span>
-                                    <h3 className="text-xl font-bold text-slate-800 mb-2">Kebijakan & Standar</h3>
-                                    <p className="text-slate-600 text-sm leading-relaxed mb-6">
-                                        Akses publik untuk dokumen legal, buku manual mutu, standar SPMI, dan SOP penjaminan mutu.
-                                    </p>
-                                </div>
-                                <div className="border-t border-slate-200 pt-4 flex items-center justify-between">
-                                    <span className="text-xs text-slate-500">Status: <strong className="text-blue-700 font-bold">Terpublikasi</strong></span>
-                                    <Link href={route('public.dokumen-institusi')} className="text-xs font-bold text-blue-700 hover:text-blue-900 flex items-center gap-1">
-                                        Akses Dokumen <i className="fa-solid fa-arrow-right text-[10px]"></i>
-                                    </Link>
-                                </div>
-                            </div>
-                        </div>
+{/* 3 Cards Ringkasan Mutu Dihapus Sesuai Revisi */}
                     </div>
                 </section>
 
@@ -968,10 +925,10 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                         <div className="grid grid-cols-1 md:grid-cols-12 gap-10">
                             <div className="md:col-span-5">
                                 <div className="flex items-center gap-3 mb-6">
-                                    <img src="/logo_lpm.png" alt="LPM IAI PERSIS BANDUNG" className="h-12 w-auto object-contain bg-white rounded-md p-1.5 shadow-sm" />
+                                    
                                 </div>
                                 <p className="text-sm text-emerald-200/80 leading-relaxed mb-6">
-                                    Lembaga Penjaminan Mutu (LPM) Institut Agama Islam Persatuan Islam (IAI PERSIS) Bandung bertugas mengawal, merencanakan, dan meningkatkan mutu akademik maupun non-akademik secara berkelanjutan berlandaskan siklus PPEPP.
+                                    Program Pascasarjana (Magister S2) Institut Agama Islam Persatuan Islam (IAI PERSIS) Bandung berkomitmen menyelenggarakan pendidikan tinggi Islam tingkat lanjut yang unggul, berdaya saing, dan berakhlak mulia.
                                 </p>
                                 <div className="flex items-center space-x-3">
                                     <a href={umum?.facebook_url || '#'} className="w-9 h-9 bg-emerald-900 hover:bg-emerald-800 flex items-center justify-center text-emerald-100 hover:text-amber-400 transition rounded-md"><i className="fa-brands fa-facebook-f text-sm"></i></a>
@@ -982,7 +939,7 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                             <div className="md:col-span-3">
                                 <h4 className="text-white font-bold mb-6 text-sm tracking-widest uppercase">Tautan Penting</h4>
                                 <ul className="space-y-3.5 text-sm text-emerald-200/80">
-                                    <li><Link href="/profil/tentang-kampus" className="hover:text-amber-400 transition flex items-center gap-2"><i className="fa-solid fa-chevron-right text-[10px]"></i> Profil & Visi Misi LPM</Link></li>
+                                    <li><Link href="/profil/tentang-kampus" className="hover:text-amber-400 transition flex items-center gap-2"><i className="fa-solid fa-chevron-right text-[10px]"></i> Profil & Visi Misi Pascasarjana</Link></li>
                                     <li><Link href={route('public.dokumen-institusi')} className="hover:text-amber-400 transition flex items-center gap-2"><i className="fa-solid fa-chevron-right text-[10px]"></i> Dokumen Kebijakan & Standar SPMI</Link></li>
                                     <li><Link href={route('public.akademik.pedoman')} className="hover:text-amber-400 transition flex items-center gap-2"><i className="fa-solid fa-chevron-right text-[10px]"></i> Audit Mutu Internal (AMI)</Link></li>
                                     <li><Link href={route('public.akreditasi')} className="hover:text-amber-400 transition flex items-center gap-2"><i className="fa-solid fa-chevron-right text-[10px]"></i> Data Akreditasi BAN-PT & LAM</Link></li>
@@ -990,7 +947,7 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                                 </ul>
                             </div>
                             <div className="md:col-span-4">
-                                <h4 className="text-white font-bold mb-6 text-sm tracking-widest uppercase">Sekretariat LPM</h4>
+                                <h4 className="text-white font-bold mb-6 text-sm tracking-widest uppercase">Sekretariat Pascasarjana</h4>
                                 <ul className="space-y-4 text-sm text-emerald-200/80">
                                     <li className="flex items-start gap-3">
                                         <i className="fa-solid fa-location-dot mt-1 text-amber-500"></i>
@@ -1002,13 +959,13 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                                     </li>
                                     <li className="flex items-center gap-3">
                                         <i className="fa-solid fa-envelope text-amber-500"></i>
-                                        <span>{umum?.email || 'lpm@iaipibandung.ac.id'}</span>
+                                        <span>{umum?.email || 'pasca@iaipibandung.ac.id'}</span>
                                     </li>
                                 </ul>
                             </div>
                         </div>
                         <div className="border-t border-emerald-900 mt-12 pt-8 text-center text-xs text-emerald-300/50">
-                            &copy; 2026 Lembaga Penjaminan Mutu (LPM) IAI PERSIS Bandung. Hak Cipta Dilindungi Undang-Undang.
+                            &copy; 2026 Program Pascasarjana IAI PERSIS Bandung. Hak Cipta Dilindungi Undang-Undang.
                         </div>
                     </div>
                 </footer>
