@@ -432,52 +432,7 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                     </section>
                 )}
 
-                {/* Akses Cepat (Quick Access) */}
-                <section className="relative z-20 -mt-10 sm:-mt-14 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6">
-                    <div className="bg-white/95 backdrop-blur-md rounded-xl shadow-xl border border-slate-200/80 p-5 sm:p-6 transition-all duration-300 hover:shadow-2xl">
-                        <div className="flex items-center justify-between mb-4 border-b border-slate-100 pb-3">
-                            <div className="flex items-center gap-2.5">
-                                <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></div>
-                                <h3 className="text-xs sm:text-sm font-bold text-slate-800 uppercase tracking-wider flex items-center gap-2">
-                                    <i className="fa-solid fa-bolt text-amber-500"></i> Akses Cepat Informasi & Layanan
-                                </h3>
-                            </div>
-                            
-                        </div>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-                            {displayQuickAccesses.map((item) => {
-                                const isExternal = item.url.startsWith('http');
-                                const isAnchor = item.url.startsWith('#');
-                                const LinkComponent = (isExternal || isAnchor) ? 'a' : Link;
-                                const linkProps = isExternal 
-                                    ? { href: item.url, target: '_blank', rel: 'noreferrer' } 
-                                    : { href: item.url };
-
-                                return (
-                                    <LinkComponent
-                                        key={item.id}
-                                        {...linkProps}
-                                        className="group p-4 rounded-xl bg-slate-50/80 hover:bg-emerald-800 border border-slate-200/80 hover:border-emerald-700 transition-all duration-300 flex items-center gap-3.5 shadow-sm hover:shadow-lg hover:-translate-y-0.5"
-                                    >
-                                        <div className="w-11 h-11 rounded-lg bg-emerald-100 group-hover:bg-emerald-700/60 text-emerald-800 group-hover:text-amber-400 flex items-center justify-center text-lg shrink-0 transition-colors shadow-inner">
-                                            <i className={`fa-solid ${item.ikon || 'fa-file-shield'}`}></i>
-                                        </div>
-                                        <div className="overflow-hidden">
-                                            <h4 className="font-bold text-slate-800 group-hover:text-white text-xs sm:text-sm truncate transition-colors leading-tight">
-                                                {item.nama}
-                                            </h4>
-                                            {item.deskripsi && (
-                                                <p className="text-[11px] text-slate-500 group-hover:text-emerald-100/90 truncate transition-colors mt-0.5">
-                                                    {item.deskripsi}
-                                                </p>
-                                            )}
-                                        </div>
-                                    </LinkComponent>
-                                );
-                            })}
-                        </div>
-                    </div>
-                </section>
+                {/* Section Akses Cepat Dihapus */}
 
                 {/* 5 Cards Statistik Penjaminan Mutu */}
                 <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16 relative z-20">
