@@ -91,7 +91,7 @@ export default function StrukturOrganisasi({ organisasi, jabatanTree, pengaturan
 
     return (
         <PublicLayout>
-            <Head title="Struktur Organisasi & Tim | LPM IAI Persis Bandung" />
+            <Head title="Struktur Organisasi & Tim | Prodi KPI IAI Persis Bandung" />
 
             {/* Hero Section / Banner */}
             <div className="relative w-full h-[350px] md:h-[450px] bg-emerald-950 flex flex-col justify-end">
@@ -129,7 +129,7 @@ export default function StrukturOrganisasi({ organisasi, jabatanTree, pengaturan
                     <div className="text-center mb-16">
                         <h2 className="text-3xl font-extrabold text-emerald-950 mb-4">Struktur Organisasi & Tim Auditor Mutu</h2>
                         <p className="text-slate-600 max-w-2xl mx-auto">
-                            Susunan pengelola Lembaga Penjaminan Mutu (LPM) IAI Persis Bandung dan Gugus Kendali Mutu yang berkomitmen mengawal standar mutu institusi.
+                            Susunan pengelola Program Studi Komunikasi dan Penyiaran Islam (KPI) IAI Persis Bandung dan Gugus Kendali Mutu yang berkomitmen mengawal standar mutu institusi.
                         </p>
                     </div>
 

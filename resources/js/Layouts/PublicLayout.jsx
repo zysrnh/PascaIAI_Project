@@ -8,7 +8,7 @@ export default function PublicLayout({ children }) {
         setIsLoaded(true);
     }, []);
 
-    const emailDisplay = 'pasca@iaipibandung.ac.id';
+    const emailDisplay = 'kpi@iaipibandung.ac.id';
 
     return (
         <div className="bg-slate-50 text-slate-800 antialiased font-sans">
@@ -38,10 +38,10 @@ export default function PublicLayout({ children }) {
                         {/* Brand Typography (No Image Logo) */}
                         <Link href="/" className="flex flex-col shrink-0 group py-1">
                             <span className="font-extrabold text-lg sm:text-xl tracking-tight text-pasca-darkest group-hover:text-pasca-primary transition-colors leading-tight">
-                                PASCASARJANA
+                                PRODI KPI
                             </span>
                             <span className="text-[10px] sm:text-[11px] text-slate-500 font-semibold tracking-wider uppercase leading-none mt-0.5">
-                                IAI PERSIS BANDUNG
+                                KOMUNIKASI &amp; PENYIARAN ISLAM — IAI PERSIS
                             </span>
                         </Link>
 
@@ -222,14 +222,14 @@ export default function PublicLayout({ children }) {
                         <div className="md:col-span-5">
                             <div className="flex flex-col mb-6 bg-white/5 p-4 rounded-md w-fit border border-emerald-900/60">
                                 <span className="font-extrabold text-lg tracking-wider text-amber-400 uppercase leading-tight">
-                                    PASCASARJANA
+                                    PROGRAM STUDI KPI
                                 </span>
                                 <span className="text-xs text-emerald-200/80 font-medium tracking-wide mt-0.5">
-                                    Institut Agama Islam Persis Bandung
+                                    Komunikasi dan Penyiaran Islam — Fakultas Dakwah
                                 </span>
                             </div>
                             <p className="text-sm text-emerald-200/80 leading-relaxed mb-6">
-                                Program Pascasarjana (Magister S2) Institut Agama Islam Persatuan Islam (IAI PERSIS) Bandung berkomitmen menyelenggarakan pendidikan tinggi Islam tingkat lanjut yang unggul, berdaya saing, dan berakhlak mulia.
+                                Program Studi S1 Komunikasi dan Penyiaran Islam (KPI) Fakultas Dakwah IAI Persis Bandung berkomitmen mencetak praktisi media, jurnalis, akademisi, dan dai yang unggul, profesional, dan berakhlak mulia di era digital.
                             </p>
                             <div className="flex items-center space-x-3">
                                 <a href="#" className="w-9 h-9 bg-emerald-900 hover:bg-emerald-800 flex items-center justify-center text-emerald-100 hover:text-amber-400 transition rounded-md"><i className="fa-brands fa-facebook-f text-sm"></i></a>
@@ -240,7 +240,7 @@ export default function PublicLayout({ children }) {
                         <div className="md:col-span-3">
                             <h4 className="text-white font-bold mb-6 text-sm tracking-widest uppercase">Tautan Penting</h4>
                             <ul className="space-y-3.5 text-sm text-emerald-200/80">
-                                <li><Link href="/profil/tentang-kampus" className="hover:text-amber-400 transition flex items-center gap-2"><i className="fa-solid fa-chevron-right text-[10px]"></i> Profil & Visi Misi Pascasarjana</Link></li>
+                                <li><Link href="/profil/tentang-kampus" className="hover:text-amber-400 transition flex items-center gap-2"><i className="fa-solid fa-chevron-right text-[10px]"></i> Profil & Visi Misi Prodi KPI</Link></li>
                                 <li><Link href={route('public.dokumen-institusi')} className="hover:text-amber-400 transition flex items-center gap-2"><i className="fa-solid fa-chevron-right text-[10px]"></i> Dokumen Kebijakan & Standar SPMI</Link></li>
                                 <li><Link href={route('public.akademik.pedoman')} className="hover:text-amber-400 transition flex items-center gap-2"><i className="fa-solid fa-chevron-right text-[10px]"></i> Audit Mutu Internal (AMI)</Link></li>
                                 <li><Link href={route('public.akreditasi')} className="hover:text-amber-400 transition flex items-center gap-2"><i className="fa-solid fa-chevron-right text-[10px]"></i> Data Akreditasi BAN-PT & LAM</Link></li>
@@ -248,7 +248,7 @@ export default function PublicLayout({ children }) {
                             </ul>
                         </div>
                         <div className="md:col-span-4">
-                            <h4 className="text-white font-bold mb-6 text-sm tracking-widest uppercase">Sekretariat Pascasarjana</h4>
+                            <h4 className="text-white font-bold mb-6 text-sm tracking-widest uppercase">Sekretariat Prodi KPI</h4>
                             <ul className="space-y-4 text-sm text-emerald-200/80">
                                 <li className="flex items-start gap-3">
                                     <i className="fa-solid fa-location-dot mt-1 text-amber-500"></i>
@@ -260,13 +260,13 @@ export default function PublicLayout({ children }) {
                                 </li>
                                 <li className="flex items-center gap-3">
                                     <i className="fa-solid fa-envelope text-amber-500"></i>
-                                    <span>lpm@iaipibandung.ac.id</span>
+                                    <span>kpi@iaipibandung.ac.id</span>
                                 </li>
                             </ul>
                         </div>
                     </div>
                     <div className="border-t border-emerald-900 mt-12 pt-8 text-center text-xs text-emerald-300/50">
-                        &copy; 2026 Program Pascasarjana IAI PERSIS Bandung. Hak Cipta Dilindungi Undang-Undang.
+                        &copy; 2026 Program Studi KPI IAI PERSIS Bandung. Hak Cipta Dilindungi Undang-Undang.
                     </div>
                 </div>
             </footer>

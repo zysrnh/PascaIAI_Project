@@ -7,7 +7,7 @@ import { ArrowLeft, BookOpen, Download, FileText, GraduationCap, Lock, LockIcon,
 export default function Show({ repository }) {
     return (
         <PublicLayout>
-            <Head title={`${repository.judul} - Repository | Pascasarjana IAI Persis Bandung`} />
+            <Head title={`${repository.judul} - Repository | Prodi KPI IAI Persis Bandung`} />
 
             <Breadcrumb items={[
                 { label: 'Penelitian & Pengabdian' },
@@ -161,7 +161,7 @@ export default function Show({ repository }) {
                                 {repository.file_full_text && (
                                     <div className="mt-4 flex items-start gap-3 p-4 bg-slate-50 rounded-xl text-sm text-slate-600">
                                         <ShieldAlert className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
-                                        <p>Dokumen <span className="font-semibold text-slate-800">Full Text</span> dilindungi hak cipta dan bersifat tertutup. Untuk permintaan akses penuh (keperluan riset/akademik), silakan menghubungi pihak Pascasarjana atau Perpustakaan IAI Persis Bandung secara resmi.</p>
+                                        <p>Dokumen <span className="font-semibold text-slate-800">Full Text</span> dilindungi hak cipta dan bersifat tertutup. Untuk permintaan akses penuh (keperluan riset/akademik), silakan menghubungi pihak Prodi KPI atau Perpustakaan IAI Persis Bandung secara resmi.</p>
                                     </div>
                                 )}
                             </div>

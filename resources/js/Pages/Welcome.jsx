@@ -49,7 +49,7 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
         }
 
         const hotlinePhone = setting?.pmb_hotline_number || "6282116116133";
-        const message = `Halo Helpdesk LPM IAI Persis Bandung, saya ingin menyampaikan konsultasi/aspirasi penjaminan mutu.\n\n*Nama*: ${waForm.nama}\n*No WhatsApp*: ${waForm.whatsapp}\n*Unit/Prodi*: ${waForm.unit_prodi || '-'}\n*Kategori*: ${waForm.kategori_aduan}\n*Pesan / Masukan*: ${waForm.pesan}\n\nTerima kasih.`;
+        const message = `Halo Prodi KPI IAI Persis Bandung, saya ingin menyampaikan konsultasi/aspirasi penjaminan mutu.\n\n*Nama*: ${waForm.nama}\n*No WhatsApp*: ${waForm.whatsapp}\n*Unit/Prodi*: ${waForm.unit_prodi || '-'}\n*Kategori*: ${waForm.kategori_aduan}\n*Pesan / Masukan*: ${waForm.pesan}\n\nTerima kasih.`;
 
         const encodedMessage = encodeURIComponent(message);
         const waUrl = `https://wa.me/${hotlinePhone}?text=${encodedMessage}`;
@@ -110,11 +110,11 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
         { id: 4, nama: 'Survei Kepuasan Mutu', deskripsi: 'Survei Mahasiswa, Dosen & Pengguna', ikon: 'fa-square-poll-vertical', url: '#survei' },
     ];
 
-    const emailDisplay = (umum?.email && !umum.email.includes('pasca')) ? umum.email : 'pasca@iaipibandung.ac.id';
+    const emailDisplay = (umum?.email && !umum.email.includes('pasca')) ? umum.email : 'kpi@iaipibandung.ac.id';
 
     return (
         <>
-            <Head title="Program Pascasarjana (Magister S2) | IAI Persis Bandung" />
+            <Head title="Program Studi S1 Komunikasi dan Penyiaran Islam (KPI) | IAI Persis Bandung" />
             <div className="bg-slate-50 text-slate-800 antialiased font-sans">
                 {/* Top Bar Info */}
                 <div className="bg-emerald-950 text-emerald-100 text-xs py-2.5 px-4 hidden md:block border-b border-emerald-900/60">
@@ -142,10 +142,10 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                             {/* Brand Typography (No Image Logo) */}
                         <Link href="/" className="flex flex-col shrink-0 group py-1">
                             <span className="font-extrabold text-lg sm:text-xl tracking-tight text-pasca-darkest group-hover:text-pasca-primary transition-colors leading-tight">
-                                PASCASARJANA
+                                PRODI KPI
                             </span>
                             <span className="text-[10px] sm:text-[11px] text-slate-500 font-semibold tracking-wider uppercase leading-none mt-0.5">
-                                IAI PERSIS BANDUNG
+                                KOMUNIKASI &amp; PENYIARAN ISLAM — IAI PERSIS
                             </span>
                         </Link>
 
@@ -417,7 +417,7 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                                 )}
                             </h1>
                             <p className="text-base sm:text-lg lg:text-xl text-slate-200 mb-10 max-w-3xl mx-auto leading-relaxed">
-                                {setting?.hero_subtitle || "Program Pascasarjana (Magister S2) IAI Persis Bandung menyelenggarakan pendidikan tinggi Islam tingkat lanjut guna mencetak akademisi dan praktisi yang unggul, berintegritas, dan berdaya saing global."}
+                                {setting?.hero_subtitle || "Program Studi S1 Komunikasi dan Penyiaran Islam (KPI) Fakultas Dakwah IAI Persis Bandung mencetak sarjana komunikasi Islam yang profesional, berwawasan dakwah, dan unggul di era media digital."}
                             </p>
                             <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
                                 
@@ -557,7 +557,7 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                                 <div className="absolute inset-0 bg-emerald-800 rounded-sm rotate-3 scale-95 opacity-20"></div>
                                 <img 
                                     src={sambutan?.foto || "https://web-persis.s3.ap-southeast-1.amazonaws.com/files/shares/persis-cd5-0c543921-d668-4ee6-ac15-4f0ff791007e.jpg?q=80&w=600&auto=format&fit=crop"} 
-                                    alt={sambutan?.nama || "Ketua LPM IAI Persis"} 
+                                    alt={sambutan?.nama || "Ketua Prodi KPI"} 
                                     className="rounded-sm shadow-2xl relative z-10 w-full h-[400px] object-cover object-top border-4 border-white" 
                                 />
                                 <div className="absolute -bottom-6 -right-6 bg-amber-500 text-emerald-950 p-6 rounded-sm shadow-xl z-20 hidden sm:block max-w-[250px]">
@@ -568,7 +568,7 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                             <div className="lg:col-span-7">
                                 <span className="text-emerald-700 font-bold text-sm tracking-widest uppercase">SAMBUTAN KETUA LEMBAGA</span>
                                 <h2 className="text-2xl sm:text-3xl font-extrabold text-emerald-950 mt-2 mb-6 leading-snug">
-                                    {sambutan?.sambutan_singkat || "Membangun Budaya Mutu Berkelanjutan di Lingkungan IAI Persis Bandung"}
+                                    {sambutan?.sambutan_singkat || "Membangun Generasi Komunikator & Praktisi Media Islam yang Unggul dan Berakhlak Mulia"}
                                 </h2>
 
                                 {sambutan?.sambutan_lengkap ? (
@@ -576,18 +576,15 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                                 ) : (
                                     <>
                                         <p className="text-slate-600 leading-relaxed mb-4 text-sm sm:text-base">
-                                            "Lembaga Penjaminan Mutu (LPM) memiliki peran strategis dalam mengawal, merencanakan, melaksanakan, dan mengevaluasi seluruh proses akademik maupun non-akademik di Institut Agama Islam Persatuan Islam (IAI PERSIS) Bandung."
-                                        </p>
-                                        <p className="text-slate-600 leading-relaxed mb-6 text-sm sm:text-base">
-                                            Melalui implementasi Sistem Penjaminan Mutu Internal (SPMI) dengan siklus PPEPP (Penetapan, Pelaksanaan, Evaluasi, Pengendalian, dan Peningkatan), kami berkomitmen memastikan mutu tridharma perguruan tinggi terus meningkat secara berkesinambungan (Kaizen).
+                                            "Program Studi Komunikasi dan Penyiaran Islam (KPI) Fakultas Dakwah IAI Persis Bandung berkomitmen menyelenggarakan pendidikan tinggi komunikasi Islam berkualitas yang mengintegrasikan nilai-nilai dakwah Islam dengan kemajuan teknologi media masa kini."
                                         </p>
                                     </>
                                 )}
 
                                 <div className="mt-6 flex flex-col justify-between items-start gap-4">
                                     <div>
-                                        <h4 className="text-lg font-bold text-emerald-900">{sambutan?.nama || "Ketua Lembaga Penjaminan Mutu"}</h4>
-                                        <p className="text-sm text-slate-500 font-medium">{sambutan?.jabatan || "Ketua LPM IAI PERSIS Bandung"}</p>
+                                        <h4 className="text-lg font-bold text-emerald-900">{sambutan?.nama || "Ketua Program Studi KPI"}</h4>
+                                        <p className="text-sm text-slate-500 font-medium">{sambutan?.jabatan || "Ketua Prodi KPI Fakultas Dakwah"}</p>
                                     </div>
                                     <Link href="/profil/sambutan-pimpinan" className="text-sm font-bold text-emerald-700 hover:text-emerald-900 flex items-center gap-1.5">
                                         Baca Sambutan Selengkapnya <i className="fa-solid fa-arrow-right text-xs"></i>
@@ -835,7 +832,7 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                                         disabled={processing} 
                                         className="w-full bg-emerald-800 hover:bg-emerald-900 text-white font-bold py-3.5 px-6 rounded-md shadow-md transition disabled:opacity-70 flex items-center justify-center gap-2"
                                     >
-                                        <span>{processing ? 'Menyimpan...' : 'Kirim Aspirasi ke Helpdesk LPM'}</span>
+                                        <span>{processing ? 'Menyimpan...' : 'Kirim Aspirasi ke Prodi KPI'}</span>
                                         <i className="fa-brands fa-whatsapp text-emerald-300"></i>
                                     </button>
                                 </form>
@@ -931,14 +928,14 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                             <div className="md:col-span-5">
                                 <div className="flex flex-col mb-6 bg-white/5 p-4 rounded-md w-fit border border-emerald-900/60">
                                 <span className="font-extrabold text-lg tracking-wider text-amber-400 uppercase leading-tight">
-                                    PASCASARJANA
+                                    PROGRAM STUDI KPI
                                 </span>
                                 <span className="text-xs text-emerald-200/80 font-medium tracking-wide mt-0.5">
-                                    Institut Agama Islam Persis Bandung
+                                    Komunikasi dan Penyiaran Islam — Fakultas Dakwah
                                 </span>
                             </div>
                                 <p className="text-sm text-emerald-200/80 leading-relaxed mb-6">
-                                    Program Pascasarjana (Magister S2) Institut Agama Islam Persatuan Islam (IAI PERSIS) Bandung berkomitmen menyelenggarakan pendidikan tinggi Islam tingkat lanjut yang unggul, berdaya saing, dan berakhlak mulia.
+                                    Program Studi S1 Komunikasi dan Penyiaran Islam (KPI) Fakultas Dakwah IAI Persis Bandung berkomitmen mencetak praktisi media, jurnalis, akademisi, dan dai yang unggul, profesional, dan berakhlak mulia di era digital.
                                 </p>
                                 <div className="flex items-center space-x-3">
                                     <a href={umum?.facebook_url || '#'} className="w-9 h-9 bg-emerald-900 hover:bg-emerald-800 flex items-center justify-center text-emerald-100 hover:text-amber-400 transition rounded-md"><i className="fa-brands fa-facebook-f text-sm"></i></a>
@@ -949,7 +946,7 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                             <div className="md:col-span-3">
                                 <h4 className="text-white font-bold mb-6 text-sm tracking-widest uppercase">Tautan Penting</h4>
                                 <ul className="space-y-3.5 text-sm text-emerald-200/80">
-                                    <li><Link href="/profil/tentang-kampus" className="hover:text-amber-400 transition flex items-center gap-2"><i className="fa-solid fa-chevron-right text-[10px]"></i> Profil & Visi Misi Pascasarjana</Link></li>
+                                    <li><Link href="/profil/tentang-kampus" className="hover:text-amber-400 transition flex items-center gap-2"><i className="fa-solid fa-chevron-right text-[10px]"></i> Profil & Visi Misi Prodi KPI</Link></li>
                                     <li><Link href={route('public.dokumen-institusi')} className="hover:text-amber-400 transition flex items-center gap-2"><i className="fa-solid fa-chevron-right text-[10px]"></i> Dokumen Kebijakan & Standar SPMI</Link></li>
                                     <li><Link href={route('public.akademik.pedoman')} className="hover:text-amber-400 transition flex items-center gap-2"><i className="fa-solid fa-chevron-right text-[10px]"></i> Audit Mutu Internal (AMI)</Link></li>
                                     <li><Link href={route('public.akreditasi')} className="hover:text-amber-400 transition flex items-center gap-2"><i className="fa-solid fa-chevron-right text-[10px]"></i> Data Akreditasi BAN-PT & LAM</Link></li>
@@ -957,7 +954,7 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                                 </ul>
                             </div>
                             <div className="md:col-span-4">
-                                <h4 className="text-white font-bold mb-6 text-sm tracking-widest uppercase">Sekretariat Pascasarjana</h4>
+                                <h4 className="text-white font-bold mb-6 text-sm tracking-widest uppercase">Sekretariat Prodi KPI</h4>
                                 <ul className="space-y-4 text-sm text-emerald-200/80">
                                     <li className="flex items-start gap-3">
                                         <i className="fa-solid fa-location-dot mt-1 text-amber-500"></i>
@@ -969,13 +966,13 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                                     </li>
                                     <li className="flex items-center gap-3">
                                         <i className="fa-solid fa-envelope text-amber-500"></i>
-                                        <span>{umum?.email || 'pasca@iaipibandung.ac.id'}</span>
+                                        <span>{umum?.email || 'kpi@iaipibandung.ac.id'}</span>
                                     </li>
                                 </ul>
                             </div>
                         </div>
                         <div className="border-t border-emerald-900 mt-12 pt-8 text-center text-xs text-emerald-300/50">
-                            &copy; 2026 Program Pascasarjana IAI PERSIS Bandung. Hak Cipta Dilindungi Undang-Undang.
+                            &copy; 2026 Program Studi KPI IAI PERSIS Bandung. Hak Cipta Dilindungi Undang-Undang.
                         </div>
                     </div>
                 </footer>

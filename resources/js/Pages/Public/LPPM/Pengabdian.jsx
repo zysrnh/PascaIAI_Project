@@ -21,7 +21,7 @@ export default function Pengabdian({ pengabdian }) {
 
     return (
         <PublicLayout>
-            <Head title={`${data.judul} | Pascasarjana IAI Persis Bandung`} />
+            <Head title={`${data.judul} | Prodi KPI IAI Persis Bandung`} />
 
             {/* Banner Section */}
             <div className="relative w-full h-[350px] md:h-[450px] bg-emerald-950 flex flex-col justify-end">

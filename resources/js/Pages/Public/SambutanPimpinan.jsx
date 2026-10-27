@@ -6,21 +6,21 @@ import Breadcrumb from '@/Components/Public/Breadcrumb';
 export default function SambutanPimpinan({ sambutan }) {
     return (
         <PublicLayout>
-            <Head title="Sambutan Ketua LPM | Lembaga Penjaminan Mutu IAI Persis Bandung" />
+            <Head title="Sambutan Ketua Prodi KPI | Program Studi KPI IAI Persis Bandung" />
 
             {/* Hero Section / Banner */}
             <div className="relative w-full h-[350px] md:h-[450px] bg-emerald-950 flex flex-col justify-end">
                 <div className="absolute inset-0">
                     <img 
                         src={sambutan?.gambar_banner || "/images/default-banner.jpg"} 
-                        alt="Sambutan Ketua LPM" 
+                        alt="Sambutan Ketua Prodi KPI" 
                         className="w-full h-full object-cover opacity-60"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-emerald-950 via-emerald-950/40 to-transparent"></div>
                 </div>
                 <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pb-12">
                     <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-2 drop-shadow-md">
-                        Sambutan Ketua LPM
+                        Sambutan Ketua Prodi KPI
                     </h1>
                     <div className="w-20 h-1.5 bg-amber-500 rounded-sm mb-4"></div>
                     {sambutan?.deskripsi_banner && (
@@ -34,7 +34,7 @@ export default function SambutanPimpinan({ sambutan }) {
             {/* Breadcrumb Navigation */}
             <Breadcrumb items={[
                 { label: 'Profil LPM' },
-                { label: 'Sambutan Ketua LPM' }
+                { label: 'Sambutan Ketua Prodi KPI' }
             ]} />
 
             {/* Content Section */}

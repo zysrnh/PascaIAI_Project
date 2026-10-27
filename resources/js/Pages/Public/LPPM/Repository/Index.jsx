@@ -25,7 +25,7 @@ export default function Index({ repositories, prodis, tahuns, setting, filters }
 
     return (
         <PublicLayout>
-            <Head title={`${setting?.judul || 'Repository Karya Ilmiah'} | Pascasarjana IAI Persis Bandung`} />
+            <Head title={`${setting?.judul || 'Repository Karya Ilmiah'} | Prodi KPI IAI Persis Bandung`} />
 
             {/* Banner Section */}
             <div className="relative w-full h-[350px] md:h-[450px] bg-emerald-950 flex flex-col justify-end">
@@ -43,7 +43,7 @@ export default function Index({ repositories, prodis, tahuns, setting, filters }
                     </h1>
                     <div className="w-20 h-1.5 bg-amber-500 rounded-sm mb-4"></div>
                     <p className="text-white/90 max-w-2xl text-lg md:text-xl leading-relaxed drop-shadow">
-                        {setting?.deskripsi || 'Arsip digital Tesis, Disertasi, dan karya ilmiah civitas akademika Pascasarjana IAI Persis Bandung.'}
+                        {setting?.deskripsi || 'Arsip digital Tesis, Disertasi, dan karya ilmiah civitas akademika Prodi KPI IAI Persis Bandung.'}
                     </p>
                 </div>
             </div>

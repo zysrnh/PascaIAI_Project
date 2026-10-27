@@ -77,7 +77,7 @@ export default function DokumenInstitusi({ dokumens, pengaturan }) {
 
     return (
         <PublicLayout>
-            <Head title="Dokumen Mutu & SPMI | LPM IAI Persis Bandung" />
+            <Head title="Dokumen Mutu & SPMI | Prodi KPI IAI Persis Bandung" />
             <style>{`
                 @keyframes fadeInUp {
                     from { opacity: 0; transform: translateY(15px); }
@@ -124,7 +124,7 @@ export default function DokumenInstitusi({ dokumens, pengaturan }) {
                     <div className="text-center mb-12">
                         <h2 className="text-3xl font-extrabold text-emerald-950 mb-4">Pusat Unduhan Dokumen SPMI</h2>
                         <p className="text-slate-600 max-w-3xl mx-auto">
-                            Akses berbagai dokumen legal, Kebijakan SPMI, Manual Mutu (PPEPP), Standar SPMI, serta SOP & Formulir resmi Lembaga Penjaminan Mutu (LPM) IAI Persis Bandung.
+                            Akses berbagai dokumen legal, Kebijakan SPMI, Manual Mutu (PPEPP), Standar SPMI, serta SOP & Formulir resmi Program Studi Komunikasi dan Penyiaran Islam (KPI) IAI Persis Bandung.
                         </p>
                     </div>
 

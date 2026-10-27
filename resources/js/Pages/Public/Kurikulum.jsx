@@ -53,7 +53,7 @@ export default function KurikulumPublic({ kurikulums, activeKurikulum, fakultas,
 
     return (
         <PublicLayout>
-            <Head title={`Kurikulum - ${activeKurikulum?.nama || 'Pascasarjana'}`} />
+            <Head title={`Kurikulum - ${activeKurikulum?.nama || 'Prodi KPI'}`} />
 
             {/* Hero Section with Banner */}
             <div className="relative w-full h-[350px] md:h-[450px] bg-emerald-950 flex flex-col justify-end">
@@ -71,7 +71,7 @@ export default function KurikulumPublic({ kurikulums, activeKurikulum, fakultas,
                     </h1>
                     <div className="w-20 h-1.5 bg-amber-500 rounded-sm mb-4"></div>
                     <p className="text-white/90 max-w-2xl text-lg md:text-xl leading-relaxed drop-shadow">
-                        {pengaturan?.deskripsi || 'Struktur kurikulum dan sebaran mata kuliah Program Studi di Pascasarjana IAI Persis Bandung.'}
+                        {pengaturan?.deskripsi || 'Struktur kurikulum dan sebaran mata kuliah Program Studi di Prodi KPI IAI Persis Bandung.'}
                     </p>
                 </div>
             </div>

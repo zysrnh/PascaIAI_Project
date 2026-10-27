@@ -21,21 +21,21 @@ export default function TentangKampus({ tentang }) {
     const videoId = getYoutubeId(tentang?.video_url);
     return (
         <PublicLayout>
-            <Head title="Tentang LPM | Lembaga Penjaminan Mutu IAI Persis Bandung" />
+            <Head title="Tentang LPM | Program Studi KPI IAI Persis Bandung" />
 
             {/* Hero Section / Banner */}
             <div className="relative w-full h-[350px] md:h-[450px] bg-emerald-950 flex flex-col justify-end">
                 <div className="absolute inset-0">
                     <img 
                         src={tentang?.gambar_banner || "/images/default-banner.jpg"} 
-                        alt="LPM IAI Persis" 
+                        alt="Prodi KPI IAI Persis" 
                         className="w-full h-full object-cover opacity-60"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-emerald-950 via-emerald-950/40 to-transparent"></div>
                 </div>
                 <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pb-12">
                     <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-2 drop-shadow-md">
-                        {tentang?.judul || 'Tentang Lembaga Penjaminan Mutu (LPM)'}
+                        {tentang?.judul || 'Tentang Program Studi Komunikasi dan Penyiaran Islam (KPI)'}
                     </h1>
                     <div className="w-20 h-1.5 bg-amber-500 rounded-sm-full mb-4"></div>
                     {tentang?.deskripsi_banner && (
@@ -122,11 +122,11 @@ export default function TentangKampus({ tentang }) {
                                     <div className="absolute inset-0 bg-emerald-800 rounded-sm-full translate-x-3 translate-y-3 opacity-20 group-hover:translate-x-4 group-hover:translate-y-4 transition-transform duration-300"></div>
                                     <img 
                                         src={tentang?.gambar_pimpinan || "https://web-persis.s3.ap-southeast-1.amazonaws.com/files/shares/persis-cd5-0c543921-d668-4ee6-ac15-4f0ff791007e.jpg?q=80&w=400&auto=format&fit=crop"} 
-                                        alt="Direktur Pascasarjana" 
+                                        alt="Direktur Prodi KPI" 
                                         className="w-full h-full object-cover rounded-sm-full border-8 border-white shadow-xl relative z-10 object-top group-hover:scale-105 transition-transform duration-300"
                                     />
                                     <div className="absolute bottom-0 right-0 bg-amber-500 text-emerald-950 font-bold px-4 py-2 rounded-sm shadow-lg z-20 -rotate-3 text-sm">
-                                        Direktur Pascasarjana
+                                        Direktur Prodi KPI
                                     </div>
                                 </div>
                             </div>
@@ -157,12 +157,12 @@ export default function TentangKampus({ tentang }) {
                                 <div className="w-32 h-32 rounded-sm-full border-4 border-emerald-100 shadow-lg overflow-hidden mb-4">
                                     <img 
                                         src={tentang?.gambar_pimpinan || "https://web-persis.s3.ap-southeast-1.amazonaws.com/files/shares/persis-cd5-0c543921-d668-4ee6-ac15-4f0ff791007e.jpg?q=80&w=400&auto=format&fit=crop"} 
-                                        alt="Direktur Pascasarjana" 
+                                        alt="Direktur Prodi KPI" 
                                         className="w-full h-full object-cover object-top"
                                     />
                                 </div>
                                 <h4 className="text-xl font-extrabold text-slate-800">{tentang?.pimpinan_nama}</h4>
-                                <p className="text-sm font-bold text-emerald-600 mt-1 uppercase tracking-wider">Direktur Pascasarjana</p>
+                                <p className="text-sm font-bold text-emerald-600 mt-1 uppercase tracking-wider">Direktur Prodi KPI</p>
                             </div>
                             <div className="prose prose-emerald max-w-none text-slate-600">
                                 {tentang?.pimpinan_detail ? (

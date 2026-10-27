@@ -19,7 +19,7 @@ export default function ProspekKarir({ pengaturan, konten, karirs }) {
 
     return (
         <PublicLayout>
-            <Head title="Prospek Karir - Pascasarjana IAI Persis Bandung" />
+            <Head title="Prospek Karir - Prodi KPI IAI Persis Bandung" />
 
             {/* Banner Section */}
             <div className="relative w-full h-[350px] md:h-[450px] bg-emerald-950 flex flex-col justify-end">
@@ -63,7 +63,7 @@ export default function ProspekKarir({ pengaturan, konten, karirs }) {
                                     Profil Lulusan dan Kompetensi Karir
                                 </h2>
                                 <p className="text-slate-600 leading-relaxed text-lg mb-8 whitespace-pre-wrap">
-                                    {konten?.deskripsi_utama || "Di era globalisasi dan tantangan revolusi industri 4.0, kebutuhan akan pakar pendidikan Islam yang adaptif, inovatif, dan moderat semakin meningkat. Lulusan Program Pascasarjana IAI Persis Bandung dibekali tidak hanya dengan kedalaman ilmu agama (tafaqquh fiddin), tetapi juga dengan metodologi riset mutakhir dan kemampuan manajerial."}
+                                    {konten?.deskripsi_utama || "Di era globalisasi dan tantangan revolusi industri 4.0, kebutuhan akan pakar pendidikan Islam yang adaptif, inovatif, dan moderat semakin meningkat. Lulusan Program Prodi KPI IAI Persis Bandung dibekali tidak hanya dengan kedalaman ilmu agama (tafaqquh fiddin), tetapi juga dengan metodologi riset mutakhir dan kemampuan manajerial."}
                                 </p>
                                 <p className="text-slate-600 leading-relaxed text-lg">
                                     Berbekal jaringan alumni yang luas dan kurikulum berbasis kompetensi, lulusan kami siap berkarir di berbagai posisi strategis. Berikut adalah peluang karir utama bagi lulusan kami:

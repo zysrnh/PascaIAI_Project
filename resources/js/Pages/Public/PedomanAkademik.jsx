@@ -86,7 +86,7 @@ export default function PedomanAkademik({ folders, documents, currentFolder, bre
 
     return (
         <PublicLayout>
-            <Head title="Pedoman & Instrumen AMI | LPM IAI Persis Bandung" />
+            <Head title="Pedoman & Instrumen AMI | Prodi KPI IAI Persis Bandung" />
 
             {/* Banner Section */}
             <div className="relative w-full h-[350px] md:h-[450px] bg-emerald-950 flex flex-col justify-end">

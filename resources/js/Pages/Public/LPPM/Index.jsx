@@ -22,7 +22,7 @@ export default function Index({ lppm }) {
 
     return (
         <PublicLayout>
-            <Head title={`LPPM | Pascasarjana IAI Persis Bandung`} />
+            <Head title={`LPPM | Prodi KPI IAI Persis Bandung`} />
 
             {/* Banner Section */}
             <div className="relative w-full h-[350px] md:h-[450px] bg-emerald-950 flex flex-col justify-end">

@@ -117,7 +117,7 @@ export default function Akreditasi({ institusi, prodis, riwayats, pengaturan }) 
 
     return (
         <PublicLayout>
-            <Head title="Data Akreditasi BAN-PT & LAM | LPM IAI Persis Bandung" />
+            <Head title="Data Akreditasi BAN-PT & LAM | Prodi KPI IAI Persis Bandung" />
             <style>{`
                 @keyframes fadeInUp {
                     from { opacity: 0; transform: translateY(15px); }
@@ -164,7 +164,7 @@ export default function Akreditasi({ institusi, prodis, riwayats, pengaturan }) 
                     <div className="text-center mb-16 animate-fade-in-up">
                         <h2 className="text-3xl font-extrabold text-emerald-950 mb-4">Status & Peringkat Akreditasi</h2>
                         <p className="text-slate-600 max-w-3xl mx-auto">
-                            Lembaga Penjaminan Mutu (LPM) IAI Persis Bandung berkomitmen penuh terhadap akuntabilitas dan penjaminan mutu eksternal yang diwujudkan melalui perolehan status akreditasi resmi dari BAN-PT dan Lembaga Akreditasi Mandiri (LAM).
+                            Program Studi Komunikasi dan Penyiaran Islam (KPI) IAI Persis Bandung berkomitmen penuh terhadap akuntabilitas dan penjaminan mutu eksternal yang diwujudkan melalui perolehan status akreditasi resmi dari BAN-PT dan Lembaga Akreditasi Mandiri (LAM).
                         </p>
                     </div>
 
@@ -321,7 +321,7 @@ export default function Akreditasi({ institusi, prodis, riwayats, pengaturan }) 
                                 <ShieldCheck className="absolute -right-4 -bottom-4 w-32 h-32 text-white/5" />
                                 <h3 className="text-lg font-bold mb-2 relative z-10">Unit Penjaminan Mutu (SPMI)</h3>
                                 <p className="text-slate-300 text-sm mb-4 relative z-10 leading-relaxed">
-                                    Lembaga internal yang bertugas memantau dan mengevaluasi mutu akademik di lingkungan Pascasarjana.
+                                    Lembaga internal yang bertugas memantau dan mengevaluasi mutu akademik di lingkungan Prodi KPI.
                                 </p>
                                 {waNumber ? (
                                     <button 
@@ -375,7 +375,7 @@ export default function Akreditasi({ institusi, prodis, riwayats, pengaturan }) 
                                 Punya pertanyaan seputar akreditasi dan penjaminan mutu? Silakan hubungi kami via WhatsApp.
                             </p>
                             <a 
-                                href={`https://wa.me/${waNumber}?text=Halo%20Admin%20LPM%20Pascasarjana%20IAI%20Persis%20Bandung`} 
+                                href={`https://wa.me/${waNumber}?text=Halo%20Admin%20LPM%20Prodi KPI%20IAI%20Persis%20Bandung`} 
                                 target="_blank"
                                 rel="noreferrer"
                                 className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 bg-emerald-500 text-white rounded-lg font-bold hover:bg-emerald-600 transition-colors shadow-sm"

@@ -8,7 +8,7 @@ export default function SistemAkademik({ siakad }) {
     // Default fallback values if no data yet
     const data = siakad || {
         judul: 'Sistem Informasi Akademik (SIAKAD)',
-        deskripsi_singkat: 'Gerbang utama menuju portal akademik terpadu Pascasarjana IAI Persis Bandung. Melalui SIAKAD, seluruh aktivitas administrasi akademik dapat diakses secara mudah dan terpusat.',
+        deskripsi_singkat: 'Gerbang utama menuju portal akademik terpadu Prodi KPI IAI Persis Bandung. Melalui SIAKAD, seluruh aktivitas administrasi akademik dapat diakses secara mudah dan terpusat.',
         fitur_list: [
             'Pengisian Kartu Rencana Studi (KRS) online',
             'Melihat Kartu Hasil Studi (KHS) dan Transkrip Nilai',
@@ -27,7 +27,7 @@ export default function SistemAkademik({ siakad }) {
 
     return (
         <PublicLayout>
-            <Head title={`${data.judul} | Pascasarjana IAI Persis Bandung`} />
+            <Head title={`${data.judul} | Prodi KPI IAI Persis Bandung`} />
 
             {/* Banner Section */}
             <div className="relative w-full h-[350px] md:h-[450px] bg-emerald-950 flex flex-col justify-end">
@@ -151,7 +151,7 @@ export default function SistemAkademik({ siakad }) {
                                 
                                 {waNumber && (
                                     <a 
-                                        href={`https://wa.me/${waNumber}?text=Halo%20Admin%20SIAKAD%20Pascasarjana,%20saya%20butuh%20bantuan%20terkait...`}
+                                        href={`https://wa.me/${waNumber}?text=Halo%20Admin%20SIAKAD%20Prodi KPI,%20saya%20butuh%20bantuan%20terkait...`}
                                         target="_blank" 
                                         rel="noreferrer"
                                         className="flex flex-col items-center justify-center p-6 bg-white rounded-2xl border border-slate-200 hover:border-emerald-400 hover:shadow-md transition-all text-center group"

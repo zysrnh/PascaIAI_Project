@@ -58,7 +58,7 @@ export default function JadwalPerkuliahan({ pengaturan, periodes, programStudis 
 
     return (
         <PublicLayout>
-            <Head title="Jadwal Perkuliahan - Pascasarjana IAI Persis Bandung" />
+            <Head title="Jadwal Perkuliahan - Prodi KPI IAI Persis Bandung" />
 
             {/* Banner Section */}
             <div className="relative w-full h-[350px] md:h-[450px] bg-emerald-950 flex flex-col justify-end">

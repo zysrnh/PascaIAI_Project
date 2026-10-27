@@ -12,7 +12,7 @@ export default function KalenderAkademik({ pengaturan, kalenders }) {
 
     return (
         <PublicLayout>
-            <Head title="Kalender Akademik - Pascasarjana IAI Persis Bandung" />
+            <Head title="Kalender Akademik - Prodi KPI IAI Persis Bandung" />
 
             {/* Banner Section */}
             <div className="relative w-full h-[350px] md:h-[450px] bg-emerald-950 flex flex-col justify-end">

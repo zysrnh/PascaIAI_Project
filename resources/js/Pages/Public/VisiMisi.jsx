@@ -19,7 +19,7 @@ export default function VisiMisi({ visimisi }) {
 
     return (
         <PublicLayout>
-            <Head title="Visi, Misi & Tujuan | LPM IAI Persis Bandung" />
+            <Head title="Visi, Misi & Tujuan | Prodi KPI IAI Persis Bandung" />
 
             {/* Hero Section / Banner - Konsisten dengan halaman lain */}
             <div className="relative w-full h-[350px] md:h-[450px] bg-emerald-950 flex flex-col justify-end">
