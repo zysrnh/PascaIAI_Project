@@ -30,14 +30,20 @@ class TentangKampusController extends Controller
 
     public function update(Request $request)
     {
-        $tentang = TentangKampus::firstOrFail();
+        $tentang = TentangKampus::firstOrCreate(
+            ['id' => 1],
+            [
+                'judul' => 'Tentang Program Studi KPI',
+                'konten' => 'Program Studi S1 Komunikasi dan Penyiaran Islam Fakultas Dakwah IAI Persis Bandung',
+            ]
+        );
 
         $validated = $request->validate([
             'judul' => 'required|string|max:255',
             'konten' => 'required|string',
-            'video_url' => 'nullable|url',
+            'video_url' => 'nullable|string|max:255',
             'gambar_banner' => 'nullable|image|max:2048',
-            'tampilkan_pimpinan' => 'boolean',
+            'tampilkan_pimpinan' => 'nullable|boolean',
             'pimpinan_nama' => 'nullable|string|max:255',
             'pimpinan_quotes' => 'nullable|string',
             'pimpinan_detail' => 'nullable|string',

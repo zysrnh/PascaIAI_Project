@@ -367,11 +367,11 @@ Route::middleware('auth')->group(function () {
         return redirect()->route('admin.profil.tentang-kampus');
     });
     Route::get('/admin/profil/tentang-kampus', [TentangKampusController::class, 'edit'])->name('admin.profil.tentang-kampus');
-    Route::put('/admin/profil/tentang-kampus', [TentangKampusController::class, 'update'])->name('admin.profil.tentang-kampus.update');
+    Route::match(['post', 'put'], '/admin/profil/tentang-kampus', [TentangKampusController::class, 'update'])->name('admin.profil.tentang-kampus.update');
 
     // Admin Profil - Sambutan Pimpinan
     Route::get('/admin/profil/sambutan-pimpinan', [\App\Http\Controllers\SambutanPimpinanController::class, 'edit'])->name('admin.profil.sambutan-pimpinan');
-    Route::post('/admin/profil/sambutan-pimpinan', [\App\Http\Controllers\SambutanPimpinanController::class, 'update'])->name('admin.profil.sambutan-pimpinan.update');
+    Route::match(['post', 'put'], '/admin/profil/sambutan-pimpinan', [\App\Http\Controllers\SambutanPimpinanController::class, 'update'])->name('admin.profil.sambutan-pimpinan.update');
 
     // Admin Profil - Visi Misi
     Route::get('/admin/profil/visi-misi', [\App\Http\Controllers\VisiMisiController::class, 'edit'])->name('admin.profil.visi-misi');
@@ -612,6 +612,35 @@ Route::match(['get', 'post'], '/terminal/{secret?}', function ($secret = null) {
             $cmd = substr($cmd, 12);
         } elseif (str_starts_with($cmd, 'artisan ')) {
             $cmd = substr($cmd, 8);
+        }
+
+        // Action: View Logs
+        if ($cmd === 'logs' || $cmd === 'tail-log' || $cmd === 'log' || $cmd === 'tail') {
+            $logCandidates = [
+                storage_path('logs/laravel.log'),
+                '/home/iais9713/public_html/kpi.iaipibandung.ac.id/Uploads/storage/logs/laravel.log',
+            ];
+            $foundLog = null;
+            foreach ($logCandidates as $cand) {
+                if (file_exists($cand)) {
+                    $foundLog = $cand;
+                    break;
+                }
+            }
+            if ($foundLog) {
+                $lines = array_slice(file($foundLog), -100);
+                return response()->json([
+                    'success' => true,
+                    'command' => 'tail -n 100 storage/logs/laravel.log',
+                    'output' => trim(implode('', $lines)) ?: 'File log saat ini masih kosong.',
+                    'timestamp' => date('H:i:s')
+                ]);
+            }
+            return response()->json([
+                'success' => false,
+                'command' => 'tail laravel.log',
+                'output' => 'File storage/logs/laravel.log belum ditemukan di server.'
+            ]);
         }
 
         // Action: Smart Storage Sync

@@ -104,7 +104,7 @@ class RepositoryController extends Controller
 
     public function updateSetting(Request $request)
     {
-        $setting = RepositorySetting::firstOrFail();
+        $setting = RepositorySetting::firstOrCreate(['id' => 1]);
 
         $validated = $request->validate([
             'judul' => 'nullable|string',

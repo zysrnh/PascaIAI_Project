@@ -1,3 +1,4 @@
+import Swal from 'sweetalert2';
 import React, { useState, useEffect } from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, useForm } from '@inertiajs/react';
@@ -32,6 +33,23 @@ export default function SambutanPimpinan({ sambutan }) {
         e.preventDefault();
         post(route('admin.profil.sambutan-pimpinan.update'), {
             forceFormData: true,
+            preserveScroll: true,
+            onSuccess: () => {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil!',
+                    text: 'Halaman Sambutan Pimpinan berhasil diperbarui.',
+                    timer: 2000,
+                    showConfirmButton: false,
+                });
+            },
+            onError: () => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal',
+                    text: 'Periksa kembali formulir atau koneksi server.',
+                });
+            }
         });
     };
 

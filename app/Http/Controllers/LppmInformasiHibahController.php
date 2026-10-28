@@ -47,7 +47,7 @@ class LppmInformasiHibahController extends Controller
 
     public function update(Request $request)
     {
-        $penelitian = LppmInformasiHibah::firstOrFail();
+        $penelitian = LppmInformasiHibah::firstOrCreate(['id' => 1]);
 
         $validated = $request->validate([
             'judul' => 'nullable|string',

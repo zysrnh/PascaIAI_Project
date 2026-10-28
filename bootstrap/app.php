@@ -26,4 +26,12 @@ return Application::configure(basePath: dirname(__DIR__))
         $exceptions->shouldRenderJsonWhen(
             fn (Request $request) => $request->is('api/*'),
         );
+
+        $exceptions->respond(function ($response, Throwable $exception, Request $request) {
+            // Cegah Inertia Error Modal (blank white box) di mode production
+            if ($request->header('X-Inertia') && in_array($response->getStatusCode(), [500, 404, 403])) {
+                return back()->with('error', 'Gagal memproses data: ' . $exception->getMessage());
+            }
+            return $response;
+        });
     })->create();

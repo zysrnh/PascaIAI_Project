@@ -49,7 +49,7 @@ class LppmPengabdianController extends Controller
 
     public function update(Request $request)
     {
-        $pengabdian = LppmPengabdian::firstOrFail();
+        $pengabdian = LppmPengabdian::firstOrCreate(['id' => 1]);
 
         $validated = $request->validate([
             'judul' => 'nullable|string',

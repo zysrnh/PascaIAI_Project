@@ -1,3 +1,4 @@
+import Swal from 'sweetalert2';
 import React, { useState } from 'react';
 import { Head, useForm, router } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
@@ -207,6 +208,23 @@ export default function Index({ auth, setting, umum, quickAccesses = [], heroSli
         e.preventDefault();
         post(route('admin.beranda.update'), {
             preserveScroll: true,
+            forceFormData: true,
+            onSuccess: () => {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil!',
+                    text: 'Pengaturan Beranda & PMB berhasil disimpan.',
+                    timer: 2000,
+                    showConfirmButton: false,
+                });
+            },
+            onError: () => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal',
+                    text: 'Periksa kembali formulir Anda.',
+                });
+            }
         });
     };
 

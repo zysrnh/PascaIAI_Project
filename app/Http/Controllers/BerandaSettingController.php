@@ -47,35 +47,55 @@ class BerandaSettingController extends Controller
 
     public function update(Request $request)
     {
-        $setting = BerandaSetting::firstOrFail();
-        $umum = \App\Models\PengaturanUmum::firstOrFail();
+        $setting = BerandaSetting::firstOrCreate(
+            ['id' => 1],
+            [
+                'pmb_gelombang_text' => 'Gelombang I',
+                'pmb_hotline_number' => '6282116116133',
+                'pmb_hotline_text' => '+62 821-1611-6133',
+                'pmb_link' => 'https://iaipibdg.sevimaplatform.com/spmbfront',
+                'hero_title' => 'Program Studi S1 KPI',
+                'pilar_1_title' => 'Terakreditasi BAN-PT',
+                'pilar_2_title' => 'Dosen Praktisi & Akademisi',
+                'pilar_3_title' => 'Studio Podcast & Lab Penyiaran',
+                'pilar_4_title' => 'Jejaring Kemitraan Media',
+            ]
+        );
+        $umum = \App\Models\PengaturanUmum::firstOrCreate(
+            ['id' => 1],
+            [
+                'email' => 'kpi@iaipibandung.ac.id',
+                'telepon' => '(022) 5441951',
+                'alamat' => 'Jl. Ciganitri No.2, Cipagalo, Kec. Bojongsoang, Kabupaten Bandung',
+            ]
+        );
 
         $validatedSetting = $request->validate([
-            'pmb_gelombang_text' => 'required|string|max:255',
-            'pmb_hotline_number' => 'required|string|max:255',
-            'pmb_hotline_text' => 'required|string|max:255',
-            'pmb_link' => 'required|url|max:255',
-            'hero_title' => 'required|string|max:255',
+            'pmb_gelombang_text' => 'nullable|string|max:255',
+            'pmb_hotline_number' => 'nullable|string|max:255',
+            'pmb_hotline_text' => 'nullable|string|max:255',
+            'pmb_link' => 'nullable|string|max:255',
+            'hero_title' => 'nullable|string|max:255',
             'hero_subtitle' => 'nullable|string',
-            'pilar_1_title' => 'required|string|max:255',
+            'pilar_1_title' => 'nullable|string|max:255',
             'pilar_1_desc' => 'nullable|string',
-            'pilar_2_title' => 'required|string|max:255',
+            'pilar_2_title' => 'nullable|string|max:255',
             'pilar_2_desc' => 'nullable|string',
-            'pilar_3_title' => 'required|string|max:255',
+            'pilar_3_title' => 'nullable|string|max:255',
             'pilar_3_desc' => 'nullable|string',
-            'pilar_4_title' => 'required|string|max:255',
+            'pilar_4_title' => 'nullable|string|max:255',
             'pilar_4_desc' => 'nullable|string',
             'hero_bg' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
         ]);
 
         $validatedUmum = $request->validate([
-            'email' => 'nullable|email|max:255',
+            'email' => 'nullable|string|max:255',
             'telepon' => 'nullable|string|max:255',
             'alamat' => 'nullable|string',
-            'facebook_url' => 'nullable|url|max:255',
-            'instagram_url' => 'nullable|url|max:255',
-            'youtube_url' => 'nullable|url|max:255',
-            'twitter_url' => 'nullable|url|max:255',
+            'facebook_url' => 'nullable|string|max:255',
+            'instagram_url' => 'nullable|string|max:255',
+            'youtube_url' => 'nullable|string|max:255',
+            'twitter_url' => 'nullable|string|max:255',
         ]);
 
         $setting->fill($validatedSetting);

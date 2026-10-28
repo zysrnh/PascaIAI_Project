@@ -29,7 +29,15 @@ class SambutanPimpinanController extends Controller
 
     public function update(Request $request)
     {
-        $sambutan = SambutanPimpinan::firstOrFail();
+        $sambutan = SambutanPimpinan::firstOrCreate(
+            ['id' => 1],
+            [
+                'nama' => 'Ketua Program Studi KPI',
+                'jabatan' => 'Ketua Program Studi KPI',
+                'sambutan_singkat' => 'Membangun Generasi Komunikator & Praktisi Media Islam yang Unggul di Era Digital.',
+                'sambutan_lengkap' => 'Selamat datang di Program Studi S1 Komunikasi dan Penyiaran Islam Fakultas Dakwah IAI Persis Bandung...',
+            ]
+        );
 
         $validated = $request->validate([
             'nama' => 'required|string|max:255',

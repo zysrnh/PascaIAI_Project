@@ -74,7 +74,7 @@ class SistemAkademikController extends Controller
      */
     public function update(Request $request)
     {
-        $siakad = SistemAkademik::firstOrFail();
+        $siakad = SistemAkademik::firstOrCreate(['id' => 1]);
 
         $validated = $request->validate([
             'judul' => 'required|string|max:255',

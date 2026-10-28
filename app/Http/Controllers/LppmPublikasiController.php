@@ -51,7 +51,7 @@ class LppmPublikasiController extends Controller
 
     public function update(Request $request)
     {
-        $publikasi = LppmPublikasi::firstOrFail();
+        $publikasi = LppmPublikasi::firstOrCreate(['id' => 1]);
 
         $validated = $request->validate([
             'judul' => 'nullable|string',
