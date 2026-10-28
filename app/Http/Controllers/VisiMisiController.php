@@ -11,15 +11,14 @@ class VisiMisiController extends Controller
 {
     public function edit()
     {
-        $visimisi = VisiMisi::first();
-        
-        if (!$visimisi) {
-            $visimisi = VisiMisi::create([
+        $visimisi = VisiMisi::firstOrCreate(
+            ['id' => 1],
+            [
                 'visi' => '',
                 'misi' => [],
                 'tujuan' => []
-            ]);
-        }
+            ]
+        );
 
         return Inertia::render('Admin/Profil/VisiMisi', [
             'visimisi' => $visimisi
@@ -30,21 +29,36 @@ class VisiMisiController extends Controller
     {
         $request->validate([
             'visi' => 'required|string',
-            'misi' => 'required|array',
-            'misi.*' => 'required|string',
-            'tujuan' => 'required|array',
-            'tujuan.*' => 'required|string',
+            'misi' => 'nullable|array',
+            'tujuan' => 'nullable|array',
             'gambar_banner' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
             'deskripsi_banner' => 'nullable|string',
             'gambar_bg' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
         ]);
 
-        $visimisi = VisiMisi::first();
+        $visimisi = VisiMisi::firstOrCreate(
+            ['id' => 1],
+            [
+                'visi' => '',
+                'misi' => [],
+                'tujuan' => []
+            ]
+        );
+
+        $misiList = array_values(array_filter(
+            (array) ($request->misi ?? []),
+            fn($item) => !is_null($item) && trim((string)$item) !== ''
+        ));
+
+        $tujuanList = array_values(array_filter(
+            (array) ($request->tujuan ?? []),
+            fn($item) => !is_null($item) && trim((string)$item) !== ''
+        ));
         
         $data = [
             'visi' => $request->visi,
-            'misi' => $request->misi,
-            'tujuan' => $request->tujuan,
+            'misi' => $misiList,
+            'tujuan' => $tujuanList,
             'deskripsi_banner' => $request->deskripsi_banner,
         ];
 

@@ -25,14 +25,13 @@ import {
     Calendar,
     Layers,
     Clock,
-    Laptop,
     FlaskConical,
     HeartHandshake,
     BookMarked,
     Archive,
 } from 'lucide-react';
 
-// Struktur navigasi dikelompokkan per kategori/seksi utama
+// Struktur navigasi dikelompokkan khusus Program Studi S1 Komunikasi dan Penyiaran Islam
 const navigationSections = [
     {
         title: 'Utama',
@@ -41,69 +40,62 @@ const navigationSections = [
         ]
     },
     {
-        title: 'Penjaminan Mutu & SPMI',
+        title: 'Prodi KPI & Akademik',
         items: [
             {
                 type: 'group',
-                name: 'Profil LPM',
+                name: 'Profil Program Studi',
                 icon: Landmark,
                 children: [
-                    { type: 'link', name: 'Tentang LPM', href: '/admin/profil/tentang-kampus', viewHref: '/profil/tentang-kampus', icon: Info },
+                    { type: 'link', name: 'Tentang Prodi KPI', href: '/admin/profil/tentang-kampus', viewHref: '/profil/tentang-kampus', icon: Info },
                     { type: 'link', name: 'Visi, Misi & Tujuan', href: '/admin/profil/visi-misi', viewHref: '/profil/visi-misi', icon: Target },
-                    { type: 'link', name: 'Sambutan Ketua LPM', href: '/admin/profil/sambutan-pimpinan', viewHref: '/profil/sambutan-pimpinan', icon: MessageSquare },
-                    { type: 'link', name: 'Struktur Organisasi & Tim', href: '/admin/profil/struktur-organisasi', viewHref: '/profil/struktur-organisasi', icon: Network },
+                    { type: 'link', name: 'Sambutan Ketua Prodi', href: '/admin/profil/sambutan-pimpinan', viewHref: '/profil/sambutan-pimpinan', icon: MessageSquare },
+                    { type: 'link', name: 'Struktur & Pengelola', href: '/admin/profil/struktur-organisasi', viewHref: '/profil/struktur-organisasi', icon: Network },
+                    { type: 'link', name: 'Akreditasi BAN-PT', href: '/admin/profil/akreditasi', viewHref: '/profil/akreditasi', icon: Award },
+                    { type: 'link', name: 'Dokumen & SK Prodi', href: '/admin/profil/dokumen-institusi', viewHref: '/profil/dokumen-institusi', icon: FileText },
                 ],
             },
             {
                 type: 'group',
-                name: 'Dokumen SPMI & Akreditasi',
-                icon: FileText,
-                children: [
-                    { type: 'link', name: 'Dokumen Mutu / SPMI', href: '/admin/profil/dokumen-institusi', viewHref: '/profil/dokumen-institusi', icon: FileText },
-                    { type: 'link', name: 'Data Akreditasi (BAN-PT)', href: '/admin/profil/akreditasi', viewHref: '/profil/akreditasi', icon: Award },
-                ],
-            },
-            {
-                type: 'group',
-                name: 'Audit Mutu Internal (AMI)',
+                name: 'Akademik & Kurikulum',
                 icon: GraduationCap,
                 children: [
-                    { type: 'link', name: 'Pedoman & Instrumen AMI', href: '/admin/akademik/pedoman', viewHref: '/akademik/pedoman', icon: FileText },
-                    { type: 'link', name: 'Jadwal & Siklus AMI', href: '/admin/akademik/jadwal', viewHref: '/akademik/jadwal-perkuliahan', icon: Clock },
-                    { type: 'link', name: 'Kalender Mutu & AMI', href: '/admin/akademik/kalender', viewHref: '/akademik/kalender-akademik', icon: Calendar },
-                    { type: 'link', name: 'Standar Mutu / Kurikulum', href: '/admin/akademik/kurikulum', viewHref: '/akademik/kurikulum', icon: Layers },
+                    { type: 'link', name: 'Kurikulum & CPL KPI', href: '/admin/akademik/kurikulum', viewHref: '/akademik/kurikulum', icon: Layers },
+                    { type: 'link', name: 'Jadwal Kuliah & Siaran', href: '/admin/akademik/jadwal', viewHref: '/akademik/jadwal-perkuliahan', icon: Clock },
+                    { type: 'link', name: 'Kalender Akademik', href: '/admin/akademik/kalender', viewHref: '/akademik/kalender-akademik', icon: Calendar },
+                    { type: 'link', name: 'Pedoman Akademik', href: '/admin/akademik/pedoman', viewHref: '/akademik/pedoman', icon: FileText },
                 ],
             },
             {
                 type: 'group',
-                name: 'Data Unit & Program Studi',
+                name: 'Dosen & Kelembagaan',
                 icon: Building2,
                 children: [
-                    { type: 'link', name: 'Daftar Fakultas / Unit', href: '/admin/fakultas', viewHref: '/fakultas/daftarfakultas', icon: Building2 },
-                    { type: 'link', name: 'Program Studi & Mutu', href: '/admin/program-studi', viewHref: '/fakultas/programstudi', icon: BookOpen },
-                    { type: 'link', name: 'Data Auditor & Dosen', href: '/admin/fakultas/dosen', viewHref: '/fakultas/dosen', icon: Users },
+                    { type: 'link', name: 'Dosen Homebase KPI', href: '/admin/fakultas/dosen', viewHref: '/fakultas/dosen', icon: Users },
+                    { type: 'link', name: 'Profil Program Studi', href: '/admin/program-studi', viewHref: '/fakultas/programstudi', icon: BookOpen },
+                    { type: 'link', name: 'Fakultas Dakwah', href: '/admin/fakultas', viewHref: '/fakultas/daftarfakultas', icon: Building2 },
                 ],
             },
             {
                 type: 'group',
-                name: 'Survei & Repository Mutu',
+                name: 'Riset & Media Dakwah',
                 icon: Lightbulb,
                 children: [
-                    { type: 'link', name: 'Survei Mutu Penelitian', href: '/admin/lppm/penelitian', viewHref: '/lppm/penelitian', icon: FlaskConical },
-                    { type: 'link', name: 'Standar Mutu PkM', href: '/admin/lppm/pengabdian', viewHref: '/lppm/pengabdian', icon: HeartHandshake },
-                    { type: 'link', name: 'Standar Publikasi Jurnal', href: '/admin/lppm/publikasi', viewHref: '/lppm/publikasi', icon: BookMarked },
-                    { type: 'link', name: 'Repository Laporan Mutu', href: '/admin/lppm/repository', viewHref: '/lppm/repository', icon: Archive },
+                    { type: 'link', name: 'Riset & Penelitian Media', href: '/admin/lppm/penelitian', viewHref: '/lppm/penelitian', icon: FlaskConical },
+                    { type: 'link', name: 'Pengabdian Masyarakat', href: '/admin/lppm/pengabdian', viewHref: '/lppm/pengabdian', icon: HeartHandshake },
+                    { type: 'link', name: 'Publikasi Jurnal & Media', href: '/admin/lppm/publikasi', viewHref: '/lppm/publikasi', icon: BookMarked },
+                    { type: 'link', name: 'Repository Karya Mahasiswa', href: '/admin/lppm/repository', viewHref: '/lppm/repository', icon: Archive },
                 ],
             },
-            { type: 'link', name: 'Berita & Agenda Mutu', href: '/admin/berita', icon: Newspaper },
+            { type: 'link', name: 'Berita & Artikel KPI', href: '/admin/berita', icon: Newspaper },
         ]
     },
     {
-        title: 'Sistem & Konfigurasi',
+        title: 'Layanan & Sistem',
         items: [
             { type: 'link', name: 'Pengaturan Beranda & Banner', href: '/admin/beranda', icon: Settings },
-            { type: 'link', name: 'Pengaduan & Helpdesk Mutu', href: '/konsultasi', icon: MessageSquare },
-            { type: 'link', name: 'Manajemen User', href: '/users', icon: Users },
+            { type: 'link', name: 'Konsultasi PMB (Pesan Masuk)', href: '/konsultasi', icon: MessageSquare },
+            { type: 'link', name: 'Manajemen Pengguna', href: '/users', icon: Users },
         ]
     }
 ];
@@ -118,46 +110,37 @@ function groupHasActiveChild(group, currentUrl) {
 
 function findActiveGroupName(sections, currentUrl) {
     for (const section of sections) {
-        const active = section.items.find((item) => item.type === 'group' && groupHasActiveChild(item, currentUrl));
-        if (active) return active.name;
+        for (const item of section.items) {
+            if (item.type === 'group' && groupHasActiveChild(item, currentUrl)) {
+                return item.name;
+            }
+        }
     }
     return null;
 }
 
-function NavLink({ item, currentUrl, nested = false }) {
-    const isActive = isUrlActive(item.href, currentUrl);
+function NavItem({ item, currentUrl }) {
+    const active = isUrlActive(item.href, currentUrl);
     const Icon = item.icon;
 
     return (
-        <div className={`group/item flex items-center rounded-lg transition-all duration-200 ${isActive ? 'bg-emerald-50/80 font-semibold' : 'hover:bg-slate-50'}`}>
+        <div className="group/item flex items-center justify-between rounded px-3 py-2 text-sm font-medium transition-colors hover:bg-slate-100">
             <Link
                 href={item.href}
-                className={`flex flex-1 items-center justify-between gap-3 py-2 px-3 text-sm transition-transform duration-200 ${
-                    isActive 
-                        ? 'text-emerald-700 font-semibold' 
-                        : nested 
-                            ? 'text-slate-500 hover:text-slate-900 font-normal' 
-                            : 'text-slate-600 hover:text-slate-900 font-medium'
+                className={`flex flex-1 items-center gap-3 truncate ${
+                    active ? 'font-semibold text-emerald-800' : 'text-slate-600 group-hover/item:text-slate-900'
                 }`}
             >
-                <span className="flex min-w-0 items-center gap-2.5">
-                    {Icon && <Icon className={`h-4 w-4 shrink-0 transition-colors ${isActive ? 'text-emerald-600' : 'text-slate-400 group-hover/item:text-slate-600'}`} />}
-                    <span className="truncate">{item.name}</span>
-                </span>
-                {item.badge && (
-                    <span className={`shrink-0 rounded-full px-2 py-0.5 text-xs font-semibold ${isActive ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-500'}`}>
-                        {item.badge}
-                    </span>
-                )}
+                <Icon className={`h-4 w-4 shrink-0 ${active ? 'text-emerald-700' : 'text-slate-400 group-hover/item:text-slate-600'}`} />
+                <span className="truncate">{item.name}</span>
             </Link>
             {item.viewHref && (
                 <a
                     href={item.viewHref}
                     target="_blank"
                     rel="noreferrer"
-                    title={`Lihat halaman ${item.name}`}
-                    aria-label={`Lihat halaman ${item.name}`}
-                    className="mr-1.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-md text-slate-300 transition-all duration-200 hover:bg-white hover:text-emerald-600 hover:shadow-sm group-hover/item:text-slate-400"
+                    className="ml-2 hidden rounded p-1 text-slate-300 transition-colors hover:bg-slate-200 hover:text-slate-600 group-hover/item:block"
+                    title="Lihat halaman publik"
                 >
                     <ExternalLink className="h-3.5 w-3.5" />
                 </a>
@@ -166,55 +149,51 @@ function NavLink({ item, currentUrl, nested = false }) {
     );
 }
 
-function NavGroup({ item, currentUrl, isOpen, onToggle }) {
-    const isActive = groupHasActiveChild(item, currentUrl);
-    const Icon = item.icon;
+function NavGroup({ group, currentUrl, isOpen, onToggle }) {
+    const hasActiveChild = groupHasActiveChild(group, currentUrl);
+    const Icon = group.icon;
 
     return (
-        <div className="space-y-0.5">
+        <div>
             <button
                 type="button"
                 onClick={onToggle}
-                className={`flex w-full items-center justify-between gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-all duration-200 ${
-                    isActive 
-                        ? 'text-emerald-700 bg-emerald-50/30' 
-                        : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
+                className={`flex w-full items-center justify-between rounded px-3 py-2 text-sm font-medium transition-colors ${
+                    hasActiveChild ? 'bg-slate-50 font-semibold text-slate-900' : 'text-slate-700 hover:bg-slate-100 hover:text-slate-900'
                 }`}
             >
-                <span className="flex items-center gap-2.5">
-                    {Icon && <Icon className={`h-4 w-4 transition-colors ${isActive ? 'text-emerald-600' : 'text-slate-400'}`} />}
-                    {item.name}
-                </span>
-                <ChevronDown className={`h-3.5 w-3.5 shrink-0 text-slate-400 transition-transform duration-300 ${isOpen ? 'rotate-180 text-emerald-500' : ''}`} />
+                <div className="flex items-center gap-3 truncate">
+                    <Icon className={`h-4 w-4 shrink-0 ${hasActiveChild ? 'text-emerald-700' : 'text-slate-400'}`} />
+                    <span className="truncate">{group.name}</span>
+                </div>
+                <ChevronDown className={`h-4 w-4 shrink-0 text-slate-400 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
             </button>
 
-            <div className={`grid transition-all duration-300 ease-in-out ${isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0 pointer-events-none'}`}>
-                <div className="overflow-hidden">
-                    <div className="mt-0.5 space-y-0.5 border-l border-slate-200/80 ml-[21px] pl-3">
-                        {item.children.map((child) => (
-                            <NavLink key={child.name} item={child} currentUrl={currentUrl} nested />
-                        ))}
-                    </div>
+            {isOpen && (
+                <div className="relative mt-1 space-y-0.5 pl-6 before:absolute before:bottom-2 before:left-5 before:top-2 before:w-px before:bg-slate-200">
+                    {group.children.map((child) => (
+                        <NavItem key={child.name} item={child} currentUrl={currentUrl} />
+                    ))}
                 </div>
-            </div>
+            )}
         </div>
     );
 }
 
-function SidebarContent() {
+export default function Sidebar() {
     const { url } = usePage();
     const user = usePage().props.auth.user;
 
     const [openGroup, setOpenGroup] = useState(() => findActiveGroupName(navigationSections, url));
 
     return (
-        <div className="flex h-full flex-col bg-white select-none">
+        <div className="flex h-full flex-col bg-white select-none border-r border-slate-200 w-64 shrink-0">
             {/* Header Instansi */}
-            <div className="flex items-center gap-3 border-b border-slate-100 px-6 py-5">
-                <img src="/logo_lpm.png" alt="Logo LPM" className="h-10 w-auto object-contain rounded" />
+            <div className="flex items-center gap-3 border-b border-slate-100 px-5 py-4">
+                <img src="/logo_kampus.png" alt="Logo IAI Persis" className="h-10 w-auto object-contain bg-white rounded p-0.5 border border-slate-100" />
                 <div className="min-w-0">
-                    <p className="text-sm font-bold leading-tight text-slate-900 truncate">LPM IAI Persis</p>
-                    <p className="text-xs text-slate-500 font-medium truncate">Lembaga Penjaminan Mutu</p>
+                    <p className="text-sm font-bold leading-tight text-slate-900 truncate">Prodi S1 KPI</p>
+                    <p className="text-[11px] text-slate-500 font-medium truncate">Fakultas Dakwah</p>
                 </div>
             </div>
 
@@ -230,85 +209,42 @@ function SidebarContent() {
                             item.type === 'group' ? (
                                 <NavGroup
                                     key={item.name}
-                                    item={item}
+                                    group={item}
                                     currentUrl={url}
                                     isOpen={openGroup === item.name}
                                     onToggle={() => setOpenGroup((prev) => (prev === item.name ? null : item.name))}
                                 />
                             ) : (
-                                <NavLink key={item.name} item={item} currentUrl={url} />
+                                <NavItem key={item.name} item={item} currentUrl={url} />
                             )
                         )}
                     </div>
                 ))}
             </nav>
 
-            {/* Footer Profile & Logout */}
-            <div className="border-t border-slate-100 p-4 bg-slate-50/50">
-                <div className="flex items-center gap-3 rounded-xl bg-white border border-slate-100 p-2.5 shadow-sm">
-                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-emerald-700 text-sm font-semibold text-white uppercase shadow-sm">
-                        {user.name.charAt(0)}
+            {/* Footer Profile User */}
+            <div className="border-t border-slate-100 p-4">
+                <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3 min-w-0">
+                        <div className="flex h-8 w-8 items-center justify-center rounded bg-[#0F2E24] text-xs font-bold text-white shrink-0">
+                            {user?.name?.[0]?.toUpperCase() || 'A'}
+                        </div>
+                        <div className="min-w-0">
+                            <p className="text-xs font-bold text-slate-800 truncate">{user?.name}</p>
+                            <p className="text-[10px] text-slate-500 truncate capitalize">{user?.role?.replace('_', ' ') || 'Admin'}</p>
+                        </div>
                     </div>
-                    <div className="min-w-0 flex-1">
-                        <p className="truncate text-sm font-semibold text-slate-800 leading-snug">{user.name}</p>
-                        <p className="truncate text-xs font-medium text-slate-400 capitalize mt-0.5">{user.role.replace('_', ' ')}</p>
-                    </div>
-
                     <Link
                         href={route('logout')}
                         method="post"
                         as="button"
-                        className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all duration-200"
+                        className="rounded p-1.5 text-slate-400 hover:bg-red-50 hover:text-red-600 transition-colors shrink-0"
                         title="Keluar"
                     >
-                        <LogOut className="h-[18px] w-[18px]" />
+                        <LogOut className="h-4 w-4" />
                     </Link>
                 </div>
             </div>
         </div>
-    );
-}
-
-export default function Sidebar() {
-    const [mobileOpen, setMobileOpen] = useState(false);
-
-    return (
-        <>
-            {/* Desktop View */}
-            <aside className="hidden shrink-0 lg:block lg:w-72">
-                <div className="sticky top-0 h-screen border-r border-slate-100">
-                    <SidebarContent />
-                </div>
-            </aside>
-
-            {/* Mobile Trigger Button */}
-            <button
-                type="button"
-                onClick={() => setMobileOpen(true)}
-                className="fixed bottom-6 right-6 z-40 flex h-12 w-12 items-center justify-center rounded-full bg-emerald-700 text-white shadow-lg shadow-emerald-700/20 active:scale-95 transition-transform lg:hidden"
-            >
-                <Menu className="h-5 w-5" />
-            </button>
-
-            {/* Mobile Drawer */}
-            {mobileOpen && (
-                <div className="fixed inset-0 z-50 lg:hidden">
-                    {/* Backdrop */}
-                    <div className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm transition-opacity duration-300" onClick={() => setMobileOpen(false)} />
-                    
-                    {/* Menu Body */}
-                    <div className="absolute left-0 top-0 h-full w-72 bg-white shadow-2xl animate-in slide-in-from-left duration-300">
-                        <button
-                            type="button"
-                            onClick={() => setMobileOpen(false)}
-                            className="absolute right-4 top-5 text-slate-400 hover:text-slate-600 z-50 p-1 rounded-md hover:bg-slate-50"
-                        >
-                            <X className="h-5 w-5" />
-                        </button>
-                        <SidebarContent />
-                    </div>
-                </div>
-            )}
-        </>
     );
 }

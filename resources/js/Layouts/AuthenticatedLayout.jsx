@@ -15,18 +15,18 @@ export default function AuthenticatedLayout({ header, children }) {
     return (
         <div className="min-h-screen bg-slate-50">
             <Toast />
-            <nav className="border-b border-emerald-900/60 bg-emerald-950">
+            <nav className="border-b border-emerald-800 bg-[#0F2E24]">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="flex h-16 justify-between">
                         <div className="flex">
                             <div className="flex shrink-0 items-center">
                                 <Link href="/" className="flex items-center gap-3 group">
                                     <div className="flex items-center justify-center">
-                                        <img src="/logo_lpm.png" alt="Logo LPM" className="h-9 w-auto object-contain bg-white rounded-[5px] p-1" />
+                                        <img src="/logo_kampus.png" alt="Logo LPM" className="h-9 w-auto object-contain bg-white rounded-[5px] p-1" />
                                     </div>
                                     <div className="hidden sm:block">
-                                        <p className="text-sm font-bold leading-tight text-white">LPM IAI Persis</p>
-                                        <p className="text-[11px] text-emerald-300">Lembaga Penjaminan Mutu</p>
+                                        <p className="text-sm font-bold leading-tight text-white">Prodi S1 KPI</p>
+                                        <p className="text-[11px] text-emerald-300">IAI Persis Bandung</p>
                                     </div>
                                 </Link>
                             </div>
@@ -170,7 +170,7 @@ export default function AuthenticatedLayout({ header, children }) {
             </nav>
 
             {header && (
-                <header className="bg-emerald-950 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.2)] border-b border-emerald-900/50">
+                <header className="bg-[#0F2E24] shadow-[0_4px_20px_-10px_rgba(0,0,0,0.2)] border-b border-emerald-900/50">
                     <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
                         {header}
                     </div>
