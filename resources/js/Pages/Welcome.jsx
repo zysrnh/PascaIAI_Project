@@ -220,8 +220,8 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                                 <Link href="/berita" className="text-slate-600 hover:text-emerald-800 border-b-2 border-transparent hover:border-emerald-800 font-semibold px-1 py-1 transition text-sm xl:text-base">Berita</Link>
 
                                 {/* Tombol CTA Dokumen & Akreditasi */}
-                                <Link href={route('public.dokumen-institusi')} className="bg-emerald-800 hover:bg-emerald-900 text-white px-4 py-2 rounded-sm font-semibold shadow-md shadow-emerald-900/10 hover:shadow-lg transition text-xs xl:text-sm flex items-center gap-1.5 shrink-0">
-                                    <i className="fa-solid fa-file-shield text-xs"></i> Dokumen &amp; Mutu
+                                <Link href={route('public.akademik.pedoman')} className="bg-emerald-800 hover:bg-emerald-900 text-white px-4 py-2 rounded-sm font-semibold shadow-md shadow-emerald-900/10 hover:shadow-lg transition text-xs xl:text-sm flex items-center gap-1.5 shrink-0">
+                                    <i className="fa-solid fa-book-open text-xs"></i> Pedoman Akademik
                                 </Link>
                             </nav>
 
@@ -307,8 +307,8 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                             <Link href="/berita" className="block px-3 py-2.5 rounded-sm text-slate-700 hover:bg-slate-50 font-medium mb-1">Berita</Link>
 
                             <div className="pt-3">
-                                <Link href={route('public.dokumen-institusi')} className="block text-center bg-emerald-800 text-white py-2.5 rounded-sm font-bold shadow-md">
-                                    <i className="fa-solid fa-file-shield mr-2"></i> Akses Dokumen &amp; Mutu
+                                <Link href={route('public.akademik.pedoman')} className="block text-center bg-emerald-800 text-white py-2.5 rounded-sm font-bold shadow-md">
+                                    <i className="fa-solid fa-book-open mr-2"></i> Akses Pedoman Akademik
                                 </Link>
                             </div>
                         </div>
