@@ -14,6 +14,20 @@ export default function Index({ auth, setting, umum, quickAccesses = [], heroSli
         hero_bg: null,
         hero_title: setting?.hero_title || '',
         hero_subtitle: setting?.hero_subtitle || '',
+        hero_btn_1_text: setting?.hero_btn_1_text ?? 'Status Akreditasi',
+        hero_btn_1_url: setting?.hero_btn_1_url ?? '/profil/akreditasi',
+        hero_btn_2_text: setting?.hero_btn_2_text ?? 'Survei Mutu',
+        hero_btn_2_url: setting?.hero_btn_2_url ?? '#survei',
+        stat_1_val: setting?.stat_1_val ?? '24',
+        stat_1_label: setting?.stat_1_label ?? 'STANDAR MUTU',
+        stat_2_val: setting?.stat_2_val ?? '3',
+        stat_2_label: setting?.stat_2_label ?? 'PRODI TERAKREDITASI',
+        stat_3_val: setting?.stat_3_val ?? '3',
+        stat_3_label: setting?.stat_3_label ?? 'DOSEN & PENGAJAR',
+        stat_4_val: setting?.stat_4_val ?? '25',
+        stat_4_label: setting?.stat_4_label ?? 'PUBLIKASI & RISET',
+        stat_5_val: setting?.stat_5_val ?? '94.8%',
+        stat_5_label: setting?.stat_5_label ?? 'INDEKS KEPUASAN',
         pilar_1_title: setting?.pilar_1_title || '',
         pilar_1_desc: setting?.pilar_1_desc || '',
         pilar_2_title: setting?.pilar_2_title || '',
@@ -428,6 +442,193 @@ export default function Index({ auth, setting, umum, quickAccesses = [], heroSli
                                             className="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100"
                                         />
                                         {errors.hero_bg && <p className="text-red-500 text-sm mt-1">{errors.hero_bg}</p>}
+                                    </div>
+                                </div>
+
+                                {/* Dua Tombol Hero (CTA) */}
+                                <div className="space-y-4 bg-slate-50 p-4 rounded-lg border border-slate-200">
+                                    <h4 className="font-semibold text-slate-800">Dua Tombol Aksi Banner Hero (CTA)</h4>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div className="p-3.5 bg-white rounded-lg border border-slate-200 space-y-2.5">
+                                            <span className="text-xs font-bold text-emerald-800 uppercase tracking-wider block">Tombol 1 (Kiri)</span>
+                                            <div>
+                                                <label className="block text-xs font-medium text-slate-600 mb-1">Teks Tombol</label>
+                                                <input
+                                                    type="text"
+                                                    value={data.hero_btn_1_text}
+                                                    onChange={e => setData('hero_btn_1_text', e.target.value)}
+                                                    placeholder="Status Akreditasi"
+                                                    className="w-full rounded-md border-slate-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 text-sm"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className="block text-xs font-medium text-slate-600 mb-1">Link / URL Tujuan</label>
+                                                <input
+                                                    type="text"
+                                                    value={data.hero_btn_1_url}
+                                                    onChange={e => setData('hero_btn_1_url', e.target.value)}
+                                                    placeholder="/profil/akreditasi"
+                                                    className="w-full rounded-md border-slate-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 text-sm"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="p-3.5 bg-white rounded-lg border border-slate-200 space-y-2.5">
+                                            <span className="text-xs font-bold text-emerald-800 uppercase tracking-wider block">Tombol 2 (Kanan)</span>
+                                            <div>
+                                                <label className="block text-xs font-medium text-slate-600 mb-1">Teks Tombol</label>
+                                                <input
+                                                    type="text"
+                                                    value={data.hero_btn_2_text}
+                                                    onChange={e => setData('hero_btn_2_text', e.target.value)}
+                                                    placeholder="Survei Mutu"
+                                                    className="w-full rounded-md border-slate-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 text-sm"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className="block text-xs font-medium text-slate-600 mb-1">Link / URL Tujuan</label>
+                                                <input
+                                                    type="text"
+                                                    value={data.hero_btn_2_url}
+                                                    onChange={e => setData('hero_btn_2_url', e.target.value)}
+                                                    placeholder="#survei"
+                                                    className="w-full rounded-md border-slate-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 text-sm"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* 5 Card Statistik Ringkasan */}
+                                <div className="space-y-4 bg-slate-50 p-4 rounded-lg border border-slate-200">
+                                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                                        <h4 className="font-semibold text-slate-800">5 Card Statistik Ringkasan Beranda</h4>
+                                        <span className="text-xs text-slate-500">Angka & label yang tampil tepat di bawah banner hero</span>
+                                    </div>
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                                        {/* Stat 1 */}
+                                        <div className="p-3 bg-white rounded-lg border border-slate-200 space-y-2">
+                                            <span className="text-xs font-bold text-emerald-700 block">Card 1 (Standar Mutu)</span>
+                                            <div>
+                                                <label className="block text-[11px] text-slate-500 mb-0.5">Angka / Nilai</label>
+                                                <input
+                                                    type="text"
+                                                    value={data.stat_1_val}
+                                                    onChange={e => setData('stat_1_val', e.target.value)}
+                                                    placeholder="24"
+                                                    className="w-full rounded-md border-slate-300 shadow-sm text-sm"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className="block text-[11px] text-slate-500 mb-0.5">Label Teks</label>
+                                                <input
+                                                    type="text"
+                                                    value={data.stat_1_label}
+                                                    onChange={e => setData('stat_1_label', e.target.value)}
+                                                    placeholder="STANDAR MUTU"
+                                                    className="w-full rounded-md border-slate-300 shadow-sm text-sm"
+                                                />
+                                            </div>
+                                        </div>
+
+                                        {/* Stat 2 */}
+                                        <div className="p-3 bg-white rounded-lg border border-slate-200 space-y-2">
+                                            <span className="text-xs font-bold text-amber-600 block">Card 2 (Program Studi)</span>
+                                            <div>
+                                                <label className="block text-[11px] text-slate-500 mb-0.5">Angka / Nilai</label>
+                                                <input
+                                                    type="text"
+                                                    value={data.stat_2_val}
+                                                    onChange={e => setData('stat_2_val', e.target.value)}
+                                                    placeholder="3"
+                                                    className="w-full rounded-md border-slate-300 shadow-sm text-sm"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className="block text-[11px] text-slate-500 mb-0.5">Label Teks</label>
+                                                <input
+                                                    type="text"
+                                                    value={data.stat_2_label}
+                                                    onChange={e => setData('stat_2_label', e.target.value)}
+                                                    placeholder="PRODI TERAKREDITASI"
+                                                    className="w-full rounded-md border-slate-300 shadow-sm text-sm"
+                                                />
+                                            </div>
+                                        </div>
+
+                                        {/* Stat 3 */}
+                                        <div className="p-3 bg-white rounded-lg border border-slate-200 space-y-2">
+                                            <span className="text-xs font-bold text-blue-700 block">Card 3 (Dosen & Pengajar)</span>
+                                            <div>
+                                                <label className="block text-[11px] text-slate-500 mb-0.5">Angka / Nilai</label>
+                                                <input
+                                                    type="text"
+                                                    value={data.stat_3_val}
+                                                    onChange={e => setData('stat_3_val', e.target.value)}
+                                                    placeholder="3"
+                                                    className="w-full rounded-md border-slate-300 shadow-sm text-sm"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className="block text-[11px] text-slate-500 mb-0.5">Label Teks</label>
+                                                <input
+                                                    type="text"
+                                                    value={data.stat_3_label}
+                                                    onChange={e => setData('stat_3_label', e.target.value)}
+                                                    placeholder="DOSEN & PENGAJAR"
+                                                    className="w-full rounded-md border-slate-300 shadow-sm text-sm"
+                                                />
+                                            </div>
+                                        </div>
+
+                                        {/* Stat 4 */}
+                                        <div className="p-3 bg-white rounded-lg border border-slate-200 space-y-2">
+                                            <span className="text-xs font-bold text-purple-700 block">Card 4 (Publikasi & Riset)</span>
+                                            <div>
+                                                <label className="block text-[11px] text-slate-500 mb-0.5">Angka / Nilai</label>
+                                                <input
+                                                    type="text"
+                                                    value={data.stat_4_val}
+                                                    onChange={e => setData('stat_4_val', e.target.value)}
+                                                    placeholder="25"
+                                                    className="w-full rounded-md border-slate-300 shadow-sm text-sm"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className="block text-[11px] text-slate-500 mb-0.5">Label Teks</label>
+                                                <input
+                                                    type="text"
+                                                    value={data.stat_4_label}
+                                                    onChange={e => setData('stat_4_label', e.target.value)}
+                                                    placeholder="PUBLIKASI & RISET"
+                                                    className="w-full rounded-md border-slate-300 shadow-sm text-sm"
+                                                />
+                                            </div>
+                                        </div>
+
+                                        {/* Stat 5 */}
+                                        <div className="p-3 bg-white rounded-lg border border-slate-200 space-y-2">
+                                            <span className="text-xs font-bold text-indigo-700 block">Card 5 (Indeks Kepuasan)</span>
+                                            <div>
+                                                <label className="block text-[11px] text-slate-500 mb-0.5">Angka / Nilai</label>
+                                                <input
+                                                    type="text"
+                                                    value={data.stat_5_val}
+                                                    onChange={e => setData('stat_5_val', e.target.value)}
+                                                    placeholder="94.8%"
+                                                    className="w-full rounded-md border-slate-300 shadow-sm text-sm"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className="block text-[11px] text-slate-500 mb-0.5">Label Teks</label>
+                                                <input
+                                                    type="text"
+                                                    value={data.stat_5_label}
+                                                    onChange={e => setData('stat_5_label', e.target.value)}
+                                                    placeholder="INDEKS KEPUASAN"
+                                                    className="w-full rounded-md border-slate-300 shadow-sm text-sm"
+                                                />
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 

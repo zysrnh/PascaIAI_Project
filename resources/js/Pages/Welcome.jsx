@@ -420,13 +420,37 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                                 {setting?.hero_subtitle || "Program Studi S1 Komunikasi dan Penyiaran Islam (KPI) Fakultas Dakwah IAI Persis Bandung mencetak sarjana komunikasi Islam yang profesional, berwawasan dakwah, dan unggul di era media digital."}
                             </p>
                             <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
-                                
-                                <Link href={route('public.akreditasi')} className="w-full sm:w-auto bg-transparent text-white font-semibold px-8 py-4 rounded-sm border border-white transition hover:bg-white/10 flex items-center justify-center gap-2">
-                                    <i className="fa-solid fa-award"></i> Status Akreditasi
-                                </Link>
-                                <a href="#survei" className="w-full sm:w-auto bg-emerald-800/80 hover:bg-emerald-800 text-emerald-100 font-semibold px-8 py-4 rounded-sm border border-emerald-700 transition flex items-center justify-center gap-2">
-                                    <i className="fa-solid fa-square-poll-vertical"></i> Survei Mutu
-                                </a>
+                                {setting?.hero_btn_1_url?.startsWith('http') || setting?.hero_btn_1_url?.startsWith('#') ? (
+                                    <a
+                                        href={setting?.hero_btn_1_url || '#'}
+                                        className="w-full sm:w-auto bg-transparent text-white font-semibold px-8 py-4 rounded-sm border border-white transition hover:bg-white/10 flex items-center justify-center gap-2"
+                                    >
+                                        <i className="fa-solid fa-award"></i> {setting?.hero_btn_1_text || 'Status Akreditasi'}
+                                    </a>
+                                ) : (
+                                    <Link
+                                        href={setting?.hero_btn_1_url || route('public.akreditasi')}
+                                        className="w-full sm:w-auto bg-transparent text-white font-semibold px-8 py-4 rounded-sm border border-white transition hover:bg-white/10 flex items-center justify-center gap-2"
+                                    >
+                                        <i className="fa-solid fa-award"></i> {setting?.hero_btn_1_text || 'Status Akreditasi'}
+                                    </Link>
+                                )}
+
+                                {setting?.hero_btn_2_url?.startsWith('http') || setting?.hero_btn_2_url?.startsWith('#') ? (
+                                    <a
+                                        href={setting?.hero_btn_2_url || '#survei'}
+                                        className="w-full sm:w-auto bg-emerald-800/80 hover:bg-emerald-800 text-emerald-100 font-semibold px-8 py-4 rounded-sm border border-emerald-700 transition flex items-center justify-center gap-2"
+                                    >
+                                        <i className="fa-solid fa-square-poll-vertical"></i> {setting?.hero_btn_2_text || 'Survei Mutu'}
+                                    </a>
+                                ) : (
+                                    <Link
+                                        href={setting?.hero_btn_2_url || '#survei'}
+                                        className="w-full sm:w-auto bg-emerald-800/80 hover:bg-emerald-800 text-emerald-100 font-semibold px-8 py-4 rounded-sm border border-emerald-700 transition flex items-center justify-center gap-2"
+                                    >
+                                        <i className="fa-solid fa-square-poll-vertical"></i> {setting?.hero_btn_2_text || 'Survei Mutu'}
+                                    </Link>
+                                )}
                             </div>
                         </div>
                     </section>
@@ -442,10 +466,10 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                                     <i className="fa-solid fa-file-contract"></i>
                                 </div>
                                 <span className="text-2xl sm:text-3xl font-extrabold text-pasca-darkest tracking-tight font-sans">
-                                    24
+                                    {setting?.stat_1_val ?? '24'}
                                 </span>
                                 <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider mt-1.5 leading-tight font-sans">
-                                    STANDAR MUTU
+                                    {setting?.stat_1_label ?? 'STANDAR MUTU'}
                                 </span>
                             </div>
 
@@ -455,10 +479,10 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                                     <i className="fa-solid fa-graduation-cap"></i>
                                 </div>
                                 <span className="text-2xl sm:text-3xl font-extrabold text-pasca-darkest tracking-tight font-sans">
-                                    {programStudi.length > 0 ? programStudi.length : 'S1'}
+                                    {setting?.stat_2_val ?? (programStudi.length > 0 ? programStudi.length : 'S1')}
                                 </span>
                                 <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider mt-1.5 leading-tight font-sans">
-                                    PRODI TERAKREDITASI
+                                    {setting?.stat_2_label ?? 'PRODI TERAKREDITASI'}
                                 </span>
                             </div>
 
@@ -468,10 +492,10 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                                     <i className="fa-solid fa-user-check"></i>
                                 </div>
                                 <span className="text-2xl sm:text-3xl font-extrabold text-pasca-darkest tracking-tight font-sans">
-                                    {stats?.total ?? 12}
+                                    {setting?.stat_3_val ?? (stats?.total ?? 12)}
                                 </span>
                                 <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider mt-1.5 leading-tight font-sans">
-                                    DOSEN &amp; PENGAJAR
+                                    {setting?.stat_3_label ?? 'DOSEN & PENGAJAR'}
                                 </span>
                             </div>
 
@@ -481,10 +505,10 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                                     <i className="fa-solid fa-book-open"></i>
                                 </div>
                                 <span className="text-2xl sm:text-3xl font-extrabold text-pasca-darkest tracking-tight font-sans">
-                                    {stats?.penelitian ?? 25}
+                                    {setting?.stat_4_val ?? (stats?.penelitian ?? 25)}
                                 </span>
                                 <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider mt-1.5 leading-tight font-sans">
-                                    PUBLIKASI &amp; RISET
+                                    {setting?.stat_4_label ?? 'PUBLIKASI & RISET'}
                                 </span>
                             </div>
 
@@ -494,10 +518,10 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                                     <i className="fa-solid fa-chart-line"></i>
                                 </div>
                                 <span className="text-2xl sm:text-3xl font-extrabold text-pasca-darkest tracking-tight font-sans">
-                                    94.8%
+                                    {setting?.stat_5_val ?? '94.8%'}
                                 </span>
                                 <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider mt-1.5 leading-tight font-sans">
-                                    INDEKS KEPUASAN
+                                    {setting?.stat_5_label ?? 'INDEKS KEPUASAN'}
                                 </span>
                             </div>
                         </div>

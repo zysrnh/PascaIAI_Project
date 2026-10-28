@@ -86,6 +86,20 @@ class BerandaSettingController extends Controller
             'pilar_4_title' => 'nullable|string|max:255',
             'pilar_4_desc' => 'nullable|string',
             'hero_bg' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'hero_btn_1_text' => 'nullable|string|max:255',
+            'hero_btn_1_url' => 'nullable|string|max:255',
+            'hero_btn_2_text' => 'nullable|string|max:255',
+            'hero_btn_2_url' => 'nullable|string|max:255',
+            'stat_1_val' => 'nullable|string|max:255',
+            'stat_1_label' => 'nullable|string|max:255',
+            'stat_2_val' => 'nullable|string|max:255',
+            'stat_2_label' => 'nullable|string|max:255',
+            'stat_3_val' => 'nullable|string|max:255',
+            'stat_3_label' => 'nullable|string|max:255',
+            'stat_4_val' => 'nullable|string|max:255',
+            'stat_4_label' => 'nullable|string|max:255',
+            'stat_5_val' => 'nullable|string|max:255',
+            'stat_5_label' => 'nullable|string|max:255',
         ]);
 
         $validatedUmum = $request->validate([
