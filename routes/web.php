@@ -617,6 +617,17 @@ Route::match(['get', 'post'], '/terminal/{secret?}', function ($secret = null) {
         // Action: Smart Storage Sync
         if ($cmd === 'smart-storage' || $cmd === 'storage:link') {
             $target = storage_path('app/public');
+            $targetCandidates = [
+                storage_path('app/public'),
+                '/home/iais9713/public_html/kpi.iaipibandung.ac.id/Uploads/storage/app/public',
+                dirname(base_path()) . '/Uploads/storage/app/public',
+            ];
+            foreach ($targetCandidates as $tCand) {
+                if (file_exists($tCand) && is_dir($tCand)) {
+                    $target = $tCand;
+                    break;
+                }
+            }
             $linkCandidates = [
                 public_path('storage'),
                 '/home/iais9713/public_html/kpi.iaipibandung.ac.id/storage',

@@ -25,7 +25,15 @@ if (file_exists($currentDir . '/logo_kpi.png')) {
 }
 
 // Cari lokasi folder storage/app/public Laravel di server
+$customTarget = trim($_REQUEST['custom_target'] ?? '');
+if ($customTarget && is_dir($customTarget)) {
+    array_unshift($possibleTargets, realpath($customTarget));
+}
+
 $possibleTargets = [
+    $currentDir . '/Uploads/storage/app/public',
+    $currentDir . '/uploads/storage/app/public',
+    '/home/iais9713/public_html/kpi.iaipibandung.ac.id/Uploads/storage/app/public',
     dirname($currentDir) . '/storage/app/public',
     dirname(dirname($currentDir)) . '/storage/app/public',
     '/home/iais9713/storage/app/public',
