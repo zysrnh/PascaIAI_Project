@@ -406,7 +406,7 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                                 <p className="font-sans text-sm sm:text-base lg:text-lg text-slate-200/90 mb-9 max-w-2xl mx-auto leading-relaxed font-normal">
                                     {setting?.hero_subtitle || "Belajar komunikasi, jurnalistik, penyiaran, media digital, dan dakwah untuk menjawab tantangan informasi di era modern dengan nilai-nilai Islam."}
                                 </p>
-                                <div className="flex flex-wrap items-center justify-center gap-3.5 mb-12">
+                                <div className="flex flex-wrap items-center justify-center gap-3.5">
                                     <a
                                         href="#profil"
                                         className="bg-[#31487A] hover:bg-[#1E2E4F] text-white font-semibold px-7 py-3.5 rounded-xl transition text-sm sm:text-base inline-flex items-center gap-2 border border-[#8FB3E2]/40 shadow-sm hover:-translate-y-0.5"
@@ -419,31 +419,6 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                                     >
                                         Jelajahi Layanan ↗
                                     </a>
-                                </div>
-
-                                {/* 3 Konsentrasi Keahlian KPI */}
-                                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-4xl mx-auto pt-8 border-t border-slate-700/50 text-left">
-                                    <div className="bg-[#1E2E4F]/60 backdrop-blur-xs border border-white/10 p-5 rounded-2xl hover:border-[#8FB3E2]/50 hover:bg-[#1E2E4F]/90 transition-all duration-300 group hover:-translate-y-1">
-                                        <div className="w-10 h-10 rounded-xl bg-[#31487A]/50 group-hover:bg-[#31487A] flex items-center justify-center text-[#8FB3E2] text-lg mb-3 transition-colors">
-                                            <i className="fa-solid fa-tower-broadcast"></i>
-                                        </div>
-                                        <h4 className="font-bold text-white text-sm">Broadcasting Media</h4>
-                                        <p className="text-xs text-slate-300 mt-1 leading-relaxed">Produksi siaran TV, radio, dan audio streaming digital.</p>
-                                    </div>
-                                    <div className="bg-[#1E2E4F]/60 backdrop-blur-xs border border-white/10 p-5 rounded-2xl hover:border-[#8FB3E2]/50 hover:bg-[#1E2E4F]/90 transition-all duration-300 group hover:-translate-y-1">
-                                        <div className="w-10 h-10 rounded-xl bg-[#31487A]/50 group-hover:bg-[#31487A] flex items-center justify-center text-[#8FB3E2] text-lg mb-3 transition-colors">
-                                            <i className="fa-solid fa-newspaper"></i>
-                                        </div>
-                                        <h4 className="font-bold text-white text-sm">Jurnalistik Digital</h4>
-                                        <p className="text-xs text-slate-300 mt-1 leading-relaxed">Investigasi, penulisan berita, dan literasi media cyber.</p>
-                                    </div>
-                                    <div className="bg-[#1E2E4F]/60 backdrop-blur-xs border border-white/10 p-5 rounded-2xl hover:border-[#8FB3E2]/50 hover:bg-[#1E2E4F]/90 transition-all duration-300 group hover:-translate-y-1">
-                                        <div className="w-10 h-10 rounded-xl bg-[#31487A]/50 group-hover:bg-[#31487A] flex items-center justify-center text-[#8FB3E2] text-lg mb-3 transition-colors">
-                                            <i className="fa-solid fa-bullhorn"></i>
-                                        </div>
-                                        <h4 className="font-bold text-white text-sm">PR &amp; Dakwah Kreatif</h4>
-                                        <p className="text-xs text-slate-300 mt-1 leading-relaxed">Komunikasi publik, humas, dan kampanye dakwah media.</p>
-                                    </div>
                                 </div>
                             </div>
                         </div>
