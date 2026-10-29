@@ -612,8 +612,8 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                                 href={route('public.akademik.kurikulum')}
                                 className="bg-white p-6 rounded-sm border border-slate-200 hover:border-[#31487A] shadow-xs hover:shadow-md transition duration-200 flex flex-col group"
                             >
-                                <div className="w-12 h-12 bg-[#D9E1F1] text-[#192338] rounded-sm flex items-center justify-center text-2xl mb-4 group-hover:scale-105 transition-transform">
-                                    📚
+                                <div className="w-12 h-12 bg-[#D9E1F1] group-hover:bg-[#31487A] border border-[#8FB3E2]/50 rounded-sm flex items-center justify-center mb-4 transition-all duration-300">
+                                    <i className="fa-solid fa-book-bookmark text-xl text-[#31487A] group-hover:text-white transition-colors duration-300"></i>
                                 </div>
                                 <h3 className="text-base font-bold text-[#192338] mb-2 group-hover:text-[#31487A] transition-colors">
                                     Kurikulum
@@ -631,8 +631,8 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                                 href={route('public.dosen')}
                                 className="bg-white p-6 rounded-sm border border-slate-200 hover:border-[#31487A] shadow-xs hover:shadow-md transition duration-200 flex flex-col group"
                             >
-                                <div className="w-12 h-12 bg-[#D9E1F1] text-[#192338] rounded-sm flex items-center justify-center text-2xl mb-4 group-hover:scale-105 transition-transform">
-                                    🧑‍🏫
+                                <div className="w-12 h-12 bg-[#D9E1F1] group-hover:bg-[#31487A] border border-[#8FB3E2]/50 rounded-sm flex items-center justify-center mb-4 transition-all duration-300">
+                                    <i className="fa-solid fa-chalkboard-user text-xl text-[#31487A] group-hover:text-white transition-colors duration-300"></i>
                                 </div>
                                 <h3 className="text-base font-bold text-[#192338] mb-2 group-hover:text-[#31487A] transition-colors">
                                     Dosen dan Tenaga Pengajar
@@ -650,8 +650,8 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                                 href={route('public.lppm.penelitian')}
                                 className="bg-white p-6 rounded-sm border border-slate-200 hover:border-[#31487A] shadow-xs hover:shadow-md transition duration-200 flex flex-col group"
                             >
-                                <div className="w-12 h-12 bg-[#D9E1F1] text-[#192338] rounded-sm flex items-center justify-center text-2xl mb-4 group-hover:scale-105 transition-transform">
-                                    🧪
+                                <div className="w-12 h-12 bg-[#D9E1F1] group-hover:bg-[#31487A] border border-[#8FB3E2]/50 rounded-sm flex items-center justify-center mb-4 transition-all duration-300">
+                                    <i className="fa-solid fa-flask-vial text-xl text-[#31487A] group-hover:text-white transition-colors duration-300"></i>
                                 </div>
                                 <h3 className="text-base font-bold text-[#192338] mb-2 group-hover:text-[#31487A] transition-colors">
                                     Penelitian dan Pengabdian
@@ -669,8 +669,8 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                                 href={route('public.dokumen-institusi')}
                                 className="bg-white p-6 rounded-sm border border-slate-200 hover:border-[#31487A] shadow-xs hover:shadow-md transition duration-200 flex flex-col group"
                             >
-                                <div className="w-12 h-12 bg-[#D9E1F1] text-[#192338] rounded-sm flex items-center justify-center text-2xl mb-4 group-hover:scale-105 transition-transform">
-                                    📁
+                                <div className="w-12 h-12 bg-[#D9E1F1] group-hover:bg-[#31487A] border border-[#8FB3E2]/50 rounded-sm flex items-center justify-center mb-4 transition-all duration-300">
+                                    <i className="fa-solid fa-file-shield text-xl text-[#31487A] group-hover:text-white transition-colors duration-300"></i>
                                 </div>
                                 <h3 className="text-base font-bold text-[#192338] mb-2 group-hover:text-[#31487A] transition-colors">
                                     Dokumen dan Mutu
