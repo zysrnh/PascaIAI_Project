@@ -394,63 +394,57 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                         )}
                     </section>
                 ) : (
-                    /* Fallback Static Hero Section untuk LPM */
+                    /* Fallback Static Hero Section untuk KPI */
                     <section
-                        className="bg-cover bg-center min-h-[80vh] flex items-center justify-center text-white relative py-20"
-                        style={{
-                            backgroundImage: `linear-gradient(rgba(15,46,36,0.92),rgba(8,26,20,0.96)), url(${setting?.hero_bg ? '/storage/' + setting.hero_bg : '/images/default-banner.jpg'})`
-                        }}
+                        className="bg-[#192338] text-white relative py-20 lg:py-28"
                     >
-                        <div className="absolute inset-0 bg-gradient-to-t from-emerald-950/95 via-transparent to-transparent"></div>
-                        <div className={`relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center transition-all duration-1000 ease-out transform ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
-                            
-                            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-6">
-                                {setting?.hero_title ? (
-                                    setting.hero_title
-                                ) : (
-                                    <>
-                                        Mewujudkan Budaya Mutu & <br className="hidden sm:block" />
-                                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-emerald-300">
-                                            Keunggulan Akademik Berkelanjutan
-                                        </span>
-                                    </>
-                                )}
-                            </h1>
-                            <p className="text-base sm:text-lg lg:text-xl text-slate-200 mb-10 max-w-3xl mx-auto leading-relaxed">
-                                {setting?.hero_subtitle || "Program Studi S1 Komunikasi dan Penyiaran Islam (KPI) Fakultas Dakwah IAI Persis Bandung mencetak sarjana komunikasi Islam yang profesional, berwawasan dakwah, dan unggul di era media digital."}
-                            </p>
-                            <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
-                                {setting?.hero_btn_1_url?.startsWith('http') || setting?.hero_btn_1_url?.startsWith('#') ? (
-                                    <a
-                                        href={setting?.hero_btn_1_url || '#'}
-                                        className="w-full sm:w-auto bg-transparent text-white font-semibold px-8 py-4 rounded-sm border border-white transition hover:bg-white/10 flex items-center justify-center gap-2"
-                                    >
-                                        <i className="fa-solid fa-award"></i> {setting?.hero_btn_1_text || 'Status Akreditasi'}
-                                    </a>
-                                ) : (
-                                    <Link
-                                        href={setting?.hero_btn_1_url || route('public.akreditasi')}
-                                        className="w-full sm:w-auto bg-transparent text-white font-semibold px-8 py-4 rounded-sm border border-white transition hover:bg-white/10 flex items-center justify-center gap-2"
-                                    >
-                                        <i className="fa-solid fa-award"></i> {setting?.hero_btn_1_text || 'Status Akreditasi'}
-                                    </Link>
-                                )}
-
-                                {setting?.hero_btn_2_url?.startsWith('http') || setting?.hero_btn_2_url?.startsWith('#') ? (
-                                    <a
-                                        href={setting?.hero_btn_2_url || '#survei'}
-                                        className="w-full sm:w-auto bg-emerald-800/80 hover:bg-emerald-800 text-emerald-100 font-semibold px-8 py-4 rounded-sm border border-emerald-700 transition flex items-center justify-center gap-2"
-                                    >
-                                        <i className="fa-solid fa-square-poll-vertical"></i> {setting?.hero_btn_2_text || 'Survei Mutu'}
-                                    </a>
-                                ) : (
-                                    <Link
-                                        href={setting?.hero_btn_2_url || '#survei'}
-                                        className="w-full sm:w-auto bg-emerald-800/80 hover:bg-emerald-800 text-emerald-100 font-semibold px-8 py-4 rounded-sm border border-emerald-700 transition flex items-center justify-center gap-2"
-                                    >
-                                        <i className="fa-solid fa-square-poll-vertical"></i> {setting?.hero_btn_2_text || 'Survei Mutu'}
-                                    </Link>
-                                )}
+                        <div className={`relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 transition-all duration-1000 ease-out transform ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
+                            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+                                <div className="lg:col-span-8 text-left">
+                                    <div className="inline-block text-xs uppercase tracking-widest font-extrabold text-[#8FB3E2] mb-3">
+                                        Program Studi • IAI Persis Bandung
+                                    </div>
+                                    <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-6">
+                                        {setting?.hero_title || "Membangun Komunikator Muslim yang Kreatif, Profesional, dan Berintegritas"}
+                                    </h1>
+                                    <p className="text-base sm:text-lg text-slate-200 mb-8 max-w-2xl leading-relaxed">
+                                        {setting?.hero_subtitle || "Belajar komunikasi, jurnalistik, penyiaran, media digital, dan dakwah untuk menjawab tantangan informasi di era modern dengan nilai-nilai Islam."}
+                                    </p>
+                                    <div className="flex flex-wrap items-center gap-3 mb-8">
+                                        <a
+                                            href="#profil"
+                                            className="bg-[#31487A] hover:bg-[#1E2E4F] text-white font-bold px-6 py-3.5 rounded-sm transition text-sm inline-flex items-center gap-2"
+                                        >
+                                            <i className="fa-solid fa-circle-info text-xs"></i> Kenali Program Studi
+                                        </a>
+                                        <a
+                                            href="#akademik"
+                                            className="bg-transparent hover:bg-white/10 text-white border border-white/60 font-bold px-6 py-3.5 rounded-sm transition text-sm inline-flex items-center gap-2"
+                                        >
+                                            Jelajahi Akademik ↗
+                                        </a>
+                                    </div>
+                                    <div className="flex flex-wrap gap-2">
+                                        {['Jurnalistik', 'Broadcasting', 'Public Relations', 'Digital Media'].map((tag) => (
+                                            <span key={tag} className="text-xs border border-white/20 bg-white/5 text-slate-200 px-3 py-1 rounded-sm">
+                                                {tag}
+                                            </span>
+                                        ))}
+                                    </div>
+                                </div>
+                                <div className="lg:col-span-4">
+                                    <div className="bg-[#1E2E4F] border border-[#31487A] p-8 rounded-sm">
+                                        <div className="text-5xl font-extrabold text-[#8FB3E2] mb-3">KPI</div>
+                                        <h3 className="text-xl font-bold text-white mb-2">Komunikasi untuk Kebaikan</h3>
+                                        <p className="text-slate-200 text-sm leading-relaxed mb-4">
+                                            Mengembangkan keilmuan dan keterampilan komunikasi yang berlandaskan nilai Islam, etika, literasi media, dan pengabdian kepada masyarakat.
+                                        </p>
+                                        <div className="pt-3 border-t border-[#31487A]/60 flex items-center justify-between text-xs text-[#8FB3E2]">
+                                            <span>Fakultas Dakwah</span>
+                                            <span>IAI Persis Bandung</span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </section>
@@ -498,25 +492,85 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                     </section>
                 )}
 
+                {/* Tentang KPI & Fokus Pengembangan */}
+                <section id="profil" className="py-20 bg-slate-50 border-b border-slate-200">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center animate-on-scroll opacity-0 translate-y-12 transition-all duration-1000 ease-out">
+                            <div className="lg:col-span-6">
+                                <span className="text-[#31487A] font-bold text-xs uppercase tracking-widest">Tentang KPI</span>
+                                <h2 className="text-2xl sm:text-4xl font-extrabold text-[#192338] mt-2 mb-4 leading-tight">
+                                    Ilmu Komunikasi, Keterampilan Media, dan Nilai Dakwah
+                                </h2>
+                                <p className="text-slate-600 leading-relaxed mb-6 text-sm sm:text-base">
+                                    Program Studi Komunikasi dan Penyiaran Islam menyiapkan mahasiswa untuk memahami teori komunikasi sekaligus menguasai praktik media, penyiaran, jurnalistik, dan komunikasi dakwah untuk menjawab tantangan era informasi modern.
+                                </p>
+                                <div className="flex flex-wrap gap-3">
+                                    <a
+                                        href="#aduan"
+                                        className="bg-[#192338] hover:bg-[#1E2E4F] text-white font-bold px-6 py-3 rounded-sm text-sm transition"
+                                    >
+                                        Tanyakan Informasi
+                                    </a>
+                                    <Link
+                                        href="/profil/tentang-kampus"
+                                        className="bg-white hover:bg-slate-100 text-[#192338] border border-slate-300 font-bold px-6 py-3 rounded-sm text-sm transition"
+                                    >
+                                        Profil Lengkap →
+                                    </Link>
+                                </div>
+                            </div>
+                            <div className="lg:col-span-6">
+                                <div className="bg-[#D9E1F1]/40 border border-[#8FB3E2]/40 p-6 sm:p-8 rounded-sm">
+                                    <h3 className="text-lg font-bold text-[#192338] mb-4 flex items-center gap-2">
+                                        <i className="fa-solid fa-bullseye text-[#31487A]"></i> Fokus Pengembangan
+                                    </h3>
+                                    <div className="space-y-3">
+                                        <div className="flex items-start gap-3 text-sm text-slate-700">
+                                            <span className="w-5 h-5 bg-[#31487A] text-white rounded-xs flex items-center justify-center text-xs shrink-0 mt-0.5 font-bold">✓</span>
+                                            <span>Komunikasi dan penyiaran Islam yang beretika.</span>
+                                        </div>
+                                        <div className="flex items-start gap-3 text-sm text-slate-700">
+                                            <span className="w-5 h-5 bg-[#31487A] text-white rounded-xs flex items-center justify-center text-xs shrink-0 mt-0.5 font-bold">✓</span>
+                                            <span>Produksi konten audio, video, dan media digital.</span>
+                                        </div>
+                                        <div className="flex items-start gap-3 text-sm text-slate-700">
+                                            <span className="w-5 h-5 bg-[#31487A] text-white rounded-xs flex items-center justify-center text-xs shrink-0 mt-0.5 font-bold">✓</span>
+                                            <span>Jurnalistik, penulisan berita, dan literasi media.</span>
+                                        </div>
+                                        <div className="flex items-start gap-3 text-sm text-slate-700">
+                                            <span className="w-5 h-5 bg-[#31487A] text-white rounded-xs flex items-center justify-center text-xs shrink-0 mt-0.5 font-bold">✓</span>
+                                            <span>Komunikasi publik, kehumasan, dan pengelolaan dakwah.</span>
+                                        </div>
+                                        <div className="flex items-start gap-3 text-sm text-slate-700">
+                                            <span className="w-5 h-5 bg-[#31487A] text-white rounded-xs flex items-center justify-center text-xs shrink-0 mt-0.5 font-bold">✓</span>
+                                            <span>Riset komunikasi serta pengabdian kepada masyarakat.</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
                 {/* Sambutan Ketua LPM */}
                 <section id="sambutan" className="py-20 bg-white">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center animate-on-scroll opacity-0 translate-y-12 transition-all duration-1000 ease-out">
                             <div className="lg:col-span-5 relative">
-                                <div className="absolute inset-0 bg-emerald-800 rounded-sm rotate-3 scale-95 opacity-20"></div>
+                                <div className="absolute inset-0 bg-[#31487A] rounded-sm rotate-1 scale-95 opacity-20"></div>
                                 <img 
                                     src={sambutan?.foto || "https://web-persis.s3.ap-southeast-1.amazonaws.com/files/shares/persis-cd5-0c543921-d668-4ee6-ac15-4f0ff791007e.jpg?q=80&w=600&auto=format&fit=crop"} 
                                     alt={sambutan?.nama || "Ketua Prodi KPI"} 
-                                    className="rounded-sm shadow-2xl relative z-10 w-full h-[400px] object-cover object-top border-4 border-white" 
+                                    className="rounded-sm shadow-md relative z-10 w-full h-[400px] object-cover object-top border-2 border-slate-200" 
                                 />
-                                <div className="absolute -bottom-6 -right-6 bg-amber-500 text-emerald-950 p-6 rounded-sm shadow-xl z-20 hidden sm:block max-w-[250px]">
+                                <div className="absolute -bottom-6 -right-6 bg-[#1E2E4F] text-white p-6 rounded-sm shadow-lg z-20 hidden sm:block max-w-[250px] border border-[#31487A]">
                                     <p className="font-arabic text-xl font-bold mb-1">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</p>
-                                    <p className="text-xs font-semibold">Mengawal tata kelola mutu Tridharma berstandar nasional.</p>
+                                    <p className="text-xs text-[#8FB3E2] font-semibold">Mengawal tata kelola akademik dan dakwah berstandar unggul.</p>
                                 </div>
                             </div>
                             <div className="lg:col-span-7">
-                                <span className="text-emerald-700 font-bold text-sm tracking-widest uppercase">SAMBUTAN KETUA LEMBAGA</span>
-                                <h2 className="text-2xl sm:text-3xl font-extrabold text-emerald-950 mt-2 mb-6 leading-snug">
+                                <span className="text-[#31487A] font-bold text-xs uppercase tracking-widest">SAMBUTAN KETUA PRODI</span>
+                                <h2 className="text-2xl sm:text-3xl font-extrabold text-[#192338] mt-2 mb-6 leading-snug">
                                     {sambutan?.sambutan_singkat || "Membangun Generasi Komunikator & Praktisi Media Islam yang Unggul dan Berakhlak Mulia"}
                                 </h2>
 
@@ -532,10 +586,10 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
 
                                 <div className="mt-6 flex flex-col justify-between items-start gap-4">
                                     <div>
-                                        <h4 className="text-lg font-bold text-emerald-900">{sambutan?.nama || "Ketua Program Studi KPI"}</h4>
+                                        <h4 className="text-lg font-bold text-[#192338]">{sambutan?.nama || "Ketua Program Studi KPI"}</h4>
                                         <p className="text-sm text-slate-500 font-medium">{sambutan?.jabatan || "Ketua Prodi KPI Fakultas Dakwah"}</p>
                                     </div>
-                                    <Link href="/profil/sambutan-pimpinan" className="text-sm font-bold text-emerald-700 hover:text-emerald-900 flex items-center gap-1.5">
+                                    <Link href="/profil/sambutan-pimpinan" className="text-sm font-bold text-[#31487A] hover:text-[#192338] flex items-center gap-1.5">
                                         Baca Sambutan Selengkapnya <i className="fa-solid fa-arrow-right text-xs"></i>
                                     </Link>
                                 </div>
@@ -544,69 +598,90 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                     </div>
                 </section>
 
-                {/* Siklus PPEPP Penjaminan Mutu */}
-                <section id="ppepp" className="py-20 bg-slate-100">
+                {/* Jelajahi Layanan Program Studi */}
+                <section id="akademik" className="py-20 bg-slate-100 border-b border-slate-200">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                         <div className="text-center max-w-3xl mx-auto mb-16 animate-on-scroll opacity-0 translate-y-12 transition-all duration-1000 ease-out">
-                            <span className="text-emerald-700 font-bold text-sm tracking-widest uppercase">SIKLUS PENJAMINAN MUTU</span>
-                            <h2 className="text-3xl sm:text-4xl font-extrabold text-emerald-950 mt-2 mb-4">Siklus PPEPP SPMI</h2>
-                            <p className="text-slate-600">5 Tahapan implementasi mutu terstruktur untuk menjamin keberlanjutan dan akuntabilitas standar institusi.</p>
+                            <span className="text-[#31487A] font-bold text-xs sm:text-sm tracking-widest uppercase">INFORMASI AKADEMIK</span>
+                            <h2 className="text-3xl sm:text-4xl font-extrabold text-[#192338] mt-2 mb-4">Jelajahi Layanan Program Studi</h2>
+                            <p className="text-slate-600 text-sm sm:text-base">Akses informasi akademik dan kegiatan prodi melalui kategori yang terstruktur.</p>
                         </div>
-                        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6 animate-on-scroll opacity-0 translate-y-12 transition-all duration-1000 ease-out delay-100">
-                            {/* P 1: Penetapan */}
-                            <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200/80 hover:shadow-xl hover:-translate-y-1 transition duration-300 flex flex-col">
-                                <div className="w-12 h-12 bg-emerald-100 text-emerald-800 rounded-lg flex items-center justify-center text-xl font-bold mb-4">
-                                    1
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 animate-on-scroll opacity-0 translate-y-12 transition-all duration-1000 ease-out delay-100">
+                            {/* Card 1: Kurikulum */}
+                            <Link 
+                                href={route('public.akademik.kurikulum')}
+                                className="bg-white p-6 rounded-sm border border-slate-200 hover:border-[#31487A] shadow-xs hover:shadow-md transition duration-200 flex flex-col group"
+                            >
+                                <div className="w-12 h-12 bg-[#D9E1F1] text-[#192338] rounded-sm flex items-center justify-center text-2xl mb-4 group-hover:scale-105 transition-transform">
+                                    📚
                                 </div>
-                                <h3 className="text-base font-bold text-emerald-950 mb-2">Penetapan Standar</h3>
-                                <p className="text-slate-500 text-xs leading-relaxed">
-                                    Merumuskan dan mengesahkan Standar SPMI yang melampaui Standar Nasional Pendidikan Tinggi (SN-Dikti).
+                                <h3 className="text-base font-bold text-[#192338] mb-2 group-hover:text-[#31487A] transition-colors">
+                                    Kurikulum
+                                </h3>
+                                <p className="text-slate-500 text-xs sm:text-sm leading-relaxed mb-4 flex-1">
+                                    Struktur mata kuliah, capaian pembelajaran, dan dokumen akademik yang telah disahkan.
                                 </p>
-                            </div>
+                                <span className="text-xs font-bold text-[#31487A] flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                                    Lihat Kurikulum <i className="fa-solid fa-arrow-right text-[10px]"></i>
+                                </span>
+                            </Link>
 
-                            {/* P 2: Pelaksanaan */}
-                            <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200/80 hover:shadow-xl hover:-translate-y-1 transition duration-300 flex flex-col">
-                                <div className="w-12 h-12 bg-blue-100 text-blue-800 rounded-lg flex items-center justify-center text-xl font-bold mb-4">
-                                    2
+                            {/* Card 2: Dosen dan Tenaga Pengajar */}
+                            <Link 
+                                href={route('public.dosen')}
+                                className="bg-white p-6 rounded-sm border border-slate-200 hover:border-[#31487A] shadow-xs hover:shadow-md transition duration-200 flex flex-col group"
+                            >
+                                <div className="w-12 h-12 bg-[#D9E1F1] text-[#192338] rounded-sm flex items-center justify-center text-2xl mb-4 group-hover:scale-105 transition-transform">
+                                    🧑‍🏫
                                 </div>
-                                <h3 className="text-base font-bold text-emerald-950 mb-2">Pelaksanaan Standar</h3>
-                                <p className="text-slate-500 text-xs leading-relaxed">
-                                    Mengimplementasikan standar mutu di semua unit kerja, fakultas, dan program studi secara konsisten.
+                                <h3 className="text-base font-bold text-[#192338] mb-2 group-hover:text-[#31487A] transition-colors">
+                                    Dosen dan Tenaga Pengajar
+                                </h3>
+                                <p className="text-slate-500 text-xs sm:text-sm leading-relaxed mb-4 flex-1">
+                                    Profil, bidang keahlian, publikasi, dan informasi akademik dosen.
                                 </p>
-                            </div>
+                                <span className="text-xs font-bold text-[#31487A] flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                                    Direktori Dosen <i className="fa-solid fa-arrow-right text-[10px]"></i>
+                                </span>
+                            </Link>
 
-                            {/* E: Evaluasi */}
-                            <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200/80 hover:shadow-xl hover:-translate-y-1 transition duration-300 flex flex-col">
-                                <div className="w-12 h-12 bg-amber-100 text-amber-800 rounded-lg flex items-center justify-center text-xl font-bold mb-4">
-                                    3
+                            {/* Card 3: Penelitian dan Pengabdian */}
+                            <Link 
+                                href={route('public.lppm.penelitian')}
+                                className="bg-white p-6 rounded-sm border border-slate-200 hover:border-[#31487A] shadow-xs hover:shadow-md transition duration-200 flex flex-col group"
+                            >
+                                <div className="w-12 h-12 bg-[#D9E1F1] text-[#192338] rounded-sm flex items-center justify-center text-2xl mb-4 group-hover:scale-105 transition-transform">
+                                    🧪
                                 </div>
-                                <h3 className="text-base font-bold text-emerald-950 mb-2">Evaluasi (AMI)</h3>
-                                <p className="text-slate-500 text-xs leading-relaxed">
-                                    Melaksanakan Audit Mutu Internal (AMI), monitoring berkala, dan evaluasi capaian standar kinerja.
+                                <h3 className="text-base font-bold text-[#192338] mb-2 group-hover:text-[#31487A] transition-colors">
+                                    Penelitian dan Pengabdian
+                                </h3>
+                                <p className="text-slate-500 text-xs sm:text-sm leading-relaxed mb-4 flex-1">
+                                    Informasi riset, publikasi ilmiah, dan kegiatan pengabdian kepada masyarakat.
                                 </p>
-                            </div>
+                                <span className="text-xs font-bold text-[#31487A] flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                                    Riset &amp; PkM <i className="fa-solid fa-arrow-right text-[10px]"></i>
+                                </span>
+                            </Link>
 
-                            {/* P 3: Pengendalian */}
-                            <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200/80 hover:shadow-xl hover:-translate-y-1 transition duration-300 flex flex-col">
-                                <div className="w-12 h-12 bg-purple-100 text-purple-800 rounded-lg flex items-center justify-center text-xl font-bold mb-4">
-                                    4
+                            {/* Card 4: Dokumen dan Mutu */}
+                            <Link 
+                                href={route('public.dokumen-institusi')}
+                                className="bg-white p-6 rounded-sm border border-slate-200 hover:border-[#31487A] shadow-xs hover:shadow-md transition duration-200 flex flex-col group"
+                            >
+                                <div className="w-12 h-12 bg-[#D9E1F1] text-[#192338] rounded-sm flex items-center justify-center text-2xl mb-4 group-hover:scale-105 transition-transform">
+                                    📁
                                 </div>
-                                <h3 className="text-base font-bold text-emerald-950 mb-2">Pengendalian Standar</h3>
-                                <p className="text-slate-500 text-xs leading-relaxed">
-                                    Rapat Tinjauan Manajemen (RTM) dan perbaikan atas ketidaksesuaian/temuan audit secara terukur.
+                                <h3 className="text-base font-bold text-[#192338] mb-2 group-hover:text-[#31487A] transition-colors">
+                                    Dokumen dan Mutu
+                                </h3>
+                                <p className="text-slate-500 text-xs sm:text-sm leading-relaxed mb-4 flex-1">
+                                    Pedoman, dokumen mutu, laporan, serta informasi akreditasi yang tersedia untuk publik.
                                 </p>
-                            </div>
-
-                            {/* P 4: Peningkatan */}
-                            <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200/80 hover:shadow-xl hover:-translate-y-1 transition duration-300 flex flex-col">
-                                <div className="w-12 h-12 bg-indigo-100 text-indigo-800 rounded-lg flex items-center justify-center text-xl font-bold mb-4">
-                                    5
-                                </div>
-                                <h3 className="text-base font-bold text-emerald-950 mb-2">Peningkatan Standar</h3>
-                                <p className="text-slate-500 text-xs leading-relaxed">
-                                    Meningkatkan standar mutu yang telah tercapai secara bertahap menuju keunggulan institusi (Kaizen).
-                                </p>
-                            </div>
+                                <span className="text-xs font-bold text-[#31487A] flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                                    Unduh Dokumen <i className="fa-solid fa-arrow-right text-[10px]"></i>
+                                </span>
+                            </Link>
                         </div>
                     </div>
                 </section>
@@ -629,19 +704,16 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                     </div>
                 </section>
 
-                {/* Survei Kepuasan Mutu & Helpdesk / Aduan */}
-                <section id="survei" className="py-20 bg-emerald-950 text-white relative overflow-hidden">
-                    <div className="absolute inset-0 opacity-10">
-                        <img src="/images/default-banner.jpg" alt="Quality Assurance" className="w-full h-full object-cover" />
-                    </div>
+                {/* Survei Kepuasan & Helpdesk / Aduan */}
+                <section id="survei" className="py-20 bg-[#192338] text-white relative">
                     <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-                            {/* Kiri: Portal Survei Mutu */}
+                            {/* Kiri: Portal Survei */}
                             <div className="lg:col-span-6 animate-on-scroll opacity-0 -translate-x-12 transition-all duration-1000 ease-out">
-                                <span className="text-amber-400 font-bold text-sm tracking-widest uppercase">UMPAN BALIK STAKEHOLDER</span>
-                                <h2 className="text-3xl sm:text-4xl font-extrabold leading-tight mt-2 mb-6">Survei Kepuasan Layanan & Mutu</h2>
-                                <p className="text-emerald-200/90 leading-relaxed mb-8">
-                                    Partisipasi Anda sangat penting untuk continuous improvement (perbaikan berkelanjutan). Silakan isi instrumen kuesioner survei kepuasan sesuai peran Anda di bawah ini:
+                                <span className="text-[#8FB3E2] font-bold text-xs uppercase tracking-widest">UMPAN BALIK STAKEHOLDER</span>
+                                <h2 className="text-3xl sm:text-4xl font-extrabold leading-tight mt-2 mb-6">Survei Kepuasan Layanan & Pembelajaran</h2>
+                                <p className="text-slate-300 leading-relaxed mb-8 text-sm sm:text-base">
+                                    Partisipasi Anda sangat penting untuk evaluasi dan peningkatan mutu prodi berkelanjutan. Silakan isi kuesioner survei kepuasan sesuai peran Anda:
                                 </p>
 
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -649,14 +721,14 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                                         href="https://forms.google.com"
                                         target="_blank"
                                         rel="noreferrer"
-                                        className="p-4 rounded-lg bg-emerald-900/80 hover:bg-emerald-800 border border-emerald-700/60 transition group flex items-start gap-3"
+                                        className="p-4 rounded-sm bg-[#1E2E4F] hover:bg-[#31487A] border border-[#31487A] transition group flex items-start gap-3"
                                     >
-                                        <div className="w-9 h-9 rounded bg-amber-500 text-emerald-950 flex items-center justify-center font-bold shrink-0 mt-0.5">
+                                        <div className="w-9 h-9 rounded-sm bg-[#31487A] text-white flex items-center justify-center font-bold shrink-0 mt-0.5">
                                             <i className="fa-solid fa-user-graduate"></i>
                                         </div>
                                         <div>
-                                            <h4 className="font-bold text-sm text-white group-hover:text-amber-300 transition">Survei Mahasiswa</h4>
-                                            <p className="text-xs text-emerald-300/80 mt-0.5">Kepuasan Pembelajaran & Sarpras</p>
+                                            <h4 className="font-bold text-sm text-white group-hover:text-[#D9E1F1] transition">Survei Mahasiswa</h4>
+                                            <p className="text-xs text-slate-300 mt-0.5">Kepuasan Pembelajaran &amp; Media</p>
                                         </div>
                                     </a>
 
@@ -664,14 +736,14 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                                         href="https://forms.google.com"
                                         target="_blank"
                                         rel="noreferrer"
-                                        className="p-4 rounded-lg bg-emerald-900/80 hover:bg-emerald-800 border border-emerald-700/60 transition group flex items-start gap-3"
+                                        className="p-4 rounded-sm bg-[#1E2E4F] hover:bg-[#31487A] border border-[#31487A] transition group flex items-start gap-3"
                                     >
-                                        <div className="w-9 h-9 rounded bg-amber-500 text-emerald-950 flex items-center justify-center font-bold shrink-0 mt-0.5">
+                                        <div className="w-9 h-9 rounded-sm bg-[#31487A] text-white flex items-center justify-center font-bold shrink-0 mt-0.5">
                                             <i className="fa-solid fa-chalkboard-user"></i>
                                         </div>
                                         <div>
-                                            <h4 className="font-bold text-sm text-white group-hover:text-amber-300 transition">Survei Dosen</h4>
-                                            <p className="text-xs text-emerald-300/80 mt-0.5">Tata Kelola & Riset / PkM</p>
+                                            <h4 className="font-bold text-sm text-white group-hover:text-[#D9E1F1] transition">Survei Dosen</h4>
+                                            <p className="text-xs text-slate-300 mt-0.5">Tata Kelola &amp; Riset Komunikasi</p>
                                         </div>
                                     </a>
 
@@ -679,14 +751,14 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                                         href="https://forms.google.com"
                                         target="_blank"
                                         rel="noreferrer"
-                                        className="p-4 rounded-lg bg-emerald-900/80 hover:bg-emerald-800 border border-emerald-700/60 transition group flex items-start gap-3"
+                                        className="p-4 rounded-sm bg-[#1E2E4F] hover:bg-[#31487A] border border-[#31487A] transition group flex items-start gap-3"
                                     >
-                                        <div className="w-9 h-9 rounded bg-amber-500 text-emerald-950 flex items-center justify-center font-bold shrink-0 mt-0.5">
+                                        <div className="w-9 h-9 rounded-sm bg-[#31487A] text-white flex items-center justify-center font-bold shrink-0 mt-0.5">
                                             <i className="fa-solid fa-id-card-clip"></i>
                                         </div>
                                         <div>
-                                            <h4 className="font-bold text-sm text-white group-hover:text-amber-300 transition">Survei Tenaga Kependidikan</h4>
-                                            <p className="text-xs text-emerald-300/80 mt-0.5">Kepuasan Manajemen & SDM</p>
+                                            <h4 className="font-bold text-sm text-white group-hover:text-[#D9E1F1] transition">Survei Tenaga Kependidikan</h4>
+                                            <p className="text-xs text-slate-300 mt-0.5">Kepuasan Manajemen &amp; Fasilitas</p>
                                         </div>
                                     </a>
 
@@ -694,23 +766,23 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                                         href="https://forms.google.com"
                                         target="_blank"
                                         rel="noreferrer"
-                                        className="p-4 rounded-lg bg-emerald-900/80 hover:bg-emerald-800 border border-emerald-700/60 transition group flex items-start gap-3"
+                                        className="p-4 rounded-sm bg-[#1E2E4F] hover:bg-[#31487A] border border-[#31487A] transition group flex items-start gap-3"
                                     >
-                                        <div className="w-9 h-9 rounded bg-amber-500 text-emerald-950 flex items-center justify-center font-bold shrink-0 mt-0.5">
+                                        <div className="w-9 h-9 rounded-sm bg-[#31487A] text-white flex items-center justify-center font-bold shrink-0 mt-0.5">
                                             <i className="fa-solid fa-handshake"></i>
                                         </div>
                                         <div>
-                                            <h4 className="font-bold text-sm text-white group-hover:text-amber-300 transition">Survei Mitra / Pengguna</h4>
-                                            <p className="text-xs text-emerald-300/80 mt-0.5">Kepuasan Pengguna Lulusan</p>
+                                            <h4 className="font-bold text-sm text-white group-hover:text-[#D9E1F1] transition">Survei Mitra / Alumni</h4>
+                                            <p className="text-xs text-slate-300 mt-0.5">Kepuasan Pengguna Lulusan</p>
                                         </div>
                                     </a>
                                 </div>
                             </div>
 
-                            {/* Kanan: Form Helpdesk / Pengaduan Mutu */}
-                            <div id="aduan" className="lg:col-span-6 bg-white rounded-xl p-8 text-slate-800 shadow-2xl animate-on-scroll opacity-0 translate-x-12 transition-all duration-1000 ease-out delay-100">
-                                <h3 className="text-xl font-bold text-emerald-950 mb-1">Helpdesk & Pengaduan Mutu</h3>
-                                <p className="text-xs text-slate-400 mb-6">Sampaikan masukan, aduan layanan akademik/fasilitas, atau konsultasi SPMI ke tim LPM.</p>
+                            {/* Kanan: Form Helpdesk / Konsultasi */}
+                            <div id="aduan" className="lg:col-span-6 bg-white rounded-sm p-8 text-slate-800 border border-slate-200 shadow-sm animate-on-scroll opacity-0 translate-x-12 transition-all duration-1000 ease-out delay-100">
+                                <h3 className="text-xl font-bold text-[#192338] mb-1">Layanan Pertanyaan &amp; Aspirasi</h3>
+                                <p className="text-xs text-slate-500 mb-6">Sampaikan masukan, pertanyaan akademik, atau permintaan informasi resmi program studi KPI.</p>
 
                                 <form className="space-y-4" onSubmit={handleWaSubmit}>
                                     <div>
@@ -718,7 +790,7 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                                         <input
                                             type="text"
                                             placeholder="Masukkan nama lengkap Anda"
-                                            className="w-full px-4 py-2.5 rounded-md border border-slate-200 focus:outline-none focus:border-emerald-700 focus:ring-1 focus:ring-emerald-700 text-sm transition"
+                                            className="w-full px-4 py-2.5 rounded-sm border border-slate-200 focus:outline-none focus:border-[#31487A] text-sm transition"
                                             value={waForm.nama}
                                             onChange={(e) => setWaForm('nama', e.target.value)}
                                             required
@@ -731,18 +803,18 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                                             <input
                                                 type="tel"
                                                 placeholder="081234567890"
-                                                className="w-full px-4 py-2.5 rounded-md border border-slate-200 focus:outline-none focus:border-emerald-700 focus:ring-1 focus:ring-emerald-700 text-sm transition"
+                                                className="w-full px-4 py-2.5 rounded-sm border border-slate-200 focus:outline-none focus:border-[#31487A] text-sm transition"
                                                 value={waForm.whatsapp}
                                                 onChange={(e) => setWaForm('whatsapp', e.target.value)}
                                                 required
                                             />
                                         </div>
                                         <div>
-                                            <label className="block text-xs font-bold text-slate-600 uppercase mb-1.5">Unit / Prodi</label>
+                                            <label className="block text-xs font-bold text-slate-600 uppercase mb-1.5">Status / Instansi</label>
                                             <input
                                                 type="text"
-                                                placeholder="Contoh: PAI / Syariah"
-                                                className="w-full px-4 py-2.5 rounded-md border border-slate-200 focus:outline-none focus:border-emerald-700 focus:ring-1 focus:ring-emerald-700 text-sm transition"
+                                                placeholder="Mahasiswa / Dosen / Umum"
+                                                className="w-full px-4 py-2.5 rounded-sm border border-slate-200 focus:outline-none focus:border-[#31487A] text-sm transition"
                                                 value={waForm.unit_prodi}
                                                 onChange={(e) => setWaForm('unit_prodi', e.target.value)}
                                             />
@@ -750,26 +822,26 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                                     </div>
 
                                     <div>
-                                        <label className="block text-xs font-bold text-slate-600 uppercase mb-1.5">Kategori Masukan / Aduan</label>
+                                        <label className="block text-xs font-bold text-slate-600 uppercase mb-1.5">Kategori Pertanyaan / Masukan</label>
                                         <select
-                                            className="w-full px-4 py-2.5 rounded-md border border-slate-200 focus:outline-none focus:border-emerald-700 focus:ring-1 focus:ring-emerald-700 text-sm bg-white transition"
+                                            className="w-full px-4 py-2.5 rounded-sm border border-slate-200 focus:outline-none focus:border-[#31487A] text-sm bg-white transition"
                                             value={waForm.kategori_aduan}
                                             onChange={(e) => setWaForm('kategori_aduan', e.target.value)}
                                         >
-                                            <option value="Layanan Pembelajaran & Kurikulum">Layanan Pembelajaran & Kurikulum</option>
-                                            <option value="Sarana & Prasarana Kampus">Sarana & Prasarana Kampus</option>
-                                            <option value="Layanan Administrasi & Keuangan">Layanan Administrasi & Keuangan</option>
-                                            <option value="Konsultasi Instrumen AMI / SPMI">Konsultasi Instrumen AMI / SPMI</option>
+                                            <option value="Layanan Pembelajaran & Kurikulum">Layanan Pembelajaran &amp; Kurikulum</option>
+                                            <option value="Laboratorium Media & Fasilitas">Laboratorium Media &amp; Fasilitas</option>
+                                            <option value="Layanan Administrasi & Akademik">Layanan Administrasi &amp; Akademik</option>
+                                            <option value="Informasi Pendaftaran / PMB">Informasi Pendaftaran / PMB</option>
                                             <option value="Lainnya">Lainnya</option>
                                         </select>
                                     </div>
 
                                     <div>
-                                        <label className="block text-xs font-bold text-slate-600 uppercase mb-1.5">Isi Pesan / Masukan</label>
+                                        <label className="block text-xs font-bold text-slate-600 uppercase mb-1.5">Isi Pesan / Pertanyaan</label>
                                         <textarea
                                             rows="3"
                                             placeholder="Tuliskan uraian masukan, saran, atau pertanyaan secara detail..."
-                                            className="w-full px-4 py-2.5 rounded-md border border-slate-200 focus:outline-none focus:border-emerald-700 focus:ring-1 focus:ring-emerald-700 text-sm transition"
+                                            className="w-full px-4 py-2.5 rounded-sm border border-slate-200 focus:outline-none focus:border-[#31487A] text-sm transition"
                                             value={waForm.pesan}
                                             onChange={(e) => setWaForm('pesan', e.target.value)}
                                             required
@@ -779,10 +851,10 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                                     <button 
                                         type="submit" 
                                         disabled={processing} 
-                                        className="w-full bg-emerald-800 hover:bg-emerald-900 text-white font-bold py-3.5 px-6 rounded-md shadow-md transition disabled:opacity-70 flex items-center justify-center gap-2"
+                                        className="w-full bg-[#192338] hover:bg-[#1E2E4F] text-white font-bold py-3.5 px-6 rounded-sm shadow-sm transition disabled:opacity-70 flex items-center justify-center gap-2"
                                     >
-                                        <span>{processing ? 'Menyimpan...' : 'Kirim Aspirasi ke Prodi KPI'}</span>
-                                        <i className="fa-brands fa-whatsapp text-emerald-300"></i>
+                                        <span>{processing ? 'Menyimpan...' : 'Kirim Pesan ke Prodi KPI'}</span>
+                                        <i className="fa-brands fa-whatsapp text-[#8FB3E2]"></i>
                                     </button>
                                 </form>
                             </div>
@@ -790,16 +862,16 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                     </div>
                 </section>
 
-                {/* Berita & Agenda Mutu Terbaru */}
-                <section className="py-20 bg-white">
+                {/* Berita & Kabar KPI */}
+                <section id="berita" className="py-20 bg-white">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                         <div className="flex flex-col md:flex-row justify-between items-end mb-12 animate-on-scroll opacity-0 translate-y-12 transition-all duration-1000 ease-out">
                             <div className="max-w-2xl">
-                                <span className="text-emerald-700 font-bold text-sm tracking-widest uppercase">BERITA & KEGIATAN</span>
-                                <h2 className="text-3xl sm:text-4xl font-extrabold text-emerald-950 mt-2 mb-4">Agenda & Berita Penjaminan Mutu</h2>
-                                <p className="text-slate-600">Ikuti perkembangan terbaru workshop SPMI, pelaksanaan AMI, dan kegiatan peningkatan mutu institusi.</p>
+                                <span className="text-[#31487A] font-bold text-xs uppercase tracking-widest">KABAR KPI</span>
+                                <h2 className="text-3xl sm:text-4xl font-extrabold text-[#192338] mt-2 mb-4">Berita, Agenda, dan Cerita Kegiatan</h2>
+                                <p className="text-slate-600">Ikuti perkembangan terbaru workshop media, agenda seminar, dan prestasi mahasiswa program studi.</p>
                             </div>
-                            <Link href="/berita" className="hidden md:inline-flex items-center gap-2 text-emerald-700 font-bold hover:text-emerald-800 transition-colors group">
+                            <Link href="/berita" className="hidden md:inline-flex items-center gap-2 text-[#31487A] font-bold hover:text-[#192338] transition-colors group">
                                 Lihat Semua Berita <i className="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
                             </Link>
                         </div>
@@ -807,13 +879,13 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                         {beritas && beritas.length > 0 ? (
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 animate-on-scroll opacity-0 translate-y-12 transition-all duration-1000 ease-out delay-100">
                                 {beritas.map((berita) => (
-                                    <div key={berita.id} className="bg-slate-50 rounded-xl shadow-sm border border-slate-100 overflow-hidden group hover:shadow-xl transition-all duration-300 flex flex-col">
+                                    <div key={berita.id} className="bg-slate-50 rounded-sm border border-slate-200 overflow-hidden group hover:border-[#31487A] hover:shadow-md transition-all duration-200 flex flex-col">
                                         <div className="aspect-video bg-slate-200 relative overflow-hidden">
                                             {berita.gambar_url ? (
                                                 <img
                                                     src={berita.gambar_url}
                                                     alt={berita.judul}
-                                                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                                    className="w-full h-full object-cover group-hover:scale-102 transition-transform duration-300"
                                                 />
                                             ) : (
                                                 <div className="w-full h-full flex items-center justify-center text-slate-300">
@@ -824,16 +896,16 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                                         <div className="p-6 flex-1 flex flex-col">
                                             <div className="flex items-center gap-4 text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-3">
                                                 <div className="flex items-center gap-1.5">
-                                                    <Calendar className="w-3.5 h-3.5 text-emerald-600" />
+                                                    <Calendar className="w-3.5 h-3.5 text-[#31487A]" />
                                                     {new Date(berita.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}
                                                 </div>
                                                 <div className="flex items-center gap-1.5">
-                                                    <Eye className="w-3.5 h-3.5 text-emerald-600" />
+                                                    <Eye className="w-3.5 h-3.5 text-[#31487A]" />
                                                     {berita.views} x
                                                 </div>
                                             </div>
 
-                                            <h3 className="text-xl font-bold text-slate-800 mb-3 line-clamp-2 group-hover:text-emerald-700 transition-colors">
+                                            <h3 className="text-xl font-bold text-slate-800 mb-3 line-clamp-2 group-hover:text-[#31487A] transition-colors">
                                                 <Link href={`/berita/${berita.slug}`}>
                                                     {berita.judul}
                                                 </Link>
@@ -846,7 +918,7 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                                             <div className="mt-auto pt-4 border-t border-slate-200">
                                                 <Link
                                                     href={`/berita/${berita.slug}`}
-                                                    className="inline-flex items-center gap-2 text-sm font-bold text-emerald-600 hover:text-emerald-700 group/link"
+                                                    className="inline-flex items-center gap-2 text-sm font-bold text-[#31487A] hover:text-[#192338] group/link"
                                                 >
                                                     Baca Selengkapnya
                                                     <i className="fa-solid fa-arrow-right text-[10px] group-hover/link:translate-x-1 transition-transform"></i>
@@ -857,13 +929,13 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                                 ))}
                             </div>
                         ) : (
-                            <div className="text-center py-12 bg-slate-50 rounded-xl border border-slate-100 animate-on-scroll opacity-0 translate-y-12 transition-all duration-1000 ease-out delay-100">
-                                <p className="text-slate-500">Belum ada berita kegiatan penjaminan mutu terbaru.</p>
+                            <div className="text-center py-12 bg-slate-50 rounded-sm border border-slate-200 animate-on-scroll opacity-0 translate-y-12 transition-all duration-1000 ease-out delay-100">
+                                <p className="text-slate-500">Belum ada berita kegiatan terbaru.</p>
                             </div>
                         )}
 
                         <div className="mt-8 text-center md:hidden animate-on-scroll opacity-0 translate-y-12 transition-all duration-1000 ease-out delay-200">
-                            <Link href="/berita" className="inline-flex items-center gap-2 text-emerald-700 font-bold hover:text-emerald-800 transition-colors">
+                            <Link href="/berita" className="inline-flex items-center gap-2 text-[#31487A] font-bold hover:text-[#192338] transition-colors">
                                 Lihat Semua Berita <i className="fa-solid fa-arrow-right"></i>
                             </Link>
                         </div>
@@ -871,7 +943,7 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                 </section>
 
                 {/* Footer */}
-                <footer className="bg-emerald-950 text-emerald-200 py-16 border-t border-emerald-900">
+                <footer className="bg-[#0E1626] text-slate-300 py-16 border-t border-[#192338]">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                         <div className="grid grid-cols-1 md:grid-cols-12 gap-10">
                             <div className="md:col-span-5">

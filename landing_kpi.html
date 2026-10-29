@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Website Program Studi Komunikasi dan Penyiaran Islam IAI Persis Bandung">
+<title>Komunikasi dan Penyiaran Islam | IAI Persis Bandung</title>
+<style>
+:root{--navy:#12304a;--blue:#1d5275;--gold:#e0ad4f;--cream:#f7f5ef;--ink:#203040;--muted:#697887;--white:#fff;--line:#e5e9ed;--green:#28785f}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--ink);line-height:1.6;background:#fff}a{text-decoration:none;color:inherit}.topbar{background:var(--navy);color:#eaf1f7;font-size:12px;padding:8px 5%;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}.navbar{display:flex;align-items:center;justify-content:space-between;padding:17px 5%;gap:20px;background:white;position:sticky;top:0;z-index:10;box-shadow:0 2px 14px #102b4210}.brand{display:flex;align-items:center;gap:12px;min-width:220px}.logo{width:48px;height:48px;border-radius:14px;background:linear-gradient(145deg,var(--navy),var(--blue));color:#fff;display:grid;place-items:center;font-weight:800;letter-spacing:-1px;border:3px solid #f0d69d}.brand strong{display:block;color:var(--navy);font-size:14px;line-height:1.3}.brand small{font-size:11px;color:var(--muted)}nav{display:flex;align-items:center;gap:20px;font-size:13px;font-weight:700;color:#35495a}nav a:hover{color:var(--green)}.btn{display:inline-block;padding:11px 17px;border-radius:8px;background:var(--gold);color:#192c3c;font-size:13px;font-weight:800;border:0;cursor:pointer}.btn.dark{background:var(--navy);color:white}.menu-toggle{display:none;background:none;border:1px solid var(--line);border-radius:8px;padding:8px 12px;font-size:20px}.hero{background:linear-gradient(115deg,#102b43f5,#174b69e8),radial-gradient(circle at 85% 20%,#e0ad4f 0,transparent 30%);color:white;padding:78px 5% 70px;position:relative;overflow:hidden}.hero:after{content:"";position:absolute;width:430px;height:430px;border:1px solid #ffffff26;border-radius:50%;right:-100px;top:-160px;box-shadow:0 0 0 45px #ffffff08,0 0 0 90px #ffffff05}.hero-inner{max-width:1180px;margin:auto;display:grid;grid-template-columns:1.2fr .8fr;gap:50px;align-items:center;position:relative;z-index:1}.eyebrow{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#f4cc7b;font-weight:800}.hero h1{font-size:clamp(34px,4.4vw,57px);line-height:1.12;margin:15px 0 20px;letter-spacing:-1.5px}.hero p{color:#e2ebf1;max-width:620px;font-size:16px}.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}.btn.outline{border:1px solid #ffffff80;background:transparent;color:white}.hero-card{background:#ffffff12;border:1px solid #ffffff30;backdrop-filter:blur(8px);border-radius:20px;padding:28px;max-width:390px;justify-self:end;width:100%}.hero-card .big{font-size:56px;line-height:1;color:#f4cc7b;font-weight:800}.hero-card h3{margin:14px 0 8px}.hero-card p{font-size:14px;margin:0}.hero-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}.hero-tags span{font-size:11px;border:1px solid #ffffff40;padding:6px 9px;border-radius:30px}.stats{max-width:1100px;margin:-25px auto 0;position:relative;z-index:2;display:grid;grid-template-columns:repeat(4,1fr);background:white;border-radius:14px;box-shadow:0 10px 35px #19334a12;padding:24px 18px}.stat{text-align:center;border-right:1px solid var(--line)}.stat:last-child{border:0}.stat strong{display:block;font-size:24px;color:var(--navy)}.stat span{font-size:12px;color:var(--muted)}section{padding:75px 5%}.container{max-width:1100px;margin:auto}.section-head{max-width:680px;margin-bottom:32px}.section-head .eyebrow{color:var(--green)}h2{font-size:clamp(27px,3vw,38px);line-height:1.2;margin:8px 0 13px;color:var(--navy);letter-spacing:-.6px}.section-head p{color:var(--muted);margin:0}.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:45px;align-items:center}.feature-panel{background:var(--cream);border-radius:18px;padding:28px;border:1px solid #eee9dd}.feature-panel h3{margin-top:0;color:var(--navy)}.check{display:flex;gap:11px;margin:14px 0;color:#425362;font-size:14px}.check b{color:var(--green)}.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.card{padding:23px;border:1px solid var(--line);border-radius:14px;background:white;transition:.2s}.card:hover{transform:translateY(-4px);box-shadow:0 12px 30px #18364c10}.iconbox{width:44px;height:44px;border-radius:12px;background:#eaf2f3;display:grid;place-items:center;font-size:22px;margin-bottom:15px}.card h3{font-size:17px;margin:0 0 8px;color:var(--navy)}.card p{font-size:13px;color:var(--muted);margin:0 0 15px}.read{font-size:12px;font-weight:800;color:var(--green)}.soft{background:var(--cream)}.news-grid{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:18px}.news{border-radius:14px;overflow:hidden;border:1px solid var(--line);background:white}.news-art{height:150px;background:linear-gradient(135deg,#12304a,#2f7a78);display:flex;align-items:end;padding:18px;color:white;font-weight:800;font-size:20px}.news:nth-child(2) .news-art{background:linear-gradient(135deg,#8e6333,#e2b95f)}.news:nth-child(3) .news-art{background:linear-gradient(135deg,#354b76,#9daac7)}.news-body{padding:18px}.news-body small{color:var(--green);font-weight:800}.news-body h3{font-size:16px;margin:8px 0}.news-body p{font-size:13px;color:var(--muted);margin:0}.cta{background:var(--navy);color:white;padding:45px;border-radius:18px;display:flex;align-items:center;justify-content:space-between;gap:25px}.cta h2{color:white;margin-top:0}.cta p{color:#dce6ed;margin-bottom:0}.cta-copy{max-width:650px}.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:35px}.contact-list p{color:var(--muted);font-size:14px}.contact-form{display:grid;gap:12px}.contact-form input,.contact-form textarea{width:100%;padding:12px 13px;border:1px solid var(--line);border-radius:8px;font:inherit;font-size:13px}.contact-form textarea{min-height:100px;resize:vertical}.notice{font-size:12px;color:var(--muted)}footer{background:#0b2031;color:#d9e2e9;padding:35px 5%}.footer-inner{max-width:1100px;margin:auto;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}.footer-inner small{color:#aabac7}.dash-link{display:inline-block;margin-top:12px;color:#f2c86e;font-weight:700;font-size:12px}
+@media(max-width:900px){nav{gap:12px;font-size:12px}.navbar{padding-left:4%;padding-right:4%}.hero-inner{gap:25px}.cards{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:700px){.topbar{justify-content:center;text-align:center}.navbar{flex-wrap:wrap}.menu-toggle{display:block}nav{display:none;width:100%;flex-direction:column;align-items:stretch;gap:0;padding-top:10px}nav.open{display:flex}nav a{padding:11px 4px;border-top:1px solid var(--line)}nav .btn{margin-top:10px;text-align:center}.hero{padding:55px 6%}.hero-inner,.about-grid,.contact-grid{grid-template-columns:1fr}.hero-card{justify-self:start}.stats{margin:0;border-radius:0;grid-template-columns:repeat(2,1fr);padding:20px 8px}.stat{padding:10px;border-right:0}.stat:nth-child(odd){border-right:1px solid var(--line)}.stat:nth-child(-n+2){border-bottom:1px solid var(--line)}section{padding:55px 6%}.cards,.news-grid{grid-template-columns:1fr}.cta{padding:28px;display:block}.cta .btn{margin-top:20px}.brand{min-width:0}.hero h1{font-size:38px}}
+</style>
+</head>
+<body>
+<div class="topbar"><span>Institut Agama Islam Persis Bandung</span><span>Program Studi Komunikasi dan Penyiaran Islam (KPI)</span></div>
+<header class="navbar">
+  <a class="brand" href="#beranda" aria-label="Beranda KPI">
+    <div class="logo">KPI</div><div><strong>KOMUNIKASI & PENYIARAN ISLAM</strong><small>IAI Persis Bandung</small></div>
+  </a>
+  <button class="menu-toggle" aria-label="Buka menu" onclick="document.querySelector('nav').classList.toggle('open')">☰</button>
+  <nav>
+    <a href="#beranda">Beranda</a><a href="#profil">Profil</a><a href="#akademik">Akademik</a><a href="#berita">Berita</a><a href="#layanan">Layanan</a><a href="#kontak">Kontak</a>
+    <a class="btn dark" href="#dashboard">Dashboard</a>
+  </nav>
+</header>
+<main>
+<section class="hero" id="beranda">
+ <div class="hero-inner">
+  <div>
+   <div class="eyebrow">Program Studi • IAI Persis Bandung</div>
+   <h1>Membangun Komunikator Muslim yang Kreatif, Profesional, dan Berintegritas</h1>
+   <p>Belajar komunikasi, jurnalistik, penyiaran, media digital, dan dakwah untuk menjawab tantangan informasi di era modern dengan nilai-nilai Islam.</p>
+   <div class="hero-actions"><a class="btn" href="#profil">Kenali Program Studi</a><a class="btn outline" href="#akademik">Jelajahi Akademik ↗</a></div>
+   <div class="hero-tags"><span>Jurnalistik</span><span>Broadcasting</span><span>Public Relations</span><span>Digital Media</span></div>
+  </div>
+  <div class="hero-card"><div class="big">KPI</div><h3>Komunikasi untuk Kebaikan</h3><p>Mengembangkan keilmuan dan keterampilan komunikasi yang berlandaskan nilai Islam, etika, literasi media, dan pengabdian kepada masyarakat.</p></div>
+ </div>
+</section>
+<div class="stats">
+ <div class="stat"><strong>Akademik</strong><span>Kurikulum dan pembelajaran</span></div><div class="stat"><strong>Media</strong><span>Praktik produksi konten</span></div><div class="stat"><strong>Dakwah</strong><span>Komunikasi bernilai Islam</span></div><div class="stat"><strong>Karier</strong><span>Kompetensi profesional</span></div>
+</div>
+<section id="profil">
+ <div class="container about-grid">
+  <div><div class="section-head"><div class="eyebrow">Tentang KPI</div><h2>Ilmu komunikasi, keterampilan media, dan nilai dakwah</h2><p>Program Studi Komunikasi dan Penyiaran Islam menyiapkan mahasiswa untuk memahami teori komunikasi sekaligus menguasai praktik media, penyiaran, jurnalistik, dan komunikasi dakwah.</p></div><a class="btn dark" href="#kontak">Tanyakan Informasi</a></div>
+  <div class="feature-panel"><h3>Fokus Pengembangan</h3><div class="check"><b>✓</b><span>Komunikasi dan penyiaran Islam yang beretika.</span></div><div class="check"><b>✓</b><span>Produksi konten audio, video, dan media digital.</span></div><div class="check"><b>✓</b><span>Jurnalistik, penulisan berita, dan literasi media.</span></div><div class="check"><b>✓</b><span>Komunikasi publik, kehumasan, dan pengelolaan dakwah.</span></div><div class="check"><b>✓</b><span>Riset komunikasi serta pengabdian kepada masyarakat.</span></div></div>
+ </div>
+</section>
+<section id="akademik" class="soft">
+ <div class="container"><div class="section-head"><div class="eyebrow">Akademik dan Pengembangan</div><h2>Ruang belajar untuk calon profesional komunikasi</h2><p>Temukan informasi akademik, kegiatan kemahasiswaan, dan fasilitas pengembangan kompetensi mahasiswa KPI.</p></div>
+  <div class="cards">
+   <article class="card"><div class="iconbox">📚</div><h3>Kurikulum & Mata Kuliah</h3><p>Informasi kurikulum, rencana pembelajaran, capaian pembelajaran, dan peta kompetensi mahasiswa.</p><a class="read" href="#kontak">Lihat informasi →</a></article>
+   <article class="card"><div class="iconbox">🎙️</div><h3>Laboratorium Media</h3><p>Praktik produksi siaran, podcast, fotografi, videografi, dan pengelolaan konten digital.</p><a class="read" href="#kontak">Lihat informasi →</a></article>
+   <article class="card"><div class="iconbox">📰</div><h3>Jurnalistik & Literasi</h3><p>Pelatihan penulisan berita, wawancara, penyuntingan, dan verifikasi informasi.</p><a class="read" href="#kontak">Lihat informasi →</a></article>
+   <article class="card"><div class="iconbox">🧑‍🎓</div><h3>Mahasiswa & Alumni</h3><p>Informasi organisasi, prestasi, kegiatan mahasiswa, tracer study, dan jejaring alumni.</p><a class="read" href="#kontak">Lihat informasi →</a></article>
+   <article class="card"><div class="iconbox">🏅</div><h3>Penelitian & Pengabdian</h3><p>Publikasi dosen, riset mahasiswa, program pengabdian, dan kolaborasi masyarakat.</p><a class="read" href="#kontak">Lihat informasi →</a></article>
+   <article class="card"><div class="iconbox">📋</div><h3>Mutu & Akreditasi</h3><p>Dokumen mutu, evaluasi pembelajaran, indikator kinerja, dan informasi akreditasi program studi.</p><a class="read" href="#kontak">Lihat informasi →</a></article>
+  </div>
+ </div>
+</section>
+<section id="berita">
+ <div class="container"><div class="section-head"><div class="eyebrow">Kabar KPI</div><h2>Berita, agenda, dan cerita kegiatan</h2><p>Bagian ini dapat diisi dengan berita terbaru, pengumuman akademik, agenda seminar, serta karya mahasiswa.</p></div>
+  <div class="news-grid">
+   <article class="news"><div class="news-art">Karya & Kreativitas</div><div class="news-body"><small>KEGIATAN MAHASISWA</small><h3>Mahasiswa KPI Berkarya Melalui Media Digital</h3><p>Publikasikan cerita kegiatan, karya video, podcast, dan produk jurnalistik mahasiswa.</p></div></article>
+   <article class="news"><div class="news-art">Seminar Komunikasi</div><div class="news-body"><small>AGENDA</small><h3>Diskusi dan Seminar Keilmuan</h3><p>Informasi seminar, kuliah tamu, workshop, dan kegiatan akademik program studi.</p></div></article>
+   <article class="news"><div class="news-art">Info Akademik</div><div class="news-body"><small>PENGUMUMAN</small><h3>Informasi Akademik Program Studi</h3><p>Jadwal, pengumuman perkuliahan, layanan mahasiswa, dan informasi penting lainnya.</p></div></article>
+  </div>
+ </div>
+</section>
+<section id="layanan" class="soft">
+ <div class="container"><div class="section-head"><div class="eyebrow">Layanan Digital</div><h2>Informasi yang mudah diakses</h2><p>Menu cepat bagi mahasiswa, dosen, calon mahasiswa, alumni, dan mitra.</p></div>
+  <div class="cards">
+   <article class="card"><div class="iconbox">🗂️</div><h3>Dokumen Akademik</h3><p>Unduh panduan akademik, formulir, kalender akademik, dan dokumen pembelajaran.</p></article>
+   <article class="card"><div class="iconbox">🧑‍🏫</div><h3>Dosen & Tenaga Kependidikan</h3><p>Profil dosen, bidang keahlian, aktivitas akademik, dan kontak layanan resmi.</p></article>
+   <article class="card"><div class="iconbox">💬</div><h3>Konsultasi & Pengaduan</h3><p>Kanal pertanyaan, saran, pengaduan, dan permintaan informasi program studi.</p></article>
+  </div>
+ </div>
+</section>
+<section id="dashboard">
+ <div class="container"><div class="cta"><div class="cta-copy"><h2>Dashboard Pengelolaan Website KPI</h2><p>Area pengelola untuk memperbarui konten, berita, agenda, profil dosen, dokumen akademik, dan informasi mutu. Dashboard ini adalah rancangan tampilan; login dan penyimpanan data perlu dihubungkan ke backend.</p></div><a class="btn" href="admin.html">Buka Contoh Dashboard →</a></div></div>
+</section>
+<section id="kontak">
+ <div class="container contact-grid"><div><div class="section-head"><div class="eyebrow">Hubungi Kami</div><h2>Informasi Program Studi KPI</h2><p>Silakan hubungi pengelola program studi untuk pertanyaan akademik, kerja sama, atau informasi penerimaan mahasiswa.</p></div><div class="contact-list"><p><b>Institusi</b><br>Institut Agama Islam Persis Bandung</p><p><b>Program Studi</b><br>Komunikasi dan Penyiaran Islam (KPI)</p><p><b>Alamat</b><br>Silakan isi alamat resmi kampus pada bagian ini.</p><p><b>Email / Telepon</b><br>Tambahkan kontak resmi program studi.</p></div></div>
+ <form class="contact-form" onsubmit="event.preventDefault();alert('Formulir contoh. Hubungkan dengan email atau backend untuk menerima pesan.');"><input required placeholder="Nama lengkap"><input required type="email" placeholder="Alamat email"><input placeholder="Subjek pesan"><textarea required placeholder="Tulis pesan Anda"></textarea><button class="btn dark" type="submit">Kirim Pesan</button><div class="notice">Formulir demo — pesan belum dikirim ke server.</div></form>
+ </div>
+</section>
+</main>
+<footer><div class="footer-inner"><div><strong>Program Studi Komunikasi dan Penyiaran Islam</strong><br><small>IAI Persis Bandung • Website profil dan layanan program studi</small></div><div><small>© <span id="year"></span> KPI IAI Persis Bandung. Sesuaikan konten sebelum dipublikasikan.</small></div></div></footer>
+<script>document.getElementById('year').textContent=new Date().getFullYear();document.querySelectorAll('nav a').forEach(a=>a.addEventListener('click',()=>document.querySelector('nav').classList.remove('open')));</script>
+</body>
+</html>

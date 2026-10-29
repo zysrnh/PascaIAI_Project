@@ -13,19 +13,19 @@ export default function PublicLayout({ children }) {
     return (
         <div className="bg-slate-50 text-slate-800 antialiased font-sans">
             {/* Top Bar Info */}
-            <div className="bg-emerald-950 text-emerald-100 text-xs py-2.5 px-4 hidden md:block border-b border-emerald-900/60">
+            <div className="bg-[#192338] text-slate-200 text-xs py-2.5 px-4 hidden md:block border-b border-[#1E2E4F]">
                 <div className="max-w-7xl mx-auto flex justify-between items-center">
                     <div className="flex items-center space-x-6">
-                        <span><i className="fa-solid fa-envelope text-amber-500 mr-1.5"></i> {emailDisplay}</span>
-                        <span><i className="fa-solid fa-phone text-amber-500 mr-1.5"></i> (022) 5441951</span>
-                        <span><i className="fa-solid fa-location-dot text-amber-500 mr-1.5"></i> Bojongsoang, Bandung</span>
+                        <span><i className="fa-solid fa-envelope text-[#8FB3E2] mr-1.5"></i> {emailDisplay}</span>
+                        <span><i className="fa-solid fa-phone text-[#8FB3E2] mr-1.5"></i> (022) 5441951</span>
+                        <span><i className="fa-solid fa-location-dot text-[#8FB3E2] mr-1.5"></i> Bojongsoang, Bandung</span>
                     </div>
                     <div className="flex items-center space-x-4">
                         
                         <div className="flex items-center space-x-3">
-                            <a href="#" className="hover:text-amber-400 transition"><i className="fa-brands fa-facebook-f"></i></a>
-                            <a href="#" className="hover:text-amber-400 transition"><i className="fa-brands fa-instagram"></i></a>
-                            <a href="#" className="hover:text-amber-400 transition"><i className="fa-brands fa-youtube"></i></a>
+                            <a href="#" className="hover:text-[#8FB3E2] transition"><i className="fa-brands fa-facebook-f"></i></a>
+                            <a href="#" className="hover:text-[#8FB3E2] transition"><i className="fa-brands fa-instagram"></i></a>
+                            <a href="#" className="hover:text-[#8FB3E2] transition"><i className="fa-brands fa-youtube"></i></a>
                         </div>
                     </div>
                 </div>
@@ -116,7 +116,7 @@ export default function PublicLayout({ children }) {
                             <Link href="/berita" className={`font-semibold border-b-2 px-1 py-1 transition text-sm xl:text-base ${route().current('public.berita.*') ? 'text-emerald-800 border-emerald-800' : 'text-slate-600 hover:text-emerald-800 border-transparent hover:border-emerald-800'}`}>Berita</Link>
 
                             {/* Tombol CTA Dokumen & Akreditasi */}
-                            <Link href={route('public.akademik.pedoman')} className="bg-emerald-800 hover:bg-emerald-900 text-white px-4 py-2 rounded-sm font-semibold shadow-md shadow-emerald-900/10 hover:shadow-lg transition text-xs xl:text-sm flex items-center gap-1.5 shrink-0">
+                            <Link href={route('public.akademik.pedoman')} className="bg-[#31487A] hover:bg-[#1E2E4F] text-white px-4 py-2 rounded-sm font-semibold transition text-xs xl:text-sm flex items-center gap-1.5 shrink-0">
                                 <i className="fa-solid fa-book-open text-xs"></i> Pedoman Akademik
                             </Link>
                         </nav>
@@ -124,7 +124,7 @@ export default function PublicLayout({ children }) {
                         {/* Mobile Menu Toggle Button */}
                         <button 
                             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} 
-                            className="lg:hidden p-2 rounded-sm text-emerald-900 hover:bg-slate-100 focus:outline-none"
+                            className="lg:hidden p-2 rounded-sm text-[#192338] hover:bg-slate-100 focus:outline-none"
                         >
                             <i className="fa-solid fa-bars text-2xl"></i>
                         </button>
@@ -203,7 +203,7 @@ export default function PublicLayout({ children }) {
                         <Link href="/berita" className="block px-3 py-2.5 rounded-sm text-slate-700 hover:bg-slate-50 font-medium mb-1">Berita</Link>
 
                         <div className="pt-3">
-                            <Link href={route('public.akademik.pedoman')} className="block text-center bg-emerald-800 text-white py-2.5 rounded-sm font-bold shadow-md">
+                            <Link href={route('public.akademik.pedoman')} className="block text-center bg-[#31487A] text-white py-2.5 rounded-sm font-bold shadow-none">
                                 <i className="fa-solid fa-book-open mr-2"></i> Akses Pedoman Akademik
                             </Link>
                         </div>
@@ -216,56 +216,56 @@ export default function PublicLayout({ children }) {
             </main>
 
             {/* Footer */}
-            <footer className="bg-emerald-950 text-emerald-200 py-16 border-t border-emerald-900">
+            <footer className="bg-[#0E1626] text-slate-300 py-16 border-t border-[#192338]">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="grid grid-cols-1 md:grid-cols-12 gap-10">
                         <div className="md:col-span-5">
-                            <div className="flex flex-col mb-6 bg-white/5 p-4 rounded-md w-fit border border-emerald-900/60">
-                                <span className="font-extrabold text-lg tracking-wider text-amber-400 uppercase leading-tight">
+                            <div className="flex flex-col mb-6 bg-white/5 p-4 rounded-sm w-fit border border-slate-700/60">
+                                <span className="font-extrabold text-lg tracking-wider text-[#8FB3E2] uppercase leading-tight">
                                     PROGRAM STUDI KPI
                                 </span>
-                                <span className="text-xs text-emerald-200/80 font-medium tracking-wide mt-0.5">
+                                <span className="text-xs text-slate-400 font-medium tracking-wide mt-0.5">
                                     Komunikasi dan Penyiaran Islam — Fakultas Dakwah
                                 </span>
                             </div>
-                            <p className="text-sm text-emerald-200/80 leading-relaxed mb-6">
+                            <p className="text-sm text-slate-300 leading-relaxed mb-6">
                                 Program Studi S1 Komunikasi dan Penyiaran Islam (KPI) Fakultas Dakwah IAI Persis Bandung berkomitmen mencetak praktisi media, jurnalis, akademisi, dan dai yang unggul, profesional, dan berakhlak mulia di era digital.
                             </p>
                             <div className="flex items-center space-x-3">
-                                <a href="#" className="w-9 h-9 bg-emerald-900 hover:bg-emerald-800 flex items-center justify-center text-emerald-100 hover:text-amber-400 transition rounded-md"><i className="fa-brands fa-facebook-f text-sm"></i></a>
-                                <a href="#" className="w-9 h-9 bg-emerald-900 hover:bg-emerald-800 flex items-center justify-center text-emerald-100 hover:text-amber-400 transition rounded-md"><i className="fa-brands fa-instagram text-sm"></i></a>
-                                <a href="#" className="w-9 h-9 bg-emerald-900 hover:bg-emerald-800 flex items-center justify-center text-emerald-100 hover:text-amber-400 transition rounded-md"><i className="fa-brands fa-youtube text-sm"></i></a>
+                                <a href="#" className="w-9 h-9 bg-[#192338] hover:bg-[#31487A] flex items-center justify-center text-slate-200 hover:text-white transition rounded-sm"><i className="fa-brands fa-facebook-f text-sm"></i></a>
+                                <a href="#" className="w-9 h-9 bg-[#192338] hover:bg-[#31487A] flex items-center justify-center text-slate-200 hover:text-white transition rounded-sm"><i className="fa-brands fa-instagram text-sm"></i></a>
+                                <a href="#" className="w-9 h-9 bg-[#192338] hover:bg-[#31487A] flex items-center justify-center text-slate-200 hover:text-white transition rounded-sm"><i className="fa-brands fa-youtube text-sm"></i></a>
                             </div>
                         </div>
                         <div className="md:col-span-3">
                             <h4 className="text-white font-bold mb-6 text-sm tracking-widest uppercase">Tautan Penting</h4>
-                            <ul className="space-y-3.5 text-sm text-emerald-200/80">
-                                <li><Link href="/profil/tentang-kampus" className="hover:text-amber-400 transition flex items-center gap-2"><i className="fa-solid fa-chevron-right text-[10px]"></i> Profil & Visi Misi Prodi KPI</Link></li>
-                                <li><Link href={route('public.dokumen-institusi')} className="hover:text-amber-400 transition flex items-center gap-2"><i className="fa-solid fa-chevron-right text-[10px]"></i> Dokumen Kebijakan & Standar SPMI</Link></li>
-                                <li><Link href={route('public.akademik.pedoman')} className="hover:text-amber-400 transition flex items-center gap-2"><i className="fa-solid fa-chevron-right text-[10px]"></i> Audit Mutu Internal (AMI)</Link></li>
-                                <li><Link href={route('public.akreditasi')} className="hover:text-amber-400 transition flex items-center gap-2"><i className="fa-solid fa-chevron-right text-[10px]"></i> Data Akreditasi BAN-PT & LAM</Link></li>
-                                <li><a href="https://banpt.or.id" target="_blank" rel="noreferrer" className="hover:text-amber-400 transition flex items-center gap-2"><i className="fa-solid fa-chevron-right text-[10px]"></i> Portal BAN-PT</a></li>
+                            <ul className="space-y-3.5 text-sm text-slate-300">
+                                <li><Link href="/profil/tentang-kampus" className="hover:text-[#8FB3E2] transition flex items-center gap-2"><i className="fa-solid fa-chevron-right text-[10px]"></i> Profil &amp; Visi Misi Prodi KPI</Link></li>
+                                <li><Link href={route('public.dokumen-institusi')} className="hover:text-[#8FB3E2] transition flex items-center gap-2"><i className="fa-solid fa-chevron-right text-[10px]"></i> Dokumen Kebijakan &amp; Standar</Link></li>
+                                <li><Link href={route('public.akademik.pedoman')} className="hover:text-[#8FB3E2] transition flex items-center gap-2"><i className="fa-solid fa-chevron-right text-[10px]"></i> Pedoman Akademik</Link></li>
+                                <li><Link href={route('public.akreditasi')} className="hover:text-[#8FB3E2] transition flex items-center gap-2"><i className="fa-solid fa-chevron-right text-[10px]"></i> Data Akreditasi BAN-PT &amp; LAM</Link></li>
+                                <li><a href="https://banpt.or.id" target="_blank" rel="noreferrer" className="hover:text-[#8FB3E2] transition flex items-center gap-2"><i className="fa-solid fa-chevron-right text-[10px]"></i> Portal BAN-PT</a></li>
                             </ul>
                         </div>
                         <div className="md:col-span-4">
                             <h4 className="text-white font-bold mb-6 text-sm tracking-widest uppercase">Sekretariat Prodi KPI</h4>
-                            <ul className="space-y-4 text-sm text-emerald-200/80">
+                            <ul className="space-y-4 text-sm text-slate-300">
                                 <li className="flex items-start gap-3">
-                                    <i className="fa-solid fa-location-dot mt-1 text-amber-500"></i>
+                                    <i className="fa-solid fa-location-dot mt-1 text-[#8FB3E2]"></i>
                                     <span>Jl. Ciganitri No.2, Cipagalo, Kec. Bojongsoang, Kabupaten Bandung, Jawa Barat 40287</span>
                                 </li>
                                 <li className="flex items-center gap-3">
-                                    <i className="fa-solid fa-phone text-amber-500"></i>
+                                    <i className="fa-solid fa-phone text-[#8FB3E2]"></i>
                                     <span>(022) 5441951</span>
                                 </li>
                                 <li className="flex items-center gap-3">
-                                    <i className="fa-solid fa-envelope text-amber-500"></i>
+                                    <i className="fa-solid fa-envelope text-[#8FB3E2]"></i>
                                     <span>kpi@iaipibandung.ac.id</span>
                                 </li>
                             </ul>
                         </div>
                     </div>
-                    <div className="border-t border-emerald-900 mt-12 pt-8 text-center text-xs text-emerald-300/50">
+                    <div className="border-t border-[#192338] mt-12 pt-8 text-center text-xs text-slate-500">
                         &copy; 2026 Program Studi KPI IAI PERSIS Bandung. Hak Cipta Dilindungi Undang-Undang.
                     </div>
                 </div>
