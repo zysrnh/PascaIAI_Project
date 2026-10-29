@@ -400,12 +400,6 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                     >
                         <div className={`relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 transition-all duration-1000 ease-out transform ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
                             <div className="max-w-4xl mx-auto text-center">
-                                {/* Top Badge Subtly Informative */}
-                                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold bg-[#1E2E4F]/90 text-[#8FB3E2] border border-[#31487A] mb-6 shadow-xs">
-                                    <span className="w-1.5 h-1.5 rounded-full bg-[#8FB3E2] animate-pulse"></span>
-                                    <span>Program Studi S1 Komunikasi &amp; Penyiaran Islam</span>
-                                </div>
-
                                 <h1 className="font-display text-3xl sm:text-5xl lg:text-[52px] font-bold text-white leading-[1.2] mb-6 tracking-normal max-w-3xl mx-auto drop-shadow-sm">
                                     {setting?.hero_title || "Mencetak Praktisi Media, Jurnalis, dan Dai Unggul di Era Digital"}
                                 </h1>
