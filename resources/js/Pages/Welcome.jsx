@@ -400,43 +400,55 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                     >
                         <div className={`relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 transition-all duration-1000 ease-out transform ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
                             <div className="max-w-4xl mx-auto text-center">
-                                <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-6 tracking-tight">
-                                    {setting?.hero_title || "Membangun Komunikator Muslim yang Kreatif, Profesional, dan Berintegritas"}
+                                {/* Top Badge Subtly Informative */}
+                                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold bg-[#1E2E4F]/90 text-[#8FB3E2] border border-[#31487A] mb-6 shadow-xs">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-[#8FB3E2] animate-pulse"></span>
+                                    <span>Program Studi S1 Komunikasi &amp; Penyiaran Islam</span>
+                                </div>
+
+                                <h1 className="font-display text-3xl sm:text-5xl lg:text-[52px] font-bold text-white leading-[1.2] mb-6 tracking-normal max-w-3xl mx-auto drop-shadow-sm">
+                                    {setting?.hero_title || "Mencetak Praktisi Media, Jurnalis, dan Dai Unggul di Era Digital"}
                                 </h1>
-                                <p className="text-base sm:text-lg lg:text-xl text-slate-200 mb-8 max-w-2xl mx-auto leading-relaxed">
+                                <p className="font-sans text-sm sm:text-base lg:text-lg text-slate-200/90 mb-9 max-w-2xl mx-auto leading-relaxed font-normal">
                                     {setting?.hero_subtitle || "Belajar komunikasi, jurnalistik, penyiaran, media digital, dan dakwah untuk menjawab tantangan informasi di era modern dengan nilai-nilai Islam."}
                                 </p>
-                                <div className="flex flex-wrap items-center justify-center gap-3 mb-10">
+                                <div className="flex flex-wrap items-center justify-center gap-3.5 mb-12">
                                     <a
                                         href="#profil"
-                                        className="bg-[#31487A] hover:bg-[#1E2E4F] text-white font-bold px-7 py-3.5 rounded-xl transition text-sm sm:text-base inline-flex items-center gap-2 border border-[#8FB3E2]/30 shadow-sm hover:-translate-y-0.5"
+                                        className="bg-[#31487A] hover:bg-[#1E2E4F] text-white font-semibold px-7 py-3.5 rounded-xl transition text-sm sm:text-base inline-flex items-center gap-2 border border-[#8FB3E2]/40 shadow-sm hover:-translate-y-0.5"
                                     >
-                                        <i className="fa-solid fa-circle-info text-xs"></i> Kenali Program Studi
+                                        <i className="fa-solid fa-circle-info text-xs text-[#8FB3E2]"></i> Kenali Program Studi
                                     </a>
                                     <a
                                         href="#akademik"
-                                        className="bg-transparent hover:bg-white/10 text-white border border-white/60 font-bold px-7 py-3.5 rounded-xl transition text-sm sm:text-base inline-flex items-center gap-2 hover:-translate-y-0.5"
+                                        className="bg-white/5 hover:bg-white/10 text-white border border-white/30 hover:border-white/60 font-semibold px-7 py-3.5 rounded-xl transition text-sm sm:text-base inline-flex items-center gap-2 hover:-translate-y-0.5"
                                     >
                                         Jelajahi Layanan ↗
                                     </a>
                                 </div>
 
                                 {/* 3 Konsentrasi Keahlian KPI */}
-                                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 max-w-3xl mx-auto pt-6 border-t border-slate-700/60 text-left">
-                                    <div className="bg-[#1E2E4F]/90 border border-[#31487A] p-4 rounded-xl hover:border-[#8FB3E2] transition">
-                                        <div className="text-xl mb-1.5 text-[#8FB3E2]"><i className="fa-solid fa-tower-broadcast"></i></div>
+                                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-4xl mx-auto pt-8 border-t border-slate-700/50 text-left">
+                                    <div className="bg-[#1E2E4F]/60 backdrop-blur-xs border border-white/10 p-5 rounded-2xl hover:border-[#8FB3E2]/50 hover:bg-[#1E2E4F]/90 transition-all duration-300 group hover:-translate-y-1">
+                                        <div className="w-10 h-10 rounded-xl bg-[#31487A]/50 group-hover:bg-[#31487A] flex items-center justify-center text-[#8FB3E2] text-lg mb-3 transition-colors">
+                                            <i className="fa-solid fa-tower-broadcast"></i>
+                                        </div>
                                         <h4 className="font-bold text-white text-sm">Broadcasting Media</h4>
-                                        <p className="text-xs text-slate-300 mt-1">Produksi siaran TV, radio, dan audio streaming digital.</p>
+                                        <p className="text-xs text-slate-300 mt-1 leading-relaxed">Produksi siaran TV, radio, dan audio streaming digital.</p>
                                     </div>
-                                    <div className="bg-[#1E2E4F]/90 border border-[#31487A] p-4 rounded-xl hover:border-[#8FB3E2] transition">
-                                        <div className="text-xl mb-1.5 text-[#8FB3E2]"><i className="fa-solid fa-newspaper"></i></div>
+                                    <div className="bg-[#1E2E4F]/60 backdrop-blur-xs border border-white/10 p-5 rounded-2xl hover:border-[#8FB3E2]/50 hover:bg-[#1E2E4F]/90 transition-all duration-300 group hover:-translate-y-1">
+                                        <div className="w-10 h-10 rounded-xl bg-[#31487A]/50 group-hover:bg-[#31487A] flex items-center justify-center text-[#8FB3E2] text-lg mb-3 transition-colors">
+                                            <i className="fa-solid fa-newspaper"></i>
+                                        </div>
                                         <h4 className="font-bold text-white text-sm">Jurnalistik Digital</h4>
-                                        <p className="text-xs text-slate-300 mt-1">Investigasi, penulisan berita, dan literasi media cyber.</p>
+                                        <p className="text-xs text-slate-300 mt-1 leading-relaxed">Investigasi, penulisan berita, dan literasi media cyber.</p>
                                     </div>
-                                    <div className="bg-[#1E2E4F]/90 border border-[#31487A] p-4 rounded-xl hover:border-[#8FB3E2] transition">
-                                        <div className="text-xl mb-1.5 text-[#8FB3E2]"><i className="fa-solid fa-bullhorn"></i></div>
-                                        <h4 className="font-bold text-white text-sm">PR & Dakwah Kreatif</h4>
-                                        <p className="text-xs text-slate-300 mt-1">Komunikasi publik, humas, dan kampanye dakwah media.</p>
+                                    <div className="bg-[#1E2E4F]/60 backdrop-blur-xs border border-white/10 p-5 rounded-2xl hover:border-[#8FB3E2]/50 hover:bg-[#1E2E4F]/90 transition-all duration-300 group hover:-translate-y-1">
+                                        <div className="w-10 h-10 rounded-xl bg-[#31487A]/50 group-hover:bg-[#31487A] flex items-center justify-center text-[#8FB3E2] text-lg mb-3 transition-colors">
+                                            <i className="fa-solid fa-bullhorn"></i>
+                                        </div>
+                                        <h4 className="font-bold text-white text-sm">PR &amp; Dakwah Kreatif</h4>
+                                        <p className="text-xs text-slate-300 mt-1 leading-relaxed">Komunikasi publik, humas, dan kampanye dakwah media.</p>
                                     </div>
                                 </div>
                             </div>
@@ -492,7 +504,7 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center animate-on-scroll opacity-0 translate-y-12 transition-all duration-1000 ease-out">
                             <div className="lg:col-span-6">
                                 <span className="text-[#31487A] font-bold text-xs uppercase tracking-widest">Tentang KPI</span>
-                                <h2 className="text-2xl sm:text-4xl font-extrabold text-[#192338] mt-2 mb-4 leading-tight">
+                                <h2 className="font-display text-2xl sm:text-4xl font-bold text-[#192338] mt-2 mb-4 leading-tight">
                                     Ilmu Komunikasi, Keterampilan Media, dan Nilai Dakwah
                                 </h2>
                                 <p className="text-slate-600 leading-relaxed mb-6 text-sm sm:text-base">
@@ -564,7 +576,7 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                             </div>
                             <div className="lg:col-span-7">
                                 <span className="text-[#31487A] font-bold text-xs uppercase tracking-widest">SAMBUTAN KETUA PRODI</span>
-                                <h2 className="text-2xl sm:text-3xl font-extrabold text-[#192338] mt-2 mb-6 leading-snug">
+                                <h2 className="font-display text-2xl sm:text-3xl font-bold text-[#192338] mt-2 mb-6 leading-snug">
                                     {sambutan?.sambutan_singkat || "Membangun Generasi Komunikator & Praktisi Media Islam yang Unggul dan Berakhlak Mulia"}
                                 </h2>
 
@@ -597,7 +609,7 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                         <div className="text-center max-w-3xl mx-auto mb-16 animate-on-scroll opacity-0 translate-y-12 transition-all duration-1000 ease-out">
                             <span className="text-[#31487A] font-bold text-xs sm:text-sm tracking-widest uppercase">INFORMASI AKADEMIK</span>
-                            <h2 className="text-3xl sm:text-4xl font-extrabold text-[#192338] mt-2 mb-4">Jelajahi Layanan Program Studi</h2>
+                            <h2 className="font-display text-3xl sm:text-4xl font-bold text-[#192338] mt-2 mb-4">Jelajahi Layanan Program Studi</h2>
                             <p className="text-slate-600 text-sm sm:text-base">Akses informasi akademik dan kegiatan prodi melalui kategori yang terstruktur.</p>
                         </div>
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 animate-on-scroll opacity-0 translate-y-12 transition-all duration-1000 ease-out delay-100">
@@ -685,7 +697,7 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                         <div className="text-center max-w-3xl mx-auto mb-16 animate-on-scroll opacity-0 translate-y-12 transition-all duration-1000 ease-out">
                             <span className="text-[#31487A] font-bold text-xs uppercase tracking-widest">FASILITAS &amp; PENGEMBANGAN</span>
-                            <h2 className="text-3xl sm:text-4xl font-extrabold text-[#192338] mt-2 mb-4">Studio &amp; Laboratorium Praktik Media</h2>
+                            <h2 className="font-display text-3xl sm:text-4xl font-bold text-[#192338] mt-2 mb-4">Studio &amp; Laboratorium Praktik Media</h2>
                             <p className="text-slate-600 text-sm sm:text-base">Mendukung kompetensi mahasiswa dengan sarana produksi audio-visual, redaksi jurnalistik, dan siaran digital terkini.</p>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 animate-on-scroll opacity-0 translate-y-12 transition-all duration-1000 ease-out delay-100">
@@ -745,7 +757,7 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                             {/* Kiri: Portal Survei */}
                             <div className="lg:col-span-6 animate-on-scroll opacity-0 -translate-x-12 transition-all duration-1000 ease-out">
                                 <span className="text-[#8FB3E2] font-bold text-xs uppercase tracking-widest">UMPAN BALIK STAKEHOLDER</span>
-                                <h2 className="text-3xl sm:text-4xl font-extrabold leading-tight mt-2 mb-6">Survei Kepuasan Layanan &amp; Pembelajaran</h2>
+                                <h2 className="font-display text-3xl sm:text-4xl font-bold leading-tight mt-2 mb-6">Survei Kepuasan Layanan &amp; Pembelajaran</h2>
                                 <p className="text-slate-300 leading-relaxed mb-8 text-sm sm:text-base">
                                     Partisipasi Anda sangat penting untuk evaluasi dan peningkatan mutu prodi berkelanjutan. Silakan isi kuesioner survei kepuasan sesuai peran Anda:
                                 </p>
@@ -902,7 +914,7 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                         <div className="flex flex-col md:flex-row justify-between items-end mb-12 animate-on-scroll opacity-0 translate-y-12 transition-all duration-1000 ease-out">
                             <div className="max-w-2xl">
                                 <span className="text-[#31487A] font-bold text-xs uppercase tracking-widest">KABAR KPI</span>
-                                <h2 className="text-3xl sm:text-4xl font-extrabold text-[#192338] mt-2 mb-4">Berita, Agenda, dan Cerita Kegiatan</h2>
+                                <h2 className="font-display text-3xl sm:text-4xl font-bold text-[#192338] mt-2 mb-4">Berita, Agenda, dan Cerita Kegiatan</h2>
                                 <p className="text-slate-600">Ikuti perkembangan terbaru workshop media, agenda seminar, dan prestasi mahasiswa program studi.</p>
                             </div>
                             <Link href="/berita" className="hidden md:inline-flex items-center gap-2 text-[#31487A] font-bold hover:text-[#192338] transition-colors group">

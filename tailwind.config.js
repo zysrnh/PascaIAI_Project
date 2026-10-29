@@ -37,6 +37,8 @@ export default {
             },
             fontFamily: {
                 sans: ['"Plus Jakarta Sans"', ...defaultTheme.fontFamily.sans],
+                display: ['"Playfair Display"', 'Georgia', 'serif'],
+                serif: ['"Playfair Display"', ...defaultTheme.fontFamily.serif],
                 arabic: ['Amiri', ...defaultTheme.fontFamily.serif],
             },
             keyframes: {
