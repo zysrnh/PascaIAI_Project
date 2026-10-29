@@ -456,77 +456,47 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                     </section>
                 )}
 
-                {/* 5 Cards Statistik Ringkasan - Simetris & Rapi */}
-                <section className="py-12 sm:py-16 bg-slate-50/70 border-b border-slate-200/60">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6">
-                            {/* Standar & Mutu */}
-                            <div className="bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-slate-200/80 flex flex-col items-center justify-center text-center hover:shadow-md hover:border-pasca-primary/40 transition hover:-translate-y-0.5">
-                                <div className="w-12 h-12 rounded-full bg-emerald-50 text-emerald-700 flex items-center justify-center text-xl mb-3 shadow-inner">
-                                    <i className="fa-solid fa-file-contract"></i>
-                                </div>
-                                <span className="text-2xl sm:text-3xl font-extrabold text-pasca-darkest tracking-tight font-sans">
-                                    {setting?.stat_1_val ?? '24'}
-                                </span>
-                                <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider mt-1.5 leading-tight font-sans">
-                                    {setting?.stat_1_label ?? 'STANDAR MUTU'}
-                                </span>
-                            </div>
-
-                            {/* Program Studi */}
-                            <div className="bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-slate-200/80 flex flex-col items-center justify-center text-center hover:shadow-md hover:border-pasca-primary/40 transition hover:-translate-y-0.5">
-                                <div className="w-12 h-12 rounded-full bg-amber-50 text-amber-600 flex items-center justify-center text-xl mb-3 shadow-inner">
-                                    <i className="fa-solid fa-graduation-cap"></i>
-                                </div>
-                                <span className="text-2xl sm:text-3xl font-extrabold text-pasca-darkest tracking-tight font-sans">
-                                    {setting?.stat_2_val ?? (programStudi.length > 0 ? programStudi.length : 'S1')}
-                                </span>
-                                <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider mt-1.5 leading-tight font-sans">
-                                    {setting?.stat_2_label ?? 'PRODI TERAKREDITASI'}
-                                </span>
-                            </div>
-
-                            {/* Dosen & Auditor */}
-                            <div className="bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-slate-200/80 flex flex-col items-center justify-center text-center hover:shadow-md hover:border-pasca-primary/40 transition hover:-translate-y-0.5">
-                                <div className="w-12 h-12 rounded-full bg-blue-50 text-blue-700 flex items-center justify-center text-xl mb-3 shadow-inner">
-                                    <i className="fa-solid fa-user-check"></i>
-                                </div>
-                                <span className="text-2xl sm:text-3xl font-extrabold text-pasca-darkest tracking-tight font-sans">
-                                    {setting?.stat_3_val ?? (stats?.total ?? 12)}
-                                </span>
-                                <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider mt-1.5 leading-tight font-sans">
-                                    {setting?.stat_3_label ?? 'DOSEN & PENGAJAR'}
-                                </span>
-                            </div>
-
-                            {/* Publikasi & Riset */}
-                            <div className="bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-slate-200/80 flex flex-col items-center justify-center text-center hover:shadow-md hover:border-pasca-primary/40 transition hover:-translate-y-0.5">
-                                <div className="w-12 h-12 rounded-full bg-purple-50 text-purple-700 flex items-center justify-center text-xl mb-3 shadow-inner">
-                                    <i className="fa-solid fa-book-open"></i>
-                                </div>
-                                <span className="text-2xl sm:text-3xl font-extrabold text-pasca-darkest tracking-tight font-sans">
-                                    {setting?.stat_4_val ?? (stats?.penelitian ?? 25)}
-                                </span>
-                                <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider mt-1.5 leading-tight font-sans">
-                                    {setting?.stat_4_label ?? 'PUBLIKASI & RISET'}
-                                </span>
-                            </div>
-
-                            {/* Indeks Kepuasan */}
-                            <div className="bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-slate-200/80 flex flex-col items-center justify-center text-center hover:shadow-md hover:border-pasca-primary/40 transition hover:-translate-y-0.5 col-span-2 md:col-span-1">
-                                <div className="w-12 h-12 rounded-full bg-indigo-50 text-indigo-700 flex items-center justify-center text-xl mb-3 shadow-inner">
-                                    <i className="fa-solid fa-chart-line"></i>
-                                </div>
-                                <span className="text-2xl sm:text-3xl font-extrabold text-pasca-darkest tracking-tight font-sans">
-                                    {setting?.stat_5_val ?? '94.8%'}
-                                </span>
-                                <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider mt-1.5 leading-tight font-sans">
-                                    {setting?.stat_5_label ?? 'INDEKS KEPUASAN'}
-                                </span>
+                {/* Akses Cepat / Quick Access Web Tautan */}
+                {displayQuickAccesses && displayQuickAccesses.length > 0 && (
+                    <section className="py-8 sm:py-10 bg-slate-50/90 border-b border-slate-200/70 relative z-20">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                            <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 lg:gap-6">
+                                {displayQuickAccesses.map((item) => (
+                                    <a
+                                        key={item.id}
+                                        href={item.url}
+                                        target={item.url.startsWith('http') ? '_blank' : '_self'}
+                                        rel="noopener noreferrer"
+                                        title={item.deskripsi || item.nama}
+                                        className="group bg-white hover:bg-emerald-50/50 p-3 sm:p-4 rounded-xl border border-slate-200/80 hover:border-emerald-700/40 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col items-center justify-center text-center min-w-[120px] sm:min-w-[140px] max-w-[190px] flex-1 hover:-translate-y-1"
+                                    >
+                                        <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-lg bg-slate-50 group-hover:bg-white flex items-center justify-center p-2 mb-1.5 transition-all shadow-inner border border-slate-100">
+                                            {item.logo ? (
+                                                <img
+                                                    src={`/storage/${item.logo}`}
+                                                    alt={item.nama}
+                                                    className="max-h-full max-w-full object-contain filter group-hover:brightness-105 transition-all"
+                                                />
+                                            ) : (
+                                                <i className={`fa-solid ${item.ikon || 'fa-link'} text-xl sm:text-2xl text-emerald-800 group-hover:text-emerald-700 transition-colors`}></i>
+                                            )}
+                                        </div>
+                                        {item.tampilkan_nama !== false && (
+                                            <span className="text-xs sm:text-sm font-bold text-slate-700 group-hover:text-emerald-950 transition-colors line-clamp-1 leading-tight">
+                                                {item.nama}
+                                            </span>
+                                        )}
+                                        {item.tampilkan_nama !== false && item.deskripsi && (
+                                            <span className="text-[10px] text-slate-400 group-hover:text-slate-500 transition-colors line-clamp-1 mt-0.5 hidden sm:block">
+                                                {item.deskripsi}
+                                            </span>
+                                        )}
+                                    </a>
+                                ))}
                             </div>
                         </div>
-                    </div>
-                </section>
+                    </section>
+                )}
 
                 {/* Sambutan Ketua LPM */}
                 <section id="sambutan" className="py-20 bg-white">

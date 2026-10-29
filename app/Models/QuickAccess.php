@@ -11,12 +11,15 @@ class QuickAccess extends Model
         'url',
         'deskripsi',
         'ikon',
+        'logo',
+        'tampilkan_nama',
         'urutan',
         'is_active',
     ];
 
     protected $casts = [
         'is_active' => 'boolean',
+        'tampilkan_nama' => 'boolean',
         'urutan' => 'integer',
     ];
 }

@@ -47,11 +47,14 @@ export default function Index({ auth, setting, umum, quickAccesses = [], heroSli
 
     const [quickModalOpen, setQuickModalOpen] = useState(false);
     const [editingQuick, setEditingQuick] = useState(null);
+    const [quickLogoPreview, setQuickLogoPreview] = useState(null);
     const quickForm = useForm({
         nama: '',
         url: '',
         deskripsi: '',
         ikon: 'fa-laptop-code',
+        logo: null,
+        tampilkan_nama: true,
         urutan: 1,
         is_active: true,
     });
@@ -143,21 +146,27 @@ export default function Index({ auth, setting, umum, quickAccesses = [], heroSli
     const openQuickModal = (item = null) => {
         if (item) {
             setEditingQuick(item);
+            setQuickLogoPreview(item.logo ? '/storage/' + item.logo : null);
             quickForm.setData({
                 nama: item.nama || '',
                 url: item.url || '',
                 deskripsi: item.deskripsi || '',
                 ikon: item.ikon || 'fa-link',
+                logo: null,
+                tampilkan_nama: item.tampilkan_nama !== undefined ? Boolean(item.tampilkan_nama) : true,
                 urutan: item.urutan || 1,
                 is_active: item.is_active ?? true,
             });
         } else {
             setEditingQuick(null);
+            setQuickLogoPreview(null);
             quickForm.setData({
                 nama: '',
                 url: '',
                 deskripsi: '',
                 ikon: 'fa-laptop-code',
+                logo: null,
+                tampilkan_nama: true,
                 urutan: (quickAccesses?.length || 0) + 1,
                 is_active: true,
             });
@@ -168,28 +177,23 @@ export default function Index({ auth, setting, umum, quickAccesses = [], heroSli
     const handleQuickSubmit = (e) => {
         e.preventDefault();
 
-        const payload = {
-            nama: quickForm.data.nama,
-            url: quickForm.data.url,
-            deskripsi: quickForm.data.deskripsi || '',
-            ikon: quickForm.data.ikon || 'fa-link',
-            urutan: quickForm.data.urutan || 1,
-            is_active: quickForm.data.is_active ? 1 : 0,
-        };
-
         if (editingQuick) {
-            router.post(route('admin.quick-access.update', editingQuick.id), payload, {
+            quickForm.post(route('admin.quick-access.update', editingQuick.id), {
+                forceFormData: true,
                 onSuccess: () => {
                     setQuickModalOpen(false);
                     quickForm.reset();
+                    setQuickLogoPreview(null);
                 },
                 preserveScroll: true,
             });
         } else {
-            router.post(route('admin.quick-access.store'), payload, {
+            quickForm.post(route('admin.quick-access.store'), {
+                forceFormData: true,
                 onSuccess: () => {
                     setQuickModalOpen(false);
                     quickForm.reset();
+                    setQuickLogoPreview(null);
                 },
                 preserveScroll: true,
             });
@@ -355,13 +359,22 @@ export default function Index({ auth, setting, umum, quickAccesses = [], heroSli
                                     {quickAccesses.map((item) => (
                                         <div key={item.id} className="p-4 rounded-lg border border-slate-200 bg-slate-50/50 hover:bg-slate-50 flex items-start justify-between gap-3 transition">
                                             <div className="flex items-start gap-3">
-                                                <div className="w-10 h-10 rounded-lg bg-emerald-100 text-emerald-800 flex items-center justify-center text-lg shrink-0">
-                                                    <i className={`fa-solid ${item.ikon || 'fa-link'}`}></i>
+                                                <div className="w-12 h-12 rounded-lg bg-white border border-slate-200 p-1.5 flex items-center justify-center shrink-0 shadow-xs">
+                                                    {item.logo ? (
+                                                        <img src={`/storage/${item.logo}`} alt={item.nama} className="max-h-full max-w-full object-contain" />
+                                                    ) : (
+                                                        <div className="w-9 h-9 rounded bg-emerald-100 text-emerald-800 flex items-center justify-center text-lg">
+                                                            <i className={`fa-solid ${item.ikon || 'fa-link'}`}></i>
+                                                        </div>
+                                                    )}
                                                 </div>
                                                 <div>
-                                                    <div className="flex items-center gap-2">
+                                                    <div className="flex items-center gap-2 flex-wrap">
                                                         <h4 className="font-bold text-slate-800 text-sm">{item.nama}</h4>
                                                         <span className="text-[10px] bg-slate-200 text-slate-600 px-1.5 py-0.5 rounded font-mono">#{item.urutan}</span>
+                                                        {item.tampilkan_nama === false && (
+                                                            <span className="text-[10px] bg-amber-100 text-amber-800 px-1.5 py-0.5 rounded font-medium">Hanya Logo</span>
+                                                        )}
                                                     </div>
                                                     <p className="text-xs text-slate-500 mb-1">{item.deskripsi || 'Tidak ada deskripsi'}</p>
                                                     <a href={item.url} target="_blank" rel="noreferrer" className="text-[11px] text-emerald-600 font-semibold hover:underline flex items-center gap-1">
@@ -846,6 +859,41 @@ export default function Index({ auth, setting, umum, quickAccesses = [], heroSli
                                     className="w-full rounded-md border-slate-300 shadow-sm text-sm focus:ring-emerald-500 focus:border-emerald-500"
                                 />
                             </div>
+                            <div>
+                                <label className="block text-sm font-medium text-slate-700 mb-1">
+                                    Logo Website / Gambar (Opsional)
+                                </label>
+                                {quickLogoPreview && (
+                                    <div className="mb-2 p-2 bg-slate-50 rounded-lg border border-slate-200 inline-block">
+                                        <img src={quickLogoPreview} alt="Logo Preview" className="h-12 w-auto object-contain" />
+                                    </div>
+                                )}
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={(e) => {
+                                        const file = e.target.files[0];
+                                        quickForm.setData('logo', file);
+                                        if (file) setQuickLogoPreview(URL.createObjectURL(file));
+                                    }}
+                                    className="w-full text-sm text-slate-500 file:mr-4 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100"
+                                />
+                                <p className="text-[11px] text-slate-500 mt-1">Upload gambar/logo web (PNG transparan lebih rapi). Jika tidak ada logo gambar, sistem akan memakai Ikon FontAwesome di bawah.</p>
+                            </div>
+
+                            <div className="flex items-center gap-2 pt-1 pb-1">
+                                <input
+                                    type="checkbox"
+                                    id="tampilkan_nama"
+                                    checked={quickForm.data.tampilkan_nama}
+                                    onChange={e => quickForm.setData('tampilkan_nama', e.target.checked)}
+                                    className="rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 h-4 w-4 cursor-pointer"
+                                />
+                                <label htmlFor="tampilkan_nama" className="text-sm font-medium text-slate-700 select-none cursor-pointer">
+                                    Tampilkan Nama Web di Halaman Depan
+                                </label>
+                            </div>
+
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
                                     <label className="block text-sm font-medium text-slate-700 mb-1">Ikon FontAwesome</label>
