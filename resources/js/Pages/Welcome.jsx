@@ -150,12 +150,12 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                         </Link>
 
                             {/* Desktop Navigation Menu */}
-                            <nav className="hidden lg:flex items-center space-x-4 xl:space-x-6 shrink-0">
-                                <Link href="/" className="text-[#31487A] font-semibold border-b-2 border-[#31487A] px-1 py-1 text-sm xl:text-base">Beranda</Link>
+                            <nav className="hidden lg:flex items-center space-x-3 xl:space-x-5 shrink-0">
+                                <Link href="/" className="text-[#31487A] font-semibold border-b-2 border-[#31487A] px-1 py-1 text-sm">Beranda</Link>
 
                                 {/* Profil Dropdown */}
                                 <div className="relative group">
-                                    <button className="text-slate-600 hover:text-[#31487A] font-medium px-1 py-1 text-sm xl:text-base transition flex items-center gap-1">
+                                    <button className="text-slate-600 hover:text-[#31487A] font-medium px-1 py-1 text-sm transition flex items-center gap-1">
                                         Profil <i className="fa-solid fa-chevron-down text-[10px]"></i>
                                     </button>
                                     <div className="absolute top-full left-0 mt-2 w-60 bg-white border border-slate-200 rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50">
@@ -169,10 +169,10 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                                     </div>
                                 </div>
 
-                                {/* Akademik & Dosen Dropdown */}
+                                {/* Akademik Dropdown */}
                                 <div className="relative group">
-                                    <button className="text-slate-600 hover:text-[#31487A] font-medium px-1 py-1 text-sm xl:text-base transition flex items-center gap-1">
-                                        Akademik &amp; Dosen <i className="fa-solid fa-chevron-down text-[10px]"></i>
+                                    <button className="text-slate-600 hover:text-[#31487A] font-medium px-1 py-1 text-sm transition flex items-center gap-1">
+                                        Akademik <i className="fa-solid fa-chevron-down text-[10px]"></i>
                                     </button>
                                     <div className="absolute top-full left-0 mt-2 w-64 bg-white border border-slate-200 rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50">
                                         <div className="p-2 space-y-0.5">
@@ -186,10 +186,10 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                                     </div>
                                 </div>
 
-                                {/* Riset & Pengabdian Dropdown */}
+                                {/* Riset & PkM Dropdown */}
                                 <div className="relative group">
-                                    <button className="text-slate-600 hover:text-[#31487A] font-medium px-1 py-1 text-sm xl:text-base transition flex items-center gap-1">
-                                        Riset &amp; Pengabdian <i className="fa-solid fa-chevron-down text-[10px]"></i>
+                                    <button className="text-slate-600 hover:text-[#31487A] font-medium px-1 py-1 text-sm transition flex items-center gap-1">
+                                        Riset &amp; PkM <i className="fa-solid fa-chevron-down text-[10px]"></i>
                                     </button>
                                     <div className="absolute top-full left-0 mt-2 w-64 bg-white border border-slate-200 rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50">
                                         <div className="p-2 space-y-0.5">
@@ -201,10 +201,10 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                                     </div>
                                 </div>
 
-                                {/* Akreditasi & Penjaminan Mutu Dropdown */}
+                                {/* Akreditasi Dropdown */}
                                 <div className="relative group">
-                                    <button className="text-slate-600 hover:text-[#31487A] font-medium px-1 py-1 text-sm xl:text-base transition flex items-center gap-1">
-                                        Akreditasi &amp; Mutu <i className="fa-solid fa-chevron-down text-[10px]"></i>
+                                    <button className="text-slate-600 hover:text-[#31487A] font-medium px-1 py-1 text-sm transition flex items-center gap-1">
+                                        Akreditasi <i className="fa-solid fa-chevron-down text-[10px]"></i>
                                     </button>
                                     <div className="absolute top-full left-0 mt-2 w-64 bg-white border border-slate-200 rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50">
                                         <div className="p-2 space-y-0.5">
@@ -217,11 +217,11 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                                 </div>
 
                                 {/* Berita */}
-                                <Link href="/berita" className="text-slate-600 hover:text-[#31487A] border-b-2 border-transparent hover:border-[#31487A] font-semibold px-1 py-1 transition text-sm xl:text-base">Berita</Link>
+                                <Link href="/berita" className="text-slate-600 hover:text-[#31487A] border-b-2 border-transparent hover:border-[#31487A] font-semibold px-1 py-1 transition text-sm">Berita</Link>
 
                                 {/* Tombol CTA Dokumen & Akreditasi */}
-                                <Link href={route('public.akademik.pedoman')} className="bg-[#192338] hover:bg-[#31487A] text-white px-5 py-2.5 rounded-xl font-semibold shadow-sm transition text-xs xl:text-sm flex items-center gap-1.5 shrink-0 hover:-translate-y-0.5">
-                                    <i className="fa-solid fa-book-open text-xs"></i> Pedoman Akademik
+                                <Link href={route('public.akademik.pedoman')} className="bg-[#192338] hover:bg-[#31487A] text-white px-4 py-2 rounded-xl font-semibold shadow-xs transition text-xs flex items-center gap-1.5 shrink-0 hover:-translate-y-0.5 ml-2">
+                                    <i className="fa-solid fa-book-open text-[11px]"></i> Pedoman
                                 </Link>
                             </nav>
 
@@ -396,29 +396,61 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                 ) : (
                     /* Fallback Static Hero Section untuk KPI */
                     <section
-                        className="bg-[#192338] text-white relative py-20 lg:py-28"
+                        className="bg-[#192338] text-white relative py-16 sm:py-20 lg:py-24"
                     >
                         <div className={`relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 transition-all duration-1000 ease-out transform ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
-                            <div className="max-w-4xl mx-auto text-center">
-                                <h1 className="font-display text-3xl sm:text-5xl lg:text-[52px] font-bold text-white leading-[1.2] mb-6 tracking-normal max-w-3xl mx-auto drop-shadow-sm">
-                                    {setting?.hero_title || "Mencetak Praktisi Media, Jurnalis, dan Dai Unggul di Era Digital"}
-                                </h1>
-                                <p className="font-sans text-sm sm:text-base lg:text-lg text-slate-200/90 mb-9 max-w-2xl mx-auto leading-relaxed font-normal">
-                                    {setting?.hero_subtitle || "Belajar komunikasi, jurnalistik, penyiaran, media digital, dan dakwah untuk menjawab tantangan informasi di era modern dengan nilai-nilai Islam."}
-                                </p>
-                                <div className="flex flex-wrap items-center justify-center gap-3.5">
-                                    <a
-                                        href="#profil"
-                                        className="bg-[#31487A] hover:bg-[#1E2E4F] text-white font-semibold px-7 py-3.5 rounded-xl transition text-sm sm:text-base inline-flex items-center gap-2 border border-[#8FB3E2]/40 shadow-sm hover:-translate-y-0.5"
-                                    >
-                                        <i className="fa-solid fa-circle-info text-xs text-[#8FB3E2]"></i> Kenali Program Studi
-                                    </a>
-                                    <a
-                                        href="#akademik"
-                                        className="bg-white/5 hover:bg-white/10 text-white border border-white/30 hover:border-white/60 font-semibold px-7 py-3.5 rounded-xl transition text-sm sm:text-base inline-flex items-center gap-2 hover:-translate-y-0.5"
-                                    >
-                                        Jelajahi Layanan ↗
-                                    </a>
+                            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+                                {/* Left Column: Copy & Actions */}
+                                <div className="lg:col-span-7 text-left">
+                                    <h1 className="font-display text-3xl sm:text-4xl lg:text-[46px] font-bold text-white leading-[1.2] mb-5 tracking-tight drop-shadow-sm">
+                                        {setting?.hero_title || "Mencetak Praktisi Media, Jurnalis, dan Dai Unggul di Era Digital"}
+                                    </h1>
+                                    <p className="font-sans text-sm sm:text-base lg:text-lg text-slate-200/90 mb-8 max-w-2xl leading-relaxed font-normal">
+                                        {setting?.hero_subtitle || "Belajar komunikasi, jurnalistik, penyiaran, media digital, dan dakwah untuk menjawab tantangan informasi di era modern dengan nilai-nilai Islam."}
+                                    </p>
+                                    <div className="flex flex-wrap items-center gap-3.5 mb-8">
+                                        <a
+                                            href="#profil"
+                                            className="bg-[#31487A] hover:bg-[#1E2E4F] text-white font-semibold px-6 py-3.5 rounded-xl transition text-sm inline-flex items-center gap-2 border border-[#8FB3E2]/40 shadow-sm hover:-translate-y-0.5"
+                                        >
+                                            <i className="fa-solid fa-circle-info text-xs text-[#8FB3E2]"></i> Kenali Program Studi
+                                        </a>
+                                        <a
+                                            href="#akademik"
+                                            className="bg-white/5 hover:bg-white/10 text-white border border-white/30 hover:border-white/60 font-semibold px-6 py-3.5 rounded-xl transition text-sm inline-flex items-center gap-2 hover:-translate-y-0.5"
+                                        >
+                                            <span>Jelajahi Layanan</span>
+                                            <i className="fa-solid fa-arrow-right text-xs"></i>
+                                        </a>
+                                    </div>
+                                    {/* Horizontal Tags KPI */}
+                                    <div className="flex flex-wrap items-center gap-2 pt-3 border-t border-slate-700/60">
+                                        <span className="text-xs px-3 py-1 rounded-full border border-white/20 bg-white/5 text-slate-300">Jurnalistik</span>
+                                        <span className="text-xs px-3 py-1 rounded-full border border-white/20 bg-white/5 text-slate-300">Broadcasting</span>
+                                        <span className="text-xs px-3 py-1 rounded-full border border-white/20 bg-white/5 text-slate-300">Public Relations</span>
+                                        <span className="text-xs px-3 py-1 rounded-full border border-white/20 bg-white/5 text-slate-300">Media Digital</span>
+                                    </div>
+                                </div>
+
+                                {/* Right Column: Hero Card Showcase */}
+                                <div className="lg:col-span-5 flex justify-center lg:justify-end">
+                                    <div className="bg-[#1E2E4F]/70 border border-white/15 backdrop-blur-xs rounded-2xl p-7 sm:p-8 max-w-md w-full shadow-2xl">
+                                        <div className="text-5xl font-black text-[#8FB3E2] tracking-tight font-display mb-3">KPI</div>
+                                        <h3 className="text-xl font-bold text-white mb-2 font-display">Komunikasi untuk Kebaikan</h3>
+                                        <p className="text-slate-300 text-xs sm:text-sm leading-relaxed mb-6">
+                                            Mengembangkan keilmuan dan keterampilan komunikasi yang berlandaskan nilai Islam, etika, literasi media, dan pengabdian kepada masyarakat.
+                                        </p>
+                                        <div className="grid grid-cols-2 gap-3 pt-4 border-t border-white/10 text-xs">
+                                            <div>
+                                                <span className="block text-slate-400 text-[11px] mb-0.5">Jenjang Studi</span>
+                                                <strong className="text-white text-sm font-semibold">Sarjana (S1)</strong>
+                                            </div>
+                                            <div>
+                                                <span className="block text-slate-400 text-[11px] mb-0.5">Fakultas</span>
+                                                <strong className="text-white text-sm font-semibold">Fakultas Dakwah</strong>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

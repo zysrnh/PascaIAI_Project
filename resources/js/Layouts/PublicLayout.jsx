@@ -46,12 +46,12 @@ export default function PublicLayout({ children }) {
                         </Link>
 
                         {/* Desktop Navigation Menu */}
-                        <nav className="hidden lg:flex items-center space-x-4 xl:space-x-6 shrink-0">
-                            <Link href="/" className="text-[#31487A] font-semibold border-b-2 border-transparent hover:border-[#31487A] px-1 py-1 text-sm xl:text-base">Beranda</Link>
+                        <nav className="hidden lg:flex items-center space-x-3 xl:space-x-5 shrink-0">
+                            <Link href="/" className="text-[#31487A] font-semibold border-b-2 border-transparent hover:border-[#31487A] px-1 py-1 text-sm">Beranda</Link>
                             
                             {/* Profil Dropdown */}
                             <div className="relative group">
-                                <button className="text-slate-600 hover:text-[#31487A] font-medium px-1 py-1 text-sm xl:text-base transition flex items-center gap-1">
+                                <button className="text-slate-600 hover:text-[#31487A] font-medium px-1 py-1 text-sm transition flex items-center gap-1">
                                     Profil <i className="fa-solid fa-chevron-down text-[10px]"></i>
                                 </button>
                                 <div className="absolute top-full left-0 mt-2 w-60 bg-white border border-slate-200 rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50">
@@ -65,10 +65,10 @@ export default function PublicLayout({ children }) {
                                 </div>
                             </div>
 
-                            {/* Akademik & Dosen Dropdown */}
+                            {/* Akademik Dropdown */}
                             <div className="relative group">
-                                <button className="text-slate-600 hover:text-[#31487A] font-medium px-1 py-1 text-sm xl:text-base transition flex items-center gap-1">
-                                    Akademik &amp; Dosen <i className="fa-solid fa-chevron-down text-[10px]"></i>
+                                <button className="text-slate-600 hover:text-[#31487A] font-medium px-1 py-1 text-sm transition flex items-center gap-1">
+                                    Akademik <i className="fa-solid fa-chevron-down text-[10px]"></i>
                                 </button>
                                 <div className="absolute top-full left-0 mt-2 w-64 bg-white border border-slate-200 rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50">
                                     <div className="p-2 space-y-0.5">
@@ -82,10 +82,10 @@ export default function PublicLayout({ children }) {
                                 </div>
                             </div>
 
-                            {/* Riset & Pengabdian (Tridarma) Dropdown */}
+                            {/* Riset & PkM Dropdown */}
                             <div className="relative group">
-                                <button className="text-slate-600 hover:text-[#31487A] font-medium px-1 py-1 text-sm xl:text-base transition flex items-center gap-1">
-                                    Riset &amp; Pengabdian <i className="fa-solid fa-chevron-down text-[10px]"></i>
+                                <button className="text-slate-600 hover:text-[#31487A] font-medium px-1 py-1 text-sm transition flex items-center gap-1">
+                                    Riset &amp; PkM <i className="fa-solid fa-chevron-down text-[10px]"></i>
                                 </button>
                                 <div className="absolute top-full left-0 mt-2 w-64 bg-white border border-slate-200 rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50">
                                     <div className="p-2 space-y-0.5">
@@ -97,10 +97,10 @@ export default function PublicLayout({ children }) {
                                 </div>
                             </div>
 
-                            {/* Akreditasi & Penjaminan Mutu Dropdown */}
+                            {/* Akreditasi Dropdown */}
                             <div className="relative group">
-                                <button className="text-slate-600 hover:text-[#31487A] font-medium px-1 py-1 text-sm xl:text-base transition flex items-center gap-1">
-                                    Akreditasi &amp; Mutu <i className="fa-solid fa-chevron-down text-[10px]"></i>
+                                <button className="text-slate-600 hover:text-[#31487A] font-medium px-1 py-1 text-sm transition flex items-center gap-1">
+                                    Akreditasi <i className="fa-solid fa-chevron-down text-[10px]"></i>
                                 </button>
                                 <div className="absolute top-full left-0 mt-2 w-64 bg-white border border-slate-200 rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50">
                                     <div className="p-2 space-y-0.5">
@@ -113,11 +113,11 @@ export default function PublicLayout({ children }) {
                             </div>
 
                             {/* Berita */}
-                            <Link href="/berita" className={`font-semibold border-b-2 px-1 py-1 transition text-sm xl:text-base ${route().current('public.berita.*') ? 'text-[#31487A] border-[#31487A]' : 'text-slate-600 hover:text-[#31487A] border-transparent hover:border-[#31487A]'}`}>Berita</Link>
+                            <Link href="/berita" className={`font-semibold border-b-2 px-1 py-1 transition text-sm ${route().current('public.berita.*') ? 'text-[#31487A] border-[#31487A]' : 'text-slate-600 hover:text-[#31487A] border-transparent hover:border-[#31487A]'}`}>Berita</Link>
 
                             {/* Tombol CTA Dokumen & Akreditasi */}
-                            <Link href={route('public.akademik.pedoman')} className="bg-[#192338] hover:bg-[#31487A] text-white px-5 py-2.5 rounded-xl font-semibold transition text-xs xl:text-sm flex items-center gap-1.5 shrink-0 hover:-translate-y-0.5">
-                                <i className="fa-solid fa-book-open text-xs"></i> Pedoman Akademik
+                            <Link href={route('public.akademik.pedoman')} className="bg-[#192338] hover:bg-[#31487A] text-white px-4 py-2 rounded-xl font-semibold transition text-xs flex items-center gap-1.5 shrink-0 hover:-translate-y-0.5 ml-2">
+                                <i className="fa-solid fa-book-open text-[11px]"></i> Pedoman
                             </Link>
                         </nav>
 
