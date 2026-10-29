@@ -8,7 +8,7 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
     const [isLoaded, setIsLoaded] = useState(false);
     const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
 
-    // Hero Carousel Auto Play
+    // Hero Carousel Auto Play (jika ada data slider aktif)
     useEffect(() => {
         if (!heroSliders || heroSliders.length <= 1) return;
         const interval = setInterval(() => {
@@ -27,7 +27,7 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
         setCurrentSlideIndex((prev) => (prev - 1 + heroSliders.length) % heroSliders.length);
     };
 
-    // Form Pengaduan / Helpdesk Mutu
+    // Form Pengaduan / Konsultasi Mutu
     const { data: waForm, setData: setWaForm, processing } = useForm({
         nama: '',
         whatsapp: '',
@@ -42,14 +42,14 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
             Swal.fire({
                 icon: 'warning',
                 title: 'Data Belum Lengkap',
-                text: 'Harap lengkapi semua field formulir pengaduan/konsultasi.',
-                confirmButtonColor: '#047857'
+                text: 'Harap lengkapi field formulir pertanyaan/konsultasi.',
+                confirmButtonColor: '#0f172a'
             });
             return;
         }
 
         const hotlinePhone = setting?.pmb_hotline_number || "6282116116133";
-        const message = `Halo Prodi KPI IAI Persis Bandung, saya ingin menyampaikan konsultasi/aspirasi penjaminan mutu.\n\n*Nama*: ${waForm.nama}\n*No WhatsApp*: ${waForm.whatsapp}\n*Unit/Prodi*: ${waForm.unit_prodi || '-'}\n*Kategori*: ${waForm.kategori_aduan}\n*Pesan / Masukan*: ${waForm.pesan}\n\nTerima kasih.`;
+        const message = `Halo Prodi KPI IAI Persis Bandung, saya ingin menyampaikan pesan/pertanyaan:\n\n*Nama*: ${waForm.nama}\n*No WhatsApp*: ${waForm.whatsapp}\n*Status/Unit*: ${waForm.unit_prodi || '-'}\n*Kategori*: ${waForm.kategori_aduan}\n*Pesan*: ${waForm.pesan}\n\nTerima kasih.`;
 
         const encodedMessage = encodeURIComponent(message);
         const waUrl = `https://wa.me/${hotlinePhone}?text=${encodedMessage}`;
@@ -73,8 +73,8 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                 Swal.fire({
                     icon: 'success',
                     title: 'Pesan Terkirim',
-                    text: 'Terima kasih atas masukan dan konsultasi Anda untuk peningkatan mutu kampus.',
-                    confirmButtonColor: '#047857'
+                    text: 'Terima kasih atas pesan dan masukan Anda untuk program studi.',
+                    confirmButtonColor: '#0f172a'
                 });
             }
         });
@@ -87,7 +87,7 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('opacity-100', 'translate-y-0');
-                    entry.target.classList.remove('opacity-0', 'translate-y-12', '-translate-x-12', 'translate-x-12');
+                    entry.target.classList.remove('opacity-0', 'translate-y-8');
                     observer.unobserve(entry.target);
                 }
             });
@@ -102,12 +102,12 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
         };
     }, []);
 
-    // Standar Quick Access jika belum ada di database
+    // Standar Quick Access
     const displayQuickAccesses = (quickAccesses && quickAccesses.length > 0) ? quickAccesses : [
-        { id: 1, nama: 'Dokumen SPMI', deskripsi: 'Kebijakan, Manual, Standar & SOP Mutu', ikon: 'fa-file-shield', url: '/profil/dokumen-institusi' },
+        { id: 1, nama: 'Dokumen SPMI', deskripsi: 'Kebijakan, Manual & Standar Mutu', ikon: 'fa-file-lines', url: '/profil/dokumen-institusi' },
         { id: 2, nama: 'Audit Mutu (AMI)', deskripsi: 'Pedoman, Instrumen & Siklus AMI', ikon: 'fa-clipboard-check', url: '/akademik/pedoman' },
-        { id: 3, nama: 'Data Akreditasi', deskripsi: 'Akreditasi Institusi & Program Studi', ikon: 'fa-certificate', url: '/profil/akreditasi' },
-        { id: 4, nama: 'Survei Kepuasan Mutu', deskripsi: 'Survei Mahasiswa, Dosen & Pengguna', ikon: 'fa-square-poll-vertical', url: '#survei' },
+        { id: 3, nama: 'Data Akreditasi', deskripsi: 'Akreditasi Institusi & Prodi', ikon: 'fa-certificate', url: '/profil/akreditasi' },
+        { id: 4, nama: 'Survei Kepuasan', deskripsi: 'Umpan Balik Sivitas Akademika', ikon: 'fa-square-poll-vertical', url: '#survei' },
     ];
 
     const emailDisplay = (umum?.email && !umum.email.includes('pasca')) ? umum.email : 'kpi@iaipibandung.ac.id';
@@ -115,329 +115,235 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
     return (
         <>
             <Head title="Program Studi S1 Komunikasi dan Penyiaran Islam (KPI) | IAI Persis Bandung" />
-            <div className="bg-slate-50 text-slate-800 antialiased font-sans">
-                {/* Top Bar Info */}
-                <div className="bg-emerald-950 text-emerald-100 text-xs py-2.5 px-4 hidden md:block border-b border-emerald-900/60">
-                    <div className="max-w-7xl mx-auto flex justify-between items-center">
+            <div className="bg-white text-slate-900 antialiased font-sans selection:bg-slate-900 selection:text-white">
+
+                {/* Minimal Top Bar */}
+                <div className="bg-[#0B111D] text-slate-400 text-xs py-2 px-4 hidden md:block border-b border-slate-800">
+                    <div className="max-w-6xl mx-auto flex justify-between items-center">
                         <div className="flex items-center space-x-6">
-                            <span><i className="fa-solid fa-envelope text-amber-500 mr-1.5"></i> {emailDisplay}</span>
-                            <span><i className="fa-solid fa-phone text-amber-500 mr-1.5"></i> {umum?.telepon || '(022) 5441951'}</span>
-                            <span><i className="fa-solid fa-location-dot text-amber-500 mr-1.5"></i> Bojongsoang, Bandung</span>
+                            <span><i className="fa-solid fa-envelope text-slate-300 mr-1.5"></i> {emailDisplay}</span>
+                            <span><i className="fa-solid fa-phone text-slate-300 mr-1.5"></i> {umum?.telepon || '(022) 5441951'}</span>
+                            <span><i className="fa-solid fa-location-dot text-slate-300 mr-1.5"></i> Bojongsoang, Bandung</span>
                         </div>
-                        <div className="flex items-center space-x-5">
-                            
-                            <div className="flex items-center space-x-3">
-                                <a href={umum?.facebook_url || '#'} className="hover:text-amber-400 transition"><i className="fa-brands fa-facebook-f"></i></a>
-                                <a href={umum?.instagram_url || '#'} className="hover:text-amber-400 transition"><i className="fa-brands fa-instagram"></i></a>
-                                <a href={umum?.youtube_url || '#'} className="hover:text-amber-400 transition"><i className="fa-brands fa-youtube"></i></a>
-                            </div>
+                        <div className="flex items-center space-x-4">
+                            <a href={umum?.facebook_url || '#'} className="hover:text-white transition"><i className="fa-brands fa-facebook-f"></i></a>
+                            <a href={umum?.instagram_url || '#'} className="hover:text-white transition"><i className="fa-brands fa-instagram"></i></a>
+                            <a href={umum?.youtube_url || '#'} className="hover:text-white transition"><i className="fa-brands fa-youtube"></i></a>
                         </div>
                     </div>
                 </div>
 
-                                {/* Header / Navbar */}
-                <header className="bg-white shadow-md sticky top-0 z-50 transition-all duration-300">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                {/* Minimal Header / Navbar */}
+                <header className="bg-white border-b border-slate-200 sticky top-0 z-50 transition-all">
+                    <div className="max-w-6xl mx-auto px-4 sm:px-6">
                         <div className="flex justify-between items-center h-20 gap-4">
-                            {/* Brand Typography (No Image Logo) */}
-                        <Link href="/" className="flex flex-col shrink-0 group py-1">
-                            <span className="font-extrabold text-lg sm:text-xl tracking-tight text-pasca-darkest group-hover:text-pasca-primary transition-colors leading-tight">
-                                PRODI KPI
-                            </span>
-                            <span className="text-[10px] sm:text-[11px] text-slate-500 font-semibold tracking-wider uppercase leading-none mt-0.5">
-                                KOMUNIKASI &amp; PENYIARAN ISLAM — IAI PERSIS
-                            </span>
-                        </Link>
+                            {/* Brand Typography */}
+                            <Link href="/" className="flex flex-col shrink-0 py-1">
+                                <span className="font-semibold text-lg sm:text-xl tracking-tight text-slate-900 leading-tight">
+                                    PRODI KPI
+                                </span>
+                                <span className="text-[10px] text-slate-500 font-normal tracking-wider uppercase leading-none mt-0.5">
+                                    KOMUNIKASI &amp; PENYIARAN ISLAM — IAI PERSIS
+                                </span>
+                            </Link>
 
-                            {/* Desktop Navigation Menu */}
+                            {/* Desktop Navigation */}
                             <nav className="hidden lg:flex items-center space-x-3 xl:space-x-5 shrink-0">
-                                <Link href="/" className="text-[#31487A] font-semibold border-b-2 border-[#31487A] px-1 py-1 text-sm">Beranda</Link>
+                                <Link href="/" className="text-slate-900 font-medium px-2 py-1 text-sm border-b-2 border-slate-900">
+                                    Beranda
+                                </Link>
 
                                 {/* Profil Dropdown */}
                                 <div className="relative group">
-                                    <button className="text-slate-600 hover:text-[#31487A] font-medium px-1 py-1 text-sm transition flex items-center gap-1">
-                                        Profil <i className="fa-solid fa-chevron-down text-[10px]"></i>
+                                    <button className="text-slate-600 hover:text-slate-900 font-medium px-2 py-1 text-sm transition flex items-center gap-1">
+                                        Profil <i className="fa-solid fa-chevron-down text-[10px] text-slate-400"></i>
                                     </button>
-                                    <div className="absolute top-full left-0 mt-2 w-60 bg-white border border-slate-200 rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50">
-                                        <div className="p-2 space-y-0.5">
-                                            <Link href="/profil/tentang-kampus" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-[#192338] rounded-lg transition-colors">Tentang &amp; Sejarah</Link>
-                                            <Link href="/profil/visi-misi" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-[#192338] rounded-lg transition-colors">Visi, Misi &amp; Tujuan</Link>
-                                            <Link href="/profil/sambutan-pimpinan" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-[#192338] rounded-lg transition-colors">Sambutan Pimpinan</Link>
-                                            <Link href="/profil/struktur-organisasi" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-[#192338] rounded-lg transition-colors">Struktur Organisasi &amp; Tim</Link>
-                                            <Link href={route('public.prospek-karir')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-[#192338] rounded-lg transition-colors">Profil Lulusan &amp; Karir</Link>
+                                    <div className="absolute top-full left-0 mt-2 w-56 bg-white border border-slate-200 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                                        <div className="p-1.5 space-y-0.5">
+                                            <Link href="/profil/tentang-kampus" className="block px-3 py-2 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-md transition-colors">Tentang &amp; Sejarah</Link>
+                                            <Link href="/profil/visi-misi" className="block px-3 py-2 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-md transition-colors">Visi, Misi &amp; Tujuan</Link>
+                                            <Link href="/profil/sambutan-pimpinan" className="block px-3 py-2 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-md transition-colors">Sambutan Pimpinan</Link>
+                                            <Link href="/profil/struktur-organisasi" className="block px-3 py-2 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-md transition-colors">Struktur Organisasi &amp; Tim</Link>
+                                            <Link href={route('public.prospek-karir')} className="block px-3 py-2 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-md transition-colors">Profil Lulusan &amp; Karir</Link>
                                         </div>
                                     </div>
                                 </div>
 
                                 {/* Akademik Dropdown */}
                                 <div className="relative group">
-                                    <button className="text-slate-600 hover:text-[#31487A] font-medium px-1 py-1 text-sm transition flex items-center gap-1">
-                                        Akademik <i className="fa-solid fa-chevron-down text-[10px]"></i>
+                                    <button className="text-slate-600 hover:text-slate-900 font-medium px-2 py-1 text-sm transition flex items-center gap-1">
+                                        Akademik <i className="fa-solid fa-chevron-down text-[10px] text-slate-400"></i>
                                     </button>
-                                    <div className="absolute top-full left-0 mt-2 w-64 bg-white border border-slate-200 rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50">
-                                        <div className="p-2 space-y-0.5">
-                                            <Link href={route('public.akademik.kurikulum')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-[#192338] rounded-lg transition-colors">Kurikulum &amp; Capaian (CPL)</Link>
-                                            <Link href={route('public.dosen')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-[#192338] rounded-lg transition-colors">Direktori Dosen &amp; Tendik</Link>
-                                            <Link href={route('public.akademik.kalender')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-[#192338] rounded-lg transition-colors">Kalender Akademik</Link>
-                                            <Link href={route('public.akademik.jadwal')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-[#192338] rounded-lg transition-colors">Jadwal Perkuliahan</Link>
-                                            <Link href={route('public.akademik.pedoman')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-[#192338] rounded-lg transition-colors">Pedoman Akademik</Link>
-                                            <Link href={route('public.akademik.sistem')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-[#192338] rounded-lg transition-colors">Sistem Akademik (SIAKAD)</Link>
+                                    <div className="absolute top-full left-0 mt-2 w-60 bg-white border border-slate-200 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                                        <div className="p-1.5 space-y-0.5">
+                                            <Link href={route('public.akademik.kurikulum')} className="block px-3 py-2 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-md transition-colors">Kurikulum &amp; Capaian (CPL)</Link>
+                                            <Link href={route('public.dosen')} className="block px-3 py-2 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-md transition-colors">Direktori Dosen &amp; Tendik</Link>
+                                            <Link href={route('public.akademik.kalender')} className="block px-3 py-2 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-md transition-colors">Kalender Akademik</Link>
+                                            <Link href={route('public.akademik.jadwal')} className="block px-3 py-2 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-md transition-colors">Jadwal Perkuliahan</Link>
+                                            <Link href={route('public.akademik.pedoman')} className="block px-3 py-2 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-md transition-colors">Pedoman Akademik</Link>
+                                            <Link href={route('public.akademik.sistem')} className="block px-3 py-2 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-md transition-colors">Sistem Akademik (SIAKAD)</Link>
                                         </div>
                                     </div>
                                 </div>
 
                                 {/* Riset & PkM Dropdown */}
                                 <div className="relative group">
-                                    <button className="text-slate-600 hover:text-[#31487A] font-medium px-1 py-1 text-sm transition flex items-center gap-1">
-                                        Riset &amp; PkM <i className="fa-solid fa-chevron-down text-[10px]"></i>
+                                    <button className="text-slate-600 hover:text-slate-900 font-medium px-2 py-1 text-sm transition flex items-center gap-1">
+                                        Riset &amp; PkM <i className="fa-solid fa-chevron-down text-[10px] text-slate-400"></i>
                                     </button>
-                                    <div className="absolute top-full left-0 mt-2 w-64 bg-white border border-slate-200 rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50">
-                                        <div className="p-2 space-y-0.5">
-                                            <Link href={route('public.lppm.penelitian')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-[#192338] rounded-lg transition-colors">Penelitian &amp; Info Hibah</Link>
-                                            <Link href={route('public.lppm.pengabdian')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-[#192338] rounded-lg transition-colors">Pengabdian kepada Masyarakat</Link>
-                                            <Link href={route('public.lppm.publikasi')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-[#192338] rounded-lg transition-colors">Publikasi Ilmiah &amp; Jurnal</Link>
-                                            <Link href={route('public.lppm.repository')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-[#192338] rounded-lg transition-colors">Repository Karya Ilmiah</Link>
+                                    <div className="absolute top-full left-0 mt-2 w-60 bg-white border border-slate-200 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                                        <div className="p-1.5 space-y-0.5">
+                                            <Link href={route('public.lppm.penelitian')} className="block px-3 py-2 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-md transition-colors">Penelitian &amp; Info Hibah</Link>
+                                            <Link href={route('public.lppm.pengabdian')} className="block px-3 py-2 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-md transition-colors">Pengabdian kepada Masyarakat</Link>
+                                            <Link href={route('public.lppm.publikasi')} className="block px-3 py-2 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-md transition-colors">Publikasi Ilmiah &amp; Jurnal</Link>
+                                            <Link href={route('public.lppm.repository')} className="block px-3 py-2 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-md transition-colors">Repository Karya Ilmiah</Link>
                                         </div>
                                     </div>
                                 </div>
 
                                 {/* Akreditasi Dropdown */}
                                 <div className="relative group">
-                                    <button className="text-slate-600 hover:text-[#31487A] font-medium px-1 py-1 text-sm transition flex items-center gap-1">
-                                        Akreditasi <i className="fa-solid fa-chevron-down text-[10px]"></i>
+                                    <button className="text-slate-600 hover:text-slate-900 font-medium px-2 py-1 text-sm transition flex items-center gap-1">
+                                        Akreditasi <i className="fa-solid fa-chevron-down text-[10px] text-slate-400"></i>
                                     </button>
-                                    <div className="absolute top-full left-0 mt-2 w-64 bg-white border border-slate-200 rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50">
-                                        <div className="p-2 space-y-0.5">
-                                            <Link href={route('public.akreditasi')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-[#192338] rounded-lg transition-colors">Data Akreditasi (BAN-PT &amp; LAM)</Link>
-                                            <Link href={route('public.dokumen-institusi')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-[#192338] rounded-lg transition-colors">Dokumen SPMI &amp; SOP</Link>
-                                            <Link href={route('public.akademik.pedoman')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-[#192338] rounded-lg transition-colors">Instrumen &amp; Siklus AMI</Link>
-                                            <a href="#survei" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-[#192338] rounded-lg transition-colors">Survei Kepuasan Mutu</a>
+                                    <div className="absolute top-full left-0 mt-2 w-60 bg-white border border-slate-200 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                                        <div className="p-1.5 space-y-0.5">
+                                            <Link href={route('public.akreditasi')} className="block px-3 py-2 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-md transition-colors">Data Akreditasi (BAN-PT &amp; LAM)</Link>
+                                            <Link href={route('public.dokumen-institusi')} className="block px-3 py-2 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-md transition-colors">Dokumen SPMI &amp; SOP</Link>
+                                            <Link href={route('public.akademik.pedoman')} className="block px-3 py-2 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-md transition-colors">Instrumen &amp; Siklus AMI</Link>
+                                            <a href="#survei" className="block px-3 py-2 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-md transition-colors">Survei Kepuasan Mutu</a>
                                         </div>
                                     </div>
                                 </div>
 
-                                {/* Berita */}
-                                <Link href="/berita" className="text-slate-600 hover:text-[#31487A] border-b-2 border-transparent hover:border-[#31487A] font-semibold px-1 py-1 transition text-sm">Berita</Link>
+                                <Link href="/berita" className="text-slate-600 hover:text-slate-900 font-medium px-2 py-1 text-sm transition">
+                                    Berita
+                                </Link>
 
-                                {/* Tombol CTA Dokumen & Akreditasi */}
-                                <Link href={route('public.akademik.pedoman')} className="bg-[#192338] hover:bg-[#31487A] text-white px-4 py-2 rounded-xl font-semibold shadow-xs transition text-xs flex items-center gap-1.5 shrink-0 hover:-translate-y-0.5 ml-2">
-                                    <i className="fa-solid fa-book-open text-[11px]"></i> Pedoman
+                                <Link href={route('public.akademik.pedoman')} className="bg-slate-900 hover:bg-slate-800 text-white px-4 py-2 rounded-lg font-medium transition text-xs flex items-center gap-1.5 ml-2">
+                                    <span>Pedoman</span>
                                 </Link>
                             </nav>
 
                             {/* Mobile Menu Toggle Button */}
                             <button 
                                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} 
-                                className="lg:hidden p-2 rounded-xl text-[#192338] hover:bg-slate-100 focus:outline-none"
+                                className="lg:hidden p-2 rounded-lg text-slate-800 hover:bg-slate-100 focus:outline-none"
                             >
-                                <i className="fa-solid fa-bars text-2xl"></i>
+                                <i className="fa-solid fa-bars text-xl"></i>
                             </button>
                         </div>
                     </div>
 
-                    {/* Mobile Navigation Menu Dropdown */}
-                    <div className={`lg:hidden bg-white shadow-lg transition-all duration-300 ease-in-out ${isMobileMenuOpen ? 'max-h-[85vh] opacity-100 border-t border-slate-100 overflow-y-auto' : 'max-h-0 opacity-0 border-t-0 overflow-hidden'}`}>
-                        <div className="px-4 pt-2 pb-6 space-y-1">
-                            <style>{`
-                                details[open] summary ~ * {
-                                    animation: slideDown 0.3s ease-in-out;
-                                }
-                                @keyframes slideDown {
-                                    0% { opacity: 0; transform: translateY(-8px); }
-                                    100% { opacity: 1; transform: translateY(0); }
-                                }
-                            `}</style>
-                            <Link href="/" className="block px-3 py-2.5 rounded-xl text-[#192338] bg-slate-100 font-semibold mb-1">Beranda</Link>
+                    {/* Mobile Navigation Menu */}
+                    <div className={`lg:hidden bg-white transition-all duration-200 ease-in-out ${isMobileMenuOpen ? 'max-h-[85vh] opacity-100 border-t border-slate-100 overflow-y-auto' : 'max-h-0 opacity-0 overflow-hidden'}`}>
+                        <div className="px-4 pt-3 pb-6 space-y-1">
+                            <Link href="/" className="block px-3 py-2 rounded-lg text-slate-900 bg-slate-50 font-medium mb-1">Beranda</Link>
 
-                            {/* Profil Mobile Dropdown */}
                             <details className="group">
-                                <summary className="flex justify-between items-center px-3 py-2.5 rounded-xl text-slate-700 hover:bg-slate-50 font-medium cursor-pointer list-none">
-                                    Profil <i className="fa-solid fa-chevron-down text-xs transition-transform group-open:rotate-180"></i>
+                                <summary className="flex justify-between items-center px-3 py-2 rounded-lg text-slate-700 hover:bg-slate-50 font-medium cursor-pointer list-none">
+                                    Profil <i className="fa-solid fa-chevron-down text-xs transition-transform group-open:rotate-180 text-slate-400"></i>
                                 </summary>
-                                <div className="pl-4 pb-2 space-y-1 border-l-2 border-slate-200 ml-3 mt-1">
-                                    <Link href="/profil/tentang-kampus" className="block px-3 py-2 text-sm text-slate-600 hover:text-[#31487A]">Tentang &amp; Sejarah</Link>
-                                    <Link href="/profil/visi-misi" className="block px-3 py-2 text-sm text-slate-600 hover:text-[#31487A]">Visi, Misi &amp; Tujuan</Link>
-                                    <Link href="/profil/sambutan-pimpinan" className="block px-3 py-2 text-sm text-slate-600 hover:text-[#31487A]">Sambutan Pimpinan</Link>
-                                    <Link href="/profil/struktur-organisasi" className="block px-3 py-2 text-sm text-slate-600 hover:text-[#31487A]">Struktur Organisasi &amp; Tim</Link>
-                                    <Link href={route('public.prospek-karir')} className="block px-3 py-2 text-sm text-slate-600 hover:text-[#31487A]">Profil Lulusan &amp; Karir</Link>
+                                <div className="pl-4 pb-2 space-y-1 border-l border-slate-200 ml-3 mt-1">
+                                    <Link href="/profil/tentang-kampus" className="block px-3 py-1.5 text-sm text-slate-600 hover:text-slate-900">Tentang &amp; Sejarah</Link>
+                                    <Link href="/profil/visi-misi" className="block px-3 py-1.5 text-sm text-slate-600 hover:text-slate-900">Visi, Misi &amp; Tujuan</Link>
+                                    <Link href="/profil/sambutan-pimpinan" className="block px-3 py-1.5 text-sm text-slate-600 hover:text-slate-900">Sambutan Pimpinan</Link>
+                                    <Link href="/profil/struktur-organisasi" className="block px-3 py-1.5 text-sm text-slate-600 hover:text-slate-900">Struktur Organisasi &amp; Tim</Link>
+                                    <Link href={route('public.prospek-karir')} className="block px-3 py-1.5 text-sm text-slate-600 hover:text-slate-900">Profil Lulusan &amp; Karir</Link>
                                 </div>
                             </details>
 
-                            {/* Akademik & Dosen Mobile Dropdown */}
                             <details className="group">
-                                <summary className="flex justify-between items-center px-3 py-2.5 rounded-xl text-slate-700 hover:bg-slate-50 font-medium cursor-pointer list-none">
-                                    Akademik &amp; Dosen <i className="fa-solid fa-chevron-down text-xs transition-transform group-open:rotate-180"></i>
+                                <summary className="flex justify-between items-center px-3 py-2 rounded-lg text-slate-700 hover:bg-slate-50 font-medium cursor-pointer list-none">
+                                    Akademik <i className="fa-solid fa-chevron-down text-xs transition-transform group-open:rotate-180 text-slate-400"></i>
                                 </summary>
-                                <div className="pl-4 pb-2 space-y-1 border-l-2 border-slate-200 ml-3 mt-1">
-                                    <Link href={route('public.akademik.kurikulum')} className="block px-3 py-2 text-sm text-slate-600 hover:text-[#31487A]">Kurikulum &amp; Capaian (CPL)</Link>
-                                    <Link href={route('public.dosen')} className="block px-3 py-2 text-sm text-slate-600 hover:text-[#31487A]">Direktori Dosen &amp; Tendik</Link>
-                                    <Link href={route('public.akademik.kalender')} className="block px-3 py-2 text-sm text-slate-600 hover:text-[#31487A]">Kalender Akademik</Link>
-                                    <Link href={route('public.akademik.jadwal')} className="block px-3 py-2 text-sm text-slate-600 hover:text-[#31487A]">Jadwal Perkuliahan</Link>
-                                    <Link href={route('public.akademik.pedoman')} className="block px-3 py-2 text-sm text-slate-600 hover:text-[#31487A]">Pedoman Akademik</Link>
-                                    <Link href={route('public.akademik.sistem')} className="block px-3 py-2 text-sm text-slate-600 hover:text-[#31487A]">Sistem Akademik (SIAKAD)</Link>
+                                <div className="pl-4 pb-2 space-y-1 border-l border-slate-200 ml-3 mt-1">
+                                    <Link href={route('public.akademik.kurikulum')} className="block px-3 py-1.5 text-sm text-slate-600 hover:text-slate-900">Kurikulum &amp; Capaian (CPL)</Link>
+                                    <Link href={route('public.dosen')} className="block px-3 py-1.5 text-sm text-slate-600 hover:text-slate-900">Direktori Dosen &amp; Tendik</Link>
+                                    <Link href={route('public.akademik.kalender')} className="block px-3 py-1.5 text-sm text-slate-600 hover:text-slate-900">Kalender Akademik</Link>
+                                    <Link href={route('public.akademik.jadwal')} className="block px-3 py-1.5 text-sm text-slate-600 hover:text-slate-900">Jadwal Perkuliahan</Link>
+                                    <Link href={route('public.akademik.pedoman')} className="block px-3 py-1.5 text-sm text-slate-600 hover:text-slate-900">Pedoman Akademik</Link>
+                                    <Link href={route('public.akademik.sistem')} className="block px-3 py-1.5 text-sm text-slate-600 hover:text-slate-900">SIAKAD</Link>
                                 </div>
                             </details>
 
-                            {/* Riset & Pengabdian Mobile Dropdown */}
                             <details className="group">
-                                <summary className="flex justify-between items-center px-3 py-2.5 rounded-xl text-slate-700 hover:bg-slate-50 font-medium cursor-pointer list-none">
-                                    Riset &amp; Pengabdian <i className="fa-solid fa-chevron-down text-xs transition-transform group-open:rotate-180"></i>
+                                <summary className="flex justify-between items-center px-3 py-2 rounded-lg text-slate-700 hover:bg-slate-50 font-medium cursor-pointer list-none">
+                                    Riset &amp; PkM <i className="fa-solid fa-chevron-down text-xs transition-transform group-open:rotate-180 text-slate-400"></i>
                                 </summary>
-                                <div className="pl-4 pb-2 space-y-1 border-l-2 border-slate-200 ml-3 mt-1">
-                                    <Link href={route('public.lppm.penelitian')} className="block px-3 py-2 text-sm text-slate-600 hover:text-[#31487A]">Penelitian &amp; Info Hibah</Link>
-                                    <Link href={route('public.lppm.pengabdian')} className="block px-3 py-2 text-sm text-slate-600 hover:text-[#31487A]">Pengabdian kepada Masyarakat</Link>
-                                    <Link href={route('public.lppm.publikasi')} className="block px-3 py-2 text-sm text-slate-600 hover:text-[#31487A]">Publikasi Ilmiah &amp; Jurnal</Link>
-                                    <Link href={route('public.lppm.repository')} className="block px-3 py-2 text-sm text-slate-600 hover:text-[#31487A]">Repository Karya Ilmiah</Link>
+                                <div className="pl-4 pb-2 space-y-1 border-l border-slate-200 ml-3 mt-1">
+                                    <Link href={route('public.lppm.penelitian')} className="block px-3 py-1.5 text-sm text-slate-600 hover:text-slate-900">Penelitian &amp; Info Hibah</Link>
+                                    <Link href={route('public.lppm.pengabdian')} className="block px-3 py-1.5 text-sm text-slate-600 hover:text-slate-900">Pengabdian kepada Masyarakat</Link>
+                                    <Link href={route('public.lppm.publikasi')} className="block px-3 py-1.5 text-sm text-slate-600 hover:text-slate-900">Publikasi Ilmiah &amp; Jurnal</Link>
+                                    <Link href={route('public.lppm.repository')} className="block px-3 py-1.5 text-sm text-slate-600 hover:text-slate-900">Repository Karya Ilmiah</Link>
                                 </div>
                             </details>
 
-                            {/* Akreditasi & Mutu Mobile Dropdown */}
                             <details className="group">
-                                <summary className="flex justify-between items-center px-3 py-2.5 rounded-xl text-slate-700 hover:bg-slate-50 font-medium cursor-pointer list-none">
-                                    Akreditasi &amp; Mutu <i className="fa-solid fa-chevron-down text-xs transition-transform group-open:rotate-180"></i>
+                                <summary className="flex justify-between items-center px-3 py-2 rounded-lg text-slate-700 hover:bg-slate-50 font-medium cursor-pointer list-none">
+                                    Akreditasi <i className="fa-solid fa-chevron-down text-xs transition-transform group-open:rotate-180 text-slate-400"></i>
                                 </summary>
-                                <div className="pl-4 pb-2 space-y-1 border-l-2 border-slate-200 ml-3 mt-1">
-                                    <Link href={route('public.akreditasi')} className="block px-3 py-2 text-sm text-slate-600 hover:text-[#31487A]">Data Akreditasi (BAN-PT &amp; LAM)</Link>
-                                    <Link href={route('public.dokumen-institusi')} className="block px-3 py-2 text-sm text-slate-600 hover:text-[#31487A]">Dokumen SPMI &amp; SOP</Link>
-                                    <Link href={route('public.akademik.pedoman')} className="block px-3 py-2 text-sm text-slate-600 hover:text-[#31487A]">Instrumen &amp; Siklus AMI</Link>
-                                    <a href="#survei" className="block px-3 py-2 text-sm text-slate-600 hover:text-[#31487A]">Survei Kepuasan Mutu</a>
+                                <div className="pl-4 pb-2 space-y-1 border-l border-slate-200 ml-3 mt-1">
+                                    <Link href={route('public.akreditasi')} className="block px-3 py-1.5 text-sm text-slate-600 hover:text-slate-900">Data Akreditasi (BAN-PT &amp; LAM)</Link>
+                                    <Link href={route('public.dokumen-institusi')} className="block px-3 py-1.5 text-sm text-slate-600 hover:text-slate-900">Dokumen SPMI &amp; SOP</Link>
+                                    <Link href={route('public.akademik.pedoman')} className="block px-3 py-1.5 text-sm text-slate-600 hover:text-slate-900">Instrumen &amp; Siklus AMI</Link>
+                                    <a href="#survei" className="block px-3 py-1.5 text-sm text-slate-600 hover:text-slate-900">Survei Kepuasan Mutu</a>
                                 </div>
                             </details>
 
-                            <Link href="/berita" className="block px-3 py-2.5 rounded-xl text-slate-700 hover:bg-slate-50 font-medium mb-1">Berita</Link>
+                            <Link href="/berita" className="block px-3 py-2 rounded-lg text-slate-700 hover:bg-slate-50 font-medium mb-1">Berita</Link>
 
-                            <div className="pt-3">
-                                <Link href={route('public.akademik.pedoman')} className="block text-center bg-[#192338] hover:bg-[#31487A] text-white py-3 rounded-xl font-bold shadow-sm transition">
-                                    <i className="fa-solid fa-book-open mr-2"></i> Akses Pedoman Akademik
+                            <div className="pt-2">
+                                <Link href={route('public.akademik.pedoman')} className="block text-center bg-slate-900 text-white py-2.5 rounded-lg font-medium text-sm">
+                                    Akses Pedoman Akademik
                                 </Link>
                             </div>
                         </div>
                     </div>
                 </header>
 
-                {/* Hero Section Carousel / Static */}
-                {heroSliders && heroSliders.length > 0 ? (
-                    <section className="relative w-full h-[550px] sm:h-[620px] lg:h-[700px] overflow-hidden bg-emerald-950 select-none">
-                        {heroSliders.map((slide, index) => {
-                            const isCurrent = index === currentSlideIndex;
-                            return (
-                                <div
-                                    key={slide.id}
-                                    className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${isCurrent ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'}`}
+                {/* Minimalist Hero Section */}
+                <section className="bg-[#0E1626] text-white py-24 sm:py-32 lg:py-36 border-b border-slate-800">
+                    <div className="max-w-6xl mx-auto px-4 sm:px-6">
+                        <div className={`max-w-3xl text-left transition-all duration-700 ease-out transform ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
+                            <h1 className="text-3xl sm:text-5xl lg:text-[54px] font-light text-white leading-[1.18] tracking-tight mb-6">
+                                {setting?.hero_title || "Mencetak Praktisi Media, Jurnalis, dan Dai Unggul di Era Digital"}
+                            </h1>
+                            <p className="text-base sm:text-lg text-slate-300 font-light leading-relaxed mb-10 max-w-2xl">
+                                {setting?.hero_subtitle || "Belajar komunikasi, jurnalistik, penyiaran, media digital, dan dakwah untuk menjawab tantangan informasi di era modern dengan nilai-nilai Islam."}
+                            </p>
+                            <div className="flex flex-wrap items-center gap-4 mb-10">
+                                <a
+                                    href="#profil"
+                                    className="bg-white text-slate-900 font-medium px-6 py-3 rounded-lg hover:bg-slate-100 transition text-sm shadow-none"
                                 >
-                                    <img
-                                        src={`/storage/${slide.gambar}`}
-                                        alt={slide.judul || 'Banner Pascasarjana'}
-                                        className="w-full h-full object-cover object-center transform scale-105 animate-kenburns"
-                                    />
-                                    <div className="absolute inset-0 bg-gradient-to-r from-emerald-950/95 via-emerald-950/75 to-transparent"></div>
-                                    <div className="absolute inset-0 bg-gradient-to-t from-emerald-950/90 via-transparent to-transparent"></div>
-
-                                    <div className="relative z-20 max-w-7xl mx-auto h-full px-4 sm:px-6 lg:px-8 flex items-center">
-                                        <div className="max-w-2xl text-white">
-                                            
-                                            <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold leading-tight mb-4 text-white drop-shadow-md">
-                                                {slide.judul}
-                                            </h2>
-                                            {slide.subjudul && (
-                                                <p className="text-sm sm:text-base lg:text-lg text-emerald-100/90 mb-8 leading-relaxed line-clamp-3">
-                                                    {slide.subjudul}
-                                                </p>
-                                            )}
-                                            {slide.link_url && (
-                                                <a
-                                                    href={slide.link_url}
-                                                    className="inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-emerald-950 font-bold px-7 py-3.5 rounded-sm shadow-lg shadow-amber-500/20 transition hover:-translate-y-0.5 text-sm sm:text-base"
-                                                >
-                                                    <span>{slide.tombol_teks || 'Pelajari Selengkapnya'}</span>
-                                                    <i className="fa-solid fa-arrow-right text-xs"></i>
-                                                </a>
-                                            )}
-                                        </div>
-                                    </div>
-                                </div>
-                            );
-                        })}
-
-                        {/* Carousel Arrows */}
-                        {heroSliders.length > 1 && (
-                            <>
-                                <button 
-                                    onClick={prevSlide}
-                                    aria-label="Slide Sebelumnya"
-                                    className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-20 w-11 h-11 sm:w-13 sm:h-13 rounded-full bg-emerald-950/50 hover:bg-emerald-800 text-white flex items-center justify-center backdrop-blur-md border border-white/20 transition-all hover:scale-110 shadow-lg"
+                                    Kenali Program Studi
+                                </a>
+                                <a
+                                    href="#akademik"
+                                    className="bg-transparent text-white border border-slate-600 font-medium px-6 py-3 rounded-lg hover:border-white transition text-sm inline-flex items-center gap-2"
                                 >
-                                    <i className="fa-solid fa-chevron-left text-lg"></i>
-                                </button>
-                                <button 
-                                    onClick={nextSlide}
-                                    aria-label="Slide Selanjutnya"
-                                    className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-20 w-11 h-11 sm:w-13 sm:h-13 rounded-full bg-emerald-950/50 hover:bg-emerald-800 text-white flex items-center justify-center backdrop-blur-md border border-white/20 transition-all hover:scale-110 shadow-lg"
-                                >
-                                    <i className="fa-solid fa-chevron-right text-lg"></i>
-                                </button>
-                            </>
-                        )}
-
-                        {/* Slide Indicator Dots */}
-                        {heroSliders.length > 1 && (
-                            <div className="absolute bottom-6 left-0 right-0 z-20 flex justify-center items-center gap-2">
-                                {heroSliders.map((_, idx) => (
-                                    <button
-                                        key={idx}
-                                        onClick={() => setCurrentSlideIndex(idx)}
-                                        aria-label={`Go to slide ${idx + 1}`}
-                                        className={`h-2.5 rounded-full transition-all duration-300 ${idx === currentSlideIndex ? 'w-8 bg-amber-400' : 'w-2.5 bg-white/50 hover:bg-white'}`}
-                                    ></button>
-                                ))}
+                                    <span>Jelajahi Layanan</span>
+                                    <i className="fa-solid fa-arrow-right text-xs"></i>
+                                </a>
                             </div>
-                        )}
-                    </section>
-                ) : (
-                    /* Fallback Static Hero Section untuk KPI */
-                    <section
-                        className="bg-[#192338] text-white relative py-20 lg:py-28"
-                    >
-                        <div className={`relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 transition-all duration-1000 ease-out transform ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
-                            <div className="max-w-3xl text-left">
-                                <h1 className="font-display text-3xl sm:text-4xl lg:text-[50px] font-bold text-white leading-[1.2] mb-5 tracking-tight drop-shadow-sm">
-                                    {setting?.hero_title || "Mencetak Praktisi Media, Jurnalis, dan Dai Unggul di Era Digital"}
-                                </h1>
-                                <p className="font-sans text-sm sm:text-base lg:text-lg text-slate-200/90 mb-8 max-w-2xl leading-relaxed font-normal">
-                                    {setting?.hero_subtitle || "Belajar komunikasi, jurnalistik, penyiaran, media digital, dan dakwah untuk menjawab tantangan informasi di era modern dengan nilai-nilai Islam."}
-                                </p>
-                                <div className="flex flex-wrap items-center gap-3.5 mb-8">
-                                    <a
-                                        href="#profil"
-                                        className="bg-[#31487A] hover:bg-[#1E2E4F] text-white font-semibold px-6 py-3.5 rounded-xl transition text-sm inline-flex items-center gap-2 border border-[#8FB3E2]/40 shadow-sm hover:-translate-y-0.5"
-                                    >
-                                        <i className="fa-solid fa-circle-info text-xs text-[#8FB3E2]"></i> Kenali Program Studi
-                                    </a>
-                                    <a
-                                        href="#akademik"
-                                        className="bg-white/5 hover:bg-white/10 text-white border border-white/30 hover:border-white/60 font-semibold px-6 py-3.5 rounded-xl transition text-sm inline-flex items-center gap-2 hover:-translate-y-0.5"
-                                    >
-                                        <span>Jelajahi Layanan</span>
-                                        <i className="fa-solid fa-arrow-right text-xs"></i>
-                                    </a>
-                                </div>
-                                {/* Horizontal Tags KPI */}
-                                <div className="flex flex-wrap items-center gap-2 pt-3 border-t border-slate-700/60">
-                                    <span className="text-xs px-3 py-1 rounded-full border border-white/20 bg-white/5 text-slate-300">Jurnalistik</span>
-                                    <span className="text-xs px-3 py-1 rounded-full border border-white/20 bg-white/5 text-slate-300">Broadcasting</span>
-                                    <span className="text-xs px-3 py-1 rounded-full border border-white/20 bg-white/5 text-slate-300">Public Relations</span>
-                                    <span className="text-xs px-3 py-1 rounded-full border border-white/20 bg-white/5 text-slate-300">Media Digital</span>
-                                </div>
+
+                            {/* Minimal Tag Strip */}
+                            <div className="flex flex-wrap items-center gap-2 pt-4 border-t border-slate-800">
+                                <span className="text-xs px-3 py-1 rounded-full border border-slate-700 bg-slate-800/40 text-slate-300">Jurnalistik</span>
+                                <span className="text-xs px-3 py-1 rounded-full border border-slate-700 bg-slate-800/40 text-slate-300">Broadcasting</span>
+                                <span className="text-xs px-3 py-1 rounded-full border border-slate-700 bg-slate-800/40 text-slate-300">Public Relations</span>
+                                <span className="text-xs px-3 py-1 rounded-full border border-slate-700 bg-slate-800/40 text-slate-300">Media Digital</span>
                             </div>
                         </div>
-                    </section>
-                )}
+                    </div>
+                </section>
 
-                {/* Akses Cepat / Quick Access Web Tautan */}
+                {/* Minimalist Quick Access */}
                 {displayQuickAccesses && displayQuickAccesses.length > 0 && (
-                    <section className="py-8 sm:py-10 bg-slate-50/90 border-b border-slate-200/70 relative z-20">
-                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                            <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 lg:gap-6">
+                    <section className="py-10 bg-white border-b border-slate-200">
+                        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+                            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                                 {displayQuickAccesses.map((item) => (
                                     <a
                                         key={item.id}
@@ -445,26 +351,26 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                                         target={item.url.startsWith('http') ? '_blank' : '_self'}
                                         rel="noopener noreferrer"
                                         title={item.deskripsi || item.nama}
-                                        className="group bg-white hover:bg-emerald-50/50 p-3 sm:p-4 rounded-xl border border-slate-200/80 hover:border-emerald-700/40 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col items-center justify-center text-center min-w-[120px] sm:min-w-[140px] max-w-[190px] flex-1 hover:-translate-y-1"
+                                        className="bg-white hover:bg-slate-50/80 p-5 rounded-lg border border-slate-200 hover:border-slate-400 transition-colors flex flex-col items-center justify-center text-center"
                                     >
-                                        <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-lg bg-slate-50 group-hover:bg-white flex items-center justify-center p-2 mb-1.5 transition-all shadow-inner border border-slate-100">
+                                        <div className="w-10 h-10 rounded-md bg-slate-100 flex items-center justify-center p-2 mb-2 text-slate-700">
                                             {item.logo ? (
                                                 <img
                                                     src={`/storage/${item.logo}`}
                                                     alt={item.nama}
-                                                    className="max-h-full max-w-full object-contain filter group-hover:brightness-105 transition-all"
+                                                    className="max-h-full max-w-full object-contain"
                                                 />
                                             ) : (
-                                                <i className={`fa-solid ${item.ikon || 'fa-link'} text-xl sm:text-2xl text-emerald-800 group-hover:text-emerald-700 transition-colors`}></i>
+                                                <i className={`fa-solid ${item.ikon || 'fa-link'} text-base`}></i>
                                             )}
                                         </div>
                                         {item.tampilkan_nama !== false && (
-                                            <span className="text-xs sm:text-sm font-bold text-slate-700 group-hover:text-emerald-950 transition-colors line-clamp-1 leading-tight">
+                                            <span className="text-xs sm:text-sm font-medium text-slate-900 line-clamp-1">
                                                 {item.nama}
                                             </span>
                                         )}
                                         {item.tampilkan_nama !== false && item.deskripsi && (
-                                            <span className="text-[10px] text-slate-400 group-hover:text-slate-500 transition-colors line-clamp-1 mt-0.5 hidden sm:block">
+                                            <span className="text-[11px] text-slate-500 line-clamp-1 mt-0.5 hidden sm:block">
                                                 {item.deskripsi}
                                             </span>
                                         )}
@@ -475,57 +381,57 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                     </section>
                 )}
 
-                {/* Tentang KPI & Fokus Pengembangan */}
-                <section id="profil" className="py-20 bg-slate-50 border-b border-slate-200">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center animate-on-scroll opacity-0 translate-y-12 transition-all duration-1000 ease-out">
+                {/* Minimalist Tentang KPI */}
+                <section id="profil" className="py-24 sm:py-32 bg-white border-b border-slate-200">
+                    <div className="max-w-6xl mx-auto px-4 sm:px-6">
+                        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start animate-on-scroll opacity-0 translate-y-8 transition-all duration-700 ease-out">
                             <div className="lg:col-span-6">
-                                <span className="text-[#31487A] font-bold text-xs uppercase tracking-widest">Tentang KPI</span>
-                                <h2 className="font-display text-2xl sm:text-4xl font-bold text-[#192338] mt-2 mb-4 leading-tight">
+                                <span className="text-xs uppercase tracking-wider text-slate-500 font-medium">Tentang KPI</span>
+                                <h2 className="text-2xl sm:text-4xl font-light text-slate-900 mt-2 mb-6 leading-tight tracking-tight">
                                     Ilmu Komunikasi, Keterampilan Media, dan Nilai Dakwah
                                 </h2>
-                                <p className="text-slate-600 leading-relaxed mb-6 text-sm sm:text-base">
+                                <p className="text-slate-600 font-normal leading-relaxed mb-8 text-sm sm:text-base">
                                     Program Studi Komunikasi dan Penyiaran Islam menyiapkan mahasiswa untuk memahami teori komunikasi sekaligus menguasai praktik media, penyiaran, jurnalistik, dan komunikasi dakwah untuk menjawab tantangan era informasi modern.
                                 </p>
                                 <div className="flex flex-wrap gap-3">
                                     <a
                                         href="#aduan"
-                                        className="bg-[#192338] hover:bg-[#1E2E4F] text-white font-bold px-6 py-3 rounded-xl text-sm transition hover:-translate-y-0.5"
+                                        className="bg-slate-900 hover:bg-slate-800 text-white font-medium px-5 py-2.5 rounded-lg text-sm transition"
                                     >
                                         Tanyakan Informasi
                                     </a>
                                     <Link
                                         href="/profil/tentang-kampus"
-                                        className="bg-white hover:bg-slate-100 text-[#192338] border border-slate-300 font-bold px-6 py-3 rounded-xl text-sm transition hover:-translate-y-0.5"
+                                        className="bg-white hover:bg-slate-50 text-slate-900 border border-slate-300 font-medium px-5 py-2.5 rounded-lg text-sm transition"
                                     >
                                         Profil Lengkap →
                                     </Link>
                                 </div>
                             </div>
                             <div className="lg:col-span-6">
-                                <div className="bg-[#D9E1F1]/50 border border-[#8FB3E2]/50 p-6 sm:p-8 rounded-2xl shadow-xs">
-                                    <h3 className="text-lg font-bold text-[#192338] mb-4 flex items-center gap-2">
-                                        <i className="fa-solid fa-bullseye text-[#31487A]"></i> Fokus Pengembangan
+                                <div className="bg-slate-50 border border-slate-200 p-8 rounded-xl">
+                                    <h3 className="text-base font-semibold text-slate-900 mb-5">
+                                        Fokus Pengembangan
                                     </h3>
-                                    <div className="space-y-3.5">
-                                        <div className="flex items-start gap-3 text-sm text-slate-700">
-                                            <span className="w-5 h-5 bg-[#31487A] text-white rounded-md flex items-center justify-center text-xs shrink-0 mt-0.5 font-bold">✓</span>
+                                    <div className="space-y-4">
+                                        <div className="flex items-start gap-3 text-sm text-slate-600">
+                                            <span className="text-slate-900 font-bold shrink-0 mt-0.5">✓</span>
                                             <span>Komunikasi dan penyiaran Islam yang beretika.</span>
                                         </div>
-                                        <div className="flex items-start gap-3 text-sm text-slate-700">
-                                            <span className="w-5 h-5 bg-[#31487A] text-white rounded-md flex items-center justify-center text-xs shrink-0 mt-0.5 font-bold">✓</span>
+                                        <div className="flex items-start gap-3 text-sm text-slate-600">
+                                            <span className="text-slate-900 font-bold shrink-0 mt-0.5">✓</span>
                                             <span>Produksi konten audio, video, dan media digital.</span>
                                         </div>
-                                        <div className="flex items-start gap-3 text-sm text-slate-700">
-                                            <span className="w-5 h-5 bg-[#31487A] text-white rounded-md flex items-center justify-center text-xs shrink-0 mt-0.5 font-bold">✓</span>
+                                        <div className="flex items-start gap-3 text-sm text-slate-600">
+                                            <span className="text-slate-900 font-bold shrink-0 mt-0.5">✓</span>
                                             <span>Jurnalistik, penulisan berita, dan literasi media.</span>
                                         </div>
-                                        <div className="flex items-start gap-3 text-sm text-slate-700">
-                                            <span className="w-5 h-5 bg-[#31487A] text-white rounded-md flex items-center justify-center text-xs shrink-0 mt-0.5 font-bold">✓</span>
+                                        <div className="flex items-start gap-3 text-sm text-slate-600">
+                                            <span className="text-slate-900 font-bold shrink-0 mt-0.5">✓</span>
                                             <span>Komunikasi publik, kehumasan, dan pengelolaan dakwah.</span>
                                         </div>
-                                        <div className="flex items-start gap-3 text-sm text-slate-700">
-                                            <span className="w-5 h-5 bg-[#31487A] text-white rounded-md flex items-center justify-center text-xs shrink-0 mt-0.5 font-bold">✓</span>
+                                        <div className="flex items-start gap-3 text-sm text-slate-600">
+                                            <span className="text-slate-900 font-bold shrink-0 mt-0.5">✓</span>
                                             <span>Riset komunikasi serta pengabdian kepada masyarakat.</span>
                                         </div>
                                     </div>
@@ -535,45 +441,36 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                     </div>
                 </section>
 
-                {/* Sambutan Ketua Prodi */}
-                <section id="sambutan" className="py-20 bg-white">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center animate-on-scroll opacity-0 translate-y-12 transition-all duration-1000 ease-out">
-                            <div className="lg:col-span-5 relative">
-                                <div className="absolute inset-0 bg-[#31487A] rounded-2xl rotate-1 scale-95 opacity-20"></div>
+                {/* Minimalist Sambutan Pimpinan */}
+                <section id="sambutan" className="py-24 sm:py-32 bg-[#fafafa] border-b border-slate-200">
+                    <div className="max-w-6xl mx-auto px-4 sm:px-6">
+                        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center animate-on-scroll opacity-0 translate-y-8 transition-all duration-700 ease-out">
+                            <div className="lg:col-span-5">
                                 <img 
                                     src={sambutan?.foto || "https://web-persis.s3.ap-southeast-1.amazonaws.com/files/shares/persis-cd5-0c543921-d668-4ee6-ac15-4f0ff791007e.jpg?q=80&w=600&auto=format&fit=crop"} 
                                     alt={sambutan?.nama || "Ketua Prodi KPI"} 
-                                    className="rounded-2xl shadow-lg relative z-10 w-full h-[400px] object-cover object-top border-2 border-slate-200" 
+                                    className="rounded-xl border border-slate-200 w-full h-[380px] object-cover object-top" 
                                 />
-                                <div className="absolute -bottom-6 -right-6 bg-[#1E2E4F] text-white p-6 rounded-2xl shadow-xl z-20 hidden sm:block max-w-[250px] border border-[#31487A]">
-                                    <p className="font-arabic text-xl font-bold mb-1">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</p>
-                                    <p className="text-xs text-[#8FB3E2] font-semibold">Mengawal insan media dan dakwah berdaya saing unggul.</p>
-                                </div>
                             </div>
                             <div className="lg:col-span-7">
-                                <span className="text-[#31487A] font-bold text-xs uppercase tracking-widest">SAMBUTAN KETUA PRODI</span>
-                                <h2 className="font-display text-2xl sm:text-3xl font-bold text-[#192338] mt-2 mb-6 leading-snug">
-                                    {sambutan?.sambutan_singkat || "Membangun Generasi Komunikator & Praktisi Media Islam yang Unggul dan Berakhlak Mulia"}
+                                <span className="text-xs uppercase tracking-wider text-slate-500 font-medium">SAMBUTAN KETUA PRODI</span>
+                                <h2 className="text-2xl sm:text-3xl font-light text-slate-900 mt-2 mb-6 leading-snug tracking-tight">
+                                    {sambutan?.sambutan_singkat || "Membangun Generasi Komunikator & Praktisi Media Islam yang Unggul"}
                                 </h2>
 
                                 {sambutan?.sambutan_lengkap ? (
-                                    <div className="text-slate-600 leading-relaxed mb-6 space-y-4 text-sm sm:text-base" dangerouslySetInnerHTML={{ __html: sambutan.sambutan_lengkap.substring(0, 400) + '...' }} />
+                                    <div className="text-slate-600 leading-relaxed mb-6 space-y-4 text-sm sm:text-base font-normal" dangerouslySetInnerHTML={{ __html: sambutan.sambutan_lengkap.substring(0, 380) + '...' }} />
                                 ) : (
-                                    <>
-                                        <p className="text-slate-600 leading-relaxed mb-4 text-sm sm:text-base">
-                                            "Program Studi Komunikasi dan Penyiaran Islam (KPI) Fakultas Dakwah IAI Persis Bandung berkomitmen menyelenggarakan pendidikan tinggi komunikasi Islam berkualitas yang mengintegrasikan nilai-nilai dakwah Islam dengan kemajuan teknologi media masa kini."
-                                        </p>
-                                    </>
+                                    <p className="text-slate-600 leading-relaxed mb-6 text-sm sm:text-base font-normal">
+                                        "Program Studi Komunikasi dan Penyiaran Islam (KPI) Fakultas Dakwah IAI Persis Bandung berkomitmen menyelenggarakan pendidikan tinggi komunikasi Islam berkualitas yang mengintegrasikan nilai dakwah Islam dengan kemajuan teknologi media masa kini."
+                                    </p>
                                 )}
 
-                                <div className="mt-6 flex flex-col justify-between items-start gap-4">
-                                    <div>
-                                        <h4 className="text-lg font-bold text-[#192338]">{sambutan?.nama || "Ketua Program Studi KPI"}</h4>
-                                        <p className="text-sm text-slate-500 font-medium">{sambutan?.jabatan || "Ketua Prodi KPI Fakultas Dakwah"}</p>
-                                    </div>
-                                    <Link href="/profil/sambutan-pimpinan" className="text-sm font-bold text-[#31487A] hover:text-[#192338] flex items-center gap-1.5">
-                                        Baca Sambutan Selengkapnya <i className="fa-solid fa-arrow-right text-xs"></i>
+                                <div className="pt-2">
+                                    <h4 className="text-base font-semibold text-slate-900">{sambutan?.nama || "Ketua Program Studi KPI"}</h4>
+                                    <p className="text-xs text-slate-500">{sambutan?.jabatan || "Ketua Prodi KPI Fakultas Dakwah"}</p>
+                                    <Link href="/profil/sambutan-pimpinan" className="mt-4 text-xs font-semibold text-slate-900 hover:text-slate-600 inline-flex items-center gap-1.5 transition">
+                                        Baca Sambutan Selengkapnya <i className="fa-solid fa-arrow-right text-[10px]"></i>
                                     </Link>
                                 </div>
                             </div>
@@ -581,87 +478,87 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                     </div>
                 </section>
 
-                {/* Jelajahi Layanan Program Studi */}
-                <section id="akademik" className="py-20 bg-slate-100/80 border-b border-slate-200">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <div className="text-center max-w-3xl mx-auto mb-16 animate-on-scroll opacity-0 translate-y-12 transition-all duration-1000 ease-out">
-                            <span className="text-[#31487A] font-bold text-xs sm:text-sm tracking-widest uppercase">INFORMASI AKADEMIK</span>
-                            <h2 className="font-display text-3xl sm:text-4xl font-bold text-[#192338] mt-2 mb-4">Jelajahi Layanan Program Studi</h2>
-                            <p className="text-slate-600 text-sm sm:text-base">Akses informasi akademik dan kegiatan prodi melalui kategori yang terstruktur.</p>
+                {/* Minimalist Akademik Cards */}
+                <section id="akademik" className="py-24 sm:py-32 bg-white border-b border-slate-200">
+                    <div className="max-w-6xl mx-auto px-4 sm:px-6">
+                        <div className="max-w-2xl mb-16 animate-on-scroll opacity-0 translate-y-8 transition-all duration-700 ease-out">
+                            <span className="text-xs uppercase tracking-wider text-slate-500 font-medium">INFORMASI AKADEMIK</span>
+                            <h2 className="text-2xl sm:text-4xl font-light text-slate-900 mt-2 mb-3 tracking-tight">Layanan &amp; Kurikulum</h2>
+                            <p className="text-slate-600 text-sm sm:text-base">Akses informasi akademik terstruktur untuk mendukung proses perkuliahan.</p>
                         </div>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 animate-on-scroll opacity-0 translate-y-12 transition-all duration-1000 ease-out delay-100">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 animate-on-scroll opacity-0 translate-y-8 transition-all duration-700 ease-out delay-100">
                             {/* Card 1: Kurikulum */}
                             <Link 
                                 href={route('public.akademik.kurikulum')}
-                                className="bg-white p-7 rounded-2xl border border-slate-200 hover:border-[#31487A] shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col group hover:-translate-y-1.5"
+                                className="bg-white p-6 rounded-xl border border-slate-200 hover:border-slate-400 transition-colors flex flex-col group"
                             >
-                                <div className="w-14 h-14 bg-[#D9E1F1] group-hover:bg-[#31487A] border border-[#8FB3E2]/50 rounded-xl flex items-center justify-center mb-5 transition-all duration-300 shadow-xs">
-                                    <i className="fa-solid fa-book-bookmark text-2xl text-[#31487A] group-hover:text-white transition-colors duration-300"></i>
+                                <div className="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center mb-5 text-slate-800">
+                                    <i className="fa-solid fa-book-bookmark text-base"></i>
                                 </div>
-                                <h3 className="text-base font-bold text-[#192338] mb-2 group-hover:text-[#31487A] transition-colors">
+                                <h3 className="text-base font-semibold text-slate-900 mb-2">
                                     Kurikulum
                                 </h3>
-                                <p className="text-slate-500 text-xs sm:text-sm leading-relaxed mb-4 flex-1">
-                                    Struktur mata kuliah, capaian pembelajaran, dan dokumen akademik yang telah disahkan.
+                                <p className="text-slate-500 text-xs leading-relaxed mb-4 flex-1">
+                                    Struktur mata kuliah, capaian pembelajaran, dan dokumen akademik teresmi.
                                 </p>
-                                <span className="text-xs font-bold text-[#31487A] flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                                <span className="text-xs font-medium text-slate-900 flex items-center gap-1 group-hover:translate-x-1 transition-transform">
                                     Lihat Kurikulum <i className="fa-solid fa-arrow-right text-[10px]"></i>
                                 </span>
                             </Link>
 
-                            {/* Card 2: Dosen dan Tenaga Pengajar */}
+                            {/* Card 2: Dosen */}
                             <Link 
                                 href={route('public.dosen')}
-                                className="bg-white p-7 rounded-2xl border border-slate-200 hover:border-[#31487A] shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col group hover:-translate-y-1.5"
+                                className="bg-white p-6 rounded-xl border border-slate-200 hover:border-slate-400 transition-colors flex flex-col group"
                             >
-                                <div className="w-14 h-14 bg-[#D9E1F1] group-hover:bg-[#31487A] border border-[#8FB3E2]/50 rounded-xl flex items-center justify-center mb-5 transition-all duration-300 shadow-xs">
-                                    <i className="fa-solid fa-chalkboard-user text-2xl text-[#31487A] group-hover:text-white transition-colors duration-300"></i>
+                                <div className="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center mb-5 text-slate-800">
+                                    <i className="fa-solid fa-chalkboard-user text-base"></i>
                                 </div>
-                                <h3 className="text-base font-bold text-[#192338] mb-2 group-hover:text-[#31487A] transition-colors">
-                                    Dosen dan Tenaga Pengajar
+                                <h3 className="text-base font-semibold text-slate-900 mb-2">
+                                    Dosen &amp; Pengajar
                                 </h3>
-                                <p className="text-slate-500 text-xs sm:text-sm leading-relaxed mb-4 flex-1">
-                                    Profil, bidang keahlian, publikasi, dan informasi akademik dosen.
+                                <p className="text-slate-500 text-xs leading-relaxed mb-4 flex-1">
+                                    Profil, bidang keahlian, riset, dan informasi akademik dosen pembimbing.
                                 </p>
-                                <span className="text-xs font-bold text-[#31487A] flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                                <span className="text-xs font-medium text-slate-900 flex items-center gap-1 group-hover:translate-x-1 transition-transform">
                                     Direktori Dosen <i className="fa-solid fa-arrow-right text-[10px]"></i>
                                 </span>
                             </Link>
 
-                            {/* Card 3: Penelitian dan Pengabdian */}
+                            {/* Card 3: Riset */}
                             <Link 
                                 href={route('public.lppm.penelitian')}
-                                className="bg-white p-7 rounded-2xl border border-slate-200 hover:border-[#31487A] shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col group hover:-translate-y-1.5"
+                                className="bg-white p-6 rounded-xl border border-slate-200 hover:border-slate-400 transition-colors flex flex-col group"
                             >
-                                <div className="w-14 h-14 bg-[#D9E1F1] group-hover:bg-[#31487A] border border-[#8FB3E2]/50 rounded-xl flex items-center justify-center mb-5 transition-all duration-300 shadow-xs">
-                                    <i className="fa-solid fa-flask-vial text-2xl text-[#31487A] group-hover:text-white transition-colors duration-300"></i>
+                                <div className="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center mb-5 text-slate-800">
+                                    <i className="fa-solid fa-flask text-base"></i>
                                 </div>
-                                <h3 className="text-base font-bold text-[#192338] mb-2 group-hover:text-[#31487A] transition-colors">
-                                    Penelitian dan Pengabdian
+                                <h3 className="text-base font-semibold text-slate-900 mb-2">
+                                    Riset &amp; Publikasi
                                 </h3>
-                                <p className="text-slate-500 text-xs sm:text-sm leading-relaxed mb-4 flex-1">
-                                    Informasi riset, publikasi ilmiah, dan kegiatan pengabdian kepada masyarakat.
+                                <p className="text-slate-500 text-xs leading-relaxed mb-4 flex-1">
+                                    Publikasi jurnal komunikasi Islam, info hibah riset, dan pengabdian masyarakat.
                                 </p>
-                                <span className="text-xs font-bold text-[#31487A] flex items-center gap-1 group-hover:translate-x-1 transition-transform">
-                                    Riset &amp; PkM <i className="fa-solid fa-arrow-right text-[10px]"></i>
+                                <span className="text-xs font-medium text-slate-900 flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                                    Portal Riset <i className="fa-solid fa-arrow-right text-[10px]"></i>
                                 </span>
                             </Link>
 
-                            {/* Card 4: Dokumen dan Mutu */}
+                            {/* Card 4: Dokumen Mutu */}
                             <Link 
                                 href={route('public.dokumen-institusi')}
-                                className="bg-white p-7 rounded-2xl border border-slate-200 hover:border-[#31487A] shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col group hover:-translate-y-1.5"
+                                className="bg-white p-6 rounded-xl border border-slate-200 hover:border-slate-400 transition-colors flex flex-col group"
                             >
-                                <div className="w-14 h-14 bg-[#D9E1F1] group-hover:bg-[#31487A] border border-[#8FB3E2]/50 rounded-xl flex items-center justify-center mb-5 transition-all duration-300 shadow-xs">
-                                    <i className="fa-solid fa-file-shield text-2xl text-[#31487A] group-hover:text-white transition-colors duration-300"></i>
+                                <div className="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center mb-5 text-slate-800">
+                                    <i className="fa-solid fa-file-shield text-base"></i>
                                 </div>
-                                <h3 className="text-base font-bold text-[#192338] mb-2 group-hover:text-[#31487A] transition-colors">
-                                    Dokumen dan Mutu
+                                <h3 className="text-base font-semibold text-slate-900 mb-2">
+                                    Dokumen &amp; Mutu
                                 </h3>
-                                <p className="text-slate-500 text-xs sm:text-sm leading-relaxed mb-4 flex-1">
-                                    Pedoman, dokumen mutu, laporan, serta informasi akreditasi yang tersedia untuk publik.
+                                <p className="text-slate-500 text-xs leading-relaxed mb-4 flex-1">
+                                    Pedoman akademik, SPMI, instrumen AMI, serta dokumen akreditasi resmi.
                                 </p>
-                                <span className="text-xs font-bold text-[#31487A] flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                                <span className="text-xs font-medium text-slate-900 flex items-center gap-1 group-hover:translate-x-1 transition-transform">
                                     Unduh Dokumen <i className="fa-solid fa-arrow-right text-[10px]"></i>
                                 </span>
                             </Link>
@@ -669,89 +566,84 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                     </div>
                 </section>
 
-                {/* Studio & Laboratorium Praktik Media KPI */}
-                <section id="fasilitas" className="py-20 bg-white">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <div className="text-center max-w-3xl mx-auto mb-16 animate-on-scroll opacity-0 translate-y-12 transition-all duration-1000 ease-out">
-                            <span className="text-[#31487A] font-bold text-xs uppercase tracking-widest">FASILITAS &amp; PENGEMBANGAN</span>
-                            <h2 className="font-display text-3xl sm:text-4xl font-bold text-[#192338] mt-2 mb-4">Studio &amp; Laboratorium Praktik Media</h2>
-                            <p className="text-slate-600 text-sm sm:text-base">Mendukung kompetensi mahasiswa dengan sarana produksi audio-visual, redaksi jurnalistik, dan siaran digital terkini.</p>
+                {/* Minimalist Studio & Lab Praktik */}
+                <section id="fasilitas" className="py-24 sm:py-32 bg-[#fafafa] border-b border-slate-200">
+                    <div className="max-w-6xl mx-auto px-4 sm:px-6">
+                        <div className="max-w-2xl mb-16 animate-on-scroll opacity-0 translate-y-8 transition-all duration-700 ease-out">
+                            <span className="text-xs uppercase tracking-wider text-slate-500 font-medium">FASILITAS &amp; LABORATORIUM</span>
+                            <h2 className="text-2xl sm:text-4xl font-light text-slate-900 mt-2 mb-3 tracking-tight">Studio Praktik Media</h2>
+                            <p className="text-slate-600 text-sm sm:text-base">Sarana produksi audio-visual, siaran podcast, dan redaksi jurnalistik modern.</p>
                         </div>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 animate-on-scroll opacity-0 translate-y-12 transition-all duration-1000 ease-out delay-100">
-                            <div className="bg-slate-50 border border-slate-200/90 rounded-2xl p-7 hover:border-[#31487A] hover:shadow-lg transition-all duration-300 hover:-translate-y-1 flex flex-col">
-                                <div className="w-14 h-14 rounded-xl bg-[#1E2E4F] text-[#8FB3E2] flex items-center justify-center text-2xl mb-5 shadow-xs">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 animate-on-scroll opacity-0 translate-y-8 transition-all duration-700 ease-out delay-100">
+                            <div className="bg-white border border-slate-200 rounded-xl p-7 flex flex-col hover:border-slate-400 transition-colors">
+                                <div className="w-10 h-10 rounded-md bg-slate-100 text-slate-800 flex items-center justify-center text-lg mb-5">
                                     <i className="fa-solid fa-microphone-lines"></i>
                                 </div>
-                                <h3 className="text-lg font-bold text-[#192338] mb-2">Studio Siaran &amp; Podcast</h3>
-                                <p className="text-slate-600 text-sm leading-relaxed mb-5 flex-1">Ruang akustik kedap suara dengan perlengkapan mixer siaran, microphone condenser, dan perangkat live broadcast streaming.</p>
-                                <span className="text-xs font-bold text-[#31487A] flex items-center gap-2 pt-3 border-t border-slate-200"><i className="fa-solid fa-circle-check text-xs"></i> Announcing &amp; Podcast Dakwah</span>
+                                <h3 className="text-base font-semibold text-slate-900 mb-2">Studio Siaran &amp; Podcast</h3>
+                                <p className="text-slate-600 text-xs sm:text-sm leading-relaxed mb-6 flex-1">Ruang akustik kedap suara dengan mixer siaran, microphone condenser, dan perangkat broadcast streaming.</p>
+                                <span className="text-xs text-slate-500 pt-3 border-t border-slate-100 flex items-center gap-1.5 font-medium"><i className="fa-solid fa-check text-[10px]"></i> Announcing &amp; Podcast Dakwah</span>
                             </div>
-                            <div className="bg-slate-50 border border-slate-200/90 rounded-2xl p-7 hover:border-[#31487A] hover:shadow-lg transition-all duration-300 hover:-translate-y-1 flex flex-col">
-                                <div className="w-14 h-14 rounded-xl bg-[#1E2E4F] text-[#8FB3E2] flex items-center justify-center text-2xl mb-5 shadow-xs">
+
+                            <div className="bg-white border border-slate-200 rounded-xl p-7 flex flex-col hover:border-slate-400 transition-colors">
+                                <div className="w-10 h-10 rounded-md bg-slate-100 text-slate-800 flex items-center justify-center text-lg mb-5">
                                     <i className="fa-solid fa-newspaper"></i>
                                 </div>
-                                <h3 className="text-lg font-bold text-[#192338] mb-2">Newsroom &amp; Cyber Media</h3>
-                                <p className="text-slate-600 text-sm leading-relaxed mb-5 flex-1">Laboratorium penulisan berita, tata letak majalah, liputan lapangan, serta manajemen portal berita dan media daring.</p>
-                                <span className="text-xs font-bold text-[#31487A] flex items-center gap-2 pt-3 border-t border-slate-200"><i className="fa-solid fa-circle-check text-xs"></i> Redaksi Mahasiswa &amp; Cek Fakta</span>
+                                <h3 className="text-base font-semibold text-slate-900 mb-2">Newsroom &amp; Cyber Media</h3>
+                                <p className="text-slate-600 text-xs sm:text-sm leading-relaxed mb-6 flex-1">Laboratorium penulisan berita, tata letak redaksi, liputan lapangan, serta manajemen portal cyber media.</p>
+                                <span className="text-xs text-slate-500 pt-3 border-t border-slate-100 flex items-center gap-1.5 font-medium"><i className="fa-solid fa-check text-[10px]"></i> Redaksi Cyber &amp; Jurnalistik</span>
                             </div>
-                            <div className="bg-slate-50 border border-slate-200/90 rounded-2xl p-7 hover:border-[#31487A] hover:shadow-lg transition-all duration-300 hover:-translate-y-1 flex flex-col">
-                                <div className="w-14 h-14 rounded-xl bg-[#1E2E4F] text-[#8FB3E2] flex items-center justify-center text-2xl mb-5 shadow-xs">
+
+                            <div className="bg-white border border-slate-200 rounded-xl p-7 flex flex-col hover:border-slate-400 transition-colors">
+                                <div className="w-10 h-10 rounded-md bg-slate-100 text-slate-800 flex items-center justify-center text-lg mb-5">
                                     <i className="fa-solid fa-film"></i>
                                 </div>
-                                <h3 className="text-lg font-bold text-[#192338] mb-2">Lab Produksi Visual &amp; Foto</h3>
-                                <p className="text-slate-600 text-sm leading-relaxed mb-5 flex-1">Perangkat kamera profesional, lighting studio, serta workstation editing video untuk produksi konten kreatif dakwah.</p>
-                                <span className="text-xs font-bold text-[#31487A] flex items-center gap-2 pt-3 border-t border-slate-200"><i className="fa-solid fa-circle-check text-xs"></i> Sinematografi &amp; Desain Media</span>
+                                <h3 className="text-base font-semibold text-slate-900 mb-2">Lab Produksi Visual &amp; Foto</h3>
+                                <p className="text-slate-600 text-xs sm:text-sm leading-relaxed mb-6 flex-1">Kamera profesional, lighting studio, serta workstation editing video untuk produksi konten kreatif dakwah.</p>
+                                <span className="text-xs text-slate-500 pt-3 border-t border-slate-100 flex items-center gap-1.5 font-medium"><i className="fa-solid fa-check text-[10px]"></i> Sinematografi &amp; Desain Media</span>
                             </div>
                         </div>
                     </div>
                 </section>
 
-                {/* Akreditasi & Penjaminan Mutu Banner */}
-                <section id="akreditasi" className="py-12 bg-white">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <div className="bg-[#1E2E4F] text-white p-8 sm:p-10 rounded-2xl flex flex-col md:flex-row items-center justify-between gap-6 shadow-sm border border-[#31487A] animate-on-scroll opacity-0 translate-y-12 transition-all duration-1000 ease-out">
-                            <div className="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-5">
-                                <div className="w-16 h-16 rounded-xl bg-[#31487A] text-[#8FB3E2] flex items-center justify-center text-3xl shrink-0 shadow-xs">
-                                    <i className="fa-solid fa-award"></i>
-                                </div>
-                                <div>
-                                    <span className="text-xs uppercase tracking-widest text-[#8FB3E2] font-bold">AKREDITASI BAN-PT &amp; LAM</span>
-                                    <h3 className="text-xl sm:text-2xl font-extrabold mt-1">Terakreditasi &amp; Terstandarisasi Mutu Nasional</h3>
-                                    <p className="text-xs sm:text-sm text-slate-300 mt-1.5 max-w-xl">Program Studi Komunikasi dan Penyiaran Islam berkomitmen menjaga standar kurikulum, fasilitas studio media, dan kompetensi lulusan.</p>
-                                </div>
+                {/* Minimalist Akreditasi Banner */}
+                <section id="akreditasi" className="py-16 bg-white border-b border-slate-200">
+                    <div className="max-w-6xl mx-auto px-4 sm:px-6">
+                        <div className="bg-slate-900 text-white p-8 sm:p-10 rounded-xl flex flex-col md:flex-row items-center justify-between gap-6 border border-slate-800">
+                            <div>
+                                <span className="text-xs uppercase tracking-wider text-slate-400 font-medium">AKREDITASI BAN-PT &amp; LAM</span>
+                                <h3 className="text-xl sm:text-2xl font-light mt-1 text-white">Terakreditasi &amp; Terstandarisasi Mutu Nasional</h3>
+                                <p className="text-xs sm:text-sm text-slate-400 mt-1 max-w-xl">Program Studi Komunikasi dan Penyiaran Islam senantiasa menjaga kepatuhan mutu kurikulum dan kompetensi lulusan.</p>
                             </div>
-                            <Link href={route('public.akreditasi')} className="bg-[#8FB3E2] hover:bg-white text-[#192338] font-bold px-6 py-3.5 rounded-xl transition text-sm shrink-0 flex items-center gap-2 hover:-translate-y-0.5">
-                                Rekap Akreditasi Lengkap <i className="fa-solid fa-arrow-right text-xs"></i>
+                            <Link href={route('public.akreditasi')} className="bg-white hover:bg-slate-100 text-slate-900 font-medium px-5 py-2.5 rounded-lg transition text-xs shrink-0 flex items-center gap-2">
+                                Rekap Akreditasi <i className="fa-solid fa-arrow-right text-[10px]"></i>
                             </Link>
                         </div>
                     </div>
                 </section>
 
-                {/* Survei Kepuasan & Helpdesk / Aduan */}
-                <section id="survei" className="py-20 bg-[#192338] text-white relative">
-                    <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                {/* Minimalist Survei & Helpdesk */}
+                <section id="survei" className="py-24 sm:py-32 bg-[#0E1626] text-white">
+                    <div className="max-w-6xl mx-auto px-4 sm:px-6">
                         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
                             {/* Kiri: Portal Survei */}
-                            <div className="lg:col-span-6 animate-on-scroll opacity-0 -translate-x-12 transition-all duration-1000 ease-out">
-                                <span className="text-[#8FB3E2] font-bold text-xs uppercase tracking-widest">UMPAN BALIK STAKEHOLDER</span>
-                                <h2 className="font-display text-3xl sm:text-4xl font-bold leading-tight mt-2 mb-6">Survei Kepuasan Layanan &amp; Pembelajaran</h2>
-                                <p className="text-slate-300 leading-relaxed mb-8 text-sm sm:text-base">
-                                    Partisipasi Anda sangat penting untuk evaluasi dan peningkatan mutu prodi berkelanjutan. Silakan isi kuesioner survei kepuasan sesuai peran Anda:
+                            <div className="lg:col-span-6 animate-on-scroll opacity-0 translate-y-8 transition-all duration-700 ease-out">
+                                <span className="text-xs uppercase tracking-wider text-slate-400 font-medium">UMPAN BALIK</span>
+                                <h2 className="text-2xl sm:text-4xl font-light leading-tight mt-2 mb-4 text-white">Survei Kepuasan Layanan</h2>
+                                <p className="text-slate-300 leading-relaxed mb-8 text-sm sm:text-base font-light">
+                                    Partisipasi Anda sangat penting untuk evaluasi dan peningkatan mutu prodi berkelanjutan.
                                 </p>
 
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                     <a
                                         href="https://forms.google.com"
                                         target="_blank"
                                         rel="noreferrer"
-                                        className="p-4 rounded-xl bg-[#1E2E4F] hover:bg-[#31487A] border border-[#31487A] transition group flex items-start gap-3 hover:-translate-y-0.5"
+                                        className="p-4 rounded-lg bg-[#141E33] border border-slate-800 hover:border-slate-600 transition flex items-center gap-3"
                                     >
-                                        <div className="w-10 h-10 rounded-xl bg-[#31487A] text-[#8FB3E2] group-hover:text-white flex items-center justify-center font-bold shrink-0 mt-0.5 transition-colors">
-                                            <i className="fa-solid fa-user-graduate"></i>
-                                        </div>
+                                        <i className="fa-solid fa-user-graduate text-slate-300"></i>
                                         <div>
-                                            <h4 className="font-bold text-sm text-white group-hover:text-[#D9E1F1] transition">Survei Mahasiswa</h4>
-                                            <p className="text-xs text-slate-300 mt-0.5">Kepuasan Pembelajaran &amp; Media</p>
+                                            <h4 className="font-medium text-sm text-white">Survei Mahasiswa</h4>
+                                            <p className="text-[11px] text-slate-400">Pembelajaran &amp; Media</p>
                                         </div>
                                     </a>
 
@@ -759,14 +651,12 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                                         href="https://forms.google.com"
                                         target="_blank"
                                         rel="noreferrer"
-                                        className="p-4 rounded-xl bg-[#1E2E4F] hover:bg-[#31487A] border border-[#31487A] transition group flex items-start gap-3 hover:-translate-y-0.5"
+                                        className="p-4 rounded-lg bg-[#141E33] border border-slate-800 hover:border-slate-600 transition flex items-center gap-3"
                                     >
-                                        <div className="w-10 h-10 rounded-xl bg-[#31487A] text-[#8FB3E2] group-hover:text-white flex items-center justify-center font-bold shrink-0 mt-0.5 transition-colors">
-                                            <i className="fa-solid fa-chalkboard-user"></i>
-                                        </div>
+                                        <i className="fa-solid fa-chalkboard-user text-slate-300"></i>
                                         <div>
-                                            <h4 className="font-bold text-sm text-white group-hover:text-[#D9E1F1] transition">Survei Dosen</h4>
-                                            <p className="text-xs text-slate-300 mt-0.5">Tata Kelola &amp; Riset Komunikasi</p>
+                                            <h4 className="font-medium text-sm text-white">Survei Dosen</h4>
+                                            <p className="text-[11px] text-slate-400">Tata Kelola &amp; Riset</p>
                                         </div>
                                     </a>
 
@@ -774,14 +664,12 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                                         href="https://forms.google.com"
                                         target="_blank"
                                         rel="noreferrer"
-                                        className="p-4 rounded-xl bg-[#1E2E4F] hover:bg-[#31487A] border border-[#31487A] transition group flex items-start gap-3 hover:-translate-y-0.5"
+                                        className="p-4 rounded-lg bg-[#141E33] border border-slate-800 hover:border-slate-600 transition flex items-center gap-3"
                                     >
-                                        <div className="w-10 h-10 rounded-xl bg-[#31487A] text-[#8FB3E2] group-hover:text-white flex items-center justify-center font-bold shrink-0 mt-0.5 transition-colors">
-                                            <i className="fa-solid fa-id-card-clip"></i>
-                                        </div>
+                                        <i className="fa-solid fa-id-card-clip text-slate-300"></i>
                                         <div>
-                                            <h4 className="font-bold text-sm text-white group-hover:text-[#D9E1F1] transition">Survei Tenaga Kependidikan</h4>
-                                            <p className="text-xs text-slate-300 mt-0.5">Kepuasan Manajemen &amp; Fasilitas</p>
+                                            <h4 className="font-medium text-sm text-white">Survei Tendik</h4>
+                                            <p className="text-[11px] text-slate-400">Manajemen &amp; Fasilitas</p>
                                         </div>
                                     </a>
 
@@ -789,31 +677,29 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                                         href="https://forms.google.com"
                                         target="_blank"
                                         rel="noreferrer"
-                                        className="p-4 rounded-xl bg-[#1E2E4F] hover:bg-[#31487A] border border-[#31487A] transition group flex items-start gap-3 hover:-translate-y-0.5"
+                                        className="p-4 rounded-lg bg-[#141E33] border border-slate-800 hover:border-slate-600 transition flex items-center gap-3"
                                     >
-                                        <div className="w-10 h-10 rounded-xl bg-[#31487A] text-[#8FB3E2] group-hover:text-white flex items-center justify-center font-bold shrink-0 mt-0.5 transition-colors">
-                                            <i className="fa-solid fa-handshake"></i>
-                                        </div>
+                                        <i className="fa-solid fa-handshake text-slate-300"></i>
                                         <div>
-                                            <h4 className="font-bold text-sm text-white group-hover:text-[#D9E1F1] transition">Survei Mitra / Alumni</h4>
-                                            <p className="text-xs text-slate-300 mt-0.5">Kepuasan Pengguna Lulusan</p>
+                                            <h4 className="font-medium text-sm text-white">Survei Mitra/Alumni</h4>
+                                            <p className="text-[11px] text-slate-400">Pengguna Lulusan</p>
                                         </div>
                                     </a>
                                 </div>
                             </div>
 
-                            {/* Kanan: Form Helpdesk / Konsultasi */}
-                            <div id="aduan" className="lg:col-span-6 bg-white rounded-2xl p-8 text-slate-800 border border-slate-200 shadow-xl animate-on-scroll opacity-0 translate-x-12 transition-all duration-1000 ease-out delay-100">
-                                <h3 className="text-xl font-bold text-[#192338] mb-1">Layanan Pertanyaan &amp; Aspirasi</h3>
-                                <p className="text-xs text-slate-500 mb-6">Sampaikan masukan, pertanyaan akademik, atau permintaan informasi resmi program studi KPI.</p>
+                            {/* Kanan: Form Helpdesk */}
+                            <div id="aduan" className="lg:col-span-6 bg-white rounded-xl p-8 text-slate-900 border border-slate-200 animate-on-scroll opacity-0 translate-y-8 transition-all duration-700 ease-out delay-100">
+                                <h3 className="text-lg font-semibold text-slate-900 mb-1">Layanan Pertanyaan &amp; Masukan</h3>
+                                <p className="text-xs text-slate-500 mb-6">Sampaikan masukan atau pertanyaan resmi Anda kepada pengelola prodi KPI.</p>
 
                                 <form className="space-y-4" onSubmit={handleWaSubmit}>
                                     <div>
-                                        <label className="block text-xs font-bold text-slate-600 uppercase mb-1.5">Nama Lengkap</label>
+                                        <label className="block text-xs font-medium text-slate-700 mb-1">Nama Lengkap</label>
                                         <input
                                             type="text"
-                                            placeholder="Masukkan nama lengkap Anda"
-                                            className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:border-[#31487A] text-sm transition"
+                                            placeholder="Nama lengkap Anda"
+                                            className="w-full px-3.5 py-2 rounded-lg border border-slate-200 text-sm focus:border-slate-900 focus:outline-none transition"
                                             value={waForm.nama}
                                             onChange={(e) => setWaForm('nama', e.target.value)}
                                             required
@@ -822,22 +708,22 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
 
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                         <div>
-                                            <label className="block text-xs font-bold text-slate-600 uppercase mb-1.5">Nomor WhatsApp</label>
+                                            <label className="block text-xs font-medium text-slate-700 mb-1">Nomor WhatsApp</label>
                                             <input
                                                 type="tel"
                                                 placeholder="081234567890"
-                                                className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:border-[#31487A] text-sm transition"
+                                                className="w-full px-3.5 py-2 rounded-lg border border-slate-200 text-sm focus:border-slate-900 focus:outline-none transition"
                                                 value={waForm.whatsapp}
                                                 onChange={(e) => setWaForm('whatsapp', e.target.value)}
                                                 required
                                             />
                                         </div>
                                         <div>
-                                            <label className="block text-xs font-bold text-slate-600 uppercase mb-1.5">Status / Instansi</label>
+                                            <label className="block text-xs font-medium text-slate-700 mb-1">Status / Unit</label>
                                             <input
                                                 type="text"
                                                 placeholder="Mahasiswa / Dosen / Umum"
-                                                className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:border-[#31487A] text-sm transition"
+                                                className="w-full px-3.5 py-2 rounded-lg border border-slate-200 text-sm focus:border-slate-900 focus:outline-none transition"
                                                 value={waForm.unit_prodi}
                                                 onChange={(e) => setWaForm('unit_prodi', e.target.value)}
                                             />
@@ -845,9 +731,9 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                                     </div>
 
                                     <div>
-                                        <label className="block text-xs font-bold text-slate-600 uppercase mb-1.5">Kategori Pertanyaan / Masukan</label>
+                                        <label className="block text-xs font-medium text-slate-700 mb-1">Kategori</label>
                                         <select
-                                            className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:border-[#31487A] text-sm bg-white transition"
+                                            className="w-full px-3.5 py-2 rounded-lg border border-slate-200 text-sm bg-white focus:border-slate-900 focus:outline-none transition"
                                             value={waForm.kategori_aduan}
                                             onChange={(e) => setWaForm('kategori_aduan', e.target.value)}
                                         >
@@ -860,11 +746,11 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                                     </div>
 
                                     <div>
-                                        <label className="block text-xs font-bold text-slate-600 uppercase mb-1.5">Isi Pesan / Pertanyaan</label>
+                                        <label className="block text-xs font-medium text-slate-700 mb-1">Pesan / Pertanyaan</label>
                                         <textarea
                                             rows="3"
-                                            placeholder="Tuliskan uraian masukan, saran, atau pertanyaan secara detail..."
-                                            className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:border-[#31487A] text-sm transition"
+                                            placeholder="Tuliskan pesan atau pertanyaan Anda..."
+                                            className="w-full px-3.5 py-2 rounded-lg border border-slate-200 text-sm focus:border-slate-900 focus:outline-none transition"
                                             value={waForm.pesan}
                                             onChange={(e) => setWaForm('pesan', e.target.value)}
                                             required
@@ -874,10 +760,10 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                                     <button 
                                         type="submit" 
                                         disabled={processing} 
-                                        className="w-full bg-[#192338] hover:bg-[#1E2E4F] text-white font-bold py-3.5 px-6 rounded-xl shadow-md transition disabled:opacity-70 flex items-center justify-center gap-2 hover:-translate-y-0.5"
+                                        className="w-full bg-slate-900 hover:bg-slate-800 text-white font-medium py-3 px-5 rounded-lg text-sm transition disabled:opacity-70 flex items-center justify-center gap-2"
                                     >
                                         <span>{processing ? 'Menyimpan...' : 'Kirim Pesan ke Prodi KPI'}</span>
-                                        <i className="fa-brands fa-whatsapp text-[#8FB3E2]"></i>
+                                        <i className="fa-brands fa-whatsapp"></i>
                                     </button>
                                 </form>
                             </div>
@@ -885,66 +771,61 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                     </div>
                 </section>
 
-                {/* Berita & Kabar KPI */}
-                <section id="berita" className="py-20 bg-white">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <div className="flex flex-col md:flex-row justify-between items-end mb-12 animate-on-scroll opacity-0 translate-y-12 transition-all duration-1000 ease-out">
-                            <div className="max-w-2xl">
-                                <span className="text-[#31487A] font-bold text-xs uppercase tracking-widest">KABAR KPI</span>
-                                <h2 className="font-display text-3xl sm:text-4xl font-bold text-[#192338] mt-2 mb-4">Berita, Agenda, dan Cerita Kegiatan</h2>
-                                <p className="text-slate-600">Ikuti perkembangan terbaru workshop media, agenda seminar, dan prestasi mahasiswa program studi.</p>
+                {/* Minimalist Berita & Kabar */}
+                <section id="berita" className="py-24 sm:py-32 bg-white border-b border-slate-200">
+                    <div className="max-w-6xl mx-auto px-4 sm:px-6">
+                        <div className="flex flex-col md:flex-row justify-between items-end mb-12 animate-on-scroll opacity-0 translate-y-8 transition-all duration-700 ease-out">
+                            <div className="max-w-xl">
+                                <span className="text-xs uppercase tracking-wider text-slate-500 font-medium">KABAR TERKINI</span>
+                                <h2 className="text-2xl sm:text-4xl font-light text-slate-900 mt-2 mb-2 tracking-tight">Berita &amp; Agenda</h2>
+                                <p className="text-slate-600 text-sm sm:text-base">Perkembangan akademik, agenda workshop, dan kegiatan program studi.</p>
                             </div>
-                            <Link href="/berita" className="hidden md:inline-flex items-center gap-2 text-[#31487A] font-bold hover:text-[#192338] transition-colors group">
-                                Lihat Semua Berita <i className="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                            <Link href="/berita" className="hidden md:inline-flex items-center gap-2 text-slate-900 text-sm font-medium hover:text-slate-600 transition-colors">
+                                Lihat Semua Berita <i className="fa-solid fa-arrow-right text-xs"></i>
                             </Link>
                         </div>
 
                         {beritas && beritas.length > 0 ? (
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 animate-on-scroll opacity-0 translate-y-12 transition-all duration-1000 ease-out delay-100">
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 animate-on-scroll opacity-0 translate-y-8 transition-all duration-700 ease-out delay-100">
                                 {beritas.map((berita) => (
-                                    <div key={berita.id} className="bg-slate-50 rounded-2xl border border-slate-200 overflow-hidden group hover:border-[#31487A] hover:shadow-xl transition-all duration-300 flex flex-col hover:-translate-y-1.5">
-                                        <div className="aspect-video bg-slate-200 relative overflow-hidden">
+                                    <div key={berita.id} className="bg-white rounded-xl border border-slate-200 overflow-hidden hover:border-slate-400 transition-colors flex flex-col">
+                                        <div className="aspect-video bg-slate-100 relative overflow-hidden">
                                             {berita.gambar_url ? (
                                                 <img
                                                     src={berita.gambar_url}
                                                     alt={berita.judul}
-                                                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                                    className="w-full h-full object-cover"
                                                 />
                                             ) : (
                                                 <div className="w-full h-full flex items-center justify-center text-slate-300">
-                                                    <i className="fa-regular fa-image text-4xl"></i>
+                                                    <i className="fa-regular fa-image text-3xl"></i>
                                                 </div>
                                             )}
                                         </div>
                                         <div className="p-6 flex-1 flex flex-col">
-                                            <div className="flex items-center gap-4 text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-3">
-                                                <div className="flex items-center gap-1.5">
-                                                    <Calendar className="w-3.5 h-3.5 text-[#31487A]" />
-                                                    {new Date(berita.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}
-                                                </div>
-                                                <div className="flex items-center gap-1.5">
-                                                    <Eye className="w-3.5 h-3.5 text-[#31487A]" />
-                                                    {berita.views} x
-                                                </div>
+                                            <div className="flex items-center gap-3 text-xs text-slate-400 mb-3">
+                                                <span>{new Date(berita.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+                                                <span>•</span>
+                                                <span>{berita.views} views</span>
                                             </div>
 
-                                            <h3 className="text-xl font-bold text-slate-800 mb-3 line-clamp-2 group-hover:text-[#31487A] transition-colors">
+                                            <h3 className="text-base font-semibold text-slate-900 mb-2 line-clamp-2 hover:text-slate-600 transition-colors">
                                                 <Link href={`/berita/${berita.slug}`}>
                                                     {berita.judul}
                                                 </Link>
                                             </h3>
 
-                                            <p className="text-slate-600 text-sm line-clamp-3 mb-6">
+                                            <p className="text-slate-500 text-xs sm:text-sm line-clamp-3 mb-6 flex-1">
                                                 {berita.konten.replace(/<[^>]+>/g, '')}
                                             </p>
 
-                                            <div className="mt-auto pt-4 border-t border-slate-200">
+                                            <div className="pt-3 border-t border-slate-100">
                                                 <Link
                                                     href={`/berita/${berita.slug}`}
-                                                    className="inline-flex items-center gap-2 text-sm font-bold text-[#31487A] hover:text-[#192338] group/link"
+                                                    className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-900 hover:text-slate-600"
                                                 >
                                                     Baca Selengkapnya
-                                                    <i className="fa-solid fa-arrow-right text-[10px] group-hover/link:translate-x-1 transition-transform"></i>
+                                                    <i className="fa-solid fa-arrow-right text-[10px]"></i>
                                                 </Link>
                                             </div>
                                         </div>
@@ -952,71 +833,61 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                                 ))}
                             </div>
                         ) : (
-                            <div className="text-center py-12 bg-slate-50 rounded-2xl border border-slate-200 animate-on-scroll opacity-0 translate-y-12 transition-all duration-1000 ease-out delay-100">
-                                <p className="text-slate-500">Belum ada berita kegiatan terbaru.</p>
+                            <div className="text-center py-12 bg-slate-50 rounded-xl border border-slate-200">
+                                <p className="text-slate-500 text-sm">Belum ada berita kegiatan terbaru.</p>
                             </div>
                         )}
 
-                        <div className="mt-8 text-center md:hidden animate-on-scroll opacity-0 translate-y-12 transition-all duration-1000 ease-out delay-200">
-                            <Link href="/berita" className="inline-flex items-center gap-2 text-[#31487A] font-bold hover:text-[#192338] transition-colors">
-                                Lihat Semua Berita <i className="fa-solid fa-arrow-right"></i>
+                        <div className="mt-8 text-center md:hidden">
+                            <Link href="/berita" className="inline-flex items-center gap-1.5 text-slate-900 text-sm font-medium">
+                                Lihat Semua Berita <i className="fa-solid fa-arrow-right text-xs"></i>
                             </Link>
                         </div>
                     </div>
                 </section>
 
-                {/* Footer */}
-                <footer className="bg-[#0E1626] text-slate-300 py-16 border-t border-[#192338]">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                {/* Minimalist Footer */}
+                <footer className="bg-[#080D17] text-slate-400 py-20 border-t border-slate-800">
+                    <div className="max-w-6xl mx-auto px-4 sm:px-6">
                         <div className="grid grid-cols-1 md:grid-cols-12 gap-10">
                             <div className="md:col-span-5">
-                                <div className="flex flex-col mb-6 bg-white/5 p-4 rounded-xl w-fit border border-slate-700/60">
-                                    <span className="font-extrabold text-lg tracking-wider text-[#8FB3E2] uppercase leading-tight">
+                                <div className="mb-4">
+                                    <span className="font-semibold text-base text-white tracking-wide uppercase">
                                         PROGRAM STUDI KPI
                                     </span>
-                                    <span className="text-xs text-slate-400 font-medium tracking-wide mt-0.5">
+                                    <p className="text-xs text-slate-500 mt-0.5">
                                         Komunikasi dan Penyiaran Islam — Fakultas Dakwah
-                                    </span>
+                                    </p>
                                 </div>
-                                <p className="text-sm text-slate-300 leading-relaxed mb-6">
-                                    Program Studi S1 Komunikasi dan Penyiaran Islam (KPI) Fakultas Dakwah IAI Persis Bandung berkomitmen mencetak praktisi media, jurnalis, akademisi, dan dai yang unggul, profesional, dan berakhlak mulia di era digital.
+                                <p className="text-xs sm:text-sm text-slate-400 leading-relaxed mb-6 max-w-sm">
+                                    Mempersiapkan praktisi media, jurnalis, akademisi, dan dai yang unggul, profesional, serta berakhlak mulia di era digital.
                                 </p>
-                                <div className="flex items-center space-x-3">
-                                    <a href={umum?.facebook_url || '#'} className="w-10 h-10 bg-[#192338] hover:bg-[#31487A] flex items-center justify-center text-slate-200 hover:text-white transition rounded-xl"><i className="fa-brands fa-facebook-f text-sm"></i></a>
-                                    <a href={umum?.instagram_url || '#'} className="w-10 h-10 bg-[#192338] hover:bg-[#31487A] flex items-center justify-center text-slate-200 hover:text-white transition rounded-xl"><i className="fa-brands fa-instagram text-sm"></i></a>
-                                    <a href={umum?.youtube_url || '#'} className="w-10 h-10 bg-[#192338] hover:bg-[#31487A] flex items-center justify-center text-slate-200 hover:text-white transition rounded-xl"><i className="fa-brands fa-youtube text-sm"></i></a>
+                                <div className="flex items-center space-x-3 text-slate-400">
+                                    <a href={umum?.facebook_url || '#'} className="w-8 h-8 rounded-md bg-slate-900 flex items-center justify-center hover:text-white transition"><i className="fa-brands fa-facebook-f text-xs"></i></a>
+                                    <a href={umum?.instagram_url || '#'} className="w-8 h-8 rounded-md bg-slate-900 flex items-center justify-center hover:text-white transition"><i className="fa-brands fa-instagram text-xs"></i></a>
+                                    <a href={umum?.youtube_url || '#'} className="w-8 h-8 rounded-md bg-slate-900 flex items-center justify-center hover:text-white transition"><i className="fa-brands fa-youtube text-xs"></i></a>
                                 </div>
                             </div>
                             <div className="md:col-span-3">
-                                <h4 className="text-white font-bold mb-6 text-sm tracking-widest uppercase">Tautan Penting</h4>
-                                <ul className="space-y-3.5 text-sm text-slate-300">
-                                    <li><Link href="/profil/tentang-kampus" className="hover:text-[#8FB3E2] transition flex items-center gap-2"><i className="fa-solid fa-chevron-right text-[10px]"></i> Profil &amp; Visi Misi Prodi KPI</Link></li>
-                                    <li><Link href={route('public.dokumen-institusi')} className="hover:text-[#8FB3E2] transition flex items-center gap-2"><i className="fa-solid fa-chevron-right text-[10px]"></i> Dokumen SPMI &amp; Standar Mutu</Link></li>
-                                    <li><Link href={route('public.akademik.pedoman')} className="hover:text-[#8FB3E2] transition flex items-center gap-2"><i className="fa-solid fa-chevron-right text-[10px]"></i> Pedoman Akademik &amp; AMI</Link></li>
-                                    <li><Link href={route('public.akreditasi')} className="hover:text-[#8FB3E2] transition flex items-center gap-2"><i className="fa-solid fa-chevron-right text-[10px]"></i> Data Akreditasi BAN-PT &amp; LAM</Link></li>
-                                    <li><a href="https://banpt.or.id" target="_blank" rel="noreferrer" className="hover:text-[#8FB3E2] transition flex items-center gap-2"><i className="fa-solid fa-chevron-right text-[10px]"></i> Portal BAN-PT</a></li>
+                                <h4 className="text-white font-medium mb-4 text-xs tracking-wider uppercase">Tautan Penting</h4>
+                                <ul className="space-y-2.5 text-xs text-slate-400">
+                                    <li><Link href="/profil/tentang-kampus" className="hover:text-white transition">Profil &amp; Visi Misi</Link></li>
+                                    <li><Link href={route('public.dokumen-institusi')} className="hover:text-white transition">Dokumen SPMI &amp; SOP</Link></li>
+                                    <li><Link href={route('public.akademik.pedoman')} className="hover:text-white transition">Pedoman Akademik &amp; AMI</Link></li>
+                                    <li><Link href={route('public.akreditasi')} className="hover:text-white transition">Data Akreditasi BAN-PT</Link></li>
                                 </ul>
                             </div>
                             <div className="md:col-span-4">
-                                <h4 className="text-white font-bold mb-6 text-sm tracking-widest uppercase">Sekretariat Prodi KPI</h4>
-                                <ul className="space-y-4 text-sm text-slate-300">
-                                    <li className="flex items-start gap-3">
-                                        <i className="fa-solid fa-location-dot mt-1 text-[#8FB3E2]"></i>
-                                        <span>{umum?.alamat || 'Jl. Ciganitri No.2, Cipagalo, Kec. Bojongsoang, Kabupaten Bandung, Jawa Barat 40287'}</span>
-                                    </li>
-                                    <li className="flex items-center gap-3">
-                                        <i className="fa-solid fa-phone text-[#8FB3E2]"></i>
-                                        <span>{umum?.telepon || '(022) 5441951'}</span>
-                                    </li>
-                                    <li className="flex items-center gap-3">
-                                        <i className="fa-solid fa-envelope text-[#8FB3E2]"></i>
-                                        <span>{emailDisplay}</span>
-                                    </li>
+                                <h4 className="text-white font-medium mb-4 text-xs tracking-wider uppercase">Sekretariat</h4>
+                                <ul className="space-y-2.5 text-xs text-slate-400">
+                                    <li>{umum?.alamat || 'Jl. Ciganitri No.2, Cipagalo, Kec. Bojongsoang, Bandung 40287'}</li>
+                                    <li>{umum?.telepon || '(022) 5441951'}</li>
+                                    <li>{emailDisplay}</li>
                                 </ul>
                             </div>
                         </div>
-                        <div className="border-t border-[#192338] mt-12 pt-8 text-center text-xs text-slate-500">
-                            &copy; 2026 Program Studi KPI IAI PERSIS Bandung. Hak Cipta Dilindungi Undang-Undang.
+                        <div className="border-t border-slate-800/80 mt-14 pt-8 text-center text-xs text-slate-600">
+                            &copy; 2026 Program Studi KPI IAI PERSIS Bandung.
                         </div>
                     </div>
                 </footer>
