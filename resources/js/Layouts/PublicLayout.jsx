@@ -47,76 +47,76 @@ export default function PublicLayout({ children }) {
 
                         {/* Desktop Navigation Menu */}
                         <nav className="hidden lg:flex items-center space-x-4 xl:space-x-6 shrink-0">
-                            <Link href="/" className="text-emerald-800 font-semibold border-b-2 border-transparent hover:border-emerald-800 px-1 py-1 text-sm xl:text-base">Beranda</Link>
+                            <Link href="/" className="text-[#31487A] font-semibold border-b-2 border-transparent hover:border-[#31487A] px-1 py-1 text-sm xl:text-base">Beranda</Link>
                             
                             {/* Profil Dropdown */}
                             <div className="relative group">
-                                <button className="text-slate-600 hover:text-emerald-700 font-medium px-1 py-1 text-sm xl:text-base transition flex items-center gap-1">
+                                <button className="text-slate-600 hover:text-[#31487A] font-medium px-1 py-1 text-sm xl:text-base transition flex items-center gap-1">
                                     Profil <i className="fa-solid fa-chevron-down text-[10px]"></i>
                                 </button>
-                                <div className="absolute top-full left-0 mt-2 w-60 bg-white border border-slate-200 rounded-md shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50">
+                                <div className="absolute top-full left-0 mt-2 w-60 bg-white border border-slate-200 rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50">
                                     <div className="p-2 space-y-0.5">
-                                        <Link href="/profil/tentang-kampus" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Tentang &amp; Sejarah</Link>
-                                        <Link href="/profil/visi-misi" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Visi, Misi &amp; Tujuan</Link>
-                                        <Link href="/profil/sambutan-pimpinan" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Sambutan Pimpinan</Link>
-                                        <Link href="/profil/struktur-organisasi" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Struktur Organisasi &amp; Tim</Link>
-                                        <Link href={route('public.prospek-karir')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Profil Lulusan &amp; Karir</Link>
+                                        <Link href="/profil/tentang-kampus" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-[#192338] rounded-lg transition-colors">Tentang &amp; Sejarah</Link>
+                                        <Link href="/profil/visi-misi" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-[#192338] rounded-lg transition-colors">Visi, Misi &amp; Tujuan</Link>
+                                        <Link href="/profil/sambutan-pimpinan" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-[#192338] rounded-lg transition-colors">Sambutan Pimpinan</Link>
+                                        <Link href="/profil/struktur-organisasi" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-[#192338] rounded-lg transition-colors">Struktur Organisasi &amp; Tim</Link>
+                                        <Link href={route('public.prospek-karir')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-[#192338] rounded-lg transition-colors">Profil Lulusan &amp; Karir</Link>
                                     </div>
                                 </div>
                             </div>
 
                             {/* Akademik & Dosen Dropdown */}
                             <div className="relative group">
-                                <button className="text-slate-600 hover:text-emerald-700 font-medium px-1 py-1 text-sm xl:text-base transition flex items-center gap-1">
+                                <button className="text-slate-600 hover:text-[#31487A] font-medium px-1 py-1 text-sm xl:text-base transition flex items-center gap-1">
                                     Akademik &amp; Dosen <i className="fa-solid fa-chevron-down text-[10px]"></i>
                                 </button>
-                                <div className="absolute top-full left-0 mt-2 w-64 bg-white border border-slate-200 rounded-md shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50">
+                                <div className="absolute top-full left-0 mt-2 w-64 bg-white border border-slate-200 rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50">
                                     <div className="p-2 space-y-0.5">
-                                        <Link href={route('public.akademik.kurikulum')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Kurikulum &amp; Capaian (CPL)</Link>
-                                        <Link href={route('public.dosen')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Direktori Dosen &amp; Tendik</Link>
-                                        <Link href={route('public.akademik.kalender')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Kalender Akademik</Link>
-                                        <Link href={route('public.akademik.jadwal')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Jadwal Perkuliahan</Link>
-                                        <Link href={route('public.akademik.pedoman')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Pedoman Akademik</Link>
-                                        <Link href={route('public.akademik.sistem')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Sistem Akademik (SIAKAD)</Link>
+                                        <Link href={route('public.akademik.kurikulum')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-[#192338] rounded-lg transition-colors">Kurikulum &amp; Capaian (CPL)</Link>
+                                        <Link href={route('public.dosen')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-[#192338] rounded-lg transition-colors">Direktori Dosen &amp; Tendik</Link>
+                                        <Link href={route('public.akademik.kalender')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-[#192338] rounded-lg transition-colors">Kalender Akademik</Link>
+                                        <Link href={route('public.akademik.jadwal')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-[#192338] rounded-lg transition-colors">Jadwal Perkuliahan</Link>
+                                        <Link href={route('public.akademik.pedoman')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-[#192338] rounded-lg transition-colors">Pedoman Akademik</Link>
+                                        <Link href={route('public.akademik.sistem')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-[#192338] rounded-lg transition-colors">Sistem Akademik (SIAKAD)</Link>
                                     </div>
                                 </div>
                             </div>
 
                             {/* Riset & Pengabdian (Tridarma) Dropdown */}
                             <div className="relative group">
-                                <button className="text-slate-600 hover:text-emerald-700 font-medium px-1 py-1 text-sm xl:text-base transition flex items-center gap-1">
+                                <button className="text-slate-600 hover:text-[#31487A] font-medium px-1 py-1 text-sm xl:text-base transition flex items-center gap-1">
                                     Riset &amp; Pengabdian <i className="fa-solid fa-chevron-down text-[10px]"></i>
                                 </button>
-                                <div className="absolute top-full left-0 mt-2 w-64 bg-white border border-slate-200 rounded-md shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50">
+                                <div className="absolute top-full left-0 mt-2 w-64 bg-white border border-slate-200 rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50">
                                     <div className="p-2 space-y-0.5">
-                                        <Link href={route('public.lppm.penelitian')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Penelitian &amp; Info Hibah</Link>
-                                        <Link href={route('public.lppm.pengabdian')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Pengabdian kepada Masyarakat</Link>
-                                        <Link href={route('public.lppm.publikasi')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Publikasi Ilmiah &amp; Jurnal</Link>
-                                        <Link href={route('public.lppm.repository')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Repository Karya Ilmiah</Link>
+                                        <Link href={route('public.lppm.penelitian')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-[#192338] rounded-lg transition-colors">Penelitian &amp; Info Hibah</Link>
+                                        <Link href={route('public.lppm.pengabdian')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-[#192338] rounded-lg transition-colors">Pengabdian kepada Masyarakat</Link>
+                                        <Link href={route('public.lppm.publikasi')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-[#192338] rounded-lg transition-colors">Publikasi Ilmiah &amp; Jurnal</Link>
+                                        <Link href={route('public.lppm.repository')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-[#192338] rounded-lg transition-colors">Repository Karya Ilmiah</Link>
                                     </div>
                                 </div>
                             </div>
 
                             {/* Akreditasi & Penjaminan Mutu Dropdown */}
                             <div className="relative group">
-                                <button className="text-slate-600 hover:text-emerald-700 font-medium px-1 py-1 text-sm xl:text-base transition flex items-center gap-1">
+                                <button className="text-slate-600 hover:text-[#31487A] font-medium px-1 py-1 text-sm xl:text-base transition flex items-center gap-1">
                                     Akreditasi &amp; Mutu <i className="fa-solid fa-chevron-down text-[10px]"></i>
                                 </button>
-                                <div className="absolute top-full left-0 mt-2 w-64 bg-white border border-slate-200 rounded-md shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50">
+                                <div className="absolute top-full left-0 mt-2 w-64 bg-white border border-slate-200 rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50">
                                     <div className="p-2 space-y-0.5">
-                                        <Link href={route('public.akreditasi')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Data Akreditasi (BAN-PT &amp; LAM)</Link>
-                                        <Link href={route('public.dokumen-institusi')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Dokumen SPMI &amp; SOP</Link>
-                                        <Link href={route('public.akademik.pedoman')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Instrumen &amp; Siklus AMI</Link>
-                                        <a href="/#survei" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 rounded-md transition-colors">Survei Kepuasan Mutu</a>
+                                        <Link href={route('public.akreditasi')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-[#192338] rounded-lg transition-colors">Data Akreditasi (BAN-PT &amp; LAM)</Link>
+                                        <Link href={route('public.dokumen-institusi')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-[#192338] rounded-lg transition-colors">Dokumen SPMI &amp; SOP</Link>
+                                        <Link href={route('public.akademik.pedoman')} className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-[#192338] rounded-lg transition-colors">Instrumen &amp; Siklus AMI</Link>
+                                        <a href="/#survei" className="block px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-[#192338] rounded-lg transition-colors">Survei Kepuasan Mutu</a>
                                     </div>
                                 </div>
                             </div>
 
                             {/* Berita */}
-                            <Link href="/berita" className={`font-semibold border-b-2 px-1 py-1 transition text-sm xl:text-base ${route().current('public.berita.*') ? 'text-emerald-800 border-emerald-800' : 'text-slate-600 hover:text-emerald-800 border-transparent hover:border-emerald-800'}`}>Berita</Link>
+                            <Link href="/berita" className={`font-semibold border-b-2 px-1 py-1 transition text-sm xl:text-base ${route().current('public.berita.*') ? 'text-[#31487A] border-[#31487A]' : 'text-slate-600 hover:text-[#31487A] border-transparent hover:border-[#31487A]'}`}>Berita</Link>
 
                             {/* Tombol CTA Dokumen & Akreditasi */}
-                            <Link href={route('public.akademik.pedoman')} className="bg-[#31487A] hover:bg-[#1E2E4F] text-white px-4 py-2 rounded-sm font-semibold transition text-xs xl:text-sm flex items-center gap-1.5 shrink-0">
+                            <Link href={route('public.akademik.pedoman')} className="bg-[#192338] hover:bg-[#31487A] text-white px-5 py-2.5 rounded-xl font-semibold transition text-xs xl:text-sm flex items-center gap-1.5 shrink-0 hover:-translate-y-0.5">
                                 <i className="fa-solid fa-book-open text-xs"></i> Pedoman Akademik
                             </Link>
                         </nav>
@@ -124,7 +124,7 @@ export default function PublicLayout({ children }) {
                         {/* Mobile Menu Toggle Button */}
                         <button 
                             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} 
-                            className="lg:hidden p-2 rounded-sm text-[#192338] hover:bg-slate-100 focus:outline-none"
+                            className="lg:hidden p-2 rounded-xl text-[#192338] hover:bg-slate-100 focus:outline-none"
                         >
                             <i className="fa-solid fa-bars text-2xl"></i>
                         </button>
@@ -143,67 +143,67 @@ export default function PublicLayout({ children }) {
                                 100% { opacity: 1; transform: translateY(0); }
                             }
                         `}</style>
-                        <Link href="/" className="block px-3 py-2.5 rounded-sm text-slate-700 hover:bg-slate-50 font-medium mb-1">Beranda</Link>
+                        <Link href="/" className="block px-3 py-2.5 rounded-xl text-slate-700 hover:bg-slate-50 font-medium mb-1">Beranda</Link>
                         
                         {/* Profil Mobile Dropdown */}
                         <details className="group">
-                            <summary className="flex justify-between items-center px-3 py-2.5 rounded-sm text-slate-700 hover:bg-slate-50 font-medium cursor-pointer list-none">
+                            <summary className="flex justify-between items-center px-3 py-2.5 rounded-xl text-slate-700 hover:bg-slate-50 font-medium cursor-pointer list-none">
                                 Profil <i className="fa-solid fa-chevron-down text-xs transition-transform group-open:rotate-180"></i>
                             </summary>
-                            <div className="pl-4 pb-2 space-y-1 border-l-2 border-emerald-100 ml-3 mt-1">
-                                <Link href="/profil/tentang-kampus" className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Tentang &amp; Sejarah</Link>
-                                <Link href="/profil/visi-misi" className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Visi, Misi &amp; Tujuan</Link>
-                                <Link href="/profil/sambutan-pimpinan" className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Sambutan Pimpinan</Link>
-                                <Link href="/profil/struktur-organisasi" className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Struktur Organisasi &amp; Tim</Link>
-                                <Link href={route('public.prospek-karir')} className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Profil Lulusan &amp; Karir</Link>
+                            <div className="pl-4 pb-2 space-y-1 border-l-2 border-slate-200 ml-3 mt-1">
+                                <Link href="/profil/tentang-kampus" className="block px-3 py-2 text-sm text-slate-600 hover:text-[#31487A]">Tentang &amp; Sejarah</Link>
+                                <Link href="/profil/visi-misi" className="block px-3 py-2 text-sm text-slate-600 hover:text-[#31487A]">Visi, Misi &amp; Tujuan</Link>
+                                <Link href="/profil/sambutan-pimpinan" className="block px-3 py-2 text-sm text-slate-600 hover:text-[#31487A]">Sambutan Pimpinan</Link>
+                                <Link href="/profil/struktur-organisasi" className="block px-3 py-2 text-sm text-slate-600 hover:text-[#31487A]">Struktur Organisasi &amp; Tim</Link>
+                                <Link href={route('public.prospek-karir')} className="block px-3 py-2 text-sm text-slate-600 hover:text-[#31487A]">Profil Lulusan &amp; Karir</Link>
                             </div>
                         </details>
 
                         {/* Akademik & Dosen Mobile Dropdown */}
                         <details className="group">
-                            <summary className="flex justify-between items-center px-3 py-2.5 rounded-sm text-slate-700 hover:bg-slate-50 font-medium cursor-pointer list-none">
+                            <summary className="flex justify-between items-center px-3 py-2.5 rounded-xl text-slate-700 hover:bg-slate-50 font-medium cursor-pointer list-none">
                                 Akademik &amp; Dosen <i className="fa-solid fa-chevron-down text-xs transition-transform group-open:rotate-180"></i>
                             </summary>
-                            <div className="pl-4 pb-2 space-y-1 border-l-2 border-emerald-100 ml-3 mt-1">
-                                <Link href={route('public.akademik.kurikulum')} className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Kurikulum &amp; Capaian (CPL)</Link>
-                                <Link href={route('public.dosen')} className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Direktori Dosen &amp; Tendik</Link>
-                                <Link href={route('public.akademik.kalender')} className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Kalender Akademik</Link>
-                                <Link href={route('public.akademik.jadwal')} className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Jadwal Perkuliahan</Link>
-                                <Link href={route('public.akademik.pedoman')} className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Pedoman Akademik</Link>
-                                <Link href={route('public.akademik.sistem')} className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Sistem Akademik (SIAKAD)</Link>
+                            <div className="pl-4 pb-2 space-y-1 border-l-2 border-slate-200 ml-3 mt-1">
+                                <Link href={route('public.akademik.kurikulum')} className="block px-3 py-2 text-sm text-slate-600 hover:text-[#31487A]">Kurikulum &amp; Capaian (CPL)</Link>
+                                <Link href={route('public.dosen')} className="block px-3 py-2 text-sm text-slate-600 hover:text-[#31487A]">Direktori Dosen &amp; Tendik</Link>
+                                <Link href={route('public.akademik.kalender')} className="block px-3 py-2 text-sm text-slate-600 hover:text-[#31487A]">Kalender Akademik</Link>
+                                <Link href={route('public.akademik.jadwal')} className="block px-3 py-2 text-sm text-slate-600 hover:text-[#31487A]">Jadwal Perkuliahan</Link>
+                                <Link href={route('public.akademik.pedoman')} className="block px-3 py-2 text-sm text-slate-600 hover:text-[#31487A]">Pedoman Akademik</Link>
+                                <Link href={route('public.akademik.sistem')} className="block px-3 py-2 text-sm text-slate-600 hover:text-[#31487A]">Sistem Akademik (SIAKAD)</Link>
                             </div>
                         </details>
 
                         {/* Riset & Pengabdian Mobile Dropdown */}
                         <details className="group">
-                            <summary className="flex justify-between items-center px-3 py-2.5 rounded-sm text-slate-700 hover:bg-slate-50 font-medium cursor-pointer list-none">
+                            <summary className="flex justify-between items-center px-3 py-2.5 rounded-xl text-slate-700 hover:bg-slate-50 font-medium cursor-pointer list-none">
                                 Riset &amp; Pengabdian <i className="fa-solid fa-chevron-down text-xs transition-transform group-open:rotate-180"></i>
                             </summary>
-                            <div className="pl-4 pb-2 space-y-1 border-l-2 border-emerald-100 ml-3 mt-1">
-                                <Link href={route('public.lppm.penelitian')} className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Penelitian &amp; Info Hibah</Link>
-                                <Link href={route('public.lppm.pengabdian')} className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Pengabdian kepada Masyarakat</Link>
-                                <Link href={route('public.lppm.publikasi')} className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Publikasi Ilmiah &amp; Jurnal</Link>
-                                <Link href={route('public.lppm.repository')} className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Repository Karya Ilmiah</Link>
+                            <div className="pl-4 pb-2 space-y-1 border-l-2 border-slate-200 ml-3 mt-1">
+                                <Link href={route('public.lppm.penelitian')} className="block px-3 py-2 text-sm text-slate-600 hover:text-[#31487A]">Penelitian &amp; Info Hibah</Link>
+                                <Link href={route('public.lppm.pengabdian')} className="block px-3 py-2 text-sm text-slate-600 hover:text-[#31487A]">Pengabdian kepada Masyarakat</Link>
+                                <Link href={route('public.lppm.publikasi')} className="block px-3 py-2 text-sm text-slate-600 hover:text-[#31487A]">Publikasi Ilmiah &amp; Jurnal</Link>
+                                <Link href={route('public.lppm.repository')} className="block px-3 py-2 text-sm text-slate-600 hover:text-[#31487A]">Repository Karya Ilmiah</Link>
                             </div>
                         </details>
 
                         {/* Akreditasi & Mutu Mobile Dropdown */}
                         <details className="group">
-                            <summary className="flex justify-between items-center px-3 py-2.5 rounded-sm text-slate-700 hover:bg-slate-50 font-medium cursor-pointer list-none">
+                            <summary className="flex justify-between items-center px-3 py-2.5 rounded-xl text-slate-700 hover:bg-slate-50 font-medium cursor-pointer list-none">
                                 Akreditasi &amp; Mutu <i className="fa-solid fa-chevron-down text-xs transition-transform group-open:rotate-180"></i>
                             </summary>
-                            <div className="pl-4 pb-2 space-y-1 border-l-2 border-emerald-100 ml-3 mt-1">
-                                <Link href={route('public.akreditasi')} className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Data Akreditasi (BAN-PT &amp; LAM)</Link>
-                                <Link href={route('public.dokumen-institusi')} className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Dokumen SPMI &amp; SOP</Link>
-                                <Link href={route('public.akademik.pedoman')} className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Instrumen &amp; Siklus AMI</Link>
-                                <a href="/#survei" className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-800">Survei Kepuasan Mutu</a>
+                            <div className="pl-4 pb-2 space-y-1 border-l-2 border-slate-200 ml-3 mt-1">
+                                <Link href={route('public.akreditasi')} className="block px-3 py-2 text-sm text-slate-600 hover:text-[#31487A]">Data Akreditasi (BAN-PT &amp; LAM)</Link>
+                                <Link href={route('public.dokumen-institusi')} className="block px-3 py-2 text-sm text-slate-600 hover:text-[#31487A]">Dokumen SPMI &amp; SOP</Link>
+                                <Link href={route('public.akademik.pedoman')} className="block px-3 py-2 text-sm text-slate-600 hover:text-[#31487A]">Instrumen &amp; Siklus AMI</Link>
+                                <a href="/#survei" className="block px-3 py-2 text-sm text-slate-600 hover:text-[#31487A]">Survei Kepuasan Mutu</a>
                             </div>
                         </details>
 
-                        <Link href="/berita" className="block px-3 py-2.5 rounded-sm text-slate-700 hover:bg-slate-50 font-medium mb-1">Berita</Link>
+                        <Link href="/berita" className="block px-3 py-2.5 rounded-xl text-slate-700 hover:bg-slate-50 font-medium mb-1">Berita</Link>
 
                         <div className="pt-3">
-                            <Link href={route('public.akademik.pedoman')} className="block text-center bg-[#31487A] text-white py-2.5 rounded-sm font-bold shadow-none">
+                            <Link href={route('public.akademik.pedoman')} className="block text-center bg-[#192338] hover:bg-[#31487A] text-white py-3 rounded-xl font-bold shadow-sm transition">
                                 <i className="fa-solid fa-book-open mr-2"></i> Akses Pedoman Akademik
                             </Link>
                         </div>
@@ -220,7 +220,7 @@ export default function PublicLayout({ children }) {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="grid grid-cols-1 md:grid-cols-12 gap-10">
                         <div className="md:col-span-5">
-                            <div className="flex flex-col mb-6 bg-white/5 p-4 rounded-sm w-fit border border-slate-700/60">
+                            <div className="flex flex-col mb-6 bg-white/5 p-4 rounded-xl w-fit border border-slate-700/60">
                                 <span className="font-extrabold text-lg tracking-wider text-[#8FB3E2] uppercase leading-tight">
                                     PROGRAM STUDI KPI
                                 </span>
@@ -232,9 +232,9 @@ export default function PublicLayout({ children }) {
                                 Program Studi S1 Komunikasi dan Penyiaran Islam (KPI) Fakultas Dakwah IAI Persis Bandung berkomitmen mencetak praktisi media, jurnalis, akademisi, dan dai yang unggul, profesional, dan berakhlak mulia di era digital.
                             </p>
                             <div className="flex items-center space-x-3">
-                                <a href="#" className="w-9 h-9 bg-[#192338] hover:bg-[#31487A] flex items-center justify-center text-slate-200 hover:text-white transition rounded-sm"><i className="fa-brands fa-facebook-f text-sm"></i></a>
-                                <a href="#" className="w-9 h-9 bg-[#192338] hover:bg-[#31487A] flex items-center justify-center text-slate-200 hover:text-white transition rounded-sm"><i className="fa-brands fa-instagram text-sm"></i></a>
-                                <a href="#" className="w-9 h-9 bg-[#192338] hover:bg-[#31487A] flex items-center justify-center text-slate-200 hover:text-white transition rounded-sm"><i className="fa-brands fa-youtube text-sm"></i></a>
+                                <a href="#" className="w-10 h-10 bg-[#192338] hover:bg-[#31487A] flex items-center justify-center text-slate-200 hover:text-white transition rounded-xl"><i className="fa-brands fa-facebook-f text-sm"></i></a>
+                                <a href="#" className="w-10 h-10 bg-[#192338] hover:bg-[#31487A] flex items-center justify-center text-slate-200 hover:text-white transition rounded-xl"><i className="fa-brands fa-instagram text-sm"></i></a>
+                                <a href="#" className="w-10 h-10 bg-[#192338] hover:bg-[#31487A] flex items-center justify-center text-slate-200 hover:text-white transition rounded-xl"><i className="fa-brands fa-youtube text-sm"></i></a>
                             </div>
                         </div>
                         <div className="md:col-span-3">
