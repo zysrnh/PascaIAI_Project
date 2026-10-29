@@ -399,51 +399,33 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                         className="bg-[#192338] text-white relative py-20 lg:py-28"
                     >
                         <div className={`relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 transition-all duration-1000 ease-out transform ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
-                            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-                                <div className="lg:col-span-8 text-left">
-                                    <div className="inline-block text-xs uppercase tracking-widest font-extrabold text-[#8FB3E2] mb-3">
-                                        Program Studi • IAI Persis Bandung
-                                    </div>
-                                    <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-6">
-                                        {setting?.hero_title || "Membangun Komunikator Muslim yang Kreatif, Profesional, dan Berintegritas"}
-                                    </h1>
-                                    <p className="text-base sm:text-lg text-slate-200 mb-8 max-w-2xl leading-relaxed">
-                                        {setting?.hero_subtitle || "Belajar komunikasi, jurnalistik, penyiaran, media digital, dan dakwah untuk menjawab tantangan informasi di era modern dengan nilai-nilai Islam."}
-                                    </p>
-                                    <div className="flex flex-wrap items-center gap-3 mb-8">
-                                        <a
-                                            href="#profil"
-                                            className="bg-[#31487A] hover:bg-[#1E2E4F] text-white font-bold px-6 py-3.5 rounded-sm transition text-sm inline-flex items-center gap-2"
-                                        >
-                                            <i className="fa-solid fa-circle-info text-xs"></i> Kenali Program Studi
-                                        </a>
-                                        <a
-                                            href="#akademik"
-                                            className="bg-transparent hover:bg-white/10 text-white border border-white/60 font-bold px-6 py-3.5 rounded-sm transition text-sm inline-flex items-center gap-2"
-                                        >
-                                            Jelajahi Akademik ↗
-                                        </a>
-                                    </div>
-                                    <div className="flex flex-wrap gap-2">
-                                        {['Jurnalistik', 'Broadcasting', 'Public Relations', 'Digital Media'].map((tag) => (
-                                            <span key={tag} className="text-xs border border-white/20 bg-white/5 text-slate-200 px-3 py-1 rounded-sm">
-                                                {tag}
-                                            </span>
-                                        ))}
-                                    </div>
+                            <div className="max-w-4xl mx-auto text-center">
+                                <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-6 tracking-tight">
+                                    {setting?.hero_title || "Membangun Komunikator Muslim yang Kreatif, Profesional, dan Berintegritas"}
+                                </h1>
+                                <p className="text-base sm:text-lg lg:text-xl text-slate-200 mb-8 max-w-2xl mx-auto leading-relaxed">
+                                    {setting?.hero_subtitle || "Belajar komunikasi, jurnalistik, penyiaran, media digital, dan dakwah untuk menjawab tantangan informasi di era modern dengan nilai-nilai Islam."}
+                                </p>
+                                <div className="flex flex-wrap items-center justify-center gap-3 mb-8">
+                                    <a
+                                        href="#profil"
+                                        className="bg-[#31487A] hover:bg-[#1E2E4F] text-white font-bold px-7 py-3.5 rounded-sm transition text-sm sm:text-base inline-flex items-center gap-2 border border-[#8FB3E2]/30 shadow-sm"
+                                    >
+                                        <i className="fa-solid fa-circle-info text-xs"></i> Kenali Program Studi
+                                    </a>
+                                    <a
+                                        href="#akademik"
+                                        className="bg-transparent hover:bg-white/10 text-white border border-white/60 font-bold px-7 py-3.5 rounded-sm transition text-sm sm:text-base inline-flex items-center gap-2"
+                                    >
+                                        Jelajahi Layanan ↗
+                                    </a>
                                 </div>
-                                <div className="lg:col-span-4">
-                                    <div className="bg-[#1E2E4F] border border-[#31487A] p-8 rounded-sm">
-                                        <div className="text-5xl font-extrabold text-[#8FB3E2] mb-3">KPI</div>
-                                        <h3 className="text-xl font-bold text-white mb-2">Komunikasi untuk Kebaikan</h3>
-                                        <p className="text-slate-200 text-sm leading-relaxed mb-4">
-                                            Mengembangkan keilmuan dan keterampilan komunikasi yang berlandaskan nilai Islam, etika, literasi media, dan pengabdian kepada masyarakat.
-                                        </p>
-                                        <div className="pt-3 border-t border-[#31487A]/60 flex items-center justify-between text-xs text-[#8FB3E2]">
-                                            <span>Fakultas Dakwah</span>
-                                            <span>IAI Persis Bandung</span>
-                                        </div>
-                                    </div>
+                                <div className="flex flex-wrap items-center justify-center gap-2">
+                                    {['Jurnalistik', 'Broadcasting', 'Public Relations', 'Digital Media'].map((tag) => (
+                                        <span key={tag} className="text-xs border border-white/20 bg-white/5 text-slate-200 px-3.5 py-1.5 rounded-sm font-medium">
+                                            {tag}
+                                        </span>
+                                    ))}
                                 </div>
                             </div>
                         </div>
