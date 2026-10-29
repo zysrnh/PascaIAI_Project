@@ -396,61 +396,37 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                 ) : (
                     /* Fallback Static Hero Section untuk KPI */
                     <section
-                        className="bg-[#192338] text-white relative py-16 sm:py-20 lg:py-24"
+                        className="bg-[#192338] text-white relative py-20 lg:py-28"
                     >
                         <div className={`relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 transition-all duration-1000 ease-out transform ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
-                            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
-                                {/* Left Column: Copy & Actions */}
-                                <div className="lg:col-span-7 text-left">
-                                    <h1 className="font-display text-3xl sm:text-4xl lg:text-[46px] font-bold text-white leading-[1.2] mb-5 tracking-tight drop-shadow-sm">
-                                        {setting?.hero_title || "Mencetak Praktisi Media, Jurnalis, dan Dai Unggul di Era Digital"}
-                                    </h1>
-                                    <p className="font-sans text-sm sm:text-base lg:text-lg text-slate-200/90 mb-8 max-w-2xl leading-relaxed font-normal">
-                                        {setting?.hero_subtitle || "Belajar komunikasi, jurnalistik, penyiaran, media digital, dan dakwah untuk menjawab tantangan informasi di era modern dengan nilai-nilai Islam."}
-                                    </p>
-                                    <div className="flex flex-wrap items-center gap-3.5 mb-8">
-                                        <a
-                                            href="#profil"
-                                            className="bg-[#31487A] hover:bg-[#1E2E4F] text-white font-semibold px-6 py-3.5 rounded-xl transition text-sm inline-flex items-center gap-2 border border-[#8FB3E2]/40 shadow-sm hover:-translate-y-0.5"
-                                        >
-                                            <i className="fa-solid fa-circle-info text-xs text-[#8FB3E2]"></i> Kenali Program Studi
-                                        </a>
-                                        <a
-                                            href="#akademik"
-                                            className="bg-white/5 hover:bg-white/10 text-white border border-white/30 hover:border-white/60 font-semibold px-6 py-3.5 rounded-xl transition text-sm inline-flex items-center gap-2 hover:-translate-y-0.5"
-                                        >
-                                            <span>Jelajahi Layanan</span>
-                                            <i className="fa-solid fa-arrow-right text-xs"></i>
-                                        </a>
-                                    </div>
-                                    {/* Horizontal Tags KPI */}
-                                    <div className="flex flex-wrap items-center gap-2 pt-3 border-t border-slate-700/60">
-                                        <span className="text-xs px-3 py-1 rounded-full border border-white/20 bg-white/5 text-slate-300">Jurnalistik</span>
-                                        <span className="text-xs px-3 py-1 rounded-full border border-white/20 bg-white/5 text-slate-300">Broadcasting</span>
-                                        <span className="text-xs px-3 py-1 rounded-full border border-white/20 bg-white/5 text-slate-300">Public Relations</span>
-                                        <span className="text-xs px-3 py-1 rounded-full border border-white/20 bg-white/5 text-slate-300">Media Digital</span>
-                                    </div>
+                            <div className="max-w-3xl text-left">
+                                <h1 className="font-display text-3xl sm:text-4xl lg:text-[50px] font-bold text-white leading-[1.2] mb-5 tracking-tight drop-shadow-sm">
+                                    {setting?.hero_title || "Mencetak Praktisi Media, Jurnalis, dan Dai Unggul di Era Digital"}
+                                </h1>
+                                <p className="font-sans text-sm sm:text-base lg:text-lg text-slate-200/90 mb-8 max-w-2xl leading-relaxed font-normal">
+                                    {setting?.hero_subtitle || "Belajar komunikasi, jurnalistik, penyiaran, media digital, dan dakwah untuk menjawab tantangan informasi di era modern dengan nilai-nilai Islam."}
+                                </p>
+                                <div className="flex flex-wrap items-center gap-3.5 mb-8">
+                                    <a
+                                        href="#profil"
+                                        className="bg-[#31487A] hover:bg-[#1E2E4F] text-white font-semibold px-6 py-3.5 rounded-xl transition text-sm inline-flex items-center gap-2 border border-[#8FB3E2]/40 shadow-sm hover:-translate-y-0.5"
+                                    >
+                                        <i className="fa-solid fa-circle-info text-xs text-[#8FB3E2]"></i> Kenali Program Studi
+                                    </a>
+                                    <a
+                                        href="#akademik"
+                                        className="bg-white/5 hover:bg-white/10 text-white border border-white/30 hover:border-white/60 font-semibold px-6 py-3.5 rounded-xl transition text-sm inline-flex items-center gap-2 hover:-translate-y-0.5"
+                                    >
+                                        <span>Jelajahi Layanan</span>
+                                        <i className="fa-solid fa-arrow-right text-xs"></i>
+                                    </a>
                                 </div>
-
-                                {/* Right Column: Hero Card Showcase */}
-                                <div className="lg:col-span-5 flex justify-center lg:justify-end">
-                                    <div className="bg-[#1E2E4F]/70 border border-white/15 backdrop-blur-xs rounded-2xl p-7 sm:p-8 max-w-md w-full shadow-2xl">
-                                        <div className="text-5xl font-black text-[#8FB3E2] tracking-tight font-display mb-3">KPI</div>
-                                        <h3 className="text-xl font-bold text-white mb-2 font-display">Komunikasi untuk Kebaikan</h3>
-                                        <p className="text-slate-300 text-xs sm:text-sm leading-relaxed mb-6">
-                                            Mengembangkan keilmuan dan keterampilan komunikasi yang berlandaskan nilai Islam, etika, literasi media, dan pengabdian kepada masyarakat.
-                                        </p>
-                                        <div className="grid grid-cols-2 gap-3 pt-4 border-t border-white/10 text-xs">
-                                            <div>
-                                                <span className="block text-slate-400 text-[11px] mb-0.5">Jenjang Studi</span>
-                                                <strong className="text-white text-sm font-semibold">Sarjana (S1)</strong>
-                                            </div>
-                                            <div>
-                                                <span className="block text-slate-400 text-[11px] mb-0.5">Fakultas</span>
-                                                <strong className="text-white text-sm font-semibold">Fakultas Dakwah</strong>
-                                            </div>
-                                        </div>
-                                    </div>
+                                {/* Horizontal Tags KPI */}
+                                <div className="flex flex-wrap items-center gap-2 pt-3 border-t border-slate-700/60">
+                                    <span className="text-xs px-3 py-1 rounded-full border border-white/20 bg-white/5 text-slate-300">Jurnalistik</span>
+                                    <span className="text-xs px-3 py-1 rounded-full border border-white/20 bg-white/5 text-slate-300">Broadcasting</span>
+                                    <span className="text-xs px-3 py-1 rounded-full border border-white/20 bg-white/5 text-slate-300">Public Relations</span>
+                                    <span className="text-xs px-3 py-1 rounded-full border border-white/20 bg-white/5 text-slate-300">Media Digital</span>
                                 </div>
                             </div>
                         </div>
