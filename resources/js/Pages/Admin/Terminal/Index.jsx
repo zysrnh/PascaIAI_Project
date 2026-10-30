@@ -302,6 +302,17 @@ Ketik perintah manual atau gunakan tombol aksi cepat di atas untuk sinkronisasi 
                                     <span>Bersihkan Cache</span>
                                 </button>
 
+                                {/* Tombol: Pemulihan Sistem (Fix) */}
+                                <button
+                                    disabled={isRunning}
+                                    onClick={() => executeCommand('fix')}
+                                    className="inline-flex items-center gap-1.5 px-3 py-2 bg-white hover:bg-slate-50 text-slate-800 border border-slate-300 rounded-lg text-xs font-medium transition disabled:opacity-50"
+                                    title="Bersihkan cache bootstrap corrupt & perbaiki izin folder storage/views"
+                                >
+                                    <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+                                    <span>Pemulihan Sistem (Fix)</span>
+                                </button>
+
                                 {/* Tombol: Artisan Migrate */}
                                 <button
                                     disabled={isRunning}

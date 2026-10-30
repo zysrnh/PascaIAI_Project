@@ -64,10 +64,8 @@ $cacheFiles = glob($basePath . '/bootstrap/cache/*.php');
 if (!empty($cacheFiles)) {
     echo "<h3>🧹 Membersihkan cache bootstrap...</h3><ul>";
     foreach ($cacheFiles as $cf) {
-        if (basename($cf) !== 'packages.php' && basename($cf) !== 'services.php') {
-            @unlink($cf);
-            echo "<li>Dihapus: " . htmlspecialchars(basename($cf)) . "</li>";
-        }
+        @unlink($cf);
+        echo "<li>Dihapus: <strong>" . htmlspecialchars(basename($cf)) . "</strong></li>";
     }
     echo "</ul>";
 }

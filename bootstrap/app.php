@@ -5,7 +5,32 @@ use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Request;
 
-return Application::configure(basePath: dirname(__DIR__))
+// Auto-heal cache bootstrap & permissions (Mencegah "Target class [view] does not exist")
+$appBasePath = dirname(__DIR__);
+$bCacheDir = $appBasePath . '/bootstrap/cache';
+if (is_dir($bCacheDir)) {
+    // Hapus config.php cache jika ada karena di shared hosting rawan corrupt container
+    if (file_exists($bConfig = $bCacheDir . '/config.php')) {
+        @unlink($bConfig);
+    }
+    // Hapus services.php jika corrupt / tidak memuat ViewServiceProvider
+    if (file_exists($bServices = $bCacheDir . '/services.php')) {
+        $sContent = @file_get_contents($bServices);
+        if ($sContent !== false && !str_contains($sContent, 'ViewServiceProvider')) {
+            @unlink($bServices);
+        }
+    }
+    @chmod($bCacheDir, 0777);
+}
+
+// Pastikan folder storage view ada dan berizin 0777
+$viewsDir = $appBasePath . '/storage/framework/views';
+if (!is_dir($viewsDir)) {
+    @mkdir($viewsDir, 0777, true);
+}
+@chmod($viewsDir, 0777);
+
+return Application::configure(basePath: $appBasePath)
     ->withRouting(
         web: __DIR__.'/../routes/web.php',
         commands: __DIR__.'/../routes/console.php',

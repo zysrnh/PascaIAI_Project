@@ -21,6 +21,12 @@ foreach ([
     if (!is_dir($sDir)) {
         @mkdir($sDir, 0777, true);
     }
+    @chmod($sDir, 0777);
+}
+
+// Bersihkan cache bootstrap config.php jika ada (mencegah issue Target class [view] does not exist)
+if (file_exists($cachedConfig = __DIR__.'/../bootstrap/cache/config.php')) {
+    @unlink($cachedConfig);
 }
 
 // Register the Composer autoloader...

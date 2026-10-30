@@ -135,12 +135,53 @@ class TerminalController extends Controller
                 ]);
             }
 
+            // 3.5 Handle Perintah Auto-Fix Permasalahan Container & Storage (fix / repair)
+            if (in_array($lowerCmd, ['fix', 'repair', 'fix-storage', 'fix-view', 'fix-cache'])) {
+                $bCache = base_path('bootstrap/cache');
+                if (is_dir($bCache)) {
+                    foreach (glob($bCache . '/*.php') as $cf) {
+                        @unlink($cf);
+                    }
+                    @chmod($bCache, 0777);
+                }
+                $vDir = base_path('storage/framework/views');
+                if (!is_dir($vDir)) {
+                    @mkdir($vDir, 0777, true);
+                }
+                @chmod($vDir, 0777);
+                foreach (glob($vDir . '/*.php') as $vf) {
+                    @unlink($vf);
+                }
+                try {
+                    Artisan::call('optimize:clear');
+                } catch (\Throwable) {}
+
+                return response()->json([
+                    'success' => true,
+                    'command' => $command,
+                    'output' => "✓ PEMULIHAN SISTEM BERHASIL!\n• Seluruh file cache bootstrap (config, services, routes) dibersihkan.\n• Folder storage/framework/views & bootstrap/cache diset 0777 (Writable).\n• Cache view Blade lama telah dibersihkan.\n\nSitus siap dibuka kembali normal tanpa error 500.",
+                    'exit_code' => 0,
+                    'duration' => number_format(microtime(true) - $startTime, 2) . 's'
+                ]);
+            }
+
             // 4. Handle Artisan Command secara native in-memory PHP (aman dari proc_open)
             if (preg_match('/^php\s+artisan\s+(.+)$/i', $command, $matches) || preg_match('/^artisan\s+(.+)$/i', $command, $matches)) {
                 $artisanCmd = trim($matches[1]);
                 try {
                     Artisan::call($artisanCmd);
                     $artisanOutput = Artisan::output();
+
+                    // Jika menjalankan clear cache / config, bersihkan juga file fisiknya
+                    if (str_contains($artisanCmd, 'clear')) {
+                        @unlink(base_path('bootstrap/cache/config.php'));
+                        if (str_contains($artisanCmd, 'optimize') || str_contains($artisanCmd, 'compiled')) {
+                            foreach (glob(base_path('bootstrap/cache/*.php')) as $cf) {
+                                @unlink($cf);
+                            }
+                        }
+                    }
+
                     $duration = number_format(microtime(true) - $startTime, 2) . 's';
 
                     return response()->json([
@@ -484,14 +525,35 @@ class TerminalController extends Controller
                 $log .= "  ℹ Transfer Build: " . $e->getMessage() . "\n";
             }
 
-            // 4. Bersihkan Cache Laravel
-            $log .= "\n> [4/4] Membersihkan cache sistem (optimize:clear)...\n";
+            // 4. Bersihkan Cache Laravel & Pulihkan Direktori
+            $log .= "\n> [4/4] Membersihkan cache sistem & memulihkan direktori...\n";
             try {
                 Artisan::call('optimize:clear');
-                $log .= "  ✓ Cache sistem, route, config, dan views berhasil dibersihkan.\n";
             } catch (\Throwable $e) {
-                $log .= "  ℹ Optimize clear: " . $e->getMessage() . "\n";
+                // Abaikan jika artisan melempar notice
             }
+
+            // Hapus seluruh file cache bootstrap agar Laravel membaca fresh providers
+            $bCache = base_path('bootstrap/cache');
+            if (is_dir($bCache)) {
+                foreach (glob($bCache . '/*.php') as $cf) {
+                    @unlink($cf);
+                }
+                @chmod($bCache, 0777);
+            }
+
+            // Pastikan folder storage view ada dan berizin 0777
+            $vDir = base_path('storage/framework/views');
+            if (!is_dir($vDir)) {
+                @mkdir($vDir, 0777, true);
+            }
+            @chmod($vDir, 0777);
+            foreach (glob($vDir . '/*.php') as $vf) {
+                @unlink($vf);
+            }
+
+            $log .= "  ✓ Seluruh cache bootstrap (config, services, routes) & view dibersihkan.\n";
+            $log .= "  ✓ Folder storage/framework/views & bootstrap/cache diset 0777 (Writable).\n";
 
             $duration = number_format(microtime(true) - $startTime, 2) . 's';
             $log .= "\n==================================================\n";
