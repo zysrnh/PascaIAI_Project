@@ -1,1 +1,0 @@
-import{t as e}from"./app-B1pbf8wd.js";var t=e();function n(e){return(0,t.jsx)(`img`,{...e,src:`/logo_kampus.png`,alt:`Logo IAI Persis Bandung`,style:{objectFit:`contain`}})}export{n as t};
