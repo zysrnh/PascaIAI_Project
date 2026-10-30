@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { Head } from '@inertiajs/react';
 import PublicLayout from '@/Layouts/PublicLayout';
-import { Clock, MapPin, BookOpen, User, Filter, Download, CalendarDays, Search } from 'lucide-react';
+import { Clock, MapPin, BookOpen, User, Download, CalendarDays, Search, RotateCcw } from 'lucide-react';
 import Breadcrumb from '@/Components/Public/Breadcrumb';
 
 export default function JadwalPerkuliahan({ pengaturan, periodes, programStudis }) {
@@ -58,28 +58,22 @@ export default function JadwalPerkuliahan({ pengaturan, periodes, programStudis 
 
     return (
         <PublicLayout>
-            <Head title="Jadwal Perkuliahan - Prodi KPI IAI Persis Bandung" />
+            <Head title="Jadwal Perkuliahan | Program Pascasarjana IAI Persis Bandung" />
 
-            {/* Banner Section */}
-            <div className="relative w-full h-[350px] md:h-[450px] bg-emerald-950 flex flex-col justify-end">
-                <div className="absolute inset-0">
-                    <img 
-                        src={pengaturan?.banner_image || "/images/default-banner.jpg"}
-                        alt="Jadwal Perkuliahan Banner" 
-                        className="w-full h-full object-cover opacity-60"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-emerald-950 via-emerald-950/40 to-transparent"></div>
-                </div>
-                <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pb-12 animate-fade-in-up">
-                    <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-2 drop-shadow-md tracking-tight">
-                        Jadwal Perkuliahan
+            {/* Dark Minimalist Hero Section */}
+            <div className="relative bg-gradient-to-b from-[#091122] via-[#0E1B38] to-[#070E1E] text-white pt-20 pb-20 md:pt-24 md:pb-24 border-b border-slate-800/80 overflow-hidden">
+                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-900/20 via-transparent to-transparent pointer-events-none"></div>
+                <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center sm:text-left">
+                    <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium tracking-widest uppercase bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 mb-4">
+                        <CalendarDays className="w-3.5 h-3.5" />
+                        Kalender Kuliah & Ruang
+                    </span>
+                    <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-white leading-[1.18] tracking-tight mb-4">
+                        Jadwal <span className="font-serif italic font-normal text-emerald-300">Perkuliahan</span>
                     </h1>
-                    <div className="w-20 h-1.5 bg-amber-500 rounded-sm mb-4"></div>
-                    {pengaturan?.deskripsi && (
-                        <p className="text-white/90 max-w-2xl text-lg md:text-xl leading-relaxed drop-shadow">
-                            {pengaturan.deskripsi}
-                        </p>
-                    )}
+                    <p className="text-slate-300/90 text-sm sm:text-base md:text-lg max-w-2xl font-light leading-relaxed">
+                        {pengaturan?.deskripsi || 'Informasi jadwal perkuliahan, alokasi ruang kelas, dosen pengampu, dan waktu perkuliahan per semester.'}
+                    </p>
                 </div>
             </div>
 
@@ -90,26 +84,26 @@ export default function JadwalPerkuliahan({ pengaturan, periodes, programStudis 
             ]} />
 
             {/* Main Content Area */}
-            <div className="bg-slate-50 py-12 border-b border-slate-200 min-h-[500px]">
+            <div className="bg-[#FAFBFD] py-12 lg:py-16 border-b border-slate-200/80 min-h-[550px]">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     
                     {periodes && periodes.length > 0 ? (
                         <>
                             {/* Toolbar (Periode Tabs & Download) */}
-                            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
-                                <div className="flex gap-2 overflow-x-auto pb-2 md:pb-0 w-full md:w-auto">
+                            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+                                <div className="flex gap-2 overflow-x-auto pb-2 sm:pb-0 w-full sm:w-auto scrollbar-thin">
                                     {periodes.map(p => (
                                         <button 
                                             key={p.id}
                                             onClick={() => setActivePeriodeId(p.id)}
-                                            className={`flex-shrink-0 px-5 py-2.5 rounded-full font-semibold transition-all shadow-sm flex items-center gap-2 ${
+                                            className={`flex-shrink-0 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 flex items-center gap-2 ${
                                                 activePeriodeId === p.id 
-                                                ? 'bg-emerald-600 text-white shadow-emerald-600/30 ring-2 ring-emerald-600 ring-offset-2 ring-offset-slate-50' 
-                                                : 'bg-white text-slate-600 hover:bg-emerald-50 border border-slate-200'
+                                                ? 'bg-emerald-600 text-white shadow-sm ring-1 ring-emerald-600' 
+                                                : 'bg-white text-slate-600 hover:bg-slate-50 hover:text-slate-900 border border-slate-200/80'
                                             }`}
                                         >
                                             <CalendarDays className="w-4 h-4" />
-                                            {p.tahun_akademik} - {p.semester_tipe}
+                                            <span>{p.tahun_akademik} — {p.semester_tipe}</span>
                                         </button>
                                     ))}
                                 </div>
@@ -118,98 +112,116 @@ export default function JadwalPerkuliahan({ pengaturan, periodes, programStudis 
                                     <a 
                                         href={`/storage/${activePeriode.file_pdf}`} 
                                         target="_blank" 
-                                        rel="noreferrer"
-                                        download={`Jadwal_Perkuliahan_${activePeriode.tahun_akademik.replace('/','-')}_${activePeriode.semester_tipe}.pdf`}
-                                        className="inline-flex items-center gap-2 px-5 py-2.5 bg-indigo-600 text-white font-semibold rounded-full hover:bg-indigo-700 transition-colors shadow-sm whitespace-nowrap"
+                                        rel="noopener noreferrer"
+                                        className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200/70 rounded-xl text-sm font-medium transition-colors shadow-xs shrink-0"
                                     >
-                                        <Download className="w-4 h-4" /> Unduh Dokumen PDF
+                                        <Download className="w-4 h-4 text-emerald-600" />
+                                        <span>Unduh PDF Jadwal</span>
                                     </a>
                                 )}
                             </div>
 
-                            {/* Filters */}
-                            <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 mb-8 flex flex-col md:flex-row gap-4 items-end animate-fade-in">
-                                <div className="w-full md:w-1/3">
-                                    <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 flex items-center gap-1">
-                                        <Filter className="w-3 h-3" /> Program Studi
-                                    </label>
-                                    <select 
-                                        className="w-full border-slate-300 rounded-lg shadow-sm focus:border-emerald-500 focus:ring-emerald-500 bg-slate-50"
-                                        value={filterProdi}
-                                        onChange={e => setFilterProdi(e.target.value)}
-                                    >
-                                        {prodiOptions.map(opt => <option key={opt} value={opt}>{opt}</option>)}
-                                    </select>
-                                </div>
-                                <div className="w-full md:w-1/4">
-                                    <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 flex items-center gap-1">
-                                        <Filter className="w-3 h-3" /> Semester
-                                    </label>
-                                    <select 
-                                        className="w-full border-slate-300 rounded-lg shadow-sm focus:border-emerald-500 focus:ring-emerald-500 bg-slate-50"
-                                        value={filterSemester}
-                                        onChange={e => setFilterSemester(e.target.value)}
-                                    >
-                                        {semesterOptions.map(opt => <option key={opt} value={opt}>{opt === 'Semua' ? 'Semua Semester' : `Semester ${opt}`}</option>)}
-                                    </select>
-                                </div>
-                                <div className="w-full md:w-5/12 relative">
-                                    <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 flex items-center gap-1">
-                                        <Search className="w-3 h-3" /> Cari
-                                    </label>
-                                    <input 
-                                        type="text" 
-                                        placeholder="Cari Mata Kuliah / Dosen..."
-                                        className="w-full border-slate-300 rounded-lg shadow-sm focus:border-emerald-500 focus:ring-emerald-500 bg-slate-50 pl-4"
-                                        value={searchQuery}
-                                        onChange={e => setSearchQuery(e.target.value)}
-                                    />
+                            {/* Filter Bar (Bento Control Card) */}
+                            <div className="bg-white rounded-2xl border border-slate-200/80 shadow-xs p-5 md:p-6 mb-8">
+                                <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
+                                    <div className="md:col-span-4">
+                                        <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">
+                                            Program Studi
+                                        </label>
+                                        <select 
+                                            className="w-full border-slate-200 rounded-xl text-sm font-medium text-slate-700 bg-slate-50/60 focus:bg-white focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-colors py-2.5 px-3"
+                                            value={filterProdi}
+                                            onChange={e => setFilterProdi(e.target.value)}
+                                        >
+                                            {prodiOptions.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+                                        </select>
+                                    </div>
+                                    <div className="md:col-span-3">
+                                        <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">
+                                            Semester
+                                        </label>
+                                        <select 
+                                            className="w-full border-slate-200 rounded-xl text-sm font-medium text-slate-700 bg-slate-50/60 focus:bg-white focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-colors py-2.5 px-3"
+                                            value={filterSemester}
+                                            onChange={e => setFilterSemester(e.target.value)}
+                                        >
+                                            {semesterOptions.map(opt => (
+                                                <option key={opt} value={opt}>
+                                                    {opt === 'Semua' ? 'Semua Semester' : `Semester ${opt}`}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                    <div className="md:col-span-5">
+                                        <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                                            <Search className="w-3.5 h-3.5 text-slate-400" />
+                                            <span>Pencarian Cepat</span>
+                                        </label>
+                                        <input 
+                                            type="text" 
+                                            placeholder="Cari Mata Kuliah / Dosen Pengampu..."
+                                            className="w-full border-slate-200 rounded-xl text-sm font-medium text-slate-800 placeholder-slate-400 bg-slate-50/60 focus:bg-white focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-colors py-2.5 px-3.5"
+                                            value={searchQuery}
+                                            onChange={e => setSearchQuery(e.target.value)}
+                                        />
+                                    </div>
                                 </div>
                             </div>
 
-                            {/* Table List View */}
+                            {/* Table List View by Day */}
                             {filteredJadwal.length > 0 ? (
-                                <div className="space-y-8 animate-fade-in-up">
+                                <div className="space-y-6">
                                     {Object.keys(groupedByDay).map(hari => (
-                                        <div key={hari} className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
-                                            <div className="bg-emerald-50 border-b border-emerald-100 px-6 py-4">
-                                                <h3 className="text-lg font-bold text-emerald-900 uppercase tracking-wider">{hari}</h3>
+                                        <div key={hari} className="bg-white rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden">
+                                            <div className="bg-slate-900 text-white px-6 py-3.5 flex items-center justify-between">
+                                                <h3 className="text-sm font-semibold tracking-wider uppercase text-emerald-400">
+                                                    Hari {hari}
+                                                </h3>
+                                                <span className="text-xs font-medium text-slate-400">
+                                                    {groupedByDay[hari].length} Mata Kuliah
+                                                </span>
                                             </div>
                                             <div className="divide-y divide-slate-100">
                                                 {groupedByDay[hari].map(mk => (
-                                                    <div key={mk.id} className="p-6 flex flex-col md:flex-row gap-6 hover:bg-slate-50 transition-colors group">
+                                                    <div key={mk.id} className="p-5 sm:p-6 flex flex-col md:flex-row gap-5 hover:bg-slate-50/70 transition-colors group">
                                                         {/* Waktu & Ruang */}
-                                                        <div className="md:w-48 shrink-0 flex flex-col gap-2 border-l-4 border-emerald-500 pl-4">
-                                                            <div className="flex items-center gap-2 text-slate-800 font-bold text-lg">
-                                                                <Clock className="w-5 h-5 text-emerald-600" />
-                                                                {mk.jam_mulai.slice(0,5)} - {mk.jam_selesai.slice(0,5)}
+                                                        <div className="md:w-52 shrink-0 flex flex-col gap-2 border-l-2 border-emerald-500 pl-4">
+                                                            <div className="flex items-center gap-2 text-slate-900 font-semibold text-base">
+                                                                <Clock className="w-4 h-4 text-emerald-600 shrink-0" />
+                                                                <span>{mk.jam_mulai.slice(0,5)} – {mk.jam_selesai.slice(0,5)}</span>
                                                             </div>
-                                                            <div className="flex items-center gap-2 text-slate-500 font-medium bg-slate-100 px-2 py-1 rounded w-fit text-sm">
-                                                                <MapPin className="w-4 h-4 text-blue-500" />
-                                                                {mk.ruangan}
+                                                            <div className="flex items-center gap-1.5 text-slate-600 font-medium bg-slate-100 px-2.5 py-1 rounded-lg w-fit text-xs border border-slate-200/60">
+                                                                <MapPin className="w-3.5 h-3.5 text-slate-500" />
+                                                                <span>{mk.ruangan}</span>
                                                             </div>
                                                         </div>
 
                                                         {/* Informasi Matkul */}
-                                                        <div className="flex-1 space-y-2">
-                                                            <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-2">
-                                                                <div>
-                                                                    <h4 className="text-xl font-bold text-slate-800 flex items-center gap-2">
-                                                                        <BookOpen className="w-5 h-5 text-emerald-600" />
-                                                                        {mk.mata_kuliah}
-                                                                    </h4>
-                                                                    <div className="text-slate-500 text-sm mt-1">
-                                                                        {mk.program_studi} — Semester {mk.semester_ke} &bull; <span className="font-semibold">{mk.sks} SKS</span>
-                                                                    </div>
+                                                        <div className="flex-1 space-y-3">
+                                                            <div>
+                                                                <h4 className="text-lg font-semibold text-slate-900 group-hover:text-emerald-700 transition-colors flex items-center gap-2">
+                                                                    <BookOpen className="w-4 h-4 text-emerald-600 shrink-0" />
+                                                                    <span>{mk.mata_kuliah}</span>
+                                                                </h4>
+                                                                <div className="flex flex-wrap items-center gap-2 text-xs text-slate-500 mt-1.5">
+                                                                    <span className="font-medium text-slate-700">{mk.program_studi}</span>
+                                                                    <span className="text-slate-300">&bull;</span>
+                                                                    <span className="px-2 py-0.5 rounded bg-slate-100 text-slate-600 font-medium">
+                                                                        Semester {mk.semester_ke}
+                                                                    </span>
+                                                                    <span className="text-slate-300">&bull;</span>
+                                                                    <span className="px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 font-semibold">
+                                                                        {mk.sks} SKS
+                                                                    </span>
                                                                 </div>
                                                             </div>
                                                             
-                                                            <div className="pt-2">
-                                                                <div className="flex items-start gap-2 text-slate-700 bg-blue-50/50 p-2 rounded-lg border border-blue-100/50">
-                                                                    <User className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" />
-                                                                    <div>
-                                                                        <span className="text-xs font-bold uppercase tracking-wider text-blue-600/80 block">Dosen Pengampu</span>
-                                                                        <span className="font-semibold">{mk.dosen_pengampu}</span>
+                                                            <div>
+                                                                <div className="flex items-center gap-2.5 text-slate-700 bg-slate-50/80 px-3.5 py-2 rounded-xl border border-slate-200/60 w-fit">
+                                                                    <User className="w-4 h-4 text-slate-400 shrink-0" />
+                                                                    <div className="text-xs">
+                                                                        <span className="text-slate-400 font-medium uppercase tracking-wider text-[10px] block">Dosen Pengampu</span>
+                                                                        <span className="font-semibold text-slate-800">{mk.dosen_pengampu}</span>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -221,24 +233,29 @@ export default function JadwalPerkuliahan({ pengaturan, periodes, programStudis 
                                     ))}
                                 </div>
                             ) : (
-                                <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-16 text-center text-slate-500 animate-fade-in">
-                                    <Search className="w-16 h-16 mx-auto text-slate-300 mb-4" />
-                                    <h3 className="text-xl font-bold text-slate-700 mb-2">Jadwal Tidak Ditemukan</h3>
-                                    <p className="max-w-md mx-auto">Tidak ada jadwal yang sesuai dengan filter pencarian Anda pada periode ini.</p>
+                                <div className="bg-white rounded-2xl border border-slate-200/80 shadow-xs p-16 text-center text-slate-500">
+                                    <Search className="w-12 h-12 mx-auto text-slate-300 mb-3" />
+                                    <h3 className="text-lg font-semibold text-slate-800 mb-1">Jadwal Tidak Ditemukan</h3>
+                                    <p className="text-sm text-slate-500 max-w-md mx-auto mb-6">
+                                        Tidak ada jadwal perkuliahan yang sesuai dengan kriteria filter pencarian Anda.
+                                    </p>
                                     <button 
                                         onClick={() => { setFilterProdi('Semua'); setFilterSemester('Semua'); setSearchQuery(''); }}
-                                        className="mt-6 px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-md font-medium transition-colors"
+                                        className="inline-flex items-center gap-2 px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-sm font-medium transition-colors"
                                     >
-                                        Reset Filter
+                                        <RotateCcw className="w-3.5 h-3.5" />
+                                        <span>Reset Filter</span>
                                     </button>
                                 </div>
                             )}
                         </>
                     ) : (
-                        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-16 text-center text-slate-500">
-                            <CalendarDays className="w-16 h-16 mx-auto text-slate-300 mb-4" />
-                            <h3 className="text-xl font-bold text-slate-700 mb-2">Belum Ada Jadwal Perkuliahan</h3>
-                            <p className="max-w-md mx-auto">Jadwal perkuliahan untuk periode ini belum dipublikasikan oleh administrator.</p>
+                        <div className="bg-white rounded-2xl border border-slate-200/80 shadow-xs p-16 text-center text-slate-500">
+                            <CalendarDays className="w-12 h-12 mx-auto text-slate-300 mb-3" />
+                            <h3 className="text-lg font-semibold text-slate-800 mb-1">Belum Ada Jadwal Perkuliahan</h3>
+                            <p className="text-sm text-slate-500 max-w-md mx-auto">
+                                Jadwal perkuliahan untuk periode ini belum dipublikasikan oleh pihak akademik.
+                            </p>
                         </div>
                     )}
 
