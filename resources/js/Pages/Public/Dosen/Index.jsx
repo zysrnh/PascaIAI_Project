@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { Head, Link, router } from '@inertiajs/react';
 import PublicLayout from '@/Layouts/PublicLayout';
-import { Users, GraduationCap, Award, BookOpen, User, ExternalLink, Search, Filter, ChevronRight, UserCheck, FileText } from 'lucide-react';
+import { Users, GraduationCap, Award, BookOpen, User, ExternalLink, Search, Filter, UserCheck } from 'lucide-react';
+import Breadcrumb from '@/Components/Public/Breadcrumb';
 
 export default function Index({ dosens, programStudis, pengaturan, stats, activeProdi }) {
-    const defaultBanner = "/images/default-banner.jpg";
-    const bannerUrl = pengaturan?.banner_image || defaultBanner;
-
+    const bannerUrl = pengaturan?.banner_image;
     const [search, setSearch] = useState('');
 
     const handleProdiChange = (e) => {
@@ -21,90 +20,108 @@ export default function Index({ dosens, programStudis, pengaturan, stats, active
 
     return (
         <PublicLayout>
-            <Head title="Statistik" />
+            <Head title="Direktori Dosen & Tenaga Pengajar | Prodi KPI IAI Persis Bandung" />
 
-            {/* Hero Section */}
-            <div className="relative w-full h-[350px] md:h-[450px] bg-emerald-950 flex flex-col justify-end">
-                <div className="absolute inset-0">
-                    <img 
-                        src={bannerUrl} 
-                        alt="Banner Statistik" 
-                        className="w-full h-full object-cover opacity-50"
-                    />
-                    <div className="absolute inset-0 bg-emerald-950/40 mix-blend-multiply"></div>
-                </div>
-                <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pb-10">
-                    <div className="flex items-center gap-2 text-white/80 text-sm font-medium mb-4">
-                        <Link href="/" className="hover:text-white transition-colors">Beranda</Link>
-                        <ChevronRight className="w-4 h-4" />
-                        <span>Fakultas</span>
-                        <ChevronRight className="w-4 h-4" />
-                        <span className="text-white">Statistik</span>
+            {/* Minimalist Editorial Hero Section */}
+            <section className="relative bg-gradient-to-b from-[#091122] via-[#0E1B38] to-[#070E1E] text-white pt-20 pb-20 md:pt-24 md:pb-24 border-b border-slate-800/80 overflow-hidden">
+                {bannerUrl && (
+                    <div className="absolute inset-0 z-0">
+                        <img 
+                            src={bannerUrl} 
+                            alt="Banner Dosen" 
+                            className="w-full h-full object-cover opacity-20"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#070E1E] via-[#091122]/80 to-[#091122]/90"></div>
                     </div>
-                    <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-2 uppercase tracking-tight">
-                        Statistik
-                    </h1>
-                    <div className="w-16 h-1.5 bg-amber-500 rounded-sm mb-4"></div>
-                    {pengaturan?.deskripsi && (
-                        <p className="text-white/90 max-w-2xl text-base md:text-lg leading-relaxed drop-shadow">
-                            {pengaturan.deskripsi}
+                )}
+
+                <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
+                    <div className="max-w-3xl text-left">
+                        <h1 className="text-3xl sm:text-5xl lg:text-[48px] font-semibold text-white leading-[1.18] tracking-tight mb-4">
+                            Direktori Dosen &amp; <span className="font-serif italic font-normal text-emerald-300">Tenaga Pengajar</span>
+                        </h1>
+
+                        <p className="text-base sm:text-lg text-slate-300 font-normal leading-relaxed max-w-2xl">
+                            {pengaturan?.deskripsi || 'Tenaga pendidik, akademisi, dan praktisi penyiaran Islam berkompeten dengan kualifikasi magister dan doktoral terkemuka.'}
                         </p>
-                    )}
+                    </div>
                 </div>
-            </div>
+            </section>
 
-            <div className="bg-slate-50 py-12">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            {/* Breadcrumb Navigation */}
+            <Breadcrumb items={[
+                { label: 'Akademik' },
+                { label: 'Direktori Dosen' }
+            ]} />
+
+            {/* Main Content Area */}
+            <div className="bg-[#FAFAFA] py-12 sm:py-20 border-b border-slate-200 min-h-screen">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
                     
-                    {/* Statistik Cards */}
-                    <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-12">
-                        <div className="bg-white p-5 rounded-lg border border-slate-200 shadow-sm flex flex-col items-center justify-center text-center">
-                            <Users className="w-6 h-6 text-emerald-600 mb-2" />
-                            <p className="text-2xl font-bold text-slate-800 leading-none mb-1">{stats?.total ?? 0}</p>
-                            <p className="text-[11px] font-semibold text-slate-500 uppercase tracking-widest">Total Dosen</p>
+                    {/* Statistik Bento Cards */}
+                    <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+                        <div className="bg-white p-6 rounded-2xl border border-slate-200/90 shadow-sm flex flex-col items-center justify-center text-center">
+                            <Users className="w-5 h-5 text-emerald-700 mb-2.5" />
+                            <p className="text-2xl sm:text-3xl font-semibold text-slate-900 leading-none mb-1 font-mono">
+                                {stats?.total ?? 0}
+                            </p>
+                            <p className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Total Dosen</p>
                         </div>
-                        <div className="bg-white p-5 rounded-lg border border-slate-200 shadow-sm flex flex-col items-center justify-center text-center">
-                            <GraduationCap className="w-6 h-6 text-amber-500 mb-2" />
-                            <p className="text-2xl font-bold text-slate-800 leading-none mb-1">{stats?.mahasiswa ?? stats?.guru_besar ?? 0}</p>
-                            <p className="text-[11px] font-semibold text-slate-500 uppercase tracking-widest">Jumlah Mahasiswa</p>
+
+                        <div className="bg-white p-6 rounded-2xl border border-slate-200/90 shadow-sm flex flex-col items-center justify-center text-center">
+                            <GraduationCap className="w-5 h-5 text-emerald-700 mb-2.5" />
+                            <p className="text-2xl sm:text-3xl font-semibold text-slate-900 leading-none mb-1 font-mono">
+                                {stats?.mahasiswa ?? stats?.guru_besar ?? 0}
+                            </p>
+                            <p className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Mahasiswa Aktif</p>
                         </div>
-                        <div className="bg-white p-5 rounded-lg border border-slate-200 shadow-sm flex flex-col items-center justify-center text-center">
-                            <UserCheck className="w-6 h-6 text-blue-600 mb-2" />
-                            <p className="text-2xl font-bold text-slate-800 leading-none mb-1">{stats?.alumni ?? stats?.lektor_kepala ?? 0}</p>
-                            <p className="text-[11px] font-semibold text-slate-500 uppercase tracking-widest">Jumlah Alumni</p>
+
+                        <div className="bg-white p-6 rounded-2xl border border-slate-200/90 shadow-sm flex flex-col items-center justify-center text-center">
+                            <UserCheck className="w-5 h-5 text-emerald-700 mb-2.5" />
+                            <p className="text-2xl sm:text-3xl font-semibold text-slate-900 leading-none mb-1 font-mono">
+                                {stats?.alumni ?? stats?.lektor_kepala ?? 0}
+                            </p>
+                            <p className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Jumlah Alumni</p>
                         </div>
-                        <div className="bg-white p-5 rounded-lg border border-slate-200 shadow-sm flex flex-col items-center justify-center text-center">
-                            <BookOpen className="w-6 h-6 text-purple-600 mb-2" />
-                            <p className="text-2xl font-bold text-slate-800 leading-none mb-1">{stats?.penelitian ?? stats?.lektor ?? 0}</p>
-                            <p className="text-[11px] font-semibold text-slate-500 uppercase tracking-widest">Jumlah Penelitian</p>
+
+                        <div className="bg-white p-6 rounded-2xl border border-slate-200/90 shadow-sm flex flex-col items-center justify-center text-center">
+                            <BookOpen className="w-5 h-5 text-emerald-700 mb-2.5" />
+                            <p className="text-2xl sm:text-3xl font-semibold text-slate-900 leading-none mb-1 font-mono">
+                                {stats?.penelitian ?? stats?.lektor ?? 0}
+                            </p>
+                            <p className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Riset &amp; Kajian</p>
                         </div>
-                        <div className="bg-white p-5 rounded-lg border border-slate-200 shadow-sm flex flex-col items-center justify-center text-center col-span-2 md:col-span-1">
-                            <Award className="w-6 h-6 text-slate-600 mb-2" />
-                            <p className="text-2xl font-bold text-slate-800 leading-none mb-1">{stats?.publikasi ?? stats?.asisten_ahli ?? 0}</p>
-                            <p className="text-[11px] font-semibold text-slate-500 uppercase tracking-widest">Jumlah Publikasi</p>
+
+                        <div className="bg-white p-6 rounded-2xl border border-slate-200/90 shadow-sm flex flex-col items-center justify-center text-center col-span-2 md:col-span-1">
+                            <Award className="w-5 h-5 text-emerald-700 mb-2.5" />
+                            <p className="text-2xl sm:text-3xl font-semibold text-slate-900 leading-none mb-1 font-mono">
+                                {stats?.publikasi ?? stats?.asisten_ahli ?? 0}
+                            </p>
+                            <p className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Publikasi Ilmiah</p>
                         </div>
                     </div>
 
-                    {/* Filter & Search */}
-                    <div className="bg-white p-4 rounded-lg border border-slate-200 shadow-sm flex flex-col md:flex-row gap-4 mb-8">
-                        <div className="flex-1 relative">
-                            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    {/* Filter & Search Bento Bar */}
+                    <div className="bg-white p-5 rounded-2xl border border-slate-200/90 shadow-sm flex flex-col md:flex-row gap-4 items-center justify-between">
+                        <div className="w-full md:flex-1 relative">
+                            <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
                                 <Search className="h-4 w-4 text-slate-400" />
                             </div>
                             <input
                                 type="text"
                                 placeholder="Cari nama dosen, NIDN, atau bidang keahlian..."
-                                className="block w-full pl-10 pr-3 py-2 border border-slate-300 rounded-md leading-5 bg-white placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm transition duration-150 ease-in-out"
+                                className="block w-full pl-10 pr-4 py-2.5 border border-slate-300 rounded-xl bg-slate-50/50 text-slate-800 text-sm placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-emerald-700 focus:border-emerald-700 transition"
                                 value={search}
                                 onChange={(e) => setSearch(e.target.value)}
                             />
                         </div>
-                        <div className="md:w-72 relative">
-                            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+
+                        <div className="w-full md:w-72 relative">
+                            <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
                                 <Filter className="h-4 w-4 text-slate-400" />
                             </div>
                             <select
-                                className="block w-full pl-10 pr-10 py-2 text-base border-slate-300 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm rounded-md"
+                                className="block w-full pl-10 pr-8 py-2.5 text-sm border-slate-300 bg-slate-50/50 text-slate-800 focus:outline-none focus:ring-1 focus:ring-emerald-700 focus:border-emerald-700 rounded-xl"
                                 value={activeProdi}
                                 onChange={handleProdiChange}
                             >
@@ -116,78 +133,83 @@ export default function Index({ dosens, programStudis, pengaturan, stats, active
                         </div>
                     </div>
 
-                    {/* Dosen Grid */}
+                    {/* Dosen Bento Grid */}
                     {filteredDosens.length > 0 ? (
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                             {filteredDosens.map((dosen) => (
-                                <div key={dosen.id} className="bg-white border border-slate-200 rounded-lg overflow-hidden flex flex-col hover:shadow-md transition-shadow duration-200">
+                                <div key={dosen.id} className="bg-white border border-slate-200/90 rounded-2xl overflow-hidden flex flex-col hover:border-slate-300 hover:shadow-sm transition-all duration-200">
                                     {/* Image Container */}
                                     <div className="aspect-[4/5] w-full bg-slate-100 relative overflow-hidden group">
                                         {dosen.foto_url ? (
                                             <img 
                                                 src={dosen.foto_url} 
                                                 alt={dosen.nama} 
-                                                className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                                                className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300"
                                             />
                                         ) : (
                                             <div className="w-full h-full flex items-center justify-center bg-slate-100 text-slate-300">
-                                                <User className="w-20 h-20" />
+                                                <User className="w-16 h-16" />
                                             </div>
                                         )}
-                                        {/* Overlay badge for Jabatan */}
+                                        {/* Jabatan Tag */}
                                         {dosen.jabatan_fungsional && (
-                                            <div className="absolute top-3 left-3 px-2.5 py-1 bg-white/90 backdrop-blur-sm text-slate-800 text-[10px] font-bold rounded uppercase tracking-wider shadow-sm">
+                                            <div className="absolute top-3 left-3 px-2.5 py-1 bg-white/95 backdrop-blur-xs text-slate-800 text-[10px] font-semibold rounded-md uppercase tracking-wider shadow-xs border border-slate-100">
                                                 {dosen.jabatan_fungsional}
                                             </div>
                                         )}
                                     </div>
 
                                     {/* Content Info */}
-                                    <div className="p-4 flex-1 flex flex-col">
-                                        <h3 className="text-base font-bold text-slate-800 mb-1 leading-tight">{dosen.nama}</h3>
+                                    <div className="p-5 flex-1 flex flex-col">
+                                        <h3 className="text-base font-semibold text-slate-900 mb-1 leading-snug">{dosen.nama}</h3>
                                         
-                                        <div className="space-y-1 mt-2 mb-4 flex-1">
+                                        <div className="space-y-1 mt-1 mb-4 flex-1">
                                             {dosen.nidn && (
-                                                <p className="text-xs text-slate-500 font-medium">
+                                                <p className="text-xs text-slate-500 font-mono">
                                                     NIDN: <span className="text-slate-700">{dosen.nidn}</span>
                                                 </p>
                                             )}
                                             {dosen.program_studi && (
-                                                <p className="text-xs text-emerald-600 font-semibold">
+                                                <p className="text-xs text-emerald-700 font-semibold mt-1">
                                                     {dosen.program_studi.nama}
+                                                </p>
+                                            )}
+                                            {dosen.bidang_keahlian && (
+                                                <p className="text-xs text-slate-500 line-clamp-1 mt-0.5">
+                                                    {dosen.bidang_keahlian}
                                                 </p>
                                             )}
                                         </div>
 
                                         {/* External Links Buttons */}
-                                        <div className="grid grid-cols-3 gap-2 mt-auto border-t border-slate-100 pt-4">
+                                        <div className="grid grid-cols-3 gap-2 mt-auto border-t border-slate-100 pt-3">
                                             {dosen.sinta_url ? (
-                                                <a href={dosen.sinta_url} target="_blank" rel="noreferrer" className="flex items-center justify-center px-2 py-1.5 bg-blue-50 text-blue-700 hover:bg-blue-100 rounded text-[10px] font-bold uppercase tracking-wider transition-colors">
+                                                <a href={dosen.sinta_url} target="_blank" rel="noreferrer" className="flex items-center justify-center px-2 py-1.5 bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 rounded-lg text-[10px] font-bold uppercase tracking-wider transition-colors">
                                                     Sinta
                                                 </a>
                                             ) : (
-                                                <div className="flex items-center justify-center px-2 py-1.5 bg-slate-50 text-slate-400 rounded text-[10px] font-bold uppercase tracking-wider cursor-not-allowed">
+                                                <div className="flex items-center justify-center px-2 py-1.5 bg-slate-50 text-slate-300 rounded-lg text-[10px] font-bold uppercase tracking-wider cursor-not-allowed">
                                                     Sinta
                                                 </div>
                                             )}
                                             
                                             {dosen.scopus_url ? (
-                                                <a href={dosen.scopus_url} target="_blank" rel="noreferrer" className="flex items-center justify-center px-2 py-1.5 bg-orange-50 text-orange-700 hover:bg-orange-100 rounded text-[10px] font-bold uppercase tracking-wider transition-colors">
+                                                <a href={dosen.scopus_url} target="_blank" rel="noreferrer" className="flex items-center justify-center px-2 py-1.5 bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 rounded-lg text-[10px] font-bold uppercase tracking-wider transition-colors">
                                                     Scopus
                                                 </a>
                                             ) : (
-                                                <div className="flex items-center justify-center px-2 py-1.5 bg-slate-50 text-slate-400 rounded text-[10px] font-bold uppercase tracking-wider cursor-not-allowed">
+                                                <div className="flex items-center justify-center px-2 py-1.5 bg-slate-50 text-slate-300 rounded-lg text-[10px] font-bold uppercase tracking-wider cursor-not-allowed">
                                                     Scopus
                                                 </div>
                                             )}
 
                                             {dosen.gscholar_url ? (
-                                                <a href={dosen.gscholar_url} target="_blank" rel="noreferrer" className="flex items-center justify-center px-2 py-1.5 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 rounded text-[10px] font-bold uppercase tracking-wider transition-colors">
-                                                    GS
+                                                <a href={dosen.gscholar_url} target="_blank" rel="noreferrer" className="flex items-center justify-center px-2 py-1.5 bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 rounded-lg text-[10px] font-bold uppercase tracking-wider transition-colors">
+                                                    Scholar
                                                 </a>
                                             ) : (
-                                                <div className="flex items-center justify-center px-2 py-1.5 bg-slate-50 text-slate-400 rounded text-[10px] font-bold uppercase tracking-wider cursor-not-allowed">
-                                                    GS
+                                                <div className="flex items-center justify-center px-2 py-1.5 bg-slate-50 text-slate-300 rounded-lg text-[10px] font-bold uppercase tracking-wider cursor-not-allowed">
+                                                    Scholar
                                                 </div>
                                             )}
                                         </div>
@@ -196,14 +218,13 @@ export default function Index({ dosens, programStudis, pengaturan, stats, active
                             ))}
                         </div>
                     ) : (
-                        <div className="py-20 text-center bg-white rounded-lg border border-slate-200 border-dashed">
+                        <div className="py-20 text-center bg-white rounded-2xl border border-dashed border-slate-300 max-w-xl mx-auto p-8">
                             <User className="w-12 h-12 text-slate-300 mx-auto mb-3" />
-                            <h3 className="text-lg font-semibold text-slate-700 mb-1">Tidak Ada Data Dosen</h3>
-                            <p className="text-slate-500 text-sm">
-                                {search || activeProdi ? 'Tidak ada dosen yang sesuai dengan kriteria pencarian Anda.' : 'Data dosen sedang dalam proses pembaruan.'}
-                            </p>
+                            <h3 className="text-base font-semibold text-slate-800 mb-1">Dosen Tidak Ditemukan</h3>
+                            <p className="text-slate-500 text-sm">Tidak ada dosen yang sesuai dengan kriteria pencarian atau filter yang dipilih.</p>
                         </div>
                     )}
+
                 </div>
             </div>
         </PublicLayout>

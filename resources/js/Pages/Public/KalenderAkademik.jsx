@@ -1,41 +1,42 @@
 import React, { useState } from 'react';
-import { Head } from '@inertiajs/react';
+import { Head, Link } from '@inertiajs/react';
 import PublicLayout from '@/Layouts/PublicLayout';
-import { Calendar, ChevronDown, Download, FileText } from 'lucide-react';
+import { Calendar, ChevronRight, Download, FileText, ArrowRight } from 'lucide-react';
 import Breadcrumb from '@/Components/Public/Breadcrumb';
 
 export default function KalenderAkademik({ pengaturan, kalenders }) {
-    // Select the first calendar as active by default, if any exists
     const [activeTab, setActiveTab] = useState(kalenders?.length > 0 ? kalenders[0].id : null);
-
     const activeKalender = kalenders?.find(k => k.id === activeTab);
 
     return (
         <PublicLayout>
-            <Head title="Kalender Akademik - Prodi KPI IAI Persis Bandung" />
+            <Head title="Kalender Akademik | Prodi KPI IAI Persis Bandung" />
 
-            {/* Banner Section */}
-            <div className="relative w-full h-[350px] md:h-[450px] bg-emerald-950 flex flex-col justify-end">
-                <div className="absolute inset-0">
-                    <img 
-                        src={pengaturan?.banner_image || "/images/default-banner.jpg"}
-                        alt="Kalender Akademik Banner" 
-                        className="w-full h-full object-cover opacity-60"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-emerald-950 via-emerald-950/40 to-transparent"></div>
-                </div>
-                <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pb-12 animate-fade-in-up">
-                    <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-2 drop-shadow-md tracking-tight">
-                        Kalender Akademik
-                    </h1>
-                    <div className="w-20 h-1.5 bg-amber-500 rounded-sm mb-4"></div>
-                    {pengaturan?.deskripsi && (
-                        <p className="text-white/90 max-w-2xl text-lg md:text-xl leading-relaxed drop-shadow">
-                            {pengaturan.deskripsi}
+            {/* Minimalist Editorial Hero Section */}
+            <section className="relative bg-gradient-to-b from-[#091122] via-[#0E1B38] to-[#070E1E] text-white pt-20 pb-20 md:pt-24 md:pb-24 border-b border-slate-800/80 overflow-hidden">
+                {pengaturan?.banner_image && (
+                    <div className="absolute inset-0 z-0">
+                        <img 
+                            src={pengaturan.banner_image} 
+                            alt="Banner Kalender Akademik" 
+                            className="w-full h-full object-cover opacity-20"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#070E1E] via-[#091122]/80 to-[#091122]/90"></div>
+                    </div>
+                )}
+
+                <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
+                    <div className="max-w-3xl text-left">
+                        <h1 className="text-3xl sm:text-5xl lg:text-[48px] font-semibold text-white leading-[1.18] tracking-tight mb-4">
+                            Kalender &amp; <span className="font-serif italic font-normal text-emerald-300">Agenda Akademik</span>
+                        </h1>
+
+                        <p className="text-base sm:text-lg text-slate-300 font-normal leading-relaxed max-w-2xl">
+                            {pengaturan?.deskripsi || 'Jadwal perkuliahan, periode registrasi, ujian semester, serta agenda akademik Program Studi KPI IAI Persis Bandung.'}
                         </p>
-                    )}
+                    </div>
                 </div>
-            </div>
+            </section>
 
             {/* Breadcrumb Navigation */}
             <Breadcrumb items={[
@@ -44,51 +45,65 @@ export default function KalenderAkademik({ pengaturan, kalenders }) {
             ]} />
 
             {/* Main Content Area */}
-            <div className="bg-slate-50 py-12 lg:py-20 border-b border-slate-200">
+            <div className="bg-[#FAFAFA] py-12 sm:py-20 border-b border-slate-200 min-h-screen">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     
                     {kalenders && kalenders.length > 0 ? (
-                        <div className="flex flex-col lg:flex-row gap-8">
-                            {/* Left Column: Sidebar Tabs */}
-                            <div className="w-full lg:w-1/4">
-                                <div className="bg-white p-4 shadow-sm border border-slate-200 rounded-xl sticky top-24">
-                                    <h3 className="font-bold text-slate-800 text-lg mb-4 flex items-center gap-2 border-b border-slate-100 pb-3">
-                                        <Calendar className="w-5 h-5 text-emerald-600" />
-                                        Tahun Akademik
-                                    </h3>
-                                    <div className="space-y-2">
+                        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                            
+                            {/* Left Column: Sidebar Tabs Tahun Akademik (30%) */}
+                            <div className="lg:col-span-4 lg:sticky lg:top-28">
+                                <div className="bg-white p-5 shadow-sm border border-slate-200/90 rounded-2xl">
+                                    <div className="flex items-center gap-2 pb-4 mb-4 border-b border-slate-100">
+                                        <Calendar className="w-4 h-4 text-emerald-700" />
+                                        <h3 className="font-semibold text-slate-900 text-sm">
+                                            Pilih Tahun Akademik
+                                        </h3>
+                                    </div>
+                                    <div className="space-y-1.5">
                                         {kalenders.map((kalender) => (
                                             <button
                                                 key={kalender.id}
                                                 onClick={() => setActiveTab(kalender.id)}
-                                                className={`w-full text-left px-4 py-3 rounded-lg font-medium transition-all duration-200 flex justify-between items-center group ${
+                                                className={`w-full text-left px-4 py-3 rounded-xl text-xs sm:text-sm font-medium transition-all flex justify-between items-center ${
                                                     activeTab === kalender.id 
-                                                    ? 'bg-emerald-600 text-white shadow-md' 
-                                                    : 'bg-slate-50 text-slate-700 hover:bg-emerald-50 hover:text-emerald-700 border border-slate-100'
+                                                    ? 'bg-[#0E1626] text-white shadow-sm' 
+                                                    : 'bg-slate-50 text-slate-700 hover:bg-slate-100'
                                                 }`}
                                             >
                                                 <span>T.A. {kalender.tahun_akademik}</span>
-                                                <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${activeTab === kalender.id ? '-rotate-90' : 'group-hover:-rotate-90 opacity-50'}`} />
+                                                <ChevronRight className={`w-4 h-4 ${activeTab === kalender.id ? 'text-emerald-400' : 'text-slate-400'}`} />
                                             </button>
                                         ))}
+                                    </div>
+
+                                    {/* Link ke Jadwal Kuliah */}
+                                    <div className="mt-6 pt-5 border-t border-slate-100">
+                                        <Link 
+                                            href="/akademik/jadwal"
+                                            className="text-xs font-medium text-slate-600 hover:text-emerald-700 flex items-center justify-between transition-colors py-1"
+                                        >
+                                            <span>Lihat Jadwal Kuliah Mingguan</span>
+                                            <ArrowRight className="w-3.5 h-3.5" />
+                                        </Link>
                                     </div>
                                 </div>
                             </div>
 
-                            {/* Right Column: PDF Viewer */}
-                            <div className="w-full lg:w-3/4">
+                            {/* Right Column: PDF Viewer Bento Card (70%) */}
+                            <div className="lg:col-span-8">
                                 {activeKalender ? (
-                                    <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden animate-fade-in">
-                                        <div className="p-5 border-b border-slate-100 flex flex-col sm:flex-row justify-between items-center gap-4 bg-slate-50">
-                                            <div className="flex items-center gap-3">
-                                                <div className="p-2 bg-emerald-100 text-emerald-600 rounded-lg">
-                                                    <FileText className="w-6 h-6" />
+                                    <div className="bg-white rounded-2xl shadow-sm border border-slate-200/90 overflow-hidden">
+                                        <div className="p-6 border-b border-slate-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-slate-50/50">
+                                            <div className="flex items-center gap-3.5">
+                                                <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-800 flex items-center justify-center border border-emerald-100 shrink-0">
+                                                    <FileText className="w-5 h-5 text-emerald-700" />
                                                 </div>
                                                 <div>
-                                                    <h2 className="text-xl font-bold text-slate-800">
-                                                        Kalender Akademik Tahun {activeKalender.tahun_akademik}
+                                                    <h2 className="text-lg sm:text-xl font-semibold text-slate-900 tracking-tight">
+                                                        Kalender Akademik T.A. {activeKalender.tahun_akademik}
                                                     </h2>
-                                                    <p className="text-sm text-slate-500">Pratinjau dokumen resmi.</p>
+                                                    <p className="text-xs text-slate-500 mt-0.5">Pratinjau dokumen resmi keputusan dekanat.</p>
                                                 </div>
                                             </div>
                                             <a 
@@ -96,36 +111,41 @@ export default function KalenderAkademik({ pengaturan, kalenders }) {
                                                 target="_blank" 
                                                 rel="noreferrer"
                                                 download={`Kalender_Akademik_${activeKalender.tahun_akademik.replace('/', '-')}.pdf`}
-                                                className="inline-flex items-center gap-2 px-5 py-2.5 bg-emerald-600 text-white font-medium rounded-lg hover:bg-emerald-700 transition-colors shadow-sm"
+                                                className="inline-flex items-center gap-2 px-4 py-2.5 bg-slate-900 text-white text-xs sm:text-sm font-medium rounded-xl hover:bg-slate-800 transition-colors shadow-sm shrink-0"
                                             >
-                                                <Download className="w-4 h-4" /> Unduh PDF
+                                                <Download className="w-4 h-4 text-emerald-400" /> 
+                                                <span>Unduh PDF</span>
                                             </a>
                                         </div>
-                                        <div className="w-full h-[600px] md:h-[800px] bg-slate-200">
+                                        <div className="w-full h-[600px] md:h-[750px] bg-slate-100">
                                             <iframe 
                                                 src={`/storage/${activeKalender.file_pdf}#toolbar=0`} 
                                                 className="w-full h-full border-none"
                                                 title={`Kalender Akademik ${activeKalender.tahun_akademik}`}
                                             >
-                                                <p className="text-center p-8">
-                                                    Browser Anda tidak mendukung pratinjau PDF. 
-                                                    <a href={`/storage/${activeKalender.file_pdf}`} className="text-emerald-600 underline ml-1">Silakan unduh file.</a>
+                                                <p className="text-center p-8 text-sm text-slate-500">
+                                                    Browser tidak mendukung pratinjau PDF. Silakan klik tombol unduh di atas.
                                                 </p>
                                             </iframe>
                                         </div>
                                     </div>
                                 ) : (
-                                    <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-12 text-center text-slate-500">
-                                        Pilih tahun akademik di samping untuk melihat dokumen.
+                                    <div className="bg-white rounded-2xl border border-dashed border-slate-300 p-12 text-center text-slate-500">
+                                        <Calendar className="w-12 h-12 mx-auto text-slate-300 mb-3" />
+                                        <h3 className="text-base font-semibold text-slate-800 mb-1">Pilih Tahun Akademik</h3>
+                                        <p className="text-sm text-slate-500 max-w-sm mx-auto">
+                                            Silakan pilih salah satu tahun akademik pada menu sebelah kiri untuk melihat dokumen kalender.
+                                        </p>
                                     </div>
                                 )}
                             </div>
+
                         </div>
                     ) : (
-                        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-16 text-center text-slate-500">
-                            <Calendar className="w-16 h-16 mx-auto text-slate-300 mb-4" />
-                            <h3 className="text-xl font-bold text-slate-700 mb-2">Belum Ada Kalender Akademik</h3>
-                            <p className="max-w-md mx-auto">Dokumen kalender akademik untuk saat ini belum tersedia atau belum dipublikasikan oleh administrator.</p>
+                        <div className="bg-white rounded-2xl border border-dashed border-slate-300 p-16 text-center max-w-xl mx-auto">
+                            <Calendar className="w-12 h-12 mx-auto text-slate-300 mb-3" />
+                            <h3 className="text-base font-semibold text-slate-800 mb-1">Kalender Akademik Belum Tersedia</h3>
+                            <p className="text-sm text-slate-500">Jadwal kalender akademik saat ini sedang dalam proses penyusunan.</p>
                         </div>
                     )}
 
