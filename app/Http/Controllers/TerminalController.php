@@ -98,7 +98,25 @@ class TerminalController extends Controller
             }
         }
 
-        $startTime = microtime(true);
+        // Jika perintah adalah php artisan, jalankan secara native via Artisan::call (Aman untuk shared hosting tanpa SSH/proc_open)
+        if (preg_match('/^php\s+artisan\s+(.+)$/i', $command, $matches) || preg_match('/^artisan\s+(.+)$/i', $command, $matches)) {
+            $artisanCmd = trim($matches[1]);
+            try {
+                \Illuminate\Support\Facades\Artisan::call($artisanCmd);
+                $artisanOutput = \Illuminate\Support\Facades\Artisan::output();
+                $duration = number_format(microtime(true) - $startTime, 2) . 's';
+
+                return response()->json([
+                    'success' => true,
+                    'command' => $command,
+                    'output' => trim($artisanOutput) ?: "Artisan [{$artisanCmd}] berhasil dijalankan tanpa error.",
+                    'exit_code' => 0,
+                    'duration' => $duration
+                ]);
+            } catch (\Exception $e) {
+                // Jika Artisan::call gagal, lanjutkan ke Process sebagai fallback
+            }
+        }
 
         try {
             $process = Process::fromShellCommandline($command, base_path());
