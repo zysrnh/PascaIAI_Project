@@ -133,8 +133,32 @@ Route::get('/akademik/pedoman', [\App\Http\Controllers\PedomanAkademikController
 Route::get('/akademik/kurikulum', [\App\Http\Controllers\KurikulumController::class, 'index'])->name('public.akademik.kurikulum');
 Route::get('/akademik/sistem-akademik', [\App\Http\Controllers\SistemAkademikController::class, 'indexPublic'])->name('public.akademik.sistem');
 Route::get('/laboratorium', function () {
-    return \Inertia\Inertia::render('Public/Laboratorium/Index');
+    return redirect()->route('public.laboratorium.penyiaran');
 })->name('public.laboratorium');
+
+Route::get('/laboratorium/penyiaran', function () {
+    return \Inertia\Inertia::render('Public/Laboratorium/Penyiaran');
+})->name('public.laboratorium.penyiaran');
+
+Route::get('/laboratorium/jurnalistik', function () {
+    return \Inertia\Inertia::render('Public/Laboratorium/Jurnalistik');
+})->name('public.laboratorium.jurnalistik');
+
+Route::get('/laboratorium/podcast', function () {
+    return \Inertia\Inertia::render('Public/Laboratorium/Podcast');
+})->name('public.laboratorium.podcast');
+
+Route::get('/laboratorium/film-pendek', function () {
+    return \Inertia\Inertia::render('Public/Laboratorium/FilmPendek');
+})->name('public.laboratorium.film-pendek');
+
+Route::get('/laboratorium/fotografi', function () {
+    return \Inertia\Inertia::render('Public/Laboratorium/Fotografi');
+})->name('public.laboratorium.fotografi');
+
+Route::get('/laboratorium/dakwah-digital', function () {
+    return \Inertia\Inertia::render('Public/Laboratorium/DakwahDigital');
+})->name('public.laboratorium.dakwah-digital');
 
 
 // LPPM Public Routes
