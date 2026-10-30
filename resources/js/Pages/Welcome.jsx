@@ -306,10 +306,10 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                 <section className="bg-[#0E1626] text-white py-24 sm:py-32 lg:py-36 border-b border-slate-800">
                     <div className="max-w-6xl mx-auto px-4 sm:px-6">
                         <div className={`max-w-3xl text-left transition-all duration-700 ease-out transform ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
-                            <h1 className="text-3xl sm:text-5xl lg:text-[54px] font-light text-white leading-[1.18] tracking-tight mb-6">
+                            <h1 className="text-3xl sm:text-5xl lg:text-[54px] font-semibold text-white leading-[1.18] tracking-tight mb-6">
                                 {setting?.hero_title || "Mencetak Praktisi Media, Jurnalis, dan Dai Unggul di Era Digital"}
                             </h1>
-                            <p className="text-base sm:text-lg text-slate-300 font-light leading-relaxed mb-10 max-w-2xl">
+                            <p className="text-base sm:text-lg text-slate-300 font-normal leading-relaxed mb-10 max-w-2xl">
                                 {setting?.hero_subtitle || "Belajar komunikasi, jurnalistik, penyiaran, media digital, dan dakwah untuk menjawab tantangan informasi di era modern dengan nilai-nilai Islam."}
                             </p>
                             <div className="flex flex-wrap items-center gap-4 mb-10">
@@ -387,7 +387,7 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start animate-on-scroll opacity-0 translate-y-8 transition-all duration-700 ease-out">
                             <div className="lg:col-span-6">
                                 <span className="text-xs uppercase tracking-wider text-slate-500 font-medium">Tentang KPI</span>
-                                <h2 className="text-2xl sm:text-4xl font-light text-slate-900 mt-2 mb-6 leading-tight tracking-tight">
+                                <h2 className="text-2xl sm:text-4xl font-semibold text-slate-900 mt-2 mb-6 leading-tight tracking-tight">
                                     Ilmu Komunikasi, Keterampilan Media, dan Nilai Dakwah
                                 </h2>
                                 <p className="text-slate-600 font-normal leading-relaxed mb-8 text-sm sm:text-base">
@@ -402,9 +402,10 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                                     </a>
                                     <Link
                                         href="/profil/tentang-kampus"
-                                        className="bg-white hover:bg-slate-50 text-slate-900 border border-slate-300 font-medium px-5 py-2.5 rounded-lg text-sm transition"
+                                        className="bg-white hover:bg-slate-50 text-slate-900 border border-slate-300 font-medium px-5 py-2.5 rounded-lg text-sm transition inline-flex items-center gap-1.5"
                                     >
-                                        Profil Lengkap →
+                                        <span>Profil Lengkap</span>
+                                        <i className="fa-solid fa-arrow-right text-xs"></i>
                                     </Link>
                                 </div>
                             </div>
@@ -454,7 +455,7 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                             </div>
                             <div className="lg:col-span-7">
                                 <span className="text-xs uppercase tracking-wider text-slate-500 font-medium">SAMBUTAN KETUA PRODI</span>
-                                <h2 className="text-2xl sm:text-3xl font-light text-slate-900 mt-2 mb-6 leading-snug tracking-tight">
+                                <h2 className="text-2xl sm:text-3xl font-semibold text-slate-900 mt-2 mb-6 leading-snug tracking-tight">
                                     {sambutan?.sambutan_singkat || "Membangun Generasi Komunikator & Praktisi Media Islam yang Unggul"}
                                 </h2>
 
@@ -483,7 +484,7 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                     <div className="max-w-6xl mx-auto px-4 sm:px-6">
                         <div className="max-w-2xl mb-16 animate-on-scroll opacity-0 translate-y-8 transition-all duration-700 ease-out">
                             <span className="text-xs uppercase tracking-wider text-slate-500 font-medium">INFORMASI AKADEMIK</span>
-                            <h2 className="text-2xl sm:text-4xl font-light text-slate-900 mt-2 mb-3 tracking-tight">Layanan &amp; Kurikulum</h2>
+                            <h2 className="text-2xl sm:text-4xl font-semibold text-slate-900 mt-2 mb-3 tracking-tight">Layanan &amp; Kurikulum</h2>
                             <p className="text-slate-600 text-sm sm:text-base">Akses informasi akademik terstruktur untuk mendukung proses perkuliahan.</p>
                         </div>
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 animate-on-scroll opacity-0 translate-y-8 transition-all duration-700 ease-out delay-100">
@@ -571,7 +572,7 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                     <div className="max-w-6xl mx-auto px-4 sm:px-6">
                         <div className="max-w-2xl mb-16 animate-on-scroll opacity-0 translate-y-8 transition-all duration-700 ease-out">
                             <span className="text-xs uppercase tracking-wider text-slate-500 font-medium">FASILITAS &amp; LABORATORIUM</span>
-                            <h2 className="text-2xl sm:text-4xl font-light text-slate-900 mt-2 mb-3 tracking-tight">Studio Praktik Media</h2>
+                            <h2 className="text-2xl sm:text-4xl font-semibold text-slate-900 mt-2 mb-3 tracking-tight">Studio Praktik Media</h2>
                             <p className="text-slate-600 text-sm sm:text-base">Sarana produksi audio-visual, siaran podcast, dan redaksi jurnalistik modern.</p>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 animate-on-scroll opacity-0 translate-y-8 transition-all duration-700 ease-out delay-100">
@@ -611,7 +612,7 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                         <div className="bg-slate-900 text-white p-8 sm:p-10 rounded-xl flex flex-col md:flex-row items-center justify-between gap-6 border border-slate-800">
                             <div>
                                 <span className="text-xs uppercase tracking-wider text-slate-400 font-medium">AKREDITASI BAN-PT &amp; LAM</span>
-                                <h3 className="text-xl sm:text-2xl font-light mt-1 text-white">Terakreditasi &amp; Terstandarisasi Mutu Nasional</h3>
+                                <h3 className="text-xl sm:text-2xl font-semibold mt-1 text-white">Terakreditasi &amp; Terstandarisasi Mutu Nasional</h3>
                                 <p className="text-xs sm:text-sm text-slate-400 mt-1 max-w-xl">Program Studi Komunikasi dan Penyiaran Islam senantiasa menjaga kepatuhan mutu kurikulum dan kompetensi lulusan.</p>
                             </div>
                             <Link href={route('public.akreditasi')} className="bg-white hover:bg-slate-100 text-slate-900 font-medium px-5 py-2.5 rounded-lg transition text-xs shrink-0 flex items-center gap-2">
@@ -628,8 +629,8 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                             {/* Kiri: Portal Survei */}
                             <div className="lg:col-span-6 animate-on-scroll opacity-0 translate-y-8 transition-all duration-700 ease-out">
                                 <span className="text-xs uppercase tracking-wider text-slate-400 font-medium">UMPAN BALIK</span>
-                                <h2 className="text-2xl sm:text-4xl font-light leading-tight mt-2 mb-4 text-white">Survei Kepuasan Layanan</h2>
-                                <p className="text-slate-300 leading-relaxed mb-8 text-sm sm:text-base font-light">
+                                <h2 className="text-2xl sm:text-4xl font-semibold leading-tight mt-2 mb-4 text-white">Survei Kepuasan Layanan</h2>
+                                <p className="text-slate-300 leading-relaxed mb-8 text-sm sm:text-base font-normal">
                                     Partisipasi Anda sangat penting untuk evaluasi dan peningkatan mutu prodi berkelanjutan.
                                 </p>
 
@@ -777,7 +778,7 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                         <div className="flex flex-col md:flex-row justify-between items-end mb-12 animate-on-scroll opacity-0 translate-y-8 transition-all duration-700 ease-out">
                             <div className="max-w-xl">
                                 <span className="text-xs uppercase tracking-wider text-slate-500 font-medium">KABAR TERKINI</span>
-                                <h2 className="text-2xl sm:text-4xl font-light text-slate-900 mt-2 mb-2 tracking-tight">Berita &amp; Agenda</h2>
+                                <h2 className="text-2xl sm:text-4xl font-semibold text-slate-900 mt-2 mb-2 tracking-tight">Berita &amp; Agenda</h2>
                                 <p className="text-slate-600 text-sm sm:text-base">Perkembangan akademik, agenda workshop, dan kegiatan program studi.</p>
                             </div>
                             <Link href="/berita" className="hidden md:inline-flex items-center gap-2 text-slate-900 text-sm font-medium hover:text-slate-600 transition-colors">
