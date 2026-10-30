@@ -29,6 +29,22 @@ if (file_exists($cachedConfig = __DIR__.'/../bootstrap/cache/config.php')) {
     @unlink($cachedConfig);
 }
 
+// Auto-fix permissions folder build & assets agar tidak 403 Forbidden
+$buildDir = __DIR__.'/build';
+if (is_dir($buildDir)) {
+    @chmod($buildDir, 0755);
+    $assetsDir = $buildDir.'/assets';
+    if (is_dir($assetsDir)) {
+        @chmod($assetsDir, 0755);
+        foreach (glob($assetsDir.'/*') as $f) {
+            @chmod($f, 0644);
+        }
+    }
+    if (file_exists($m = $buildDir.'/manifest.json')) {
+        @chmod($m, 0644);
+    }
+}
+
 // Register the Composer autoloader...
 require __DIR__.'/../vendor/autoload.php';
 
