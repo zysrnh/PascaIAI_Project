@@ -10,6 +10,19 @@ if (file_exists($maintenance = __DIR__.'/../storage/framework/maintenance.php'))
     require $maintenance;
 }
 
+// Auto-ensure storage framework directories exist (mencegah error tempnam() di hosting)
+foreach ([
+    __DIR__.'/../storage/framework/views',
+    __DIR__.'/../storage/framework/cache/data',
+    __DIR__.'/../storage/framework/sessions',
+    __DIR__.'/../storage/logs',
+    __DIR__.'/../bootstrap/cache',
+] as $sDir) {
+    if (!is_dir($sDir)) {
+        @mkdir($sDir, 0777, true);
+    }
+}
+
 // Register the Composer autoloader...
 require __DIR__.'/../vendor/autoload.php';
 
