@@ -50,7 +50,7 @@ class SyncBuildCommand extends Command
         $totalFiles = count($sourceFiles);
 
         $this->info("=================================================");
-        $this->info(" 📦 PIAUD SYNC ASSETS & IMAGES CONSOLE");
+        $this->info(" 📦 KPI SYNC ASSETS & IMAGES CONSOLE");
         $this->info("=================================================");
         $this->line("Sumber Build  : <fg=cyan>{$sourceBuild}</>");
         $this->line("Jumlah Berkas : <fg=yellow>{$totalFiles} file</>");
