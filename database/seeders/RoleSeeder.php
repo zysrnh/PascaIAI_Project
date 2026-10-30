@@ -16,38 +16,32 @@ class RoleSeeder extends Seeder
     {
         $users = [
             [
-                'name' => 'Super Administrator',
-                'email' => 'superadmin@pasca.iaipibandung.ac.id',
+                'name' => 'Super Administrator KPI',
+                'email' => 'superadmin@iaipibandung.ac.id',
                 'password' => Hash::make('password123'),
                 'role' => 'superadmin',
             ],
             [
-                'name' => 'Admin Akademik',
-                'email' => 'akademik@pasca.iaipibandung.ac.id',
+                'name' => 'Admin Prodi KPI',
+                'email' => 'kpi@iaipibandung.ac.id',
+                'password' => Hash::make('password123'),
+                'role' => 'admin_prodi',
+            ],
+            [
+                'name' => 'Admin Akademik KPI',
+                'email' => 'akademik.kpi@iaipibandung.ac.id',
                 'password' => Hash::make('password123'),
                 'role' => 'admin_akademik',
             ],
             [
-                'name' => 'Admin LPPM',
-                'email' => 'lppm@pasca.iaipibandung.ac.id',
+                'name' => 'Admin LPPM KPI',
+                'email' => 'lppm@iaipibandung.ac.id',
                 'password' => Hash::make('password123'),
                 'role' => 'admin_lppm',
             ],
             [
-                'name' => 'Admin Prodi PAI',
-                'email' => 'prodi.pai@pasca.iaipibandung.ac.id',
-                'password' => Hash::make('password123'),
-                'role' => 'admin_prodi',
-            ],
-            [
-                'name' => 'Admin Prodi HK',
-                'email' => 'prodi.hk@pasca.iaipibandung.ac.id',
-                'password' => Hash::make('password123'),
-                'role' => 'admin_prodi',
-            ],
-            [
-                'name' => 'Humas / Editor',
-                'email' => 'humas@pasca.iaipibandung.ac.id',
+                'name' => 'Humas & Media KPI',
+                'email' => 'humas.kpi@iaipibandung.ac.id',
                 'password' => Hash::make('password123'),
                 'role' => 'editor',
             ]
