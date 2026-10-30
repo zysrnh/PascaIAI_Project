@@ -64,10 +64,6 @@ export default function JadwalPerkuliahan({ pengaturan, periodes, programStudis 
             <div className="relative bg-gradient-to-b from-[#091122] via-[#0E1B38] to-[#070E1E] text-white pt-20 pb-20 md:pt-24 md:pb-24 border-b border-slate-800/80 overflow-hidden">
                 <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-900/20 via-transparent to-transparent pointer-events-none"></div>
                 <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center sm:text-left">
-                    <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium tracking-widest uppercase bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 mb-4">
-                        <CalendarDays className="w-3.5 h-3.5" />
-                        Kalender Kuliah & Ruang
-                    </span>
                     <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-white leading-[1.18] tracking-tight mb-4">
                         Jadwal <span className="font-serif italic font-normal text-emerald-300">Perkuliahan</span>
                     </h1>

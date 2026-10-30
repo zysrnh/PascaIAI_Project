@@ -3,10 +3,9 @@ import { createPortal } from 'react-dom';
 import { Head, router } from '@inertiajs/react';
 import PublicLayout from '@/Layouts/PublicLayout';
 import { 
-    BookOpen, Download, FileText, Search, Eye, X, 
+    Download, FileText, Search, Eye, X, 
     Folder, ChevronRight, Home, ArrowLeft,
-    FileType, FileSpreadsheet, Presentation, FolderOpen,
-    Calendar, HardDrive
+    FileType, FileSpreadsheet, Presentation, FolderOpen
 } from 'lucide-react';
 import Breadcrumb from '@/Components/Public/Breadcrumb';
 
@@ -23,21 +22,21 @@ const getFileIcon = (tipeFile, size = 'w-5 h-5') => {
 
 const getFileColor = (tipeFile) => {
     switch (tipeFile?.toLowerCase()) {
-        case 'pdf': return { bg: 'bg-rose-50 text-rose-600 border-rose-200/60', badge: 'bg-rose-50 text-rose-700' };
-        case 'doc': case 'docx': return { bg: 'bg-blue-50 text-blue-600 border-blue-200/60', badge: 'bg-blue-50 text-blue-700' };
-        case 'xls': case 'xlsx': return { bg: 'bg-emerald-50 text-emerald-600 border-emerald-200/60', badge: 'bg-emerald-50 text-emerald-700' };
-        case 'ppt': case 'pptx': return { bg: 'bg-amber-50 text-amber-600 border-amber-200/60', badge: 'bg-amber-50 text-amber-700' };
-        default: return { bg: 'bg-slate-50 text-slate-600 border-slate-200/60', badge: 'bg-slate-100 text-slate-700' };
+        case 'pdf': return { bg: 'bg-rose-50 text-rose-600 border-rose-200/60', badge: 'bg-rose-50 text-rose-700 border border-rose-200/60' };
+        case 'doc': case 'docx': return { bg: 'bg-blue-50 text-blue-600 border-blue-200/60', badge: 'bg-blue-50 text-blue-700 border border-blue-200/60' };
+        case 'xls': case 'xlsx': return { bg: 'bg-emerald-50 text-emerald-600 border-emerald-200/60', badge: 'bg-emerald-50 text-emerald-700 border border-emerald-200/60' };
+        case 'ppt': case 'pptx': return { bg: 'bg-amber-50 text-amber-600 border-amber-200/60', badge: 'bg-amber-50 text-amber-700 border border-amber-200/60' };
+        default: return { bg: 'bg-slate-50 text-slate-600 border-slate-200/60', badge: 'bg-slate-100 text-slate-700 border border-slate-200/60' };
     }
 };
 
 const getFileLabel = (tipeFile) => {
     switch (tipeFile?.toLowerCase()) {
-        case 'pdf': return 'PDF';
-        case 'doc': case 'docx': return 'Word';
-        case 'xls': case 'xlsx': return 'Excel';
+        case 'pdf': return 'PDF Document';
+        case 'doc': case 'docx': return 'Word Document';
+        case 'xls': case 'xlsx': return 'Excel Spreadsheet';
         case 'ppt': case 'pptx': return 'PowerPoint';
-        default: return tipeFile?.toUpperCase() || 'FILE';
+        default: return tipeFile?.toUpperCase() || 'Berkas Dokumen';
     }
 };
 
@@ -93,10 +92,6 @@ export default function PedomanAkademik({ folders = [], documents = [], currentF
             <div className="relative bg-gradient-to-b from-[#091122] via-[#0E1B38] to-[#070E1E] text-white pt-20 pb-20 md:pt-24 md:pb-24 border-b border-slate-800/80 overflow-hidden">
                 <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-900/20 via-transparent to-transparent pointer-events-none"></div>
                 <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center sm:text-left">
-                    <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium tracking-widest uppercase bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 mb-4">
-                        <BookOpen className="w-3.5 h-3.5" />
-                        Penjaminan Mutu & Regulasi
-                    </span>
                     <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-white leading-[1.18] tracking-tight mb-4">
                         Pedoman & <span className="font-serif italic font-normal text-emerald-300">Instrumen AMI</span>
                     </h1>
@@ -159,7 +154,7 @@ export default function PedomanAkademik({ folders = [], documents = [], currentF
                             )}
                         </div>
 
-                        {/* Search & Stats Header */}
+                        {/* Search & Header */}
                         <div className="p-5 md:p-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                             <div>
                                 <h3 className="text-base sm:text-lg font-semibold text-slate-900 flex items-center gap-2">
@@ -218,16 +213,21 @@ export default function PedomanAkademik({ folders = [], documents = [], currentF
                             {/* Folder Grid */}
                             {filteredFolders.length > 0 && (
                                 <div>
-                                    <div className="text-xs font-semibold uppercase tracking-wider text-slate-500 mb-3 flex items-center gap-1.5">
-                                        <Folder className="w-3.5 h-3.5" />
-                                        <span>Folder ({filteredFolders.length})</span>
+                                    <div className="flex items-center gap-2 mb-3">
+                                        <Folder className="w-4 h-4 text-amber-500" />
+                                        <h4 className="text-xs font-bold uppercase tracking-wider text-slate-600">
+                                            Folder Direktori
+                                        </h4>
+                                        <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-amber-50 text-amber-700 border border-amber-200/50">
+                                            {filteredFolders.length}
+                                        </span>
                                     </div>
                                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                                         {filteredFolders.map(folder => (
                                             <div
                                                 key={folder.id}
                                                 onClick={() => navigateToFolder(folder.id)}
-                                                className="group cursor-pointer bg-white rounded-2xl border border-slate-200/80 hover:border-emerald-300 p-4 transition-all duration-200 hover:-translate-y-0.5 shadow-2xs hover:shadow-sm flex items-center gap-3.5"
+                                                className="group cursor-pointer bg-white rounded-2xl border border-slate-200/80 hover:border-emerald-400 p-4 transition-all duration-200 hover:-translate-y-0.5 shadow-2xs hover:shadow-sm flex items-center gap-3.5"
                                             >
                                                 <div className="w-11 h-11 rounded-xl bg-amber-50 text-amber-500 border border-amber-200/60 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
                                                     <Folder className="w-5 h-5 fill-amber-400" />
@@ -247,51 +247,60 @@ export default function PedomanAkademik({ folders = [], documents = [], currentF
                                 </div>
                             )}
 
-                            {/* Documents List */}
+                            {/* Documents Bento Grid */}
                             {filteredDocs.length > 0 && (
                                 <div>
-                                    <div className="text-xs font-semibold uppercase tracking-wider text-slate-500 mb-3 flex items-center gap-1.5">
-                                        <FileText className="w-3.5 h-3.5" />
-                                        <span>Dokumen & Berkas ({filteredDocs.length})</span>
+                                    <div className="flex items-center gap-2 mb-4">
+                                        <FileText className="w-4 h-4 text-emerald-600" />
+                                        <h4 className="text-xs font-bold uppercase tracking-wider text-slate-600">
+                                            Dokumen & Berkas
+                                        </h4>
+                                        <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200/50">
+                                            {filteredDocs.length}
+                                        </span>
                                     </div>
-                                    <div className="grid grid-cols-1 gap-3">
+
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
                                         {filteredDocs.map(doc => {
                                             const colors = getFileColor(doc.tipe_file);
                                             return (
                                                 <div
                                                     key={doc.id}
-                                                    className="bg-white rounded-2xl border border-slate-200/80 hover:border-slate-300 p-4 sm:p-5 transition-all duration-200 shadow-2xs hover:shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
+                                                    className="bg-white rounded-2xl border border-slate-200/80 hover:border-emerald-300 p-5 flex flex-col justify-between shadow-2xs hover:shadow-md transition-all duration-200 hover:-translate-y-0.5 group"
                                                 >
-                                                    <div className="flex items-start gap-4 flex-1 min-w-0">
-                                                        <div className={`w-11 h-11 rounded-xl flex items-center justify-center shrink-0 border ${colors.bg}`}>
-                                                            {getFileIcon(doc.tipe_file, 'w-5 h-5')}
-                                                        </div>
-                                                        <div className="min-w-0 flex-1">
-                                                            <div className="flex flex-wrap items-center gap-2 mb-1">
-                                                                <span className={`text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-md ${colors.badge}`}>
-                                                                    {getFileLabel(doc.tipe_file)}
-                                                                </span>
-                                                                {doc.ukuran_file && (
-                                                                    <span className="text-[11px] text-slate-400">
-                                                                        {doc.ukuran_file}
-                                                                    </span>
-                                                                )}
+                                                    <div>
+                                                        {/* Header: Icon & Format Tag */}
+                                                        <div className="flex items-center justify-between gap-3 mb-3">
+                                                            <div className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 border ${colors.bg}`}>
+                                                                {getFileIcon(doc.tipe_file, 'w-6 h-6')}
                                                             </div>
-                                                            <h4 className="text-sm sm:text-base font-semibold text-slate-900 line-clamp-1">
-                                                                {doc.judul}
-                                                            </h4>
-                                                            {doc.deskripsi && (
-                                                                <p className="text-xs text-slate-500 line-clamp-1 mt-0.5">
-                                                                    {doc.deskripsi}
-                                                                </p>
-                                                            )}
+                                                            <span className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-lg ${colors.badge}`}>
+                                                                {getFileLabel(doc.tipe_file)}
+                                                            </span>
                                                         </div>
+
+                                                        {/* Title */}
+                                                        <h4 className="text-base font-semibold text-slate-900 group-hover:text-emerald-700 transition-colors line-clamp-2 leading-snug" title={doc.judul}>
+                                                            {doc.judul}
+                                                        </h4>
+
+                                                        {/* Description */}
+                                                        {doc.deskripsi ? (
+                                                            <p className="text-xs text-slate-500 line-clamp-2 mt-2 leading-relaxed">
+                                                                {doc.deskripsi}
+                                                            </p>
+                                                        ) : (
+                                                            <p className="text-xs text-slate-400 italic mt-2">
+                                                                Dokumen panduan resmi
+                                                            </p>
+                                                        )}
                                                     </div>
 
-                                                    <div className="flex items-center gap-2 shrink-0 self-end sm:self-center w-full sm:w-auto justify-end pt-2 sm:pt-0 border-t sm:border-0 border-slate-100">
+                                                    {/* Action Buttons */}
+                                                    <div className="pt-4 mt-5 border-t border-slate-100 flex items-center gap-2">
                                                         <button
                                                             onClick={() => setPreviewDoc(doc)}
-                                                            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-700 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-xl transition-colors shadow-2xs"
+                                                            className="flex-1 inline-flex items-center justify-center gap-1.5 py-2 px-3 text-xs font-semibold text-slate-700 bg-slate-50 hover:bg-slate-100 hover:text-slate-900 border border-slate-200/80 rounded-xl transition-colors shadow-2xs cursor-pointer"
                                                             title="Pratinjau Dokumen"
                                                         >
                                                             <Eye className="w-3.5 h-3.5 text-slate-500" />
@@ -300,7 +309,7 @@ export default function PedomanAkademik({ folders = [], documents = [], currentF
                                                         <a
                                                             href={`/storage/${doc.file_path}`}
                                                             download
-                                                            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200/70 rounded-xl transition-colors shadow-2xs"
+                                                            className="flex-1 inline-flex items-center justify-center gap-1.5 py-2 px-3 text-xs font-semibold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200/80 rounded-xl transition-colors shadow-2xs cursor-pointer"
                                                             title="Unduh File"
                                                         >
                                                             <Download className="w-3.5 h-3.5 text-emerald-600" />
