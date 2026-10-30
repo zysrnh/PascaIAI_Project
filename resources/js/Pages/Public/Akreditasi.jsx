@@ -128,26 +128,16 @@ export default function Akreditasi({ institusi, prodis, riwayats, pengaturan }) 
                 }
             `}</style>
 
-            {/* Banner Section */}
-            <div className="relative w-full h-[350px] md:h-[450px] bg-emerald-950 flex flex-col justify-end">
-                <div className="absolute inset-0">
-                    <img 
-                        src={pengaturan?.banner_image} 
-                        alt="Akreditasi Banner" 
-                        className="w-full h-full object-cover opacity-60"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-emerald-950 via-emerald-950/40 to-transparent"></div>
-                </div>
-                <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pb-12">
-                    <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-2 drop-shadow-md">
-                        Akreditasi Institusi & Program Studi
+            {/* Dark Minimalist Hero Section */}
+            <div className="relative bg-gradient-to-b from-[#091122] via-[#0E1B38] to-[#070E1E] text-white pt-20 pb-20 md:pt-24 md:pb-24 border-b border-slate-800/80 overflow-hidden">
+                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-900/20 via-transparent to-transparent pointer-events-none"></div>
+                <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center sm:text-left">
+                    <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-white leading-[1.18] tracking-tight mb-4">
+                        Akreditasi Institusi & <span className="font-serif italic font-normal text-emerald-300">Program Studi</span>
                     </h1>
-                    <div className="w-20 h-1.5 bg-amber-500 rounded-sm mb-4"></div>
-                    {pengaturan?.deskripsi && (
-                        <p className="text-white/90 max-w-2xl text-lg leading-relaxed drop-shadow-md">
-                            {pengaturan.deskripsi}
-                        </p>
-                    )}
+                    <p className="text-slate-300/90 text-sm sm:text-base md:text-lg max-w-2xl font-light leading-relaxed">
+                        {pengaturan?.deskripsi || 'Dokumentasi resmi peringkat akreditasi institusi dan program studi dari Badan Akreditasi Nasional Perguruan Tinggi (BAN-PT) serta LAM.'}
+                    </p>
                 </div>
             </div>
 
