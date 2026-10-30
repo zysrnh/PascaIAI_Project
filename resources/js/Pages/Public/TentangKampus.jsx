@@ -20,6 +20,19 @@ export default function TentangKampus({ tentang }) {
     };
     const videoId = getYoutubeId(tentang?.video_url);
 
+    // Dynamic title with editorial serif accent on the last word
+    const renderTitle = (title) => {
+        const rawTitle = title || 'Tentang Program Studi KPI';
+        const words = rawTitle.trim().split(' ');
+        if (words.length <= 1) return rawTitle;
+        const lastWord = words.pop();
+        return (
+            <>
+                {words.join(' ')} <span className="font-serif italic font-normal text-emerald-300">{lastWord}</span>
+            </>
+        );
+    };
+
     return (
         <PublicLayout>
             <Head title={`${tentang?.judul || 'Tentang Program Studi KPI'} | IAI Persis Bandung`} />
@@ -41,11 +54,7 @@ export default function TentangKampus({ tentang }) {
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
                     <div className="max-w-3xl text-left">
                         <h1 className="text-3xl sm:text-5xl lg:text-[50px] font-semibold text-white leading-[1.18] tracking-tight mb-4">
-                            {tentang?.judul || (
-                                <>
-                                    Tentang Program Studi <span className="font-serif italic font-normal text-emerald-300">KPI</span>
-                                </>
-                            )}
+                            {renderTitle(tentang?.judul)}
                         </h1>
 
                         {tentang?.deskripsi_banner ? (
@@ -240,10 +249,7 @@ export default function TentangKampus({ tentang }) {
             {/* Pimpinan Slide-over Modal */}
             {mounted && typeof document !== 'undefined' && createPortal(
                 <div className={`fixed inset-0 z-[999] overflow-hidden transition-opacity duration-300 ${isPimpinanModalOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
-                    {/* Backdrop */}
                     <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-xs" onClick={() => setIsPimpinanModalOpen(false)}></div>
-                    
-                    {/* Panel */}
                     <div className={`absolute inset-y-0 right-0 max-w-md w-full bg-white shadow-2xl flex flex-col transform transition-transform duration-300 ease-in-out ${isPimpinanModalOpen ? 'translate-x-0' : 'translate-x-full'}`}>
                         <div className="flex items-center justify-between p-6 border-b border-slate-100 bg-slate-50">
                             <h3 className="text-lg font-semibold text-slate-900">Profil Pimpinan</h3>
