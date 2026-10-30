@@ -34,9 +34,19 @@ export default function PublicLayout({ children }) {
                     <div className="flex justify-between items-center h-20 gap-4">
                         {/* Brand Typography */}
                         <Link href="/" className="flex flex-col shrink-0 py-1">
-                            <span className="font-semibold text-lg sm:text-xl tracking-tight text-slate-900 leading-tight">
-                                PRODI KPI
-                            </span>
+                            <div className="flex items-center gap-2.5">
+                                <span className="w-8 h-8 rounded-lg bg-slate-900 text-white font-extrabold text-sm flex items-center justify-center">
+                                    KPI
+                                </span>
+                                <div>
+                                    <span className="font-bold text-base sm:text-lg tracking-tight text-slate-900 leading-none block">
+                                        PRODI KPI
+                                    </span>
+                                    <span className="text-[9px] text-slate-500 font-semibold tracking-wider uppercase leading-none block mt-0.5">
+                                        IAI PERSIS BANDUNG
+                                    </span>
+                                </div>
+                            </div>
                             <span className="text-[10px] text-slate-500 font-normal tracking-wider uppercase leading-none mt-0.5">
                                 KOMUNIKASI &amp; PENYIARAN ISLAM — IAI PERSIS
                             </span>

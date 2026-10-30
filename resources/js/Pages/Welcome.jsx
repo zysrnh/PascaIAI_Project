@@ -139,9 +139,19 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                         <div className="flex justify-between items-center h-20 gap-4">
                             {/* Brand Typography */}
                             <Link href="/" className="flex flex-col shrink-0 py-1">
-                                <span className="font-semibold text-lg sm:text-xl tracking-tight text-slate-900 leading-tight">
-                                    PRODI KPI
-                                </span>
+                                <div className="flex items-center gap-2.5">
+                                    <span className="w-8 h-8 rounded-lg bg-slate-900 text-white font-extrabold text-sm flex items-center justify-center">
+                                        KPI
+                                    </span>
+                                    <div>
+                                        <span className="font-bold text-base sm:text-lg tracking-tight text-slate-900 leading-none block">
+                                            PRODI KPI
+                                        </span>
+                                        <span className="text-[9px] text-slate-500 font-semibold tracking-wider uppercase leading-none block mt-0.5">
+                                            IAI PERSIS BANDUNG
+                                        </span>
+                                    </div>
+                                </div>
                                 <span className="text-[10px] text-slate-500 font-normal tracking-wider uppercase leading-none mt-0.5">
                                     KOMUNIKASI &amp; PENYIARAN ISLAM — IAI PERSIS
                                 </span>
@@ -303,11 +313,17 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                 </header>
 
                 {/* Minimalist Hero Section */}
-                <section className="bg-[#0E1626] text-white py-24 sm:py-32 lg:py-36 border-b border-slate-800">
+                <section className="relative bg-gradient-to-b from-[#091122] via-[#0E1B38] to-[#070E1E] text-white py-24 sm:py-32 lg:py-36 border-b border-slate-800/80 overflow-hidden">
                     <div className="max-w-6xl mx-auto px-4 sm:px-6">
                         <div className={`max-w-3xl text-left transition-all duration-700 ease-out transform ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
                             <h1 className="text-3xl sm:text-5xl lg:text-[54px] font-semibold text-white leading-[1.18] tracking-tight mb-6">
-                                {setting?.hero_title || "Mencetak Praktisi Media, Jurnalis, dan Dai Unggul di Era Digital"}
+                                {setting?.hero_title ? (
+                                    setting.hero_title
+                                ) : (
+                                    <>
+                                        Mencetak Praktisi Media, <span className="font-serif italic font-normal text-emerald-400">Jurnalis</span>, dan Dai Unggul di Era Digital
+                                    </>
+                                )}
                             </h1>
                             <p className="text-base sm:text-lg text-slate-300 font-normal leading-relaxed mb-10 max-w-2xl">
                                 {setting?.hero_subtitle || "Belajar komunikasi, jurnalistik, penyiaran, media digital, dan dakwah untuk menjawab tantangan informasi di era modern dengan nilai-nilai Islam."}
@@ -315,13 +331,13 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                             <div className="flex flex-wrap items-center gap-4 mb-10">
                                 <a
                                     href="#profil"
-                                    className="bg-white text-slate-900 font-medium px-6 py-3 rounded-lg hover:bg-slate-100 transition text-sm shadow-none"
+                                    className="bg-white text-slate-900 font-semibold px-6 py-3.5 rounded-xl hover:bg-slate-100 hover:shadow-lg hover:-translate-y-0.5 transition-all text-sm inline-flex items-center gap-2"
                                 >
                                     Kenali Program Studi
                                 </a>
                                 <a
                                     href="#akademik"
-                                    className="bg-transparent text-white border border-slate-600 font-medium px-6 py-3 rounded-lg hover:border-white transition text-sm inline-flex items-center gap-2"
+                                    className="bg-white/5 backdrop-blur-sm text-white border border-white/20 font-medium px-6 py-3.5 rounded-xl hover:bg-white/10 hover:border-white/40 hover:-translate-y-0.5 transition-all text-sm inline-flex items-center gap-2"
                                 >
                                     <span>Jelajahi Layanan</span>
                                     <i className="fa-solid fa-arrow-right text-xs"></i>
@@ -388,7 +404,7 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                             <div className="lg:col-span-6">
                                 <span className="text-xs uppercase tracking-wider text-slate-500 font-medium">Tentang KPI</span>
                                 <h2 className="text-2xl sm:text-4xl font-semibold text-slate-900 mt-2 mb-6 leading-tight tracking-tight">
-                                    Ilmu Komunikasi, Keterampilan Media, dan Nilai Dakwah
+                                    Ilmu Komunikasi, <span className="font-serif italic font-normal text-emerald-800">Keterampilan Media</span>, dan Nilai Dakwah
                                 </h2>
                                 <p className="text-slate-600 font-normal leading-relaxed mb-8 text-sm sm:text-base">
                                     Program Studi Komunikasi dan Penyiaran Islam menyiapkan mahasiswa untuk memahami teori komunikasi sekaligus menguasai praktik media, penyiaran, jurnalistik, dan komunikasi dakwah untuk menjawab tantangan era informasi modern.
@@ -456,11 +472,25 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                             <div className="lg:col-span-7">
                                 <span className="text-xs uppercase tracking-wider text-slate-500 font-medium">SAMBUTAN KETUA PRODI</span>
                                 <h2 className="text-2xl sm:text-3xl font-semibold text-slate-900 mt-2 mb-6 leading-snug tracking-tight">
-                                    {sambutan?.sambutan_singkat || "Membangun Generasi Komunikator & Praktisi Media Islam yang Unggul"}
+                                    {sambutan?.sambutan_singkat ? (
+                                        sambutan.sambutan_singkat
+                                    ) : (
+                                        <>
+                                            Membangun Generasi Komunikator &amp; <span className="font-serif italic font-normal text-emerald-800">Praktisi Media Islam</span> yang Unggul
+                                        </>
+                                    )}
                                 </h2>
 
                                 {sambutan?.sambutan_lengkap ? (
-                                    <div className="text-slate-600 leading-relaxed mb-6 space-y-4 text-sm sm:text-base font-normal" dangerouslySetInnerHTML={{ __html: sambutan.sambutan_lengkap.substring(0, 380) + '...' }} />
+                                    <div 
+                                        className="text-slate-600 leading-relaxed mb-6 space-y-3 text-sm sm:text-base font-normal whitespace-pre-line"
+                                        dangerouslySetInnerHTML={{ 
+                                            __html: sambutan.sambutan_lengkap
+                                                .replace(/\\n\\n/g, '<br/><br/>')
+                                                .replace(/\\n/g, '<br/>')
+                                                .substring(0, 420) + '...' 
+                                        }} 
+                                    />
                                 ) : (
                                     <p className="text-slate-600 leading-relaxed mb-6 text-sm sm:text-base font-normal">
                                         "Program Studi Komunikasi dan Penyiaran Islam (KPI) Fakultas Dakwah IAI Persis Bandung berkomitmen menyelenggarakan pendidikan tinggi komunikasi Islam berkualitas yang mengintegrasikan nilai dakwah Islam dengan kemajuan teknologi media masa kini."
