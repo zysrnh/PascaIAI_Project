@@ -8,47 +8,36 @@ export default function SistemAkademik({ siakad }) {
     // Default fallback values if no data yet
     const data = siakad || {
         judul: 'Sistem Informasi Akademik (SIAKAD)',
-        deskripsi_singkat: 'Gerbang utama menuju portal akademik terpadu Prodi KPI IAI Persis Bandung. Melalui SIAKAD, seluruh aktivitas administrasi akademik dapat diakses secara mudah dan terpusat.',
+        deskripsi_singkat: 'Gerbang utama menuju portal akademik terpadu Pascasarjana IAI Persis Bandung. Melalui SIAKAD, seluruh aktivitas administrasi akademik dapat diakses secara mudah dan terpusat.',
         fitur_list: [
             'Pengisian Kartu Rencana Studi (KRS) online',
             'Melihat Kartu Hasil Studi (KHS) dan Transkrip Nilai',
             'Mengecek Jadwal Kuliah personal',
             'Pengajuan surat administrasi akademik (Cuti, Aktif Kuliah, dll)',
-            'Memantau progress bimbingan Tesis/Disertasi'
+            'Memantau progress bimbingan Tesis/Tugas Akhir',
         ],
         link_siakad: 'https://siakad.iaipibandung.ac.id',
-        link_panduan: '#',
-        kontak_bantuan: '',
-        deskripsi_banner: 'Portal Terpadu Layanan Akademik Mahasiswa',
-        banner_image: '/images/default-banner.jpg'
+        link_panduan: null,
+        kontak_bantuan: '081234567890',
     };
 
-    const waNumber = data.kontak_bantuan ? data.kontak_bantuan.replace(/\D/g, '').replace(/^0/, '62') : null;
+    // Clean phone number for WhatsApp
+    const waNumber = data.kontak_bantuan ? data.kontak_bantuan.replace(/[^0-9]/g, '') : null;
 
     return (
         <PublicLayout>
-            <Head title={`${data.judul} | Prodi KPI IAI Persis Bandung`} />
+            <Head title="Sistem Informasi Akademik (SIAKAD) | Program Pascasarjana IAI Persis Bandung" />
 
-            {/* Banner Section */}
-            <div className="relative w-full h-[350px] md:h-[450px] bg-emerald-950 flex flex-col justify-end">
-                <div className="absolute inset-0">
-                    <img 
-                        src={data.banner_image || '/images/default-banner.jpg'} 
-                        alt="Sistem Akademik Banner" 
-                        className="w-full h-full object-cover opacity-50"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-emerald-950 via-emerald-950/60 to-transparent"></div>
-                </div>
-                <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pb-12 animate-fade-in-up">
-                    <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-2 drop-shadow-md tracking-tight">
-                        {data.judul}
+            {/* Dark Minimalist Hero Section */}
+            <div className="relative bg-gradient-to-b from-[#091122] via-[#0E1B38] to-[#070E1E] text-white pt-20 pb-20 md:pt-24 md:pb-24 border-b border-slate-800/80 overflow-hidden">
+                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-900/20 via-transparent to-transparent pointer-events-none"></div>
+                <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center sm:text-left">
+                    <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-white leading-[1.18] tracking-tight mb-4">
+                        Sistem Informasi <span className="font-serif italic font-normal text-emerald-300">Akademik</span>
                     </h1>
-                    <div className="w-20 h-1.5 bg-amber-500 rounded-sm mb-4"></div>
-                    {data.deskripsi_banner && (
-                        <p className="text-white/90 max-w-2xl text-lg md:text-xl leading-relaxed drop-shadow">
-                            {data.deskripsi_banner}
-                        </p>
-                    )}
+                    <p className="text-slate-300/90 text-sm sm:text-base md:text-lg max-w-2xl font-light leading-relaxed">
+                        {data.deskripsi_singkat || 'Portal terpadu layanan akademik mahasiswa dan dosen Program Pascasarjana IAI Persis Bandung.'}
+                    </p>
                 </div>
             </div>
 
@@ -59,59 +48,73 @@ export default function SistemAkademik({ siakad }) {
             ]} />
 
             {/* Main Content Area */}
-            <div className="bg-slate-50 py-16 lg:py-24 border-b border-slate-200 min-h-[500px]">
-                <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="bg-[#FAFBFD] py-12 lg:py-16 border-b border-slate-200/80 min-h-[550px]">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
                         
-                        {/* Left Column: Description & Features */}
-                        <div className="space-y-8 animate-fade-in-up">
-                            <div>
-                                <h2 className="text-3xl font-extrabold text-emerald-950 mb-4 tracking-tight">Apa itu SIAKAD?</h2>
-                                <p className="text-slate-600 text-lg leading-relaxed">
+                        {/* Left Column: Description & Features (7 cols) */}
+                        <div className="lg:col-span-7 space-y-6">
+                            {/* Card: Apa itu SIAKAD */}
+                            <div className="bg-white rounded-2xl border border-slate-200/80 shadow-xs p-6 sm:p-8">
+                                <h2 className="text-xl sm:text-2xl font-semibold text-slate-900 mb-3 tracking-tight">
+                                    Mengenal Layanan SIAKAD
+                                </h2>
+                                <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
                                     {data.deskripsi_singkat}
                                 </p>
                             </div>
 
+                            {/* Card: Layanan & Fitur */}
                             {data.fitur_list && data.fitur_list.length > 0 && (
-                                <div className="bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
-                                    <h3 className="text-xl font-bold text-slate-800 mb-6 flex items-center gap-2 border-b border-slate-100 pb-4">
-                                        <ShieldCheck className="w-6 h-6 text-emerald-600" /> 
-                                        Layanan & Fitur
-                                    </h3>
-                                    <ul className="space-y-4">
+                                <div className="bg-white rounded-2xl border border-slate-200/80 shadow-xs p-6 sm:p-8">
+                                    <div className="flex items-center gap-2.5 pb-4 mb-5 border-b border-slate-100">
+                                        <div className="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 border border-emerald-200/60 flex items-center justify-center shrink-0">
+                                            <ShieldCheck className="w-5 h-5" />
+                                        </div>
+                                        <div>
+                                            <h3 className="text-base sm:text-lg font-semibold text-slate-900">
+                                                Fitur & Layanan Utama
+                                            </h3>
+                                            <p className="text-xs text-slate-500">
+                                                Fasilitas administrasi akademik digital terintegrasi
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                                         {data.fitur_list.map((fitur, idx) => (
-                                            <li key={idx} className="flex items-start gap-3">
-                                                <div className="mt-1 flex-shrink-0">
-                                                    <CheckCircle2 className="w-5 h-5 text-amber-500" />
-                                                </div>
-                                                <span className="text-slate-700">{fitur}</span>
-                                            </li>
+                                            <div key={idx} className="flex items-start gap-3 p-3 rounded-xl bg-slate-50/70 border border-slate-200/60">
+                                                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                                                <span className="text-xs sm:text-sm font-medium text-slate-700 leading-snug">
+                                                    {fitur}
+                                                </span>
+                                            </div>
                                         ))}
-                                    </ul>
+                                    </div>
                                 </div>
                             )}
                         </div>
 
-                        {/* Right Column: CTA & Help */}
-                        <div className="animate-fade-in-up" style={{animationDelay: '0.2s'}}>
+                        {/* Right Column: Portal CTA & Support (5 cols) */}
+                        <div className="lg:col-span-5 space-y-6">
                             
                             {/* Main CTA Card */}
-                            <div className="bg-gradient-to-br from-emerald-900 to-emerald-800 rounded-3xl p-8 md:p-12 text-white shadow-xl relative overflow-hidden">
-                                {/* Decorative elements */}
-                                <div className="absolute top-0 right-0 p-8 opacity-10">
-                                    <MonitorSmartphone className="w-48 h-48" />
+                            <div className="bg-slate-900 rounded-2xl p-7 sm:p-8 text-white shadow-sm border border-slate-800 relative overflow-hidden">
+                                <div className="absolute top-0 right-0 p-6 opacity-5 pointer-events-none">
+                                    <MonitorSmartphone className="w-40 h-40 text-white" />
                                 </div>
-                                <div className="absolute -bottom-8 -left-8 w-40 h-40 bg-emerald-500/20 rounded-full blur-2xl"></div>
                                 
                                 <div className="relative z-10">
-                                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 mb-6">
-                                        <ExternalLink className="w-8 h-8 text-white" />
+                                    <div className="w-12 h-12 rounded-xl bg-white/10 border border-white/10 flex items-center justify-center mb-5">
+                                        <ExternalLink className="w-6 h-6 text-emerald-400" />
                                     </div>
                                     
-                                    <h3 className="text-3xl font-bold mb-4">Masuk ke Portal</h3>
-                                    <p className="text-emerald-100 mb-8 max-w-sm">
-                                        Gunakan Nomor Induk Mahasiswa (NIM) dan password yang telah diberikan untuk mengakses layanan akademik Anda.
+                                    <h3 className="text-xl sm:text-2xl font-semibold mb-2 tracking-tight text-white">
+                                        Masuk ke Portal SIAKAD
+                                    </h3>
+                                    <p className="text-slate-300 text-xs sm:text-sm mb-6 leading-relaxed">
+                                        Gunakan Nomor Induk Mahasiswa (NIM) dan kata sandi yang telah terdaftar untuk mengakses seluruh layanan perkuliahan Anda.
                                     </p>
                                     
                                     {data.link_siakad ? (
@@ -119,48 +122,56 @@ export default function SistemAkademik({ siakad }) {
                                             href={data.link_siakad}
                                             target="_blank"
                                             rel="noreferrer"
-                                            className="inline-flex items-center justify-center w-full sm:w-auto gap-3 px-8 py-4 bg-amber-500 hover:bg-amber-400 text-emerald-950 font-bold rounded-xl transition-all hover:-translate-y-1 hover:shadow-lg hover:shadow-amber-500/30 group"
+                                            className="inline-flex items-center justify-center w-full gap-2 px-6 py-3.5 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold rounded-xl text-sm transition-all duration-200 shadow-sm group"
                                         >
-                                            Login SIAKAD 
-                                            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                                            <span>Buka Portal SIAKAD</span>
+                                            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                                         </a>
                                     ) : (
-                                        <span className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-slate-500/50 text-white font-bold rounded-xl cursor-not-allowed">
-                                            Sistem Belum Tersedia
+                                        <span className="inline-flex items-center justify-center w-full px-6 py-3.5 bg-slate-800 text-slate-400 font-medium rounded-xl text-sm cursor-not-allowed">
+                                            Tautan Belum Dikonfigurasi
                                         </span>
                                     )}
                                 </div>
                             </div>
 
                             {/* Help & Support Links */}
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 {data.link_panduan && (
                                     <a 
                                         href={data.link_panduan} 
                                         target="_blank" 
                                         rel="noreferrer"
-                                        className="flex flex-col items-center justify-center p-6 bg-white rounded-2xl border border-slate-200 hover:border-blue-400 hover:shadow-md transition-all text-center group"
+                                        className="flex flex-col items-start p-5 bg-white rounded-2xl border border-slate-200/80 hover:border-emerald-400 hover:shadow-sm transition-all group"
                                     >
-                                        <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
-                                            <PlayCircle className="w-6 h-6" />
+                                        <div className="w-10 h-10 bg-blue-50 text-blue-600 border border-blue-200/60 rounded-xl flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
+                                            <PlayCircle className="w-5 h-5" />
                                         </div>
-                                        <h4 className="font-bold text-slate-800">Panduan Penggunaan</h4>
-                                        <p className="text-xs text-slate-500 mt-1">Tutorial cara login & KRS</p>
+                                        <h4 className="font-semibold text-slate-800 text-sm group-hover:text-emerald-700 transition-colors">
+                                            Panduan Sistem
+                                        </h4>
+                                        <p className="text-xs text-slate-500 mt-0.5">
+                                            Tutorial login & pengisian KRS
+                                        </p>
                                     </a>
                                 )}
                                 
                                 {waNumber && (
                                     <a 
-                                        href={`https://wa.me/${waNumber}?text=Halo%20Admin%20SIAKAD%20Prodi KPI,%20saya%20butuh%20bantuan%20terkait...`}
+                                        href={`https://wa.me/${waNumber}?text=Halo%20Admin%20SIAKAD%20Pascasarjana,%20saya%20butuh%20bantuan...`}
                                         target="_blank" 
                                         rel="noreferrer"
-                                        className="flex flex-col items-center justify-center p-6 bg-white rounded-2xl border border-slate-200 hover:border-emerald-400 hover:shadow-md transition-all text-center group"
+                                        className="flex flex-col items-start p-5 bg-white rounded-2xl border border-slate-200/80 hover:border-emerald-400 hover:shadow-sm transition-all group"
                                     >
-                                        <div className="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-full flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
-                                            <Phone className="w-6 h-6" />
+                                        <div className="w-10 h-10 bg-emerald-50 text-emerald-600 border border-emerald-200/60 rounded-xl flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
+                                            <Phone className="w-5 h-5" />
                                         </div>
-                                        <h4 className="font-bold text-slate-800">Bantuan Teknis</h4>
-                                        <p className="text-xs text-slate-500 mt-1">Lupa password/kendala</p>
+                                        <h4 className="font-semibold text-slate-800 text-sm group-hover:text-emerald-700 transition-colors">
+                                            Bantuan Teknis
+                                        </h4>
+                                        <p className="text-xs text-slate-500 mt-0.5">
+                                            Konsultasi kendala & akun
+                                        </p>
                                     </a>
                                 )}
                             </div>
@@ -170,16 +181,6 @@ export default function SistemAkademik({ siakad }) {
 
                 </div>
             </div>
-            
-            <style>{`
-                @keyframes fadeInUp {
-                    from { opacity: 0; transform: translateY(15px); }
-                    to { opacity: 1; transform: translateY(0); }
-                }
-                .animate-fade-in-up {
-                    animation: fadeInUp 0.4s ease-out forwards;
-                }
-            `}</style>
         </PublicLayout>
     );
 }
