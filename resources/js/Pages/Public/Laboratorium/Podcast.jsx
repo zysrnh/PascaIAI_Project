@@ -3,7 +3,14 @@ import { Head, Link } from '@inertiajs/react';
 import PublicLayout from '@/Layouts/PublicLayout';
 import Breadcrumb from '@/Components/Public/Breadcrumb';
 
-export default function Podcast() {
+export default function Podcast({ lab }) {
+    const namaLab = lab?.nama_lab || "Produksi Podcast";
+    const subjudul = lab?.subjudul;
+    const deskripsi = lab?.deskripsi;
+    const gambarUtama = lab?.gambar_utama;
+    const badgeStatus = lab?.badge_status;
+    const jadwalLayanan = lab?.jadwal_layanan || "Senin - Jumat, 08.00 - 16.00 WIB";
+    const kontakLayanan = lab?.kontak_layanan || "kpi@iaipibandung.ac.id";
     return (
         <PublicLayout>
             <Head title="Produksi Podcast & Audio Dakwah | Program Studi KPI IAI Persis Bandung" />
@@ -15,9 +22,9 @@ export default function Podcast() {
                     <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-white leading-[1.18] tracking-tight mb-4">
                         Produksi <span className="font-serif italic font-normal text-emerald-300">Podcast</span>
                     </h1>
-                    <p className="text-slate-300 font-normal leading-relaxed text-sm sm:text-base max-w-2xl">
+                    <p className="text-slate-300 font-normal leading-relaxed text-sm sm:text-base max-w-2xl">{subjudul || <p className="text-slate-300 font-normal leading-relaxed text-sm sm:text-base max-w-2xl">
                         Studio rekaman suara berperedam akustik khusus untuk produksi audio digital, talkshow tematik, dan siaran syiar dakwah multi-platform Program Studi KPI IAI Persis Bandung.
-                    </p>
+                    </p>}</p>
                 </div>
             </div>
 

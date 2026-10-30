@@ -3,7 +3,14 @@ import { Head, Link } from '@inertiajs/react';
 import PublicLayout from '@/Layouts/PublicLayout';
 import Breadcrumb from '@/Components/Public/Breadcrumb';
 
-export default function FilmPendek() {
+export default function FilmPendek({ lab }) {
+    const namaLab = lab?.nama_lab || "Produksi Video & Film Pendek";
+    const subjudul = lab?.subjudul;
+    const deskripsi = lab?.deskripsi;
+    const gambarUtama = lab?.gambar_utama;
+    const badgeStatus = lab?.badge_status;
+    const jadwalLayanan = lab?.jadwal_layanan || "Senin - Jumat, 08.00 - 16.00 WIB";
+    const kontakLayanan = lab?.kontak_layanan || "kpi@iaipibandung.ac.id";
     return (
         <PublicLayout>
             <Head title="Produksi Video dan Film Pendek | Program Studi KPI IAI Persis Bandung" />
@@ -15,9 +22,9 @@ export default function FilmPendek() {
                     <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-white leading-[1.18] tracking-tight mb-4">
                         Produksi Video &amp; <span className="font-serif italic font-normal text-emerald-300">Film Pendek</span>
                     </h1>
-                    <p className="text-slate-300 font-normal leading-relaxed text-sm sm:text-base max-w-2xl">
+                    <p className="text-slate-300 font-normal leading-relaxed text-sm sm:text-base max-w-2xl">{subjudul || <p className="text-slate-300 font-normal leading-relaxed text-sm sm:text-base max-w-2xl">
                         Laboratorium sinematografi dan pasca-produksi video untuk pembuatan film dokumenter dakwah, fiksi pendek islami, dan iklan layanan masyarakat Program Studi KPI IAI Persis Bandung.
-                    </p>
+                    </p>}</p>
                 </div>
             </div>
 

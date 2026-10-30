@@ -3,7 +3,14 @@ import { Head, Link } from '@inertiajs/react';
 import PublicLayout from '@/Layouts/PublicLayout';
 import Breadcrumb from '@/Components/Public/Breadcrumb';
 
-export default function DakwahDigital() {
+export default function DakwahDigital({ lab }) {
+    const namaLab = lab?.nama_lab || "Praktik Dakwah Digital";
+    const subjudul = lab?.subjudul;
+    const deskripsi = lab?.deskripsi;
+    const gambarUtama = lab?.gambar_utama;
+    const badgeStatus = lab?.badge_status;
+    const jadwalLayanan = lab?.jadwal_layanan || "Senin - Jumat, 08.00 - 16.00 WIB";
+    const kontakLayanan = lab?.kontak_layanan || "kpi@iaipibandung.ac.id";
     return (
         <PublicLayout>
             <Head title="Praktik Dakwah Digital & Media Siber | Program Studi KPI IAI Persis Bandung" />
@@ -15,9 +22,9 @@ export default function DakwahDigital() {
                     <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-white leading-[1.18] tracking-tight mb-4">
                         Praktik <span className="font-serif italic font-normal text-emerald-300">Dakwah Digital</span>
                     </h1>
-                    <p className="text-slate-300 font-normal leading-relaxed text-sm sm:text-base max-w-2xl">
+                    <p className="text-slate-300 font-normal leading-relaxed text-sm sm:text-base max-w-2xl">{subjudul || <p className="text-slate-300 font-normal leading-relaxed text-sm sm:text-base max-w-2xl">
                         Pusat kreasi konten media sosial, live streaming multi-kamera kajian Islam, perancangan infografis dakwah, dan analisis tren media siber masa kini Program Studi KPI IAI Persis Bandung.
-                    </p>
+                    </p>}</p>
                 </div>
             </div>
 

@@ -136,29 +136,12 @@ Route::get('/laboratorium', function () {
     return redirect()->route('public.laboratorium.penyiaran');
 })->name('public.laboratorium');
 
-Route::get('/laboratorium/penyiaran', function () {
-    return \Inertia\Inertia::render('Public/Laboratorium/Penyiaran');
-})->name('public.laboratorium.penyiaran');
-
-Route::get('/laboratorium/jurnalistik', function () {
-    return \Inertia\Inertia::render('Public/Laboratorium/Jurnalistik');
-})->name('public.laboratorium.jurnalistik');
-
-Route::get('/laboratorium/podcast', function () {
-    return \Inertia\Inertia::render('Public/Laboratorium/Podcast');
-})->name('public.laboratorium.podcast');
-
-Route::get('/laboratorium/film-pendek', function () {
-    return \Inertia\Inertia::render('Public/Laboratorium/FilmPendek');
-})->name('public.laboratorium.film-pendek');
-
-Route::get('/laboratorium/fotografi', function () {
-    return \Inertia\Inertia::render('Public/Laboratorium/Fotografi');
-})->name('public.laboratorium.fotografi');
-
-Route::get('/laboratorium/dakwah-digital', function () {
-    return \Inertia\Inertia::render('Public/Laboratorium/DakwahDigital');
-})->name('public.laboratorium.dakwah-digital');
+Route::get('/laboratorium/penyiaran', [\App\Http\Controllers\LaboratoriumController::class, 'penyiaran'])->name('public.laboratorium.penyiaran');
+Route::get('/laboratorium/jurnalistik', [\App\Http\Controllers\LaboratoriumController::class, 'jurnalistik'])->name('public.laboratorium.jurnalistik');
+Route::get('/laboratorium/podcast', [\App\Http\Controllers\LaboratoriumController::class, 'podcast'])->name('public.laboratorium.podcast');
+Route::get('/laboratorium/film-pendek', [\App\Http\Controllers\LaboratoriumController::class, 'filmPendek'])->name('public.laboratorium.film-pendek');
+Route::get('/laboratorium/fotografi', [\App\Http\Controllers\LaboratoriumController::class, 'fotografi'])->name('public.laboratorium.fotografi');
+Route::get('/laboratorium/dakwah-digital', [\App\Http\Controllers\LaboratoriumController::class, 'dakwahDigital'])->name('public.laboratorium.dakwah-digital');
 
 
 // LPPM Public Routes
@@ -528,6 +511,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/admin/akademik/kurikulum/matakuliah/{id}', [\App\Http\Controllers\KurikulumController::class, 'destroyMataKuliah'])->name('admin.akademik.kurikulum.matakuliah.destroy');
 
     // Admin Akademik - Sistem Akademik
+    Route::get('/admin/akademik/laboratorium', [\App\Http\Controllers\LaboratoriumController::class, 'indexAdmin'])->name('admin.akademik.laboratorium.index');
+    Route::post('/admin/akademik/laboratorium/{slug}', [\App\Http\Controllers\LaboratoriumController::class, 'updateAdmin'])->name('admin.akademik.laboratorium.update');
     Route::get('/admin/akademik/sistem', [\App\Http\Controllers\SistemAkademikController::class, 'edit'])->name('admin.akademik.sistem.index');
     Route::post('/admin/akademik/sistem', [\App\Http\Controllers\SistemAkademikController::class, 'update'])->name('admin.akademik.sistem.update');
 
