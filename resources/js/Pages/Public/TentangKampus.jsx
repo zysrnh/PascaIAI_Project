@@ -19,162 +19,267 @@ export default function TentangKampus({ tentang }) {
         return (match && match[2].length === 11) ? match[2] : null;
     };
     const videoId = getYoutubeId(tentang?.video_url);
+
     return (
         <PublicLayout>
-            <Head title="Tentang LPM | Program Studi KPI IAI Persis Bandung" />
+            <Head title={`${tentang?.judul || 'Tentang Program Studi KPI'} | IAI Persis Bandung`} />
 
-            {/* Hero Section / Banner */}
-            <div className="relative w-full h-[350px] md:h-[450px] bg-emerald-950 flex flex-col justify-end">
-                <div className="absolute inset-0">
-                    <img 
-                        src={tentang?.gambar_banner || "/images/default-banner.jpg"} 
-                        alt="Prodi KPI IAI Persis" 
-                        className="w-full h-full object-cover opacity-60"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-emerald-950 via-emerald-950/40 to-transparent"></div>
+            {/* Minimalist Editorial Hero Section */}
+            <section className="relative bg-gradient-to-b from-[#091122] via-[#0E1B38] to-[#070E1E] text-white pt-20 pb-20 md:pt-24 md:pb-24 border-b border-slate-800/80 overflow-hidden">
+                {/* Background Banner dari Admin jika ada */}
+                {tentang?.gambar_banner && (
+                    <div className="absolute inset-0 z-0">
+                        <img 
+                            src={tentang.gambar_banner} 
+                            alt="Banner Tentang Kampus" 
+                            className="w-full h-full object-cover opacity-20"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#070E1E] via-[#091122]/80 to-[#091122]/90"></div>
+                    </div>
+                )}
+
+                <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
+                    <div className="max-w-3xl text-left">
+                        <h1 className="text-3xl sm:text-5xl lg:text-[50px] font-semibold text-white leading-[1.18] tracking-tight mb-4">
+                            {tentang?.judul || (
+                                <>
+                                    Tentang Program Studi <span className="font-serif italic font-normal text-emerald-300">KPI</span>
+                                </>
+                            )}
+                        </h1>
+
+                        {tentang?.deskripsi_banner ? (
+                            <p className="text-base sm:text-lg text-slate-300 font-normal leading-relaxed max-w-2xl">
+                                {tentang.deskripsi_banner}
+                            </p>
+                        ) : null}
+                    </div>
                 </div>
-                <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pb-12">
-                    <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-2 drop-shadow-md">
-                        {tentang?.judul || 'Tentang Program Studi Komunikasi dan Penyiaran Islam (KPI)'}
-                    </h1>
-                    <div className="w-20 h-1.5 bg-amber-500 rounded-sm-full mb-4"></div>
-                    {tentang?.deskripsi_banner && (
-                        <p className="text-white/90 max-w-3xl text-sm md:text-base leading-relaxed drop-shadow">
-                            {tentang.deskripsi_banner}
-                        </p>
-                    )}
-                </div>
-            </div>
+            </section>
 
             {/* Breadcrumb Navigation */}
             <Breadcrumb items={[
-                { label: 'Profil LPM' },
-                { label: 'Tentang LPM' }
+                { label: 'Profil' },
+                { label: 'Tentang & Sejarah' }
             ]} />
 
-            {/* Content Section */}
-            <div className="bg-white py-16">
-                <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-                    
-                    {/* Deskripsi Singkat */}
-                    <div className="text-center mb-20">
-                        <p className="text-lg md:text-xl text-slate-700 leading-relaxed font-medium whitespace-pre-wrap">
-                            {tentang?.konten}
-                        </p>
-                    </div>
+            {/* Main Content Area */}
+            <div className="bg-[#FAFAFA] py-16 sm:py-24 border-b border-slate-200">
+                <div className="max-w-6xl mx-auto px-4 sm:px-6 space-y-16 sm:space-y-24">
 
-                    {/* Video Profil */}
-                    <div className="mb-24">
-                        <h2 className="text-2xl font-bold text-emerald-950 mb-6 border-b-2 border-slate-100 pb-3">Profil</h2>
-                        {videoId ? (
-                            <div className="relative rounded-sm overflow-hidden shadow-xl border-4 border-emerald-900 aspect-video bg-slate-900">
-                                <iframe 
-                                    className="w-full h-full"
-                                    src={`https://www.youtube.com/embed/${videoId}?rel=0`} 
-                                    title="YouTube video player" 
-                                    frameBorder="0" 
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                                    allowFullScreen
-                                ></iframe>
+                    {/* SECTION 1: PROFIL & SEJARAH (Bento Card Murni Database) */}
+                    <div>
+                        <div className="flex items-center justify-between mb-6 pb-3 border-b border-slate-200">
+                            <div>
+                                <span className="text-xs font-bold uppercase tracking-widest text-emerald-700">01</span>
+                                <h2 className="text-2xl sm:text-3xl font-semibold text-slate-900 tracking-tight ml-2 inline-block">
+                                    Profil &amp; <span className="font-serif italic font-normal text-slate-700">Sejarah Singkat</span>
+                                </h2>
                             </div>
-                        ) : (
-                            <a href={tentang?.video_url} target="_blank" rel="noreferrer" className="block relative rounded-sm overflow-hidden shadow-xl border-4 border-emerald-900 group cursor-pointer aspect-video bg-slate-900">
-                                <img 
-                                    src="/images/default-banner.jpg" 
-                                    alt="Video Thumbnail" 
-                                    className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500"
-                                />
-                                <div className="absolute inset-0 flex flex-col items-center justify-center">
-                                    <div className="w-16 h-16 md:w-20 md:h-20 bg-red-600 rounded-sm flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-300">
-                                        <i className="fa-solid fa-play text-2xl md:text-3xl ml-1"></i>
-                                    </div>
-                                </div>
-                                <div className="absolute top-4 left-4">
-                                    <h3 className="text-white font-bold text-lg md:text-xl drop-shadow-md">Video Profil {tentang?.judul}</h3>
-                                </div>
-                            </a>
-                        )}
+                        </div>
+
+                        <div className="bg-white rounded-2xl border border-slate-200/90 p-8 sm:p-12 shadow-sm">
+                            <div className="max-w-4xl">
+                                <p className="text-slate-800 text-lg sm:text-xl leading-relaxed whitespace-pre-wrap font-normal">
+                                    {tentang?.konten || 'Deskripsi profil prodi belum ditambahkan.'}
+                                </p>
+                            </div>
+                        </div>
                     </div>
 
-                    {/* Pimpinan */}
-                    {tentang?.tampilkan_pimpinan !== false && (
-                        <div className="mb-10">
-                            <h2 className="text-2xl font-bold text-emerald-950 mb-10 border-b-2 border-slate-100 pb-3">Pimpinan</h2>
-                            
-                            <div className="flex flex-col md:flex-row items-center gap-10">
-                                {/* Quotes & Name */}
-                                <div className="flex-1 order-2 md:order-1 text-center md:text-left">
-                                    <span className="text-emerald-700 font-bold tracking-widest text-sm uppercase mb-2 block">DIREKTUR</span>
-                                    <h3 className="text-2xl md:text-3xl font-extrabold text-emerald-950 mb-4">{tentang?.pimpinan_nama}</h3>
-                                    <div className="relative bg-slate-50 p-6 rounded-sm border border-slate-200 mb-6 shadow-sm">
-                                        <i className="fa-solid fa-quote-left text-4xl text-emerald-100 absolute top-4 left-4"></i>
-                                        <p className="text-slate-600 italic relative z-10 leading-relaxed font-medium whitespace-pre-wrap">
-                                            "{tentang?.pimpinan_quotes}"
-                                        </p>
-                                    </div>
-                                    <button onClick={() => setIsPimpinanModalOpen(true)} className="inline-block bg-emerald-800 hover:bg-emerald-900 text-white px-6 py-2.5 rounded-sm text-sm font-semibold transition shadow-md">
-                                        Profil Direktur
-                                    </button>
+                    {/* SECTION 2: VIDEO PROFIL (Jika Ada) */}
+                    {tentang?.video_url && (
+                        <div>
+                            <div className="flex items-center justify-between mb-6 pb-3 border-b border-slate-200">
+                                <div>
+                                    <span className="text-xs font-bold uppercase tracking-widest text-emerald-700">02</span>
+                                    <h2 className="text-2xl sm:text-3xl font-semibold text-slate-900 tracking-tight ml-2 inline-block">
+                                        Dokumentasi &amp; <span className="font-serif italic font-normal text-slate-700">Video Profil</span>
+                                    </h2>
                                 </div>
+                            </div>
 
-                                {/* Image */}
-                                <div className="w-64 h-64 md:w-80 md:h-80 shrink-0 relative order-1 md:order-2 cursor-pointer group" onClick={() => setIsPimpinanModalOpen(true)}>
-                                    <div className="absolute inset-0 bg-emerald-800 rounded-sm-full translate-x-3 translate-y-3 opacity-20 group-hover:translate-x-4 group-hover:translate-y-4 transition-transform duration-300"></div>
-                                    <img 
-                                        src={tentang?.gambar_pimpinan || "https://web-persis.s3.ap-southeast-1.amazonaws.com/files/shares/persis-cd5-0c543921-d668-4ee6-ac15-4f0ff791007e.jpg?q=80&w=400&auto=format&fit=crop"} 
-                                        alt="Direktur Prodi KPI" 
-                                        className="w-full h-full object-cover rounded-sm-full border-8 border-white shadow-xl relative z-10 object-top group-hover:scale-105 transition-transform duration-300"
-                                    />
-                                    <div className="absolute bottom-0 right-0 bg-amber-500 text-emerald-950 font-bold px-4 py-2 rounded-sm shadow-lg z-20 -rotate-3 text-sm">
-                                        Direktur Prodi KPI
+                            <div className="bg-white rounded-2xl border border-slate-200/90 p-4 sm:p-6 shadow-sm overflow-hidden">
+                                {videoId ? (
+                                    <div className="relative rounded-xl overflow-hidden shadow-sm aspect-video bg-slate-950">
+                                        <iframe 
+                                            className="w-full h-full"
+                                            src={`https://www.youtube.com/embed/${videoId}?rel=0`} 
+                                            title={`Video Profil ${tentang?.judul || 'KPI'}`}
+                                            frameBorder="0" 
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                            allowFullScreen
+                                        ></iframe>
+                                    </div>
+                                ) : (
+                                    <a 
+                                        href={tentang.video_url} 
+                                        target="_blank" 
+                                        rel="noreferrer" 
+                                        className="block relative rounded-xl overflow-hidden shadow-sm aspect-video bg-slate-950 group cursor-pointer"
+                                    >
+                                        <img 
+                                            src={tentang.gambar_banner || "/images/default-banner.jpg"} 
+                                            alt="Video Thumbnail" 
+                                            className="w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity duration-300"
+                                        />
+                                        <div className="absolute inset-0 flex flex-col items-center justify-center">
+                                            <div className="w-16 h-16 rounded-full bg-white text-slate-900 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                                                <i className="fa-solid fa-play text-xl ml-1 text-emerald-700"></i>
+                                            </div>
+                                            <span className="text-white text-sm font-medium mt-3 bg-black/40 px-3 py-1 rounded backdrop-blur-sm">
+                                                Tonton di YouTube
+                                            </span>
+                                        </div>
+                                    </a>
+                                )}
+                            </div>
+                        </div>
+                    )}
+
+                    {/* SECTION 3: PIMPINAN (Murni Data Database) */}
+                    {tentang?.tampilkan_pimpinan !== false && (
+                        <div>
+                            <div className="flex items-center justify-between mb-6 pb-3 border-b border-slate-200">
+                                <div>
+                                    <span className="text-xs font-bold uppercase tracking-widest text-emerald-700">
+                                        {tentang?.video_url ? '03' : '02'}
+                                    </span>
+                                    <h2 className="text-2xl sm:text-3xl font-semibold text-slate-900 tracking-tight ml-2 inline-block">
+                                        Pimpinan <span className="font-serif italic font-normal text-slate-700">Program Studi</span>
+                                    </h2>
+                                </div>
+                            </div>
+
+                            <div className="bg-white rounded-2xl border border-slate-200/90 p-8 sm:p-12 shadow-sm">
+                                <div className="flex flex-col md:flex-row items-center md:items-start gap-8 sm:gap-12">
+                                    {/* Foto Pimpinan */}
+                                    <div 
+                                        className="w-48 h-48 sm:w-56 sm:h-56 shrink-0 relative cursor-pointer group"
+                                        onClick={() => setIsPimpinanModalOpen(true)}
+                                    >
+                                        <div className="w-full h-full rounded-2xl overflow-hidden border border-slate-200 shadow-sm bg-slate-100 group-hover:border-slate-400 transition-colors">
+                                            <img 
+                                                src={tentang?.gambar_pimpinan || "https://web-persis.s3.ap-southeast-1.amazonaws.com/files/shares/persis-cd5-0c543921-d668-4ee6-ac15-4f0ff791007e.jpg?q=80&w=400&auto=format&fit=crop"} 
+                                                alt={tentang?.pimpinan_nama || "Pimpinan Prodi KPI"} 
+                                                className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    {/* Konten Pimpinan */}
+                                    <div className="flex-1 text-center md:text-left">
+                                        <h3 className="text-2xl sm:text-3xl font-semibold text-slate-900 tracking-tight mb-2">
+                                            {tentang?.pimpinan_nama || 'Ketua Program Studi'}
+                                        </h3>
+                                        <p className="text-xs sm:text-sm font-semibold uppercase tracking-wider text-emerald-700 mb-6">
+                                            Ketua Program Studi KPI
+                                        </p>
+
+                                        {tentang?.pimpinan_quotes && (
+                                            <blockquote className="relative bg-slate-50 rounded-xl border border-slate-200/80 p-6 mb-6">
+                                                <p className="font-serif italic text-base sm:text-lg text-slate-700 leading-relaxed font-normal">
+                                                    &ldquo;{tentang.pimpinan_quotes}&rdquo;
+                                                </p>
+                                            </blockquote>
+                                        )}
+
+                                        <div className="flex flex-wrap items-center justify-center md:justify-start gap-3">
+                                            <button 
+                                                type="button"
+                                                onClick={() => setIsPimpinanModalOpen(true)}
+                                                className="bg-slate-900 hover:bg-slate-800 text-white px-5 py-2.5 rounded-xl text-xs sm:text-sm font-medium transition inline-flex items-center gap-2"
+                                            >
+                                                <span>Biodata Lengkap</span>
+                                                <i className="fa-solid fa-arrow-right text-xs"></i>
+                                            </button>
+                                            <Link
+                                                href="/profil/sambutan-pimpinan"
+                                                className="bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-medium transition inline-flex items-center gap-2"
+                                            >
+                                                <span>Baca Sambutan Resmi</span>
+                                            </Link>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     )}
+
+                    {/* Bottom CTA / Quick Links */}
+                    <div className="bg-[#0E1626] rounded-2xl p-8 sm:p-12 text-white flex flex-col md:flex-row items-center justify-between gap-6">
+                        <div className="max-w-xl text-center md:text-left">
+                            <span className="text-xs font-bold uppercase tracking-widest text-emerald-400">Jelajahi Lebih Lanjut</span>
+                            <h3 className="text-xl sm:text-2xl font-semibold tracking-tight text-white mt-1">
+                                Pelajari Visi, Misi &amp; Sasaran Strategis Kami
+                            </h3>
+                            <p className="text-sm text-slate-300 mt-2 leading-relaxed">
+                                Temukan komitmen mutu, target pencapaian tahun 2030, serta standar kurikulum akademik penyiaran Islam.
+                            </p>
+                        </div>
+                        <div className="flex flex-wrap items-center gap-3 shrink-0">
+                            <Link
+                                href="/profil/visi-misi"
+                                className="bg-white text-slate-900 font-semibold px-5 py-3 rounded-xl hover:bg-slate-100 transition text-xs sm:text-sm inline-flex items-center gap-2 shadow-sm"
+                            >
+                                <span>Lihat Visi Misi</span>
+                                <i className="fa-solid fa-arrow-right text-xs"></i>
+                            </Link>
+                            <Link
+                                href="/akademik/kurikulum"
+                                className="bg-white/10 text-white border border-white/20 font-medium px-5 py-3 rounded-xl hover:bg-white/20 transition text-xs sm:text-sm inline-flex items-center gap-2"
+                            >
+                                <span>Kurikulum</span>
+                            </Link>
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
-            {/* Pimpinan Slide-over Modal (Rendered in Portal to escape stacking context) */}
+            {/* Pimpinan Slide-over Modal */}
             {mounted && typeof document !== 'undefined' && createPortal(
                 <div className={`fixed inset-0 z-[999] overflow-hidden transition-opacity duration-300 ${isPimpinanModalOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
                     {/* Backdrop */}
-                    <div className="absolute inset-0 bg-slate-900/60 " onClick={() => setIsPimpinanModalOpen(false)}></div>
+                    <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-xs" onClick={() => setIsPimpinanModalOpen(false)}></div>
                     
                     {/* Panel */}
-                    <div className={`absolute inset-y-0 right-0 max-w-md w-full bg-white shadow-2xl flex flex-col transform transition-transform duration-500 ease-in-out ${isPimpinanModalOpen ? 'translate-x-0' : 'translate-x-full'}`}>
-                        <div className="flex items-center justify-between p-6 border-b border-slate-100 bg-emerald-50/50">
-                            <h3 className="text-xl font-bold text-emerald-950">Profil Direktur</h3>
+                    <div className={`absolute inset-y-0 right-0 max-w-md w-full bg-white shadow-2xl flex flex-col transform transition-transform duration-300 ease-in-out ${isPimpinanModalOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+                        <div className="flex items-center justify-between p-6 border-b border-slate-100 bg-slate-50">
+                            <h3 className="text-lg font-semibold text-slate-900">Profil Pimpinan</h3>
                             <button 
                                 onClick={() => setIsPimpinanModalOpen(false)}
-                                className="text-slate-400 hover:text-emerald-700 transition-colors p-2 rounded-sm hover:bg-emerald-100/50"
+                                className="text-slate-400 hover:text-slate-700 transition-colors p-2 rounded-lg hover:bg-slate-200/50"
                             >
-                                <i className="fa-solid fa-xmark text-xl"></i>
+                                <i className="fa-solid fa-xmark text-lg"></i>
                             </button>
                         </div>
                         <div className="p-6 overflow-y-auto flex-1">
-                            <div className="flex flex-col items-center text-center mb-8">
-                                <div className="w-32 h-32 rounded-sm-full border-4 border-emerald-100 shadow-lg overflow-hidden mb-4">
+                            <div className="flex flex-col items-center text-center mb-6">
+                                <div className="w-28 h-28 rounded-2xl border border-slate-200 shadow-sm overflow-hidden mb-4">
                                     <img 
                                         src={tentang?.gambar_pimpinan || "https://web-persis.s3.ap-southeast-1.amazonaws.com/files/shares/persis-cd5-0c543921-d668-4ee6-ac15-4f0ff791007e.jpg?q=80&w=400&auto=format&fit=crop"} 
-                                        alt="Direktur Prodi KPI" 
+                                        alt={tentang?.pimpinan_nama || "Pimpinan"} 
                                         className="w-full h-full object-cover object-top"
                                     />
                                 </div>
-                                <h4 className="text-xl font-extrabold text-slate-800">{tentang?.pimpinan_nama}</h4>
-                                <p className="text-sm font-bold text-emerald-600 mt-1 uppercase tracking-wider">Direktur Prodi KPI</p>
+                                <h4 className="text-xl font-semibold text-slate-900">{tentang?.pimpinan_nama}</h4>
+                                <p className="text-xs font-semibold uppercase tracking-wider text-emerald-700 mt-1">Ketua Program Studi KPI</p>
                             </div>
-                            <div className="prose prose-emerald max-w-none text-slate-600">
+                            <div className="text-slate-700 text-sm leading-relaxed border-t border-slate-100 pt-5">
                                 {tentang?.pimpinan_detail ? (
-                                    <p className="whitespace-pre-wrap leading-relaxed">{tentang.pimpinan_detail}</p>
+                                    <p className="whitespace-pre-wrap">{tentang.pimpinan_detail}</p>
                                 ) : (
-                                    <p className="whitespace-pre-wrap leading-relaxed italic text-slate-400">Belum ada profil detail pimpinan yang ditambahkan.</p>
+                                    <p className="whitespace-pre-wrap italic text-slate-400">Belum ada profil detail pimpinan yang ditambahkan.</p>
                                 )}
                             </div>
                         </div>
                         <div className="p-6 border-t border-slate-100 bg-slate-50">
-                            <Link href="/profil/sambutan-pimpinan" className="block w-full text-center bg-emerald-800 hover:bg-emerald-900 text-white px-6 py-3 rounded-sm font-semibold transition shadow-md">
-                                Baca Sambutan Lengkap
+                            <Link 
+                                href="/profil/sambutan-pimpinan" 
+                                className="block w-full text-center bg-slate-900 hover:bg-slate-800 text-white px-5 py-3 rounded-xl text-sm font-medium transition shadow-sm"
+                            >
+                                Baca Sambutan Resmi Pimpinan
                             </Link>
                         </div>
                     </div>
