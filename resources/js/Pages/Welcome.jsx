@@ -77,7 +77,7 @@ export default function Welcome({
         window.open(waUrl, '_blank');
 
         try {
-            router.post(route('public.konsultasi.store'), {
+            router.post('/konsultasi', {
                 nama: waForm.nama,
                 no_telepon: waForm.whatsapp,
                 pesan: `[${waForm.kategori_aduan}] - ${waForm.pesan} (Unit: ${waForm.unit_prodi || 'KPI'})`
@@ -104,28 +104,28 @@ export default function Welcome({
             nama: 'Sosialisasi Kurikulum OBE & Pengisian KRS Online',
             deskripsi: 'Penyelarasan capaian pembelajaran CPL mahasiswa berbasis Outcome-Based Education.',
             tanggal: 'Awal Semester Genap',
-            url: route('public.akademik.sistem')
+            url: '/akademik/sistem-akademik'
         },
         {
             id: 3,
             nama: 'Sidang Munaqasyah & Ujian Tugas Akhir Mahasiswa',
             deskripsi: 'Evaluasi riset skripsi, karya video dakwah, dan publikasi jurnal ilmiah bereputasi.',
             tanggal: 'Juni & Desember 2026',
-            url: route('public.lppm.publikasi')
+            url: '/lppm/publikasi'
         },
         {
             id: 4,
             nama: 'Workshop Penyiaran Radio & Podcast Jurnalistik Dakwah',
             deskripsi: 'Pelatihan produksi audio-visual, teknik penyiaran televisi kampus, dan public speaking.',
             tanggal: 'Terjadwal Bulanan',
-            url: route('public.akademik.kurikulum')
+            url: '/akademik/kurikulum'
         },
         {
             id: 5,
             nama: 'Audit Mutu Internal (AMI) & Siklus PPEPP SPMI',
             deskripsi: 'Pengukuran ketercapaian standar mutu pembelajaran, sarana prasarana, dan luaran lulusan.',
             tanggal: 'Semester Genap 2026',
-            url: route('public.dokumen-institusi')
+            url: '/profil/dokumen-institusi'
         }
     ];
 
@@ -213,16 +213,16 @@ export default function Welcome({
                             <Link href="/" className="text-[#2C365A] hover:text-[#C4BCB0] transition py-1">
                                 Beranda
                             </Link>
-                            <Link href={route('public.tentang-kampus')} className="text-[#2C365A]/80 hover:text-[#2C365A] transition py-1">
+                            <Link href={'/profil/tentang-kampus'} className="text-[#2C365A]/80 hover:text-[#2C365A] transition py-1">
                                 Profil
                             </Link>
-                            <Link href={route('public.akademik.kurikulum')} className="text-[#2C365A]/80 hover:text-[#2C365A] transition py-1">
+                            <Link href={'/akademik/kurikulum'} className="text-[#2C365A]/80 hover:text-[#2C365A] transition py-1">
                                 Kurikulum OBE
                             </Link>
-                            <Link href={route('public.lppm.publikasi')} className="text-[#2C365A]/80 hover:text-[#2C365A] transition py-1">
+                            <Link href={'/lppm/publikasi'} className="text-[#2C365A]/80 hover:text-[#2C365A] transition py-1">
                                 Riset & Jurnal
                             </Link>
-                            <Link href={route('public.dokumen-institusi')} className="text-[#2C365A]/80 hover:text-[#2C365A] transition py-1">
+                            <Link href={'/profil/dokumen-institusi'} className="text-[#2C365A]/80 hover:text-[#2C365A] transition py-1">
                                 Mutu & SPMI
                             </Link>
                             <a href="#agenda-section" className="text-[#2C365A]/80 hover:text-[#2C365A] transition py-1">
@@ -258,16 +258,16 @@ export default function Welcome({
                         <Link href="/" className="block text-sm font-bold text-[#2C365A] py-1">
                             Beranda
                         </Link>
-                        <Link href={route('public.tentang-kampus')} className="block text-sm font-semibold text-[#2C365A]/80 py-1">
+                        <Link href={'/profil/tentang-kampus'} className="block text-sm font-semibold text-[#2C365A]/80 py-1">
                             Profil Prodi & Visi Misi
                         </Link>
-                        <Link href={route('public.akademik.kurikulum')} className="block text-sm font-semibold text-[#2C365A]/80 py-1">
+                        <Link href={'/akademik/kurikulum'} className="block text-sm font-semibold text-[#2C365A]/80 py-1">
                             Kurikulum OBE & MBKM
                         </Link>
-                        <Link href={route('public.lppm.publikasi')} className="block text-sm font-semibold text-[#2C365A]/80 py-1">
+                        <Link href={'/lppm/publikasi'} className="block text-sm font-semibold text-[#2C365A]/80 py-1">
                             Riset & Jurnal LPPM
                         </Link>
-                        <Link href={route('public.dokumen-institusi')} className="block text-sm font-semibold text-[#2C365A]/80 py-1">
+                        <Link href={'/profil/dokumen-institusi'} className="block text-sm font-semibold text-[#2C365A]/80 py-1">
                             Penjaminan Mutu & Dokumen
                         </Link>
                         <a href="#agenda-section" onClick={() => setIsMobileMenuOpen(false)} className="block text-sm font-semibold text-[#2C365A]/80 py-1">
@@ -331,7 +331,7 @@ export default function Welcome({
                                 </p>
                                 <div>
                                     <Link
-                                        href={route('public.akademik.kurikulum')}
+                                        href={'/akademik/kurikulum'}
                                         className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#2C365A] text-[#EEE8DF] text-xs font-bold hover:bg-[#C4BCB0] hover:text-[#2C365A] transition"
                                     >
                                         <span>Pelajari Kurikulum</span>
@@ -460,7 +460,7 @@ export default function Welcome({
                         </p>
                         <div className="pt-2">
                             <Link
-                                href={route('public.tentang-kampus')}
+                                href={'/profil/tentang-kampus'}
                                 className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#2C365A] text-[#EEE8DF] text-xs font-bold hover:bg-[#C4BCB0] hover:text-[#2C365A] transition shadow-sm"
                             >
                                 <span>Profil Lengkap &amp; Visi Misi</span>
@@ -507,7 +507,7 @@ export default function Welcome({
 
                             <div className="pt-8 flex items-center justify-between">
                                 <Link
-                                    href={route('public.akademik.kurikulum')}
+                                    href={'/akademik/kurikulum'}
                                     className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-[#2C365A] group-hover:text-[#2C365A]/70 transition"
                                 >
                                     <span>Pelajari Struktur Kurikulum</span>
@@ -537,7 +537,7 @@ export default function Welcome({
                                 </div>
                                 <div className="pt-6">
                                     <Link
-                                        href={route('public.lppm.publikasi')}
+                                        href={'/lppm/publikasi'}
                                         className="inline-flex items-center gap-2 text-xs font-bold text-[#2C365A]"
                                     >
                                         <span>Jelajahi Publikasi</span>
@@ -561,13 +561,13 @@ export default function Welcome({
                                 </div>
                                 <div className="pt-6 flex justify-between items-center">
                                     <Link
-                                        href={route('public.dokumen-institusi')}
+                                        href={'/profil/dokumen-institusi'}
                                         className="text-xs font-bold text-white hover:text-[#C4BCB0] transition"
                                     >
                                         Dokumen &amp; AMI
                                     </Link>
                                     <Link
-                                        href={route('public.dokumen-institusi')}
+                                        href={'/profil/dokumen-institusi'}
                                         className="w-10 h-10 rounded-full bg-white text-[#2C365A] flex items-center justify-center hover:scale-105 transition-transform"
                                         aria-label="SPMI"
                                     >
@@ -656,7 +656,7 @@ export default function Welcome({
                             </h2>
                         </div>
                         <Link 
-                            href={route('public.berita.index')}
+                            href={'/berita'}
                             className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-[#2C365A] hover:underline"
                         >
                             <span>Lihat Arsip Berita Lengkap</span>
@@ -668,7 +668,7 @@ export default function Welcome({
                         {displayBerita.slice(0, 3).map((berita, i) => (
                             <Link
                                 key={berita.id || i}
-                                href={berita.slug ? route('public.berita.show', berita.slug) : '#'}
+                                href={berita.slug ? `/berita/${berita.slug}` : '#' }
                                 className="rounded-3xl bg-white border border-[#C4BCB0]/40 p-6 flex flex-col justify-between hover:border-[#2C365A] transition group min-h-[220px]"
                             >
                                 <div>
@@ -843,22 +843,22 @@ export default function Welcome({
                             </span>
                             <ul className="space-y-2 text-xs text-[#EEE8DF]/80">
                                 <li>
-                                    <Link href={route('public.tentang-kampus')} className="hover:text-white transition">
+                                    <Link href={'/profil/tentang-kampus'} className="hover:text-white transition">
                                         Profil &amp; Visi Misi
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link href={route('public.akademik.kurikulum')} className="hover:text-white transition">
+                                    <Link href={'/akademik/kurikulum'} className="hover:text-white transition">
                                         Kurikulum OBE &amp; CPL
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link href={route('public.lppm.publikasi')} className="hover:text-white transition">
+                                    <Link href={'/lppm/publikasi'} className="hover:text-white transition">
                                         Publikasi &amp; Riset Jurnal
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link href={route('public.dokumen-institusi')} className="hover:text-white transition">
+                                    <Link href={'/profil/dokumen-institusi'} className="hover:text-white transition">
                                         Penjaminan Mutu (SPMI)
                                     </Link>
                                 </li>
