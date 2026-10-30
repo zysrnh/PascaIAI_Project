@@ -2,7 +2,7 @@ import React from 'react';
 import { Head } from '@inertiajs/react';
 import PublicLayout from '@/Layouts/PublicLayout';
 import Breadcrumb from '@/Components/Public/Breadcrumb';
-import { Book, Bookmark, ExternalLink, GraduationCap, Library } from 'lucide-react';
+import { Book, Bookmark, ExternalLink, GraduationCap, Library, FileText, CheckCircle2 } from 'lucide-react';
 
 export default function Publikasi({ publikasi }) {
     const data = publikasi || {
@@ -14,184 +14,210 @@ export default function Publikasi({ publikasi }) {
         deskripsi_buku: '',
         bukus: [],
         deskripsi_artikel: '',
-        links_scholar: []
+        artikels: [],
     };
 
     return (
         <PublicLayout>
-            <Head title={`${data.judul} | Prodi KPI IAI Persis Bandung`} />
+            <Head title="Publikasi Ilmiah, Jurnal & Buku | LPPM IAI Persis Bandung" />
 
-            {/* Banner Section */}
-            <div className="relative w-full h-[350px] md:h-[450px] bg-emerald-950 flex flex-col justify-end">
-                <div className="absolute inset-0">
-                    <img 
-                        src={data.banner_image || '/images/default-banner.jpg'} 
-                        alt="Publikasi Banner" 
-                        className="w-full h-full object-cover opacity-50"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-emerald-950 via-emerald-950/60 to-transparent"></div>
-                </div>
-                <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pb-12 animate-fade-in-up">
-                    <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-2 drop-shadow-md tracking-tight">
-                        {data.judul}
+            {/* Dark Minimalist Hero Section */}
+            <div className="relative bg-gradient-to-b from-[#091122] via-[#0E1B38] to-[#070E1E] text-white pt-20 pb-20 md:pt-24 md:pb-24 border-b border-slate-800/80 overflow-hidden">
+                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-900/20 via-transparent to-transparent pointer-events-none"></div>
+                <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center sm:text-left">
+                    <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-white leading-[1.18] tracking-tight mb-4">
+                        Publikasi <span className="font-serif italic font-normal text-emerald-300">Jurnal & Buku</span>
                     </h1>
-                    <div className="w-20 h-1.5 bg-amber-500 rounded-sm mb-4"></div>
-                    {data.deskripsi_banner && (
-                        <p className="text-white/90 max-w-2xl text-lg md:text-xl leading-relaxed drop-shadow">
-                            {data.deskripsi_banner}
-                        </p>
-                    )}
+                    <p className="text-slate-300/90 text-sm sm:text-base md:text-lg max-w-2xl font-light leading-relaxed">
+                        {data.deskripsi_banner || 'Direktori jurnal ilmiah institusi, publikasi buku karya dosen, dan artikel hasil penelitian civitas akademika.'}
+                    </p>
                 </div>
             </div>
 
+            {/* Breadcrumb Navigation */}
             <Breadcrumb items={[
-                { label: 'Penelitian & Pengabdian' },
-                { label: 'Publikasi' }
+                { label: 'Riset & PkM' },
+                { label: 'Publikasi Ilmiah' }
             ]} />
 
             {/* Main Content Area */}
-            <div className="bg-slate-50 py-16 lg:py-24 border-b border-slate-200">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-20">
+            <div className="bg-[#FAFBFD] py-12 lg:py-16 border-b border-slate-200/80 min-h-[550px]">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
                     
-                    {/* Jurnal Institusi */}
-                    <section className="animate-fade-in-up">
-                        <div className="text-center max-w-3xl mx-auto mb-12">
-                            <div className="inline-flex items-center justify-center p-3 bg-emerald-100 text-emerald-600 rounded-2xl mb-4">
-                                <Library className="w-8 h-8" />
+                    {/* 1. Jurnal Institusi Section */}
+                    <section className="bg-white rounded-2xl border border-slate-200/80 shadow-xs p-6 sm:p-8">
+                        <div className="flex items-center gap-3 mb-6 pb-4 border-b border-slate-100">
+                            <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 border border-blue-200/60 flex items-center justify-center shrink-0">
+                                <Library className="w-5 h-5" />
                             </div>
-                            <h2 className="text-3xl font-extrabold text-slate-800 tracking-tight">Jurnal Institusi</h2>
-                            {data.deskripsi_jurnal && (
-                                <p className="mt-4 text-slate-600 leading-relaxed text-lg">{data.deskripsi_jurnal}</p>
-                            )}
+                            <div>
+                                <h2 className="text-xl font-semibold text-slate-900 tracking-tight">
+                                    Jurnal Ilmiah Institusi
+                                </h2>
+                                <p className="text-xs text-slate-500">
+                                    {data.deskripsi_jurnal || 'Daftar jurnal ilmiah berkala terbitan Program Pascasarjana IAI Persis Bandung.'}
+                                </p>
+                            </div>
                         </div>
 
-                        {data.jurnals && data.jurnals.length > 0 && data.jurnals[0].nama_jurnal && (
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        {data.jurnals && data.jurnals.length > 0 ? (
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                                 {data.jurnals.map((jurnal, idx) => (
-                                    <div key={idx} className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden hover:shadow-lg transition-shadow group flex flex-col">
-                                        <div className="p-6 flex-1">
-                                            <div className="flex justify-between items-start mb-4">
-                                                <h3 className="text-xl font-bold text-emerald-900 group-hover:text-emerald-600 transition-colors">{jurnal.nama_jurnal}</h3>
-                                                {jurnal.sinta && (
-                                                    <span className="px-3 py-1 bg-amber-100 text-amber-800 text-xs font-bold rounded-full whitespace-nowrap">
-                                                        {jurnal.sinta}
+                                    <div key={idx} className="p-5 rounded-2xl bg-slate-50/70 border border-slate-200/80 hover:border-emerald-300 transition-all duration-200 hover:-translate-y-0.5 shadow-2xs flex flex-col justify-between group">
+                                        <div>
+                                            <div className="flex items-center justify-between gap-2 mb-2">
+                                                <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-blue-50 text-blue-700 border border-blue-200/60">
+                                                    ISSN: {jurnal.issn || '-'}
+                                                </span>
+                                                {jurnal.indexing && (
+                                                    <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200/60">
+                                                        {jurnal.indexing}
                                                     </span>
                                                 )}
                                             </div>
-                                            {jurnal.issn && (
-                                                <div className="flex items-center gap-2 text-slate-500 text-sm mb-4">
-                                                    <Bookmark className="w-4 h-4" />
-                                                    <span>ISSN: {jurnal.issn}</span>
-                                                </div>
+                                            <h3 className="text-base font-semibold text-slate-900 group-hover:text-emerald-700 transition-colors line-clamp-2">
+                                                {jurnal.nama}
+                                            </h3>
+                                            {jurnal.fokus_cakupan && (
+                                                <p className="text-xs text-slate-500 mt-2 line-clamp-3 leading-relaxed">
+                                                    {jurnal.fokus_cakupan}
+                                                </p>
                                             )}
                                         </div>
-                                        {jurnal.link_ojs && (
-                                            <a href={jurnal.link_ojs} target="_blank" rel="noreferrer" className="block w-full text-center py-4 bg-slate-50 text-emerald-700 font-semibold text-sm border-t border-slate-100 hover:bg-emerald-600 hover:text-white transition-colors">
-                                                Kunjungi OJS <ExternalLink className="inline w-4 h-4 ml-1 mb-0.5" />
+
+                                        {jurnal.link && (
+                                            <div className="pt-4 mt-4 border-t border-slate-200/60">
+                                                <a 
+                                                    href={jurnal.link} 
+                                                    target="_blank" 
+                                                    rel="noreferrer"
+                                                    className="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-700 hover:text-emerald-800 transition-colors"
+                                                >
+                                                    <span>Kunjungi Laman Jurnal (OJS)</span>
+                                                    <ExternalLink className="w-3.5 h-3.5" />
+                                                </a>
+                                            </div>
+                                        )}
+                                    </div>
+                                ))}
+                            </div>
+                        ) : (
+                            <p className="text-sm text-slate-400 italic">Belum ada data jurnal yang dipublikasikan.</p>
+                        )}
+                    </section>
+
+                    {/* 2. Buku Karya Dosen Section */}
+                    <section className="bg-white rounded-2xl border border-slate-200/80 shadow-xs p-6 sm:p-8">
+                        <div className="flex items-center gap-3 mb-6 pb-4 border-b border-slate-100">
+                            <div className="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 border border-amber-200/60 flex items-center justify-center shrink-0">
+                                <Book className="w-5 h-5" />
+                            </div>
+                            <div>
+                                <h2 className="text-xl font-semibold text-slate-900 tracking-tight">
+                                    Buku Karya Dosen
+                                </h2>
+                                <p className="text-xs text-slate-500">
+                                    {data.deskripsi_buku || 'Monograf, buku referensi, dan buku ajar yang ditulis oleh para dosen.'}
+                                </p>
+                            </div>
+                        </div>
+
+                        {data.bukus && data.bukus.length > 0 ? (
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                                {data.bukus.map((buku, idx) => (
+                                    <div key={idx} className="rounded-2xl border border-slate-200/80 hover:border-emerald-300 p-4 bg-slate-50/50 hover:bg-white transition-all duration-200 hover:-translate-y-0.5 shadow-2xs flex flex-col justify-between group">
+                                        <div>
+                                            <div className="aspect-3/4 rounded-xl overflow-hidden bg-slate-200 mb-3 border border-slate-200">
+                                                {buku.cover_image ? (
+                                                    <img src={buku.cover_image} alt={buku.judul} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                                                ) : (
+                                                    <div className="w-full h-full flex flex-col items-center justify-center text-slate-400 p-4 text-center">
+                                                        <Book className="w-10 h-10 mb-2 opacity-40" />
+                                                        <span className="text-xs font-medium">Tanpa Sampul</span>
+                                                    </div>
+                                                )}
+                                            </div>
+                                            <h3 className="text-sm font-semibold text-slate-900 group-hover:text-emerald-700 transition-colors line-clamp-2">
+                                                {buku.judul}
+                                            </h3>
+                                            <p className="text-xs text-slate-600 mt-1 font-medium truncate">
+                                                {buku.penulis}
+                                            </p>
+                                            <div className="flex items-center gap-2 text-[11px] text-slate-400 mt-1">
+                                                <span>{buku.penerbit || 'Penerbit'}</span>
+                                                {buku.tahun && <span>&bull; {buku.tahun}</span>}
+                                            </div>
+                                        </div>
+
+                                        {buku.isbn && (
+                                            <div className="pt-3 mt-3 border-t border-slate-200/60 flex items-center justify-between text-[11px] text-slate-500">
+                                                <span>ISBN</span>
+                                                <span className="font-mono text-slate-700 font-semibold">{buku.isbn}</span>
+                                            </div>
+                                        )}
+                                    </div>
+                                ))}
+                            </div>
+                        ) : (
+                            <p className="text-sm text-slate-400 italic">Belum ada data buku karya dosen yang dipublikasikan.</p>
+                        )}
+                    </section>
+
+                    {/* 3. Artikel Ilmiah Section */}
+                    {data.artikels && data.artikels.length > 0 && (
+                        <section className="bg-white rounded-2xl border border-slate-200/80 shadow-xs p-6 sm:p-8">
+                            <div className="flex items-center gap-3 mb-6 pb-4 border-b border-slate-100">
+                                <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 border border-emerald-200/60 flex items-center justify-center shrink-0">
+                                    <FileText className="w-5 h-5" />
+                                </div>
+                                <div>
+                                    <h2 className="text-xl font-semibold text-slate-900 tracking-tight">
+                                        Artikel Ilmiah Terindeks
+                                    </h2>
+                                    <p className="text-xs text-slate-500">
+                                        {data.deskripsi_artikel || 'Karya publikasi pada prosiding dan jurnal ilmiah bereputasi.'}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div className="divide-y divide-slate-100">
+                                {data.artikels.map((artikel, idx) => (
+                                    <div key={idx} className="py-4 first:pt-0 last:pb-0 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+                                        <div className="flex-1 min-w-0">
+                                            <h3 className="text-sm sm:text-base font-semibold text-slate-900 hover:text-emerald-700 transition-colors">
+                                                {artikel.judul}
+                                            </h3>
+                                            <div className="flex flex-wrap items-center gap-2 text-xs text-slate-500 mt-1">
+                                                <span className="font-medium text-slate-700">{artikel.penulis}</span>
+                                                <span>&bull;</span>
+                                                <span className="italic">{artikel.nama_jurnal}</span>
+                                                {artikel.tahun && (
+                                                    <>
+                                                        <span>&bull;</span>
+                                                        <span>{artikel.tahun}</span>
+                                                    </>
+                                                )}
+                                            </div>
+                                        </div>
+                                        {artikel.link && (
+                                            <a 
+                                                href={artikel.link} 
+                                                target="_blank" 
+                                                rel="noreferrer"
+                                                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 transition-colors shrink-0"
+                                            >
+                                                <span>Akses Artikel</span>
+                                                <ExternalLink className="w-3 h-3" />
                                             </a>
                                         )}
                                     </div>
                                 ))}
                             </div>
-                        )}
-                    </section>
-
-                    {/* Buku Karya Dosen */}
-                    <section className="animate-fade-in-up" style={{animationDelay: '0.1s'}}>
-                        <div className="text-center max-w-3xl mx-auto mb-12">
-                            <div className="inline-flex items-center justify-center p-3 bg-amber-100 text-amber-600 rounded-2xl mb-4">
-                                <Book className="w-8 h-8" />
-                            </div>
-                            <h2 className="text-3xl font-extrabold text-slate-800 tracking-tight">Buku Karya Dosen</h2>
-                            {data.deskripsi_buku && (
-                                <p className="mt-4 text-slate-600 leading-relaxed text-lg">{data.deskripsi_buku}</p>
-                            )}
-                        </div>
-
-                        {data.bukus && data.bukus.length > 0 && data.bukus[0].judul && (
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                                {data.bukus.map((buku, idx) => (
-                                    <div key={idx} className="flex flex-col sm:flex-row gap-6 bg-white p-6 rounded-2xl shadow-sm border border-slate-200 hover:border-emerald-300 transition-colors">
-                                        <div className="hidden sm:flex w-24 h-32 bg-slate-100 rounded-lg items-center justify-center text-slate-300 shrink-0">
-                                            <Book className="w-10 h-10" />
-                                        </div>
-                                        <div className="flex-1">
-                                            <h3 className="text-xl font-bold text-slate-800 mb-2 leading-tight">{buku.judul}</h3>
-                                            <p className="text-emerald-700 font-medium mb-3">{buku.penulis}</p>
-                                            
-                                            <div className="grid grid-cols-2 gap-2 text-sm text-slate-600 mb-4">
-                                                <div><span className="font-semibold text-slate-500">Tahun:</span> {buku.tahun || '-'}</div>
-                                                <div><span className="font-semibold text-slate-500">Penerbit:</span> {buku.penerbit || '-'}</div>
-                                                <div className="col-span-2"><span className="font-semibold text-slate-500">ISBN:</span> {buku.isbn || '-'}</div>
-                                            </div>
-                                            
-                                            {buku.link && (
-                                                <a href={buku.link} target="_blank" rel="noreferrer" className="inline-flex items-center text-sm font-semibold text-amber-600 hover:text-amber-700">
-                                                    Lihat Buku <ExternalLink className="w-4 h-4 ml-1" />
-                                                </a>
-                                            )}
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        )}
-                    </section>
-
-                    {/* Profil Riset Dosen */}
-                    <section className="animate-fade-in-up" style={{animationDelay: '0.2s'}}>
-                        <div className="bg-gradient-to-br from-emerald-900 to-emerald-800 rounded-3xl p-8 md:p-12 text-white shadow-xl">
-                            <div className="flex flex-col md:flex-row items-center justify-between gap-8 mb-10">
-                                <div className="max-w-2xl text-center md:text-left">
-                                    <div className="inline-flex items-center justify-center p-3 bg-white/10 rounded-2xl mb-4">
-                                        <GraduationCap className="w-8 h-8 text-amber-400" />
-                                    </div>
-                                    <h2 className="text-3xl font-extrabold tracking-tight mb-4">Profil Riset & Artikel Dosen</h2>
-                                    {data.deskripsi_artikel ? (
-                                        <p className="text-emerald-100/90 text-lg leading-relaxed">{data.deskripsi_artikel}</p>
-                                    ) : (
-                                        <p className="text-emerald-100/90 text-lg leading-relaxed">
-                                            Kunjungi profil akademik dosen kami untuk melihat seluruh publikasi artikel ilmiah yang telah diterbitkan pada berbagai jurnal nasional dan internasional.
-                                        </p>
-                                    )}
-                                </div>
-                            </div>
-
-                            {data.links_scholar && data.links_scholar.length > 0 && data.links_scholar[0].nama_dosen && (
-                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                                    {data.links_scholar.map((scholar, idx) => (
-                                        <div key={idx} className="bg-white/10 hover:bg-white/20 p-5 rounded-2xl border border-white/10 transition-colors flex flex-col justify-between">
-                                            <h4 className="font-bold text-lg mb-4">{scholar.nama_dosen}</h4>
-                                            <div className="flex flex-wrap gap-2">
-                                                {scholar.link_scholar && (
-                                                    <a href={scholar.link_scholar} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white text-emerald-900 rounded-lg text-sm font-semibold hover:bg-emerald-50 transition-colors">
-                                                        Google Scholar
-                                                    </a>
-                                                )}
-                                                {scholar.link_scopus && (
-                                                    <a href={scholar.link_scopus} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-amber-500 text-white rounded-lg text-sm font-semibold hover:bg-amber-400 transition-colors">
-                                                        Scopus / Sinta
-                                                    </a>
-                                                )}
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            )}
-                        </div>
-                    </section>
+                        </section>
+                    )}
 
                 </div>
             </div>
-            
-            <style>{`
-                @keyframes fadeInUp {
-                    from { opacity: 0; transform: translateY(15px); }
-                    to { opacity: 1; transform: translateY(0); }
-                }
-                .animate-fade-in-up {
-                    animation: fadeInUp 0.4s ease-out forwards;
-                }
-            `}</style>
         </PublicLayout>
     );
 }
