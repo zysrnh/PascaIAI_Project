@@ -1,23 +1,35 @@
 {
-  "name": "Pascasarjana IAI Persis Bandung - Cream, Beige, Deep Ocean Editorial Palette",
+  "name": "KPI / IAI Persis Bandung Premium Forest Palette",
   "colors": {
-    "cream": {
-      "name": "Cream",
-      "hex": "#EEE8DF",
-      "rgb": "rgb(238, 232, 223)",
-      "role": "Background kartu terang, surface callout, aksen kontras"
+    "deep-forest": {
+      "name": "Deep Forest",
+      "hex": "#0F2E24",
+      "rgb": "rgb(15, 47, 36)",
+      "role": "Background hero, topbar, footer container, teks judul utama"
     },
-    "beige": {
-      "name": "Beige",
-      "hex": "#C4BCB0",
-      "rgb": "rgb(196, 188, 176)",
-      "role": "Badge sorotan kategori, pill tags, aksen icon tombol & ilustrasi"
+    "moss-shadow": {
+      "name": "Moss Shadow",
+      "hex": "#1F4D3A",
+      "rgb": "rgb(31, 77, 58)",
+      "role": "Header container, hover buttons, aksen gelap"
     },
-    "deep-ocean": {
-      "name": "Deep Ocean",
-      "hex": "#2C365A",
-      "rgb": "rgb(44, 54, 90)",
-      "role": "Teks utama, border neo-minimalist, drop shadow, kartu gelap, topbar, footer"
+    "eucalyptus": {
+      "name": "Eucalyptus",
+      "hex": "#4F8F75",
+      "rgb": "rgb(79, 143, 117)",
+      "role": "Tombol CTA utama, link aktif, badge sorotan"
+    },
+    "sage-mist": {
+      "name": "Sage Mist",
+      "hex": "#9FC3B2",
+      "rgb": "rgb(159, 195, 178)",
+      "role": "Border kartu, badge status, divider halus"
+    },
+    "pale-lichen": {
+      "name": "Pale Lichen",
+      "hex": "#E7F1EC",
+      "rgb": "rgb(231, 241, 236)",
+      "role": "Background kartu, section statistik, surface sejuk bersih"
     }
   }
 }
