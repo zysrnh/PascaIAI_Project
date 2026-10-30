@@ -87,20 +87,11 @@ Ketik perintah manual atau gunakan tombol aksi cepat di atas untuk sinkronisasi 
             }
 
             if (trimmed.toLowerCase() === 'sync-build' || trimmed.toLowerCase() === 'transfer-build') {
-                res = await axios.post(route('admin.terminal.sync-build'), {
-                    targets: targetFolders.split('\n').filter((t) => t.trim().length > 0)
-                });
-            } else if (
-                trimmed.toLowerCase() === 'git pull' ||
-                trimmed.toLowerCase() === 'git pull origin main' ||
-                trimmed.toLowerCase() === 'pull' ||
-                trimmed.toLowerCase() === 'auto-sync'
-            ) {
-                res = await axios.post(route('admin.terminal.pull-http'), {
+                res = await axios.post('/admin/terminal/sync-build', {
                     targets: targetFolders.split('\n').filter((t) => t.trim().length > 0)
                 });
             } else {
-                res = await axios.post(route('admin.terminal.execute'), {
+                res = await axios.post('/admin/terminal/execute', {
                     command: trimmed,
                     targets: targetFolders.split('\n').filter((t) => t.trim().length > 0)
                 });

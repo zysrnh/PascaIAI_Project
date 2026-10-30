@@ -99,109 +99,109 @@ class TerminalController extends Controller
         $startTime = microtime(true);
         $lowerCmd = strtolower($command);
 
-        // 1. Handle perintah khusus sync-build langsung
-        if (in_array($lowerCmd, ['sync-build', 'transfer-build', 'sync:build'])) {
-            return $this->syncBuild($request);
-        }
+        try {
+            // 1. Handle perintah khusus sync-build langsung
+            if (in_array($lowerCmd, ['sync-build', 'transfer-build', 'sync:build'])) {
+                return $this->syncBuild($request);
+            }
 
-        // 2. Handle perintah Git Pull / Auto-Sync via Pure PHP HTTP
-        if (
-            str_contains($lowerCmd, 'git pull') ||
-            str_contains($lowerCmd, 'pull') ||
-            str_contains($lowerCmd, 'init-git') ||
-            str_contains($lowerCmd, 'auto-sync') ||
-            str_contains($lowerCmd, 'deploy') ||
-            str_contains($lowerCmd, 'update')
-        ) {
-            return $this->pullViaHttp($request);
-        }
+            // 2. Handle perintah Git Pull / Auto-Sync via Pure PHP HTTP
+            if (
+                str_contains($lowerCmd, 'git pull') ||
+                str_contains($lowerCmd, 'pull') ||
+                str_contains($lowerCmd, 'init-git') ||
+                str_contains($lowerCmd, 'auto-sync') ||
+                str_contains($lowerCmd, 'deploy') ||
+                str_contains($lowerCmd, 'update')
+            ) {
+                return $this->pullViaHttp($request);
+            }
 
-        // 3. Handle git status
-        if ($lowerCmd === 'git status') {
-            $output = "=== STATUS SISTEM & DEPLOYMENT ===\n";
-            $output .= "Metode Deployment : Pure PHP GitHub Auto-Sync\n";
-            $output .= "Repository Remote : {$this->repoUrl} (branch: main)\n";
-            $output .= "proc_open Hosting : " . ($this->isProcOpenAvailable() ? 'Aktif' : 'Nonaktif (Kebal via HTTP Sync)') . "\n";
-            $output .= "Asset Build       : " . (File::exists(public_path('build/manifest.json')) ? 'Tersedia' : 'Belum dibangun') . "\n";
-            $output .= "Status            : Siap menerima pembaruan kapan pun dengan menekan tombol 'Git Pull'.\n";
-
-            return response()->json([
-                'success' => true,
-                'command' => $command,
-                'output' => $output,
-                'exit_code' => 0,
-                'duration' => number_format(microtime(true) - $startTime, 2) . 's'
-            ]);
-        }
-
-        // 4. Handle Artisan Command secara native in-memory PHP (aman dari proc_open)
-        if (preg_match('/^php\s+artisan\s+(.+)$/i', $command, $matches) || preg_match('/^artisan\s+(.+)$/i', $command, $matches)) {
-            $artisanCmd = trim($matches[1]);
-            try {
-                Artisan::call($artisanCmd);
-                $artisanOutput = Artisan::output();
-                $duration = number_format(microtime(true) - $startTime, 2) . 's';
+            // 3. Handle git status
+            if ($lowerCmd === 'git status') {
+                $output = "=== STATUS SISTEM & DEPLOYMENT ===\n";
+                $output .= "Metode Deployment : Pure PHP GitHub Auto-Sync\n";
+                $output .= "Repository Remote : {$this->repoUrl} (branch: main)\n";
+                $output .= "proc_open Hosting : " . ($this->isProcOpenAvailable() ? 'Aktif' : 'Nonaktif (Kebal via HTTP Sync)') . "\n";
+                $output .= "Asset Build       : " . (File::exists(public_path('build/manifest.json')) ? 'Tersedia' : 'Belum dibangun') . "\n";
+                $output .= "Status            : Siap menerima pembaruan kapan pun dengan menekan tombol 'Git Pull'.\n";
 
                 return response()->json([
                     'success' => true,
                     'command' => $command,
-                    'output' => trim($artisanOutput) ?: "Artisan [{$artisanCmd}] berhasil dijalankan tanpa error.",
+                    'output' => $output,
                     'exit_code' => 0,
-                    'duration' => $duration
-                ]);
-            } catch (\Throwable $e) {
-                return response()->json([
-                    'success' => false,
-                    'command' => $command,
-                    'output' => "Error saat menjalankan artisan [{$artisanCmd}]: " . $e->getMessage(),
-                    'exit_code' => 1,
                     'duration' => number_format(microtime(true) - $startTime, 2) . 's'
                 ]);
             }
-        }
 
-        // 5. Filter blacklist perintah destruktif fatal
-        $blacklisted = [
-            'rm -rf /',
-            'rmdir /s /q c:',
-            'mkfs',
-            'dd if=',
-            ':(){ :|:& };:',
-            'shutdown',
-            'reboot',
-            'drop database',
-        ];
+            // 4. Handle Artisan Command secara native in-memory PHP (aman dari proc_open)
+            if (preg_match('/^php\s+artisan\s+(.+)$/i', $command, $matches) || preg_match('/^artisan\s+(.+)$/i', $command, $matches)) {
+                $artisanCmd = trim($matches[1]);
+                try {
+                    Artisan::call($artisanCmd);
+                    $artisanOutput = Artisan::output();
+                    $duration = number_format(microtime(true) - $startTime, 2) . 's';
 
-        foreach ($blacklisted as $b) {
-            if (stripos($command, $b) !== false) {
+                    return response()->json([
+                        'success' => true,
+                        'command' => $command,
+                        'output' => trim($artisanOutput) ?: "Artisan [{$artisanCmd}] berhasil dijalankan tanpa error.",
+                        'exit_code' => 0,
+                        'duration' => $duration
+                    ]);
+                } catch (\Throwable $e) {
+                    return response()->json([
+                        'success' => false,
+                        'command' => $command,
+                        'output' => "Error saat menjalankan artisan [{$artisanCmd}]: " . $e->getMessage(),
+                        'exit_code' => 1,
+                        'duration' => number_format(microtime(true) - $startTime, 2) . 's'
+                    ]);
+                }
+            }
+
+            // 5. Filter blacklist perintah destruktif fatal
+            $blacklisted = [
+                'rm -rf /',
+                'rmdir /s /q c:',
+                'mkfs',
+                'dd if=',
+                ':(){ :|:& };:',
+                'shutdown',
+                'reboot',
+                'drop database',
+            ];
+
+            foreach ($blacklisted as $b) {
+                if (stripos($command, $b) !== false) {
+                    return response()->json([
+                        'success' => false,
+                        'command' => $command,
+                        'output' => "Akses Ditolak: Perintah terindikasi destruktif ({$b}).",
+                        'exit_code' => 1,
+                        'duration' => '0.00s'
+                    ]);
+                }
+            }
+
+            // 6. Jika proc_open tidak tersedia dan perintah shell lain dijalankan
+            if (!$this->isProcOpenAvailable()) {
                 return response()->json([
                     'success' => false,
                     'command' => $command,
-                    'output' => "Akses Ditolak: Perintah terindikasi destruktif ({$b}).",
+                    'output' => "⚠️ Hosting cPanel menonaktifkan proc_open di php.ini.\n" .
+                                "Perintah shell OS umum dibatasi oleh server hosting.\n\n" .
+                                "Fitur yang tetap bekerja 100% menggunakan PHP Native:\n" .
+                                "• Update Kode GitHub : Ketik 'git pull' atau klik tombol 'Auto-Sync dari GitHub'\n" .
+                                "• Transfer Asset Build: Ketik 'sync-build' atau klik tombol 'Transfer Build'\n" .
+                                "• Perintah Artisan     : Ketik 'php artisan optimize:clear', 'php artisan migrate', dll.",
                     'exit_code' => 1,
                     'duration' => '0.00s'
-                ], 403);
+                ]);
             }
-        }
 
-        // 6. Jika proc_open tidak tersedia dan perintah shell lain dijalankan
-        if (!$this->isProcOpenAvailable()) {
-            return response()->json([
-                'success' => false,
-                'command' => $command,
-                'output' => "⚠️ Hosting cPanel menonaktifkan proc_open di php.ini.\n" .
-                            "Perintah shell OS umum dibatasi oleh server hosting.\n\n" .
-                            "Fitur yang tetap bekerja 100% menggunakan PHP Native:\n" .
-                            "• Update Kode GitHub : Ketik 'git pull' atau klik tombol 'Git Pull + Transfer Build'\n" .
-                            "• Transfer Asset Build: Ketik 'sync-build' atau klik tombol 'Transfer Build'\n" .
-                            "• Perintah Artisan     : Ketik 'php artisan optimize:clear', 'php artisan migrate', dll.",
-                'exit_code' => 1,
-                'duration' => '0.00s'
-            ]);
-        }
-
-        // 7. Jika proc_open aktif, jalankan lewat Symfony Process
-        try {
+            // 7. Jika proc_open aktif, jalankan lewat Symfony Process
             $process = Process::fromShellCommandline($command, base_path());
             $process->setTimeout(180);
             $process->run();
@@ -224,11 +224,41 @@ class TerminalController extends Controller
             return response()->json([
                 'success' => false,
                 'command' => $command,
-                'output' => 'Terjadi kesalahan eksekusi: ' . $e->getMessage(),
+                'output' => 'Terjadi kesalahan eksekusi: ' . $e->getMessage() . "\nLokasi: " . $e->getFile() . ':' . $e->getLine(),
                 'exit_code' => 1,
                 'duration' => $duration
-            ], 500);
+            ]);
         }
+    }
+
+    /**
+     * Cari direktori sementara yang aman dan bisa ditulis
+     */
+    protected function getSafeTempZipPath()
+    {
+        $candidates = [
+            storage_path('app'),
+            storage_path('framework/cache'),
+            storage_path(),
+            sys_get_temp_dir(),
+            base_path('storage/app'),
+            base_path('storage'),
+        ];
+
+        foreach ($candidates as $dir) {
+            try {
+                if (!is_dir($dir)) {
+                    @mkdir($dir, 0777, true);
+                }
+                if (is_dir($dir) && is_writable($dir)) {
+                    return $dir . DIRECTORY_SEPARATOR . 'github_main_update.zip';
+                }
+            } catch (\Throwable $e) {
+                // Coba candidate berikutnya
+            }
+        }
+
+        return storage_path('github_main_update.zip');
     }
 
     /**
@@ -238,218 +268,257 @@ class TerminalController extends Controller
      */
     public function pullViaHttp(Request $request)
     {
+        // Tingkatkan limit waktu dan memori untuk operasi sync
+        @ini_set('max_execution_time', '300');
+        @set_time_limit(300);
+        @ini_set('memory_limit', '512M');
+
         $startTime = microtime(true);
         $log = "=== PURE PHP GITHUB AUTO-SYNC ===\n";
         $log .= "Target Remote : {$this->repoUrl} (branch: main)\n";
         $log .= "Waktu         : " . date('Y-m-d H:i:s') . "\n";
         $log .= "Metode        : Native HTTP Archive Download & Safe Overwrite\n\n";
 
-        // Pastikan folder storage/app tersedia untuk download sementara
-        $tempDir = storage_path('app');
-        File::ensureDirectoryExists($tempDir);
-        $tempZipPath = $tempDir . DIRECTORY_SEPARATOR . 'github_main_update.zip';
+        try {
+            $tempZipPath = $this->getSafeTempZipPath();
+            @unlink($tempZipPath);
 
-        // 1. Download berkas ZIP dari GitHub
-        $log .= "> [1/4] Mengunduh arsip kode terbaru dari GitHub via HTTP...\n";
-        $downloadSuccess = false;
-        $downloadError = null;
+            // 1. Download berkas ZIP dari GitHub langsung streaming ke file (hemat RAM)
+            $log .= "> [1/4] Mengunduh arsip kode terbaru dari GitHub via HTTP...\n";
+            $downloadSuccess = false;
+            $downloadError = '';
 
-        // Coba download via cURL
-        if (function_exists('curl_init')) {
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $this->repoCodeloadUrl);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-            curl_setopt($ch, CURLOPT_AUTOREFERER, true);
-            curl_setopt($ch, CURLOPT_USERAGENT, 'Laravel-PurePHP-AutoSync/1.0');
-            curl_setopt($ch, CURLOPT_TIMEOUT, 300);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+            // Prioritas 1: cURL streaming langsung ke file
+            if (function_exists('curl_init')) {
+                $fp = @fopen($tempZipPath, 'w+b');
+                if ($fp) {
+                    $ch = curl_init();
+                    curl_setopt($ch, CURLOPT_URL, $this->repoCodeloadUrl);
+                    curl_setopt($ch, CURLOPT_FILE, $fp);
+                    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+                    curl_setopt($ch, CURLOPT_AUTOREFERER, true);
+                    curl_setopt($ch, CURLOPT_TIMEOUT, 180);
+                    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 20);
+                    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+                    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                        'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                        'Connection: close',
+                        'Accept: application/zip, application/octet-stream, */*'
+                    ]);
 
-            $zipData = curl_exec($ch);
-            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-            $curlError = curl_error($ch);
-            curl_close($ch);
+                    curl_exec($ch);
+                    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                    $curlError = curl_error($ch);
+                    curl_close($ch);
+                    fclose($fp);
 
-            if ($httpCode >= 200 && $httpCode < 400 && !empty($zipData)) {
-                File::put($tempZipPath, $zipData);
-                $downloadSuccess = true;
-                $sizeMb = number_format(strlen($zipData) / 1048576, 2);
-                $log .= "  ✓ Berhasil mengunduh arsip ZIP ({$sizeMb} MB) via cURL (HTTP {$httpCode}).\n";
-            } else {
-                $downloadError = "cURL gagal (HTTP {$httpCode}): {$curlError}";
+                    $fileSize = file_exists($tempZipPath) ? filesize($tempZipPath) : 0;
+                    if ($httpCode >= 200 && $httpCode < 400 && $fileSize > 10000) {
+                        $downloadSuccess = true;
+                        $sizeMb = number_format($fileSize / 1048576, 2);
+                        $log .= "  ✓ Berhasil mengunduh arsip ZIP ({$sizeMb} MB) via cURL (HTTP {$httpCode}).\n";
+                    } else {
+                        $downloadError = "cURL (HTTP {$httpCode}, size: {$fileSize}B): " . ($curlError ?: 'Respons bukan ZIP yang valid');
+                        @unlink($tempZipPath);
+                    }
+                } else {
+                    $downloadError = "Gagal membuat file penampung sementara di {$tempZipPath}";
+                }
             }
-        }
 
-        // Fallback ke file_get_contents jika cURL gagal
-        if (!$downloadSuccess) {
-            $context = stream_context_create([
-                'http' => [
-                    'timeout' => 300,
-                    'user_agent' => 'Laravel-PurePHP-AutoSync/1.0',
-                    'follow_location' => 1
-                ],
-                'ssl' => [
-                    'verify_peer' => false,
-                    'verify_peer_name' => false
-                ]
+            // Prioritas 2: Fallback ke file_get_contents stream jika cURL gagal
+            if (!$downloadSuccess) {
+                $context = stream_context_create([
+                    'http' => [
+                        'timeout' => 180,
+                        'user_agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
+                        'follow_location' => 1,
+                        'header' => "Connection: close\r\nAccept: application/zip, */*\r\n"
+                    ],
+                    'ssl' => [
+                        'verify_peer' => false,
+                        'verify_peer_name' => false
+                    ]
+                ]);
+
+                $srcFp = @fopen($this->repoZipUrl, 'rb', false, $context);
+                if ($srcFp) {
+                    $dstFp = @fopen($tempZipPath, 'wb');
+                    if ($dstFp) {
+                        stream_copy_to_stream($srcFp, $dstFp);
+                        fclose($dstFp);
+                    }
+                    fclose($srcFp);
+
+                    $fileSize = file_exists($tempZipPath) ? filesize($tempZipPath) : 0;
+                    if ($fileSize > 10000) {
+                        $downloadSuccess = true;
+                        $sizeMb = number_format($fileSize / 1048576, 2);
+                        $log .= "  ✓ Berhasil mengunduh arsip ZIP ({$sizeMb} MB) via stream_context fallback.\n";
+                    }
+                }
+            }
+
+            if (!$downloadSuccess || !file_exists($tempZipPath) || filesize($tempZipPath) < 1000) {
+                $log .= "  ✗ GAGAL mengunduh arsip dari GitHub: {$downloadError}\n";
+                $log .= "  ℹ Solusi: Pastikan hosting mengizinkan koneksi HTTPS keluar (outgoing port 443).\n";
+
+                return response()->json([
+                    'success' => false,
+                    'command' => 'git pull (pure-php)',
+                    'output' => $log,
+                    'exit_code' => 1,
+                    'duration' => number_format(microtime(true) - $startTime, 2) . 's'
+                ]);
+            }
+
+            // 2. Ekstrak Berkas Menggunakan ZipArchive Native PHP
+            $log .= "\n> [2/4] Mengekstrak dan menyalin berkas ke folder proyek...\n";
+
+            if (!class_exists('ZipArchive')) {
+                $log .= "  ✗ Ekstensi PHP ZipArchive tidak aktif di server hosting ini!\n";
+                @unlink($tempZipPath);
+                return response()->json([
+                    'success' => false,
+                    'command' => 'git pull (pure-php)',
+                    'output' => $log,
+                    'exit_code' => 1,
+                    'duration' => number_format(microtime(true) - $startTime, 2) . 's'
+                ]);
+            }
+
+            $zip = new \ZipArchive();
+            $res = $zip->open($tempZipPath);
+            if ($res !== true) {
+                $log .= "  ✗ Berkas ZIP tidak valid atau corrupt (Kode ZipArchive: {$res}).\n";
+                @unlink($tempZipPath);
+                return response()->json([
+                    'success' => false,
+                    'command' => 'git pull (pure-php)',
+                    'output' => $log,
+                    'exit_code' => 1,
+                    'duration' => number_format(microtime(true) - $startTime, 2) . 's'
+                ]);
+            }
+
+            $totalEntries = $zip->numFiles;
+            $updatedFiles = 0;
+            $skippedProtected = 0;
+            $base = base_path();
+
+            for ($i = 0; $i < $totalEntries; $i++) {
+                $entryName = $zip->getNameIndex($i);
+
+                // Buang nama root folder zip (misal: PascaIAI_Project-main/...)
+                $relPath = preg_replace('#^[^/]+/#', '', $entryName);
+
+                if (empty($relPath)) {
+                    continue;
+                }
+
+                $targetPath = $base . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, $relPath);
+
+                if (str_ends_with($entryName, '/')) {
+                    File::ensureDirectoryExists($targetPath);
+                    continue;
+                }
+
+                // ATURAN PROTEKSI AMAN (Safe Overwrite):
+                // 1. File .env TIDAK PERNAH DITIMPA
+                if (basename($relPath) === '.env' || str_starts_with($relPath, '.env.')) {
+                    $skippedProtected++;
+                    continue;
+                }
+
+                // 2. Folder storage/ TIDAK PERNAH DITIMPA
+                if (str_starts_with($relPath, 'storage/') || str_starts_with($relPath, 'storage\\')) {
+                    $skippedProtected++;
+                    continue;
+                }
+
+                // 3. Folder .git/ dilewati
+                if (str_starts_with($relPath, '.git/') || str_starts_with($relPath, '.git\\')) {
+                    continue;
+                }
+
+                $stream = $zip->getStream($entryName);
+                if ($stream) {
+                    File::ensureDirectoryExists(dirname($targetPath));
+                    $fp = @fopen($targetPath, 'wb');
+                    if ($fp) {
+                        stream_copy_to_stream($stream, $fp);
+                        fclose($fp);
+                        $updatedFiles++;
+                    }
+                    fclose($stream);
+                }
+            }
+
+            $zip->close();
+            @unlink($tempZipPath);
+
+            $log .= "  ✓ {$updatedFiles} berkas proyek berhasil diperbarui.\n";
+            $log .= "  ✓ {$skippedProtected} berkas diproteksi (file .env & folder storage/ tetap aman).\n";
+
+            // 3. Jalankan Siklus Pasca-Deploy: Migrasi Database & Transfer Build
+            $log .= "\n> [3/4] Menjalankan siklus pasca-deploy (Migrate & Transfer Build)...\n";
+
+            try {
+                Artisan::call('migrate', ['--force' => true]);
+                $migOutput = trim(Artisan::output());
+                $log .= "  ✓ Database Migration: " . ($migOutput ?: 'Tidak ada migrasi pending.') . "\n";
+            } catch (\Throwable $e) {
+                $log .= "  ℹ Database Migration: " . $e->getMessage() . "\n";
+            }
+
+            try {
+                $syncResponse = $this->syncBuild($request);
+                $syncData = json_decode($syncResponse->getContent(), true);
+                if (!empty($syncData['synced'])) {
+                    $log .= "  ✓ Transfer Asset Build berhasil ke " . count($syncData['synced']) . " lokasi tujuan.\n";
+                } else {
+                    $log .= "  ℹ Transfer Asset Build: Folder build sudah up-to-date.\n";
+                }
+            } catch (\Throwable $e) {
+                $log .= "  ℹ Transfer Build: " . $e->getMessage() . "\n";
+            }
+
+            // 4. Bersihkan Cache Laravel
+            $log .= "\n> [4/4] Membersihkan cache sistem (optimize:clear)...\n";
+            try {
+                Artisan::call('optimize:clear');
+                $log .= "  ✓ Cache sistem, route, config, dan views berhasil dibersihkan.\n";
+            } catch (\Throwable $e) {
+                $log .= "  ℹ Optimize clear: " . $e->getMessage() . "\n";
+            }
+
+            $duration = number_format(microtime(true) - $startTime, 2) . 's';
+            $log .= "\n==================================================\n";
+            $log .= "✓ SELESAI: Aplikasi berhasil di-update dari GitHub dalam {$duration}!\n";
+            $log .= "Situs sudah aktif dengan versi kode dan build terbaru.\n";
+
+            return response()->json([
+                'success' => true,
+                'command' => 'git pull (pure-php)',
+                'output' => $log,
+                'exit_code' => 0,
+                'duration' => $duration
             ]);
 
-            $zipData = @file_get_contents($this->repoZipUrl, false, $context);
-            if ($zipData !== false && !empty($zipData)) {
-                File::put($tempZipPath, $zipData);
-                $downloadSuccess = true;
-                $sizeMb = number_format(strlen($zipData) / 1048576, 2);
-                $log .= "  ✓ Berhasil mengunduh arsip ZIP ({$sizeMb} MB) via stream_context.\n";
-            } else {
-                $downloadError .= " | file_get_contents juga gagal.";
-            }
-        }
-
-        if (!$downloadSuccess || !File::exists($tempZipPath)) {
-            $log .= "  ✗ GAGAL mengunduh arsip dari GitHub: {$downloadError}\n";
-            return response()->json([
-                'success' => false,
-                'command' => 'git pull (pure-php)',
-                'output' => $log,
-                'exit_code' => 1,
-                'duration' => number_format(microtime(true) - $startTime, 2) . 's'
-            ], 500);
-        }
-
-        // 2. Ekstrak Berkas Menggunakan ZipArchive Native PHP
-        $log .= "\n> [2/4] Mengekstrak dan menyalin berkas ke folder proyek...\n";
-
-        if (!class_exists('ZipArchive')) {
-            $log .= "  ✗ Ekstensi PHP ZipArchive tidak aktif di server!\n";
-            @unlink($tempZipPath);
-            return response()->json([
-                'success' => false,
-                'command' => 'git pull (pure-php)',
-                'output' => $log,
-                'exit_code' => 1,
-                'duration' => number_format(microtime(true) - $startTime, 2) . 's'
-            ], 500);
-        }
-
-        $zip = new \ZipArchive();
-        if ($zip->open($tempZipPath) !== true) {
-            $log .= "  ✗ Berkas ZIP corrupt atau tidak dapat dibuka.\n";
-            @unlink($tempZipPath);
-            return response()->json([
-                'success' => false,
-                'command' => 'git pull (pure-php)',
-                'output' => $log,
-                'exit_code' => 1,
-                'duration' => number_format(microtime(true) - $startTime, 2) . 's'
-            ], 500);
-        }
-
-        $totalEntries = $zip->numFiles;
-        $updatedFiles = 0;
-        $skippedProtected = 0;
-        $base = base_path();
-
-        for ($i = 0; $i < $totalEntries; $i++) {
-            $entryName = $zip->getNameIndex($i);
-
-            // GitHub zip selalu memiliki folder root (contoh: PascaIAI_Project-main/...)
-            // Kita buang nama folder root tersebut agar path presisi ke base_path()
-            $relPath = preg_replace('#^[^/]+/#', '', $entryName);
-
-            if (empty($relPath)) {
-                continue;
-            }
-
-            // Normalisasi path separator
-            $targetPath = $base . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, $relPath);
-
-            // Jika folder, buat foldernya jika belum ada
-            if (str_ends_with($entryName, '/')) {
-                File::ensureDirectoryExists($targetPath);
-                continue;
-            }
-
-            // ATURAN PROTEKSI AMAN (Safe Overwrite):
-            // 1. File .env TIDAK PERNAH DITIMPA agar konfigurasi database & app key server aman
-            if (basename($relPath) === '.env' || str_starts_with($relPath, '.env.')) {
-                $skippedProtected++;
-                continue;
-            }
-
-            // 2. Folder storage/ TIDAK PERNAH DITIMPA agar data upload, log, dan sesi server tetap utuh
-            if (str_starts_with($relPath, 'storage/') || str_starts_with($relPath, 'storage\\')) {
-                $skippedProtected++;
-                continue;
-            }
-
-            // 3. Folder .git/ dilewati
-            if (str_starts_with($relPath, '.git/') || str_starts_with($relPath, '.git\\')) {
-                continue;
-            }
-
-            // Baca konten berkas dari ZIP dan tulis ke target
-            $stream = $zip->getStream($entryName);
-            if ($stream) {
-                File::ensureDirectoryExists(dirname($targetPath));
-                $fp = fopen($targetPath, 'wb');
-                if ($fp) {
-                    stream_copy_to_stream($stream, $fp);
-                    fclose($fp);
-                    $updatedFiles++;
-                }
-                fclose($stream);
-            }
-        }
-
-        $zip->close();
-        @unlink($tempZipPath);
-
-        $log .= "  ✓ {$updatedFiles} berkas proyek berhasil diperbarui.\n";
-        $log .= "  ✓ {$skippedProtected} berkas diproteksi (file .env & folder storage/ tetap aman).\n";
-
-        // 3. Jalankan Siklus Pasca-Deploy: Migrasi Database & Transfer Build
-        $log .= "\n> [3/4] Menjalankan siklus pasca-deploy (Migrate & Transfer Build)...\n";
-
-        // Migrasi database otomatis jika ada tabel baru
-        try {
-            Artisan::call('migrate', ['--force' => true]);
-            $migOutput = trim(Artisan::output());
-            $log .= "  ✓ Database Migration: " . ($migOutput ?: 'Tidak ada migrasi pending.') . "\n";
         } catch (\Throwable $e) {
-            $log .= "  ℹ Database Migration note: " . $e->getMessage() . "\n";
+            $duration = number_format(microtime(true) - $startTime, 2) . 's';
+            $log .= "\n[CRITICAL ERROR] Terjadi kendala saat update: " . $e->getMessage() . "\n";
+            $log .= "File: " . $e->getFile() . ':' . $e->getLine() . "\n";
+
+            return response()->json([
+                'success' => false,
+                'command' => 'git pull (pure-php)',
+                'output' => $log,
+                'exit_code' => 1,
+                'duration' => $duration
+            ]);
         }
-
-        // Sinkronisasi folder build Vite ke public_html
-        $syncResponse = $this->syncBuild($request);
-        $syncData = json_decode($syncResponse->getContent(), true);
-        if (!empty($syncData['synced'])) {
-            $log .= "  ✓ Transfer Asset Build berhasil ke " . count($syncData['synced']) . " lokasi tujuan.\n";
-        } else {
-            $log .= "  ℹ Transfer Asset Build: Folder build sudah up-to-date.\n";
-        }
-
-        // 4. Bersihkan Cache Laravel
-        $log .= "\n> [4/4] Membersihkan cache sistem (optimize:clear)...\n";
-        try {
-            Artisan::call('optimize:clear');
-            $log .= "  ✓ Cache sistem, route, config, dan views berhasil dibersihkan.\n";
-        } catch (\Throwable $e) {
-            $log .= "  ℹ Optimize clear note: " . $e->getMessage() . "\n";
-        }
-
-        $duration = number_format(microtime(true) - $startTime, 2) . 's';
-        $log .= "\n==================================================\n";
-        $log .= "✓ SELESAI: Aplikasi berhasil di-update dari GitHub dalam {$duration}!\n";
-        $log .= "Situs sudah aktif dengan versi kode dan build terbaru.\n";
-
-        return response()->json([
-            'success' => true,
-            'command' => 'git pull (pure-php)',
-            'output' => $log,
-            'exit_code' => 0,
-            'duration' => $duration
-        ]);
     }
 
     /**
@@ -487,9 +556,6 @@ class TerminalController extends Controller
             }
         }
 
-        // Target default sesuai kebutuhan cPanel hosting:
-        // 1. public_html/kpi.iaipibandung.ac.id/build
-        // 2. public_html/kpi.iaipibandung.ac.id/Uploads/build
         $defaultRelative = [
             'public_html/kpi.iaipibandung.ac.id/build',
             'public_html/kpi.iaipibandung.ac.id/Uploads/build',
@@ -536,7 +602,6 @@ class TerminalController extends Controller
             }
         }
 
-        // Fallback local jika folder cPanel belum ada di disk (misal saat dev Windows)
         if (empty($synced)) {
             $fallbackLocal1 = base_path('../public_html/kpi.iaipibandung.ac.id/build');
             $fallbackLocal2 = base_path('../public_html/kpi.iaipibandung.ac.id/Uploads/build');
