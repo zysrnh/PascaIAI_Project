@@ -17,8 +17,8 @@ import {
     GitBranch,
     Server,
     Layers,
-    ArrowUp,
-    ArrowDown
+    Database,
+    ShieldCheck
 } from 'lucide-react';
 import Swal from 'sweetalert2';
 
@@ -29,11 +29,11 @@ export default function Index({ auth, system, default_targets = [] }) {
             type: 'system',
             content: `Selamat datang di Konsol Web Prodi KPI!
 Sistem: ${system.server_os} | PHP: ${system.php_version} | Laravel: ${system.laravel_version}
-Branch Aktif: ${system.git_branch}
-Commit Terakhir: ${system.git_last_commit}
+Metode Deployment: ${system.sync_method || 'Pure PHP GitHub Auto-Sync'}
+Target Remote: ${system.repo_url} (branch: main)
 Status Build: ${system.build_info?.exists ? `Tersedia (${system.build_info?.size})` : 'Belum dibangun'}
 
-Ketik perintah manual atau gunakan tombol aksi cepat di atas untuk eksekusi praktis.`,
+Ketik perintah manual atau gunakan tombol aksi cepat di atas untuk sinkronisasi otomatis.`,
             timestamp: new Date().toLocaleTimeString('id-ID'),
         }
     ]);
@@ -90,6 +90,15 @@ Ketik perintah manual atau gunakan tombol aksi cepat di atas untuk eksekusi prak
                 res = await axios.post(route('admin.terminal.sync-build'), {
                     targets: targetFolders.split('\n').filter((t) => t.trim().length > 0)
                 });
+            } else if (
+                trimmed.toLowerCase() === 'git pull' ||
+                trimmed.toLowerCase() === 'git pull origin main' ||
+                trimmed.toLowerCase() === 'pull' ||
+                trimmed.toLowerCase() === 'auto-sync'
+            ) {
+                res = await axios.post(route('admin.terminal.pull-http'), {
+                    targets: targetFolders.split('\n').filter((t) => t.trim().length > 0)
+                });
             } else {
                 res = await axios.post(route('admin.terminal.execute'), {
                     command: trimmed,
@@ -123,21 +132,19 @@ Ketik perintah manual atau gunakan tombol aksi cepat di atas untuk eksekusi prak
         }
     };
 
-    // Eksekusi gabungan Git Pull lalu langsung Sync Build
+    // Eksekusi Pure PHP GitHub Auto-Sync
     const handleGitPullAndSync = async () => {
         Swal.fire({
-            title: 'Git Pull & Transfer Build?',
-            text: 'Ini akan mengambil update kode terbaru dari GitHub lalu menyalin asset build ke folder public_html.',
+            title: 'Auto-Sync dari GitHub?',
+            text: 'Sistem akan mengunduh kode terbaru dari branch main via HTTP, memperbarui berkas proyek secara aman (.env & storage dilindungi), mentransfer build ke public_html, dan membersihkan cache.',
             icon: 'question',
             showCancelButton: true,
-            confirmButtonText: 'Ya, Jalankan!',
+            confirmButtonText: 'Ya, Jalankan Auto-Sync!',
             cancelButtonText: 'Batal',
             confirmButtonColor: '#0E1626',
         }).then(async (result) => {
             if (result.isConfirmed) {
-                await executeCommand('git pull origin main');
-                await executeCommand('sync-build');
-                await executeCommand('php artisan optimize:clear');
+                await executeCommand('git pull');
             }
         });
     };
@@ -200,14 +207,14 @@ Ketik perintah manual atau gunakan tombol aksi cepat di atas untuk eksekusi prak
                                     </div>
                                     <div>
                                         <h1 className="text-lg font-bold text-slate-900">Terminal &amp; Git Console</h1>
-                                        <p className="text-xs text-slate-500">Kelola update repository, transfer build ke public_html, dan optimasi sistem.</p>
+                                        <p className="text-xs text-slate-500">Kelola update repository via Pure PHP HTTP Auto-Sync, transfer build ke public_html, dan optimasi sistem.</p>
                                     </div>
                                 </div>
 
                                 <div className="flex flex-wrap items-center gap-2">
-                                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium bg-slate-100 text-slate-700 border border-slate-200">
-                                        <GitBranch className="w-3.5 h-3.5 text-emerald-600" />
-                                        <span>Branch: <strong>{system.git_branch}</strong></span>
+                                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
+                                        <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+                                        <span>Pure PHP Auto-Sync</span>
                                     </span>
                                     <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium bg-slate-100 text-slate-700 border border-slate-200">
                                         <Server className="w-3.5 h-3.5 text-blue-600" />
@@ -225,7 +232,7 @@ Ketik perintah manual atau gunakan tombol aksi cepat di atas untuk eksekusi prak
                         <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-sm">
                             <div className="flex items-center justify-between mb-3">
                                 <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">
-                                    Aksi Cepat (One-Click)
+                                    Aksi Cepat (One-Click Deployment)
                                 </span>
                                 <button
                                     onClick={() => setShowSettings(!showSettings)}
@@ -255,34 +262,24 @@ Ketik perintah manual atau gunakan tombol aksi cepat di atas untuk eksekusi prak
                             )}
 
                             <div className="flex flex-wrap items-center gap-2">
-                                {/* Tombol Utama: Git Pull & Sync */}
+                                {/* Tombol Utama: Pure PHP Auto-Sync */}
                                 <button
                                     disabled={isRunning}
                                     onClick={handleGitPullAndSync}
-                                    className="inline-flex items-center gap-2 px-3.5 py-2 bg-[#0E1626] hover:bg-slate-800 text-white rounded-lg text-xs font-semibold transition disabled:opacity-50"
+                                    className="inline-flex items-center gap-2 px-3.5 py-2 bg-[#0E1626] hover:bg-slate-800 text-white rounded-lg text-xs font-semibold transition disabled:opacity-50 shadow-sm"
                                 >
                                     <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-                                    <span>Git Pull + Transfer Build</span>
+                                    <span>Auto-Sync dari GitHub (Pull + Transfer Build)</span>
                                 </button>
 
-                                {/* Tombol: Git Pull Saja */}
+                                {/* Tombol: Git Pull via HTTP */}
                                 <button
                                     disabled={isRunning}
-                                    onClick={() => executeCommand('git pull origin main')}
+                                    onClick={() => executeCommand('git pull')}
                                     className="inline-flex items-center gap-1.5 px-3 py-2 bg-white hover:bg-slate-50 text-slate-800 border border-slate-300 rounded-lg text-xs font-medium transition disabled:opacity-50"
                                 >
                                     <GitPullRequest className="w-3.5 h-3.5 text-emerald-600" />
-                                    <span>Git Pull</span>
-                                </button>
-
-                                {/* Tombol: Inisialisasi Git jika belum terhubung */}
-                                <button
-                                    disabled={isRunning}
-                                    onClick={() => executeCommand('init-git')}
-                                    className="inline-flex items-center gap-1.5 px-3 py-2 bg-white hover:bg-slate-50 text-slate-800 border border-slate-300 rounded-lg text-xs font-medium transition disabled:opacity-50"
-                                >
-                                    <GitBranch className="w-3.5 h-3.5 text-purple-600" />
-                                    <span>Hubungkan ke GitHub (Init Git)</span>
+                                    <span>Git Pull (HTTP)</span>
                                 </button>
 
                                 {/* Tombol: Transfer / Sync Build ke public_html */}
@@ -301,16 +298,7 @@ Ketik perintah manual atau gunakan tombol aksi cepat di atas untuk eksekusi prak
                                     onClick={() => executeCommand('git status')}
                                     className="inline-flex items-center gap-1.5 px-3 py-2 bg-white hover:bg-slate-50 text-slate-800 border border-slate-300 rounded-lg text-xs font-medium transition disabled:opacity-50"
                                 >
-                                    <span>Git Status</span>
-                                </button>
-
-                                {/* Tombol: Git Log */}
-                                <button
-                                    disabled={isRunning}
-                                    onClick={() => executeCommand('git log -n 5 --oneline')}
-                                    className="inline-flex items-center gap-1.5 px-3 py-2 bg-white hover:bg-slate-50 text-slate-800 border border-slate-300 rounded-lg text-xs font-medium transition disabled:opacity-50"
-                                >
-                                    <span>Riwayat Commit</span>
+                                    <span>Status Deployment</span>
                                 </button>
 
                                 {/* Tombol: Artisan Optimize Clear */}
@@ -320,7 +308,7 @@ Ketik perintah manual atau gunakan tombol aksi cepat di atas untuk eksekusi prak
                                     className="inline-flex items-center gap-1.5 px-3 py-2 bg-white hover:bg-slate-50 text-slate-800 border border-slate-300 rounded-lg text-xs font-medium transition disabled:opacity-50"
                                 >
                                     <RefreshCw className="w-3.5 h-3.5 text-amber-600" />
-                                    <span>Bersihkan Cache (Optimize)</span>
+                                    <span>Bersihkan Cache</span>
                                 </button>
 
                                 {/* Tombol: Artisan Migrate */}
@@ -329,32 +317,26 @@ Ketik perintah manual atau gunakan tombol aksi cepat di atas untuk eksekusi prak
                                     onClick={() => executeCommand('php artisan migrate --force')}
                                     className="inline-flex items-center gap-1.5 px-3 py-2 bg-white hover:bg-slate-50 text-slate-800 border border-slate-300 rounded-lg text-xs font-medium transition disabled:opacity-50"
                                 >
+                                    <Database className="w-3.5 h-3.5 text-purple-600" />
                                     <span>Jalankan Migrate DB</span>
                                 </button>
                             </div>
                         </div>
 
-                        {/* Notifikasi jika project di server belum terhubung ke Git */}
-                        {!system.is_git_repo && (
-                            <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-amber-900 shadow-sm">
+                        {/* Banner status Pure PHP Deployment */}
+                        <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-3.5 flex items-center justify-between gap-3 text-xs text-emerald-900 shadow-sm">
+                            <div className="flex items-center gap-2">
+                                <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
                                 <div>
-                                    <strong className="font-semibold flex items-center gap-1.5 text-amber-800">
-                                        <Info className="w-4 h-4 text-amber-600" />
-                                        Folder .git Tidak Ditemukan di Server
+                                    <strong className="font-semibold text-emerald-800">
+                                        Metode Pure PHP GitHub Auto-Sync Siap Digunakan
                                     </strong>
-                                    <p className="text-[11px] text-amber-700 mt-1">
-                                        Project di server ini belum terhubung ke Git Repository. Klik tombol di samping untuk inisialisasi otomatis agar tombol Git Pull bisa dipakai.
+                                    <p className="text-[11px] text-emerald-700 mt-0.5">
+                                        Kebal batasan shared hosting: tidak membutuhkan SSH, software Git, maupun proc_open. Cukup klik tombol di atas kapan pun untuk mengunduh versi terbaru dari GitHub.
                                     </p>
                                 </div>
-                                <button
-                                    onClick={() => executeCommand('init-git')}
-                                    disabled={isRunning}
-                                    className="px-3.5 py-2 bg-amber-600 hover:bg-amber-700 text-white font-medium rounded-lg shrink-0 transition text-xs shadow-sm"
-                                >
-                                    Hubungkan ke GitHub Sekarang
-                                </button>
                             </div>
-                        )}
+                        </div>
 
                         {/* Minimalist Dark Console Window */}
                         <div className="bg-[#0B111D] border border-slate-800 rounded-xl shadow-xl overflow-hidden flex flex-col h-[520px]">
@@ -437,7 +419,7 @@ Ketik perintah manual atau gunakan tombol aksi cepat di atas untuk eksekusi prak
                                 {isRunning && (
                                     <div className="flex items-center gap-2 text-amber-400 py-1">
                                         <RefreshCw className="w-3.5 h-3.5 animate-spin" />
-                                        <span>Menjalankan perintah di server...</span>
+                                        <span>Menjalankan sinkronisasi di server hosting...</span>
                                     </div>
                                 )}
 
@@ -474,18 +456,17 @@ Ketik perintah manual atau gunakan tombol aksi cepat di atas untuk eksekusi prak
                         <div className="bg-slate-100 border border-slate-200 rounded-xl p-4 text-xs text-slate-600 space-y-1.5">
                             <div className="flex items-center gap-1.5 font-semibold text-slate-800">
                                 <Info className="w-4 h-4 text-blue-600" />
-                                <span>Panduan Singkat Transfer Build:</span>
+                                <span>Panduan Singkat Pure PHP GitHub Auto-Sync:</span>
                             </div>
                             <p>
-                                Saat Anda menekan tombol <strong>Git Pull + Transfer Build</strong> atau <strong>Transfer Build ke public_html</strong>, sistem akan menyalin file asset dari <code>public/build</code> ke:
+                                Saat Anda menekan tombol <strong>Auto-Sync dari GitHub</strong> atau mengetik <code>git pull</code>:
                             </p>
-                            <ul className="list-disc pl-5 space-y-0.5 font-mono text-[11px] text-slate-700">
-                                <li><code>public_html/kpi.iaipibandung.ac.id/build</code></li>
-                                <li><code>public_html/kpi.iaipibandung.ac.id/Uploads/build</code></li>
-                            </ul>
-                            <p className="text-[11px] text-slate-500">
-                                Tips: Anda juga bisa menggunakan panah keyboard Atas/Bawah di kotak input terminal untuk membuka kembali perintah-perintah yang pernah diketik sebelumnya.
-                            </p>
+                            <ol className="list-decimal pl-5 space-y-0.5 font-mono text-[11px] text-slate-700">
+                                <li>Laravel mengunduh arsip kode dari <code>https://github.com/zysrnh/PascaIAI_Project</code> secara native via cURL.</li>
+                                <li>Mengekstrak berkas secara otomatis dengan proteksi: file <code>.env</code> dan folder <code>storage/</code> tidak akan tertimpa.</li>
+                                <li>Menyalin seluruh berkas asset build ke <code>public_html/kpi.iaipibandung.ac.id/build</code>.</li>
+                                <li>Membersihkan cache sistem (<code>optimize:clear</code>) seketika.</li>
+                            </ol>
                         </div>
 
                     </div>

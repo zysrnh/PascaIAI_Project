@@ -279,6 +279,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/terminal', [\App\Http\Controllers\TerminalController::class, 'index'])->name('admin.terminal.index');
     Route::post('/admin/terminal/execute', [\App\Http\Controllers\TerminalController::class, 'execute'])->name('admin.terminal.execute');
     Route::post('/admin/terminal/sync-build', [\App\Http\Controllers\TerminalController::class, 'syncBuild'])->name('admin.terminal.sync-build');
+    Route::post('/admin/terminal/pull-http', [\App\Http\Controllers\TerminalController::class, 'pullViaHttp'])->name('admin.terminal.pull-http');
 
     // System Actions
     Route::post('/sys/optimize', function () {
