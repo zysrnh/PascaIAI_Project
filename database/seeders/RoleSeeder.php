@@ -16,6 +16,12 @@ class RoleSeeder extends Seeder
     {
         $users = [
             [
+                'name' => 'NAO Developer',
+                'email' => 'naodev@iaipibandung.ac.id',
+                'password' => Hash::make('password123'),
+                'role' => 'dev',
+            ],
+            [
                 'name' => 'Super Administrator KPI',
                 'email' => 'superadmin@iaipibandung.ac.id',
                 'password' => Hash::make('password123'),

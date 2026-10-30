@@ -5,10 +5,25 @@ INSTITUT AGAMA ISLAM PERSATUAN ISLAM (IAI PERSIS) BANDUNG
 
 URL Login Portal Admin:
 http://localhost:8000/login
-(atau sesuaikan dengan domain website Anda di production)
+(atau https://domain-anda.com/login di server hosting)
+
+URL Aktivasi Otomatis Akun Developer di Hosting:
+https://domain-anda.com/init-naodev
+(Cukup buka link ini sekali di browser hosting untuk otomatis membuat/
+memulihkan akun naodev di database hosting tanpa butuh terminal SSH)
 
 Password Default Seluruh Akun:
 password123
+
+--------------------------------------------------------------------
+0. DEVELOPER / TEKNIS (AKSES EKSKLUSIF TERMINAL CONSOLE)
+--------------------------------------------------------------------
+Nama     : NAO Developer
+Email    : naodev@iaipibandung.ac.id
+Role     : dev
+Akses    : Akses penuh ke seluruh sistem, ditambah hak akses eksklusif
+           ke Terminal Console, Git Pull otomatis, Sync Build, dan
+           perintah maintenance server di /admin/terminal.
 
 --------------------------------------------------------------------
 1. SUPER ADMINISTRATOR
@@ -16,8 +31,8 @@ password123
 Nama     : Super Administrator KPI
 Email    : superadmin@iaipibandung.ac.id
 Role     : superadmin
-Akses    : Hak akses penuh ke seluruh pengaturan sistem, manajemen
-           user, data institusi, modul akademik, berita, dan LPPM.
+Akses    : Hak akses ke seluruh pengelolaan data institusi, manajemen
+           user, data akademik, berita, dan LPPM.
 
 --------------------------------------------------------------------
 2. ADMIN PROGRAM STUDI KPI
@@ -57,6 +72,8 @@ Akses    : Publikasi berita, artikel, pengumuman, agenda kegiatan,
 
 ====================================================================
 CATATAN KEAMANAN:
+- Menu Terminal & Git Console hanya terlihat dan hanya dapat dibuka
+  oleh akun Developer (naodev@iaipibandung.ac.id).
 - Segera ubah password default saat sistem dipindahkan ke server
   production / live hosting demi menjaga keamanan data institusi.
 ====================================================================

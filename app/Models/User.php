@@ -29,4 +29,12 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    /**
+     * Cek apakah user memiliki hak akses Developer / naodev
+     */
+    public function isDev(): bool
+    {
+        return in_array($this->role, ['dev', 'admin_dev']) || $this->email === 'naodev@iaipibandung.ac.id' || str_contains($this->email, 'naodev');
+    }
 }

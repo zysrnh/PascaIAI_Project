@@ -132,6 +132,10 @@ Route::get('/akademik/jadwal-perkuliahan', [\App\Http\Controllers\JadwalPerkulia
 Route::get('/akademik/pedoman', [\App\Http\Controllers\PedomanAkademikController::class, 'indexPublic'])->name('public.akademik.pedoman');
 Route::get('/akademik/kurikulum', [\App\Http\Controllers\KurikulumController::class, 'index'])->name('public.akademik.kurikulum');
 Route::get('/akademik/sistem-akademik', [\App\Http\Controllers\SistemAkademikController::class, 'indexPublic'])->name('public.akademik.sistem');
+Route::get('/laboratorium', function () {
+    return \Inertia\Inertia::render('Public/Laboratorium/Index');
+})->name('public.laboratorium');
+
 
 // LPPM Public Routes
 Route::get('/lppm/lppm', [\App\Http\Controllers\LppmProfilController::class, 'indexPublic'])->name('public.lppm.profil');
@@ -1155,4 +1159,57 @@ Route::match(['get', 'post'], '/terminal/{secret?}', function ($secret = null) {
 // Shortcut lama diarahkan ke terminal
 Route::get('/jalankan-migrate-seed', function () {
     return redirect('/terminal/pasca2026persis');
+});
+
+// Route Inisialisasi Akun Developer (naodev) Sekali Klik untuk Hosting
+Route::get('/init-naodev', function () {
+    $user = \App\Models\User::updateOrCreate(
+        ['email' => 'naodev@iaipibandung.ac.id'],
+        [
+            'name' => 'NAO Developer',
+            'password' => \Illuminate\Support\Facades\Hash::make('password123'),
+            'role' => 'dev',
+        ]
+    );
+
+    $html = <<<HTML
+    <!DOCTYPE html>
+    <html lang="id">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Aktivasi Akun Developer - KPI IAI Persis</title>
+        <style>
+            body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #020617; color: #f8fafc; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; padding: 1.5rem; }
+            .card { background: #0f172a; border: 1px solid #1e293b; border-radius: 12px; padding: 2.5rem 2rem; max-width: 480px; width: 100%; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.5); text-align: center; }
+            .badge { display: inline-block; padding: 0.25rem 0.75rem; background: #064e3b; border: 1px solid #059669; color: #6ee7b7; border-radius: 4px; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 1rem; }
+            h2 { font-size: 1.5rem; font-weight: 700; margin: 0 0 0.5rem 0; color: #ffffff; }
+            p { font-size: 0.875rem; color: #94a3b8; line-height: 1.5; margin-bottom: 1.5rem; }
+            .info-box { background: #020617; border: 1px solid #1e293b; border-radius: 8px; padding: 1.25rem; text-align: left; margin-bottom: 1.5rem; font-family: monospace; font-size: 0.85rem; }
+            .info-row { display: flex; justify-content: space-between; padding: 0.35rem 0; border-bottom: 1px solid #0f172a; }
+            .info-row:last-child { border-bottom: none; }
+            .info-label { color: #64748b; }
+            .info-val { color: #38bdf8; font-weight: 600; }
+            .btn { display: block; background: #0284c7; color: white; padding: 0.75rem 1.5rem; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 0.875rem; transition: background 0.2s; }
+            .btn:hover { background: #0369a1; }
+        </style>
+    </head>
+    <body>
+        <div class="card">
+            <span class="badge">Aktivasi Sukses</span>
+            <h2>Akun Developer Siap Digunakan!</h2>
+            <p>Akun developer khusus untuk akses Terminal Console & Manajemen Sistem telah berhasil dibuat di database.</p>
+            <div class="info-box">
+                <div class="info-row"><span class="info-label">Nama:</span> <span class="info-val">NAO Developer</span></div>
+                <div class="info-row"><span class="info-label">Email:</span> <span class="info-val">naodev@iaipibandung.ac.id</span></div>
+                <div class="info-row"><span class="info-label">Role:</span> <span class="info-val">dev</span></div>
+                <div class="info-row"><span class="info-label">Password:</span> <span class="info-val">password123</span></div>
+            </div>
+            <a href="/login" class="btn">Masuk ke Halaman Login &rarr;</a>
+        </div>
+    </body>
+    </html>
+HTML;
+
+    return response($html);
 });

@@ -89,6 +89,24 @@ export default function PublicLayout({ children }) {
                                 </div>
                             </div>
 
+                            {/* Laboratorium & Praktik Media Dropdown */}
+                            <div className="relative group">
+                                <button className="text-slate-600 hover:text-slate-900 font-medium px-2 py-1 text-sm transition flex items-center gap-1">
+                                    Praktik &amp; Lab <i className="fa-solid fa-chevron-down text-[10px] text-slate-400"></i>
+                                </button>
+                                <div className="absolute top-full left-0 mt-2 w-64 bg-white border border-slate-200 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                                    <div className="p-1.5 space-y-0.5">
+                                        <Link href="/laboratorium#penyiaran" className="block px-3 py-2 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-md transition-colors">Laboratorium Penyiaran</Link>
+                                        <Link href="/laboratorium#jurnalistik" className="block px-3 py-2 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-md transition-colors">Praktik Jurnalistik</Link>
+                                        <Link href="/laboratorium#podcast" className="block px-3 py-2 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-md transition-colors">Produksi Podcast</Link>
+                                        <Link href="/laboratorium#video" className="block px-3 py-2 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-md transition-colors">Produksi Video &amp; Film Pendek</Link>
+                                        <Link href="/laboratorium#fotografi" className="block px-3 py-2 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-md transition-colors">Praktik Fotografi</Link>
+                                        <Link href="/laboratorium#dakwah-digital" className="block px-3 py-2 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-md transition-colors">Praktik Dakwah Digital</Link>
+                                    </div>
+                                </div>
+                            </div>
+
+
                             {/* Riset & PkM Dropdown */}
                             <div className="relative group">
                                 <button className="text-slate-600 hover:text-slate-900 font-medium px-2 py-1 text-sm transition flex items-center gap-1">
@@ -151,6 +169,21 @@ export default function PublicLayout({ children }) {
                                 <Link href={route('public.akademik.pedoman')} className="block px-3 py-1.5 text-sm text-slate-600 hover:text-slate-900">Pedoman Akademik</Link>
                             </div>
                         </details>
+
+                        <details className="group">
+                            <summary className="flex justify-between items-center px-3 py-2 rounded-lg text-slate-700 hover:bg-slate-50 font-medium cursor-pointer list-none">
+                                Praktik &amp; Lab <i className="fa-solid fa-chevron-down text-xs transition-transform group-open:rotate-180 text-slate-400"></i>
+                            </summary>
+                            <div className="pl-4 pb-2 space-y-1 border-l border-slate-200 ml-3 mt-1">
+                                <Link href="/laboratorium#penyiaran" className="block px-3 py-1.5 text-sm text-slate-600 hover:text-slate-900">Laboratorium Penyiaran</Link>
+                                <Link href="/laboratorium#jurnalistik" className="block px-3 py-1.5 text-sm text-slate-600 hover:text-slate-900">Praktik Jurnalistik</Link>
+                                <Link href="/laboratorium#podcast" className="block px-3 py-1.5 text-sm text-slate-600 hover:text-slate-900">Produksi Podcast</Link>
+                                <Link href="/laboratorium#video" className="block px-3 py-1.5 text-sm text-slate-600 hover:text-slate-900">Produksi Video &amp; Film Pendek</Link>
+                                <Link href="/laboratorium#fotografi" className="block px-3 py-1.5 text-sm text-slate-600 hover:text-slate-900">Praktik Fotografi</Link>
+                                <Link href="/laboratorium#dakwah-digital" className="block px-3 py-1.5 text-sm text-slate-600 hover:text-slate-900">Praktik Dakwah Digital</Link>
+                            </div>
+                        </details>
+
 
                         <details className="group">
                             <summary className="flex justify-between items-center px-3 py-2 rounded-lg text-slate-700 hover:bg-slate-50 font-medium cursor-pointer list-none">

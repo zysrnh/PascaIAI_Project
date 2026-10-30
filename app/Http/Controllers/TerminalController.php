@@ -18,6 +18,27 @@ class TerminalController extends Controller
     protected $repoUrl = 'https://github.com/zysrnh/PascaIAI_Project.git';
 
     /**
+     * Pastikan pemanggil adalah akun Developer (naodev) atau menggunakan Secret Key darurat
+     */
+    protected function authorizeDev()
+    {
+        // 1. Izinkan jika user sudah login sebagai Developer (naodev)
+        if (auth()->check() && auth()->user()->isDev()) {
+            return true;
+        }
+
+        // 2. Izinkan jika menggunakan secret key terminal darurat
+        $secretKey = config('app.terminal_secret', 'pasca2026persis');
+        $provided = request('secret') ?: request()->cookie('terminal_secret');
+        if ($provided && $provided === $secretKey) {
+            return true;
+        }
+
+        abort(403, 'Akses Ditolak: Fitur Terminal Console hanya dapat diakses oleh Developer (naodev).');
+    }
+
+
+    /**
      * Cek ketersediaan fungsi proc_open di hosting
      */
     protected function isProcOpenAvailable()
@@ -35,6 +56,7 @@ class TerminalController extends Controller
      */
     public function index()
     {
+        $this->authorizeDev();
         $hasProcOpen = $this->isProcOpenAvailable();
         $gitBranch = 'main (Pure PHP Auto-Sync)';
         $gitLastCommit = 'Tersinkronisasi dengan GitHub main';
@@ -92,6 +114,7 @@ class TerminalController extends Controller
      */
     public function execute(Request $request)
     {
+        $this->authorizeDev();
         $request->validate([
             'command' => 'required|string|max:500'
         ]);
@@ -315,6 +338,7 @@ class TerminalController extends Controller
      */
     public function pullViaHttp(Request $request = null)
     {
+        $this->authorizeDev();
         // Tingkatkan limit waktu dan memori untuk operasi sync
         @ini_set('max_execution_time', '300');
         @set_time_limit(300);
@@ -593,6 +617,7 @@ class TerminalController extends Controller
      */
     public function syncBuild(Request $request = null)
     {
+        $this->authorizeDev();
         $startTime = microtime(true);
         try {
             Artisan::call('sync:build');

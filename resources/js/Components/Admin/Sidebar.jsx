@@ -52,16 +52,15 @@ const navigationSections = [
                     { type: 'link', name: 'Visi, Misi & Tujuan', href: '/admin/profil/visi-misi', viewHref: '/profil/visi-misi', icon: Target },
                     { type: 'link', name: 'Sambutan Ketua Prodi', href: '/admin/profil/sambutan-pimpinan', viewHref: '/profil/sambutan-pimpinan', icon: MessageSquare },
                     { type: 'link', name: 'Struktur & Pengelola', href: '/admin/profil/struktur-organisasi', viewHref: '/profil/struktur-organisasi', icon: Network },
-                    { type: 'link', name: 'Akreditasi BAN-PT', href: '/admin/profil/akreditasi', viewHref: '/profil/akreditasi', icon: Award },
                     { type: 'link', name: 'Dokumen & SK Prodi', href: '/admin/profil/dokumen-institusi', viewHref: '/profil/dokumen-institusi', icon: FileText },
                 ],
             },
             {
                 type: 'group',
-                name: 'Akademik & Kurikulum',
+                name: 'Akademik & Perkuliahan',
                 icon: GraduationCap,
                 children: [
-                    { type: 'link', name: 'Kurikulum & CPL KPI', href: '/admin/akademik/kurikulum', viewHref: '/akademik/kurikulum', icon: Layers },
+                    { type: 'link', name: 'Laboratorium & Praktik Media', href: '/laboratorium', viewHref: '/laboratorium', icon: FlaskConical },
                     { type: 'link', name: 'Jadwal Kuliah & Siaran', href: '/admin/akademik/jadwal', viewHref: '/akademik/jadwal-perkuliahan', icon: Clock },
                     { type: 'link', name: 'Kalender Akademik', href: '/admin/akademik/kalender', viewHref: '/akademik/kalender-akademik', icon: Calendar },
                     { type: 'link', name: 'Pedoman Akademik', href: '/admin/akademik/pedoman', viewHref: '/akademik/pedoman', icon: FileText },
@@ -201,27 +200,40 @@ export default function Sidebar() {
 
             {/* Menu Terkategori */}
             <nav className="flex-1 space-y-6 overflow-y-auto px-4 py-5 scrollbar-thin">
-                {navigationSections.map((section) => (
-                    <div key={section.title} className="space-y-1">
-                        <span className="px-3 text-[11px] font-bold uppercase tracking-wider text-slate-400 block mb-2">
-                            {section.title}
-                        </span>
-                        
-                        {section.items.map((item) =>
-                            item.type === 'group' ? (
-                                <NavGroup
-                                    key={item.name}
-                                    group={item}
-                                    currentUrl={url}
-                                    isOpen={openGroup === item.name}
-                                    onToggle={() => setOpenGroup((prev) => (prev === item.name ? null : item.name))}
-                                />
-                            ) : (
-                                <NavItem key={item.name} item={item} currentUrl={url} />
-                            )
-                        )}
-                    </div>
-                ))}
+                {navigationSections.map((section) => {
+                    const filteredItems = section.items.filter((item) => {
+                        // Sembunyikan Terminal & Git Console jika bukan akun naodev/dev
+                        if (item.href === '/admin/terminal') {
+                            const isDev = user?.role === 'dev' || user?.role === 'admin_dev' || user?.email?.includes('naodev');
+                            return isDev;
+                        }
+                        return true;
+                    });
+
+                    if (filteredItems.length === 0) return null;
+
+                    return (
+                        <div key={section.title} className="space-y-1">
+                            <span className="px-3 text-[11px] font-bold uppercase tracking-wider text-slate-400 block mb-2">
+                                {section.title}
+                            </span>
+                            
+                            {filteredItems.map((item) =>
+                                item.type === 'group' ? (
+                                    <NavGroup
+                                        key={item.name}
+                                        group={item}
+                                        currentUrl={url}
+                                        isOpen={openGroup === item.name}
+                                        onToggle={() => setOpenGroup((prev) => (prev === item.name ? null : item.name))}
+                                    />
+                                ) : (
+                                    <NavItem key={item.name} item={item} currentUrl={url} />
+                                )
+                            )}
+                        </div>
+                    );
+                })}
             </nav>
 
             {/* Footer Profile User */}
