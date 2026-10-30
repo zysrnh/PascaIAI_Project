@@ -186,12 +186,10 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                                     </button>
                                     <div className="absolute top-full left-0 mt-2 w-60 bg-white border border-slate-200 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
                                         <div className="p-1.5 space-y-0.5">
-                                            <Link href={route('public.akademik.kurikulum')} className="block px-3 py-2 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-md transition-colors">Kurikulum &amp; Capaian (CPL)</Link>
                                             <Link href={route('public.dosen')} className="block px-3 py-2 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-md transition-colors">Direktori Dosen &amp; Tendik</Link>
                                             <Link href={route('public.akademik.kalender')} className="block px-3 py-2 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-md transition-colors">Kalender Akademik</Link>
                                             <Link href={route('public.akademik.jadwal')} className="block px-3 py-2 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-md transition-colors">Jadwal Perkuliahan</Link>
                                             <Link href={route('public.akademik.pedoman')} className="block px-3 py-2 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-md transition-colors">Pedoman Akademik</Link>
-                                            <Link href={route('public.akademik.sistem')} className="block px-3 py-2 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-md transition-colors">Sistem Akademik (SIAKAD)</Link>
                                         </div>
                                     </div>
                                 </div>
@@ -211,17 +209,19 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                                     </div>
                                 </div>
 
-                                {/* Akreditasi Dropdown */}
+                                {/* Praktik & Lab Dropdown */}
                                 <div className="relative group">
                                     <button className="text-slate-600 hover:text-slate-900 font-medium px-2 py-1 text-sm transition flex items-center gap-1">
-                                        Akreditasi <i className="fa-solid fa-chevron-down text-[10px] text-slate-400"></i>
+                                        Praktik &amp; Lab <i className="fa-solid fa-chevron-down text-[10px] text-slate-400"></i>
                                     </button>
-                                    <div className="absolute top-full left-0 mt-2 w-60 bg-white border border-slate-200 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                                    <div className="absolute top-full left-0 mt-2 w-64 bg-white border border-slate-200 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
                                         <div className="p-1.5 space-y-0.5">
-                                            <Link href={route('public.akreditasi')} className="block px-3 py-2 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-md transition-colors">Data Akreditasi (BAN-PT &amp; LAM)</Link>
-                                            <Link href={route('public.dokumen-institusi')} className="block px-3 py-2 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-md transition-colors">Dokumen SPMI &amp; SOP</Link>
-                                            <Link href={route('public.akademik.pedoman')} className="block px-3 py-2 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-md transition-colors">Instrumen &amp; Siklus AMI</Link>
-                                            <a href="#survei" className="block px-3 py-2 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-md transition-colors">Survei Kepuasan Mutu</a>
+                                            <Link href="/laboratorium#penyiaran" className="block px-3 py-2 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-md transition-colors">Laboratorium Penyiaran</Link>
+                                            <Link href="/laboratorium#jurnalistik" className="block px-3 py-2 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-md transition-colors">Praktik Jurnalistik</Link>
+                                            <Link href="/laboratorium#podcast" className="block px-3 py-2 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-md transition-colors">Produksi Podcast</Link>
+                                            <Link href="/laboratorium#video" className="block px-3 py-2 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-md transition-colors">Produksi Video &amp; Film Pendek</Link>
+                                            <Link href="/laboratorium#fotografi" className="block px-3 py-2 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-md transition-colors">Praktik Fotografi</Link>
+                                            <Link href="/laboratorium#dakwah-digital" className="block px-3 py-2 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-md transition-colors">Praktik Dakwah Digital</Link>
                                         </div>
                                     </div>
                                 </div>
@@ -268,12 +268,10 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                                     Akademik <i className="fa-solid fa-chevron-down text-xs transition-transform group-open:rotate-180 text-slate-400"></i>
                                 </summary>
                                 <div className="pl-4 pb-2 space-y-1 border-l border-slate-200 ml-3 mt-1">
-                                    <Link href={route('public.akademik.kurikulum')} className="block px-3 py-1.5 text-sm text-slate-600 hover:text-slate-900">Kurikulum &amp; Capaian (CPL)</Link>
                                     <Link href={route('public.dosen')} className="block px-3 py-1.5 text-sm text-slate-600 hover:text-slate-900">Direktori Dosen &amp; Tendik</Link>
                                     <Link href={route('public.akademik.kalender')} className="block px-3 py-1.5 text-sm text-slate-600 hover:text-slate-900">Kalender Akademik</Link>
                                     <Link href={route('public.akademik.jadwal')} className="block px-3 py-1.5 text-sm text-slate-600 hover:text-slate-900">Jadwal Perkuliahan</Link>
                                     <Link href={route('public.akademik.pedoman')} className="block px-3 py-1.5 text-sm text-slate-600 hover:text-slate-900">Pedoman Akademik</Link>
-                                    <Link href={route('public.akademik.sistem')} className="block px-3 py-1.5 text-sm text-slate-600 hover:text-slate-900">SIAKAD</Link>
                                 </div>
                             </details>
 
@@ -291,13 +289,15 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
 
                             <details className="group">
                                 <summary className="flex justify-between items-center px-3 py-2 rounded-lg text-slate-700 hover:bg-slate-50 font-medium cursor-pointer list-none">
-                                    Akreditasi <i className="fa-solid fa-chevron-down text-xs transition-transform group-open:rotate-180 text-slate-400"></i>
+                                    Praktik &amp; Lab <i className="fa-solid fa-chevron-down text-xs transition-transform group-open:rotate-180 text-slate-400"></i>
                                 </summary>
                                 <div className="pl-4 pb-2 space-y-1 border-l border-slate-200 ml-3 mt-1">
-                                    <Link href={route('public.akreditasi')} className="block px-3 py-1.5 text-sm text-slate-600 hover:text-slate-900">Data Akreditasi (BAN-PT &amp; LAM)</Link>
-                                    <Link href={route('public.dokumen-institusi')} className="block px-3 py-1.5 text-sm text-slate-600 hover:text-slate-900">Dokumen SPMI &amp; SOP</Link>
-                                    <Link href={route('public.akademik.pedoman')} className="block px-3 py-1.5 text-sm text-slate-600 hover:text-slate-900">Instrumen &amp; Siklus AMI</Link>
-                                    <a href="#survei" className="block px-3 py-1.5 text-sm text-slate-600 hover:text-slate-900">Survei Kepuasan Mutu</a>
+                                    <Link href="/laboratorium#penyiaran" className="block px-3 py-1.5 text-sm text-slate-600 hover:text-slate-900">Laboratorium Penyiaran</Link>
+                                    <Link href="/laboratorium#jurnalistik" className="block px-3 py-1.5 text-sm text-slate-600 hover:text-slate-900">Praktik Jurnalistik</Link>
+                                    <Link href="/laboratorium#podcast" className="block px-3 py-1.5 text-sm text-slate-600 hover:text-slate-900">Produksi Podcast</Link>
+                                    <Link href="/laboratorium#video" className="block px-3 py-1.5 text-sm text-slate-600 hover:text-slate-900">Produksi Video &amp; Film Pendek</Link>
+                                    <Link href="/laboratorium#fotografi" className="block px-3 py-1.5 text-sm text-slate-600 hover:text-slate-900">Praktik Fotografi</Link>
+                                    <Link href="/laboratorium#dakwah-digital" className="block px-3 py-1.5 text-sm text-slate-600 hover:text-slate-900">Praktik Dakwah Digital</Link>
                                 </div>
                             </details>
 
