@@ -1,0 +1,62 @@
+====================================================================
+DAFTAR AKUN LOGIN ADMIN PORTAL PRODI S1 KPI
+INSTITUT AGAMA ISLAM PERSATUAN ISLAM (IAI PERSIS) BANDUNG
+====================================================================
+
+URL Login Portal Admin:
+http://localhost:8000/login
+(atau sesuaikan dengan domain website Anda di production)
+
+Password Default Seluruh Akun:
+password123
+
+--------------------------------------------------------------------
+1. SUPER ADMINISTRATOR
+--------------------------------------------------------------------
+Nama     : Super Administrator KPI
+Email    : superadmin@iaipibandung.ac.id
+Role     : superadmin
+Akses    : Hak akses penuh ke seluruh pengaturan sistem, manajemen
+           user, data institusi, modul akademik, berita, dan LPPM.
+
+--------------------------------------------------------------------
+2. ADMIN PROGRAM STUDI KPI
+--------------------------------------------------------------------
+Nama     : Admin Prodi KPI
+Email    : kpi@iaipibandung.ac.id
+Role     : admin_prodi
+Akses    : Pengelolaan data prodi KPI, profil, kurikulum, dosen,
+           jadwal perkuliahan, dan konten spesifik program studi.
+
+--------------------------------------------------------------------
+3. ADMIN AKADEMIK
+--------------------------------------------------------------------
+Nama     : Admin Akademik KPI
+Email    : akademik.kpi@iaipibandung.ac.id
+Role     : admin_akademik
+Akses    : Pengelolaan kalender akademik, jadwal perkuliahan,
+           pedoman akademik, dan dokumen regulasi perkuliahan.
+
+--------------------------------------------------------------------
+4. ADMIN LPPM
+--------------------------------------------------------------------
+Nama     : Admin LPPM KPI
+Email    : lppm@iaipibandung.ac.id
+Role     : admin_lppm
+Akses    : Pengelolaan penelitian dosen, pengabdian masyarakat (KKN/PKL),
+           publikasi jurnal & buku, serta repository karya ilmiah.
+
+--------------------------------------------------------------------
+5. HUMAS / EDITOR MEDIA
+--------------------------------------------------------------------
+Nama     : Humas & Media KPI
+Email    : humas.kpi@iaipibandung.ac.id
+Role     : editor
+Akses    : Publikasi berita, artikel, pengumuman, agenda kegiatan,
+           dan galeri dokumentasi media prodi.
+
+====================================================================
+CATATAN KEAMANAN:
+- Segera ubah password default saat sistem dipindahkan ke server
+  production / live hosting demi menjaga keamanan data institusi.
+====================================================================
