@@ -1,48 +1,38 @@
+import React from 'react';
 import { Head, Link } from '@inertiajs/react';
 import PublicLayout from '@/Layouts/PublicLayout';
+import Breadcrumb from '@/Components/Public/Breadcrumb';
 
 export default function Index() {
     return (
         <PublicLayout>
-            <Head>
-                <title>Laboratorium dan Praktik Media - S1 KPI IAI Persis Bandung</title>
-                <meta
-                    name="description"
-                    content="Laboratorium penyiaran televisi dan radio, praktik jurnalistik redaksi, studio podcast, sinematografi video, studio fotografi, dan laboratorium dakwah digital Prodi S1 KPI IAI Persis Bandung."
-                />
-            </Head>
+            <Head title="Laboratorium & Praktik Media | Program Studi KPI IAI Persis Bandung" />
 
-            {/* Hero Section Bersih & Berwibawa (Tanpa Mono Tag, Tanpa Dot Grid, Tanpa Counter Angka) */}
-            <section className="bg-slate-950 text-white py-16 lg:py-20 border-b border-slate-800">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="max-w-3xl">
-                        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white leading-tight">
-                            Laboratorium &amp; <span className="font-serif italic font-normal text-slate-300">Praktik Media</span>
-                        </h1>
-                        <p className="mt-4 text-sm sm:text-base text-slate-300 font-normal leading-relaxed">
-                            Fasilitas studio penyiaran dan ruang simulasi kerja media Program Studi S1 Komunikasi dan Penyiaran Islam Fakultas Dakwah IAI Persis Bandung. Dirancang untuk mengasah keterampilan teknis penyiaran, integritas jurnalistik, produksi konten audio-visual, serta strategi dakwah digital.
-                        </p>
-                    </div>
-
-                    {/* Quick Section Anchor Jump */}
-                    <div className="mt-10 pt-6 border-t border-slate-800/80 flex flex-wrap items-center gap-x-6 gap-y-2 text-xs text-slate-400">
-                        <span className="text-slate-500 font-medium uppercase tracking-wider">Navigasi Studio:</span>
-                        <a href="#penyiaran" className="text-slate-300 hover:text-white transition-colors underline-offset-4 hover:underline">1. Penyiaran TV &amp; Radio</a>
-                        <a href="#jurnalistik" className="text-slate-300 hover:text-white transition-colors underline-offset-4 hover:underline">2. Jurnalistik Redaksi</a>
-                        <a href="#podcast" className="text-slate-300 hover:text-white transition-colors underline-offset-4 hover:underline">3. Studio Podcast</a>
-                        <a href="#video" className="text-slate-300 hover:text-white transition-colors underline-offset-4 hover:underline">4. Video &amp; Film Pendek</a>
-                        <a href="#fotografi" className="text-slate-300 hover:text-white transition-colors underline-offset-4 hover:underline">5. Studio Fotografi</a>
-                        <a href="#dakwah-digital" className="text-slate-300 hover:text-white transition-colors underline-offset-4 hover:underline">6. Dakwah Digital</a>
-                    </div>
+            {/* Dark Minimalist Hero Section (Persis Sama dengan Halaman Berita) */}
+            <div className="relative bg-gradient-to-b from-[#091122] via-[#0E1B38] to-[#070E1E] text-white pt-20 pb-20 md:pt-24 md:pb-24 border-b border-slate-800/80 overflow-hidden">
+                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-900/20 via-transparent to-transparent pointer-events-none"></div>
+                <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center sm:text-left">
+                    <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-white leading-[1.18] tracking-tight mb-4">
+                        Laboratorium & <span className="font-serif italic font-normal text-emerald-300">Praktik Media</span>
+                    </h1>
+                    <p className="text-slate-300/90 text-sm sm:text-base md:text-lg max-w-2xl font-light leading-relaxed">
+                        Fasilitas studio penyiaran dan ruang simulasi kerja media Program Studi S1 Komunikasi dan Penyiaran Islam Fakultas Dakwah IAI Persis Bandung.
+                    </p>
                 </div>
-            </section>
+            </div>
 
-            {/* Main Content Area: Variatif & Berbeda Setiap Bagian */}
-            <main className="bg-slate-100/60 py-12 lg:py-16">
+            {/* Breadcrumb Navigation Resmi */}
+            <Breadcrumb items={[
+                { label: 'Praktik & Lab' },
+                { label: 'Laboratorium & Praktik Media' }
+            ]} />
+
+            {/* Main Content Area */}
+            <div className="bg-[#FAFBFD] py-12 lg:py-16 border-b border-slate-200/80 min-h-[550px]">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
 
                     {/* 1. FEATURED STUDIO: Laboratorium Penyiaran (Broadcast & Televisi) */}
-                    <section id="penyiaran" className="bg-white border border-slate-200 rounded-xl overflow-hidden scroll-mt-24 shadow-sm">
+                    <section id="penyiaran" className="bg-white border border-slate-200/90 rounded-2xl overflow-hidden shadow-2xs hover:shadow-md transition-all duration-300">
                         <div className="grid grid-cols-1 lg:grid-cols-12">
                             <div className="lg:col-span-7 p-7 sm:p-9 lg:p-11 flex flex-col justify-between">
                                 <div>
@@ -52,7 +42,7 @@ export default function Index() {
                                     <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
                                         1. Laboratorium Penyiaran (Broadcast Studio)
                                     </h2>
-                                    <p className="text-sm text-slate-600 mt-3 leading-relaxed">
+                                    <p className="text-sm text-slate-600 mt-3 leading-relaxed font-light">
                                         Laboratorium penyiaran menggabungkan fungsi studio siaran televisi langsung (live broadcast), stasiun radio streaming komunitas, dan ruang kendali teknis (Master Control Room). Mahasiswa mengasah kepercayaan diri sebagai presenter berita, operator mixing visual, dan pengarah siaran berstandar profesional.
                                     </p>
 
@@ -104,9 +94,9 @@ export default function Index() {
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
 
                         {/* 2. Praktik Jurnalistik */}
-                        <section id="jurnalistik" className="bg-white border border-slate-200 rounded-xl p-7 sm:p-9 flex flex-col justify-between scroll-mt-24 shadow-sm">
+                        <section id="jurnalistik" className="bg-white border border-slate-200/90 rounded-2xl p-7 sm:p-9 flex flex-col justify-between shadow-2xs hover:shadow-md transition-all duration-300">
                             <div>
-                                <div className="h-44 w-full bg-slate-900 rounded-lg overflow-hidden mb-6 relative">
+                                <div className="h-44 w-full bg-slate-900 rounded-xl overflow-hidden mb-6 relative">
                                     <img
                                         src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?q=80&w=1000&auto=format&fit=crop"
                                         alt="Praktik Jurnalistik"
@@ -124,7 +114,7 @@ export default function Index() {
                                 <h3 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">
                                     2. Praktik Jurnalistik (Newsroom Lab)
                                 </h3>
-                                <p className="text-sm text-slate-600 mt-2.5 leading-relaxed">
+                                <p className="text-sm text-slate-600 mt-2.5 leading-relaxed font-light">
                                     Simulasi meja redaksi media massa independen. Mahasiswa dilatih merasakan alur peliputan lapangan, wawancara narasumber kredibel, pengecekan fakta (fact-checking), hingga penulisan berita mendalam (depth reporting) yang sesuai Kode Etik Jurnalistik.
                                 </p>
 
@@ -146,9 +136,9 @@ export default function Index() {
                         </section>
 
                         {/* 3. Produksi Podcast */}
-                        <section id="podcast" className="bg-white border border-slate-200 rounded-xl p-7 sm:p-9 flex flex-col justify-between scroll-mt-24 shadow-sm">
+                        <section id="podcast" className="bg-white border border-slate-200/90 rounded-2xl p-7 sm:p-9 flex flex-col justify-between shadow-2xs hover:shadow-md transition-all duration-300">
                             <div>
-                                <div className="h-44 w-full bg-slate-900 rounded-lg overflow-hidden mb-6 relative">
+                                <div className="h-44 w-full bg-slate-900 rounded-xl overflow-hidden mb-6 relative">
                                     <img
                                         src="https://images.unsplash.com/photo-1590602847861-f357a9332bbc?q=80&w=1000&auto=format&fit=crop"
                                         alt="Produksi Podcast"
@@ -166,7 +156,7 @@ export default function Index() {
                                 <h3 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">
                                     3. Produksi Podcast (Audio Production)
                                 </h3>
-                                <p className="text-sm text-slate-600 mt-2.5 leading-relaxed">
+                                <p className="text-sm text-slate-600 mt-2.5 leading-relaxed font-light">
                                     Ruang rekaman berspesifikasi akustik tinggi untuk produksi siaran suara digital. Dirancang khusus untuk memproduksi serial talkshow inspiratif, sandiwara audio keagamaan, monolog renungan, dan rekaman sulih suara (voice-over) berkualitas tinggi.
                                 </p>
 
@@ -189,7 +179,7 @@ export default function Index() {
                     </div>
 
                     {/* 4. FULL-WIDTH CINEMA SUITE: Produksi Video & Film Pendek */}
-                    <section id="video" className="bg-white border border-slate-200 rounded-xl overflow-hidden scroll-mt-24 shadow-sm">
+                    <section id="video" className="bg-white border border-slate-200/90 rounded-2xl overflow-hidden shadow-2xs hover:shadow-md transition-all duration-300">
                         <div className="grid grid-cols-1 lg:grid-cols-12">
                             <div className="lg:col-span-5 bg-slate-900 min-h-[260px] lg:min-h-full relative overflow-hidden order-2 lg:order-1">
                                 <img
@@ -208,7 +198,7 @@ export default function Index() {
                                     <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
                                         4. Produksi Video &amp; Film Pendek
                                     </h2>
-                                    <p className="text-sm text-slate-600 mt-3 leading-relaxed">
+                                    <p className="text-sm text-slate-600 mt-3 leading-relaxed font-light">
                                         Mewadahi eksplorasi mahasiswa dalam penyutradaraan, penulisan skenario berbasis riset sosiologis dakwah, sinematografi lapangan, dan penyuntingan gambar filmis. Melatih mahasiswa mengemas pesan-pesan moral dan dakwah dalam format film naratif dan dokumenter yang menyentuh nurani.
                                     </p>
 
@@ -239,9 +229,9 @@ export default function Index() {
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
 
                         {/* 5. Praktik Fotografi */}
-                        <section id="fotografi" className="bg-white border border-slate-200 rounded-xl p-7 sm:p-9 flex flex-col justify-between scroll-mt-24 shadow-sm">
+                        <section id="fotografi" className="bg-white border border-slate-200/90 rounded-2xl p-7 sm:p-9 flex flex-col justify-between shadow-2xs hover:shadow-md transition-all duration-300">
                             <div>
-                                <div className="h-44 w-full bg-slate-900 rounded-lg overflow-hidden mb-6 relative">
+                                <div className="h-44 w-full bg-slate-900 rounded-xl overflow-hidden mb-6 relative">
                                     <img
                                         src="https://images.unsplash.com/photo-1542038784456-1ea8e935640e?q=80&w=1000&auto=format&fit=crop"
                                         alt="Praktik Fotografi"
@@ -259,7 +249,7 @@ export default function Index() {
                                 <h3 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">
                                     5. Praktik Fotografi (Foto Jurnalistik)
                                 </h3>
-                                <p className="text-sm text-slate-600 mt-2.5 leading-relaxed">
+                                <p className="text-sm text-slate-600 mt-2.5 leading-relaxed font-light">
                                     Studio foto dengan sistem pencahayaan kontinu dan strobo studio lengkap. Mengembangkan kemampuan visual mahasiswa dalam menangkap momen human interest, foto esai peristiwa, dokumentasi arsitektur peradaban Islam, dan potret formal tokoh masyarakat.
                                 </p>
 
@@ -281,9 +271,9 @@ export default function Index() {
                         </section>
 
                         {/* 6. Praktik Dakwah Digital */}
-                        <section id="dakwah-digital" className="bg-white border border-slate-200 rounded-xl p-7 sm:p-9 flex flex-col justify-between scroll-mt-24 shadow-sm">
+                        <section id="dakwah-digital" className="bg-white border border-slate-200/90 rounded-2xl p-7 sm:p-9 flex flex-col justify-between shadow-2xs hover:shadow-md transition-all duration-300">
                             <div>
-                                <div className="h-44 w-full bg-slate-900 rounded-lg overflow-hidden mb-6 relative">
+                                <div className="h-44 w-full bg-slate-900 rounded-xl overflow-hidden mb-6 relative">
                                     <img
                                         src="https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?q=80&w=1000&auto=format&fit=crop"
                                         alt="Praktik Dakwah Digital"
@@ -301,7 +291,7 @@ export default function Index() {
                                 <h3 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">
                                     6. Praktik Dakwah Digital (New Media)
                                 </h3>
-                                <p className="text-sm text-slate-600 mt-2.5 leading-relaxed">
+                                <p className="text-sm text-slate-600 mt-2.5 leading-relaxed font-light">
                                     Pusat eksperimen strategi konten media sosial dan komunikasi publik di era digital. Membekali mahasiswa dengan pemahaman algoritma platform video vertikal (TikTok, Shorts, Reels), live streaming tabligh akbar, serta pemanfaatan grafis dan AI kreator secara etis.
                                 </p>
 
@@ -324,7 +314,7 @@ export default function Index() {
                     </div>
 
                     {/* SECTION 7: PROSEDUR PEMINJAMAN & OPERASIONAL LAB (Fungsional & Rapi) */}
-                    <section className="bg-slate-900 text-white rounded-xl p-8 lg:p-10 border border-slate-800 shadow-sm">
+                    <section className="bg-slate-900 text-white rounded-2xl p-8 lg:p-10 border border-slate-800 shadow-sm">
                         <div className="max-w-3xl mb-8">
                             <span className="text-xs uppercase tracking-wider text-emerald-400 font-semibold block mb-1">
                                 Prosedur Operasional Laboratorium
@@ -332,7 +322,7 @@ export default function Index() {
                             <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-white">
                                 Alur Praktik &amp; Peminjaman Alat Studio
                             </h3>
-                            <p className="text-xs sm:text-sm text-slate-300 mt-2 leading-relaxed">
+                            <p className="text-xs sm:text-sm text-slate-300 mt-2 leading-relaxed font-light">
                                 Mahasiswa aktif Program Studi S1 KPI dapat memanfaatkan seluruh sarana laboratorium untuk praktikum mata kuliah, tugas akhir, atau produksi karya media independen dengan alur resmi berikut:
                             </p>
                         </div>
@@ -341,28 +331,28 @@ export default function Index() {
                             <div>
                                 <span className="text-xs font-mono font-bold text-slate-400 block mb-1">Langkah 01</span>
                                 <h5 className="text-sm font-bold text-white">Pengajuan Surat Izin</h5>
-                                <p className="text-xs text-slate-400 mt-1.5 leading-relaxed">
+                                <p className="text-xs text-slate-400 mt-1.5 leading-relaxed font-light">
                                     Mengisi formulir peminjaman studio / alat yang disetujui dosen pengampu atau sekretariat prodi.
                                 </p>
                             </div>
                             <div>
                                 <span className="text-xs font-mono font-bold text-slate-400 block mb-1">Langkah 02</span>
                                 <h5 className="text-sm font-bold text-white">Pengecekan Fisik Alat</h5>
-                                <p className="text-xs text-slate-400 mt-1.5 leading-relaxed">
+                                <p className="text-xs text-slate-400 mt-1.5 leading-relaxed font-light">
                                     Bersama teknisi laboratorium memeriksa kondisi kamera, lampu, audio, dan kabel sebelum keluar studio.
                                 </p>
                             </div>
                             <div>
                                 <span className="text-xs font-mono font-bold text-slate-400 block mb-1">Langkah 03</span>
                                 <h5 className="text-sm font-bold text-white">Pelaksanaan Praktik</h5>
-                                <p className="text-xs text-slate-400 mt-1.5 leading-relaxed">
+                                <p className="text-xs text-slate-400 mt-1.5 leading-relaxed font-light">
                                     Produksi dilakukan sesuai jadwal reservasi dengan menjaga kebersihan, ketertiban, dan SOP keamanan studio.
                                 </p>
                             </div>
                             <div>
                                 <span className="text-xs font-mono font-bold text-slate-400 block mb-1">Langkah 04</span>
                                 <h5 className="text-sm font-bold text-white">Pengembalian &amp; Serah Terima</h5>
-                                <p className="text-xs text-slate-400 mt-1.5 leading-relaxed">
+                                <p className="text-xs text-slate-400 mt-1.5 leading-relaxed font-light">
                                     Mengembalikan seluruh inventaris tepat waktu dalam keadaan lengkap, bersih, dan menandatangani berita acara.
                                 </p>
                             </div>
@@ -384,7 +374,7 @@ export default function Index() {
                     </section>
 
                 </div>
-            </main>
+            </div>
         </PublicLayout>
     );
 }
