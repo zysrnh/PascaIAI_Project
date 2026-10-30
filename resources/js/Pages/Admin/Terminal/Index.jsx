@@ -275,6 +275,16 @@ Ketik perintah manual atau gunakan tombol aksi cepat di atas untuk eksekusi prak
                                     <span>Git Pull</span>
                                 </button>
 
+                                {/* Tombol: Inisialisasi Git jika belum terhubung */}
+                                <button
+                                    disabled={isRunning}
+                                    onClick={() => executeCommand('init-git')}
+                                    className="inline-flex items-center gap-1.5 px-3 py-2 bg-white hover:bg-slate-50 text-slate-800 border border-slate-300 rounded-lg text-xs font-medium transition disabled:opacity-50"
+                                >
+                                    <GitBranch className="w-3.5 h-3.5 text-purple-600" />
+                                    <span>Hubungkan ke GitHub (Init Git)</span>
+                                </button>
+
                                 {/* Tombol: Transfer / Sync Build ke public_html */}
                                 <button
                                     disabled={isRunning}
@@ -323,6 +333,28 @@ Ketik perintah manual atau gunakan tombol aksi cepat di atas untuk eksekusi prak
                                 </button>
                             </div>
                         </div>
+
+                        {/* Notifikasi jika project di server belum terhubung ke Git */}
+                        {!system.is_git_repo && (
+                            <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-amber-900 shadow-sm">
+                                <div>
+                                    <strong className="font-semibold flex items-center gap-1.5 text-amber-800">
+                                        <Info className="w-4 h-4 text-amber-600" />
+                                        Folder .git Tidak Ditemukan di Server
+                                    </strong>
+                                    <p className="text-[11px] text-amber-700 mt-1">
+                                        Project di server ini belum terhubung ke Git Repository. Klik tombol di samping untuk inisialisasi otomatis agar tombol Git Pull bisa dipakai.
+                                    </p>
+                                </div>
+                                <button
+                                    onClick={() => executeCommand('init-git')}
+                                    disabled={isRunning}
+                                    className="px-3.5 py-2 bg-amber-600 hover:bg-amber-700 text-white font-medium rounded-lg shrink-0 transition text-xs shadow-sm"
+                                >
+                                    Hubungkan ke GitHub Sekarang
+                                </button>
+                            </div>
+                        )}
 
                         {/* Minimalist Dark Console Window */}
                         <div className="bg-[#0B111D] border border-slate-800 rounded-xl shadow-xl overflow-hidden flex flex-col h-[520px]">

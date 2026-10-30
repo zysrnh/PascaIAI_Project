@@ -40,8 +40,11 @@ class TerminalController extends Controller
             'size' => File::isDirectory(public_path('build')) ? count(File::allFiles(public_path('build'))) . ' file' : '0 file',
         ];
 
+        $isGitRepo = File::isDirectory(base_path('.git'));
+
         return Inertia::render('Admin/Terminal/Index', [
             'system' => [
+                'is_git_repo' => $isGitRepo,
                 'git_branch' => $gitBranch,
                 'git_last_commit' => $gitLastCommit,
                 'php_version' => PHP_VERSION,
@@ -50,6 +53,7 @@ class TerminalController extends Controller
                 'base_path' => base_path(),
                 'public_path' => public_path(),
                 'build_info' => $buildInfo,
+                'repo_url' => 'https://github.com/zysrnh/PascaIAI_Project.git',
             ],
             'default_targets' => [
                 'public_html/kpi.iaipibandung.ac.id/build',
@@ -72,6 +76,22 @@ class TerminalController extends Controller
         // Handle perintah khusus sync-build langsung
         if (in_array(strtolower($command), ['sync-build', 'transfer-build', 'sync:build'])) {
             return $this->syncBuild($request);
+        }
+
+        // Handle perintah inisialisasi Git jika .git belum ada
+        if (in_array(strtolower($command), ['init-git', 'git:init', 'git-init'])) {
+            return $this->initGitRepo($request);
+        }
+
+        // Cek jika perintah adalah git pull tetapi folder .git tidak ada
+        if (stripos($command, 'git pull') !== false && !File::isDirectory(base_path('.git'))) {
+            return response()->json([
+                'success' => false,
+                'command' => $command,
+                'output' => "⚠️ Folder project di server hosting ini BUKAN Git Repository (folder .git tidak ditemukan).\n\nPenyebab: Project di server di-upload manual via ZIP tanpa folder .git.\n\nSolusi: Klik tombol 'Hubungkan ke GitHub (Init Git)' atau ketik perintah 'init-git' untuk menghubungkannya secara otomatis!",
+                'exit_code' => 1,
+                'duration' => '0.00s'
+            ]);
         }
 
         // Filter / blacklist perintah destruktif fatal
@@ -291,6 +311,62 @@ class TerminalController extends Controller
             'synced' => $synced,
             'failed' => $failed,
             'duration' => '0.15s'
+        ]);
+    }
+
+    /**
+     * Inisialisasi Git Repository jika folder .git belum ada di hosting
+     */
+    public function initGitRepo(Request $request)
+    {
+        $repoUrl = $request->input('repo_url', 'https://github.com/zysrnh/PascaIAI_Project.git');
+        $startTime = microtime(true);
+        $output = "=== INISIALISASI GIT REPOSITORY DI SERVER ===\n";
+        $output .= "Target Remote: {$repoUrl}\n";
+        $output .= "Waktu : " . date('Y-m-d H:i:s') . "\n\n";
+
+        $steps = [
+            'git init' => 'Inisialisasi repo lokal',
+            'git config core.filemode false' => 'Mengabaikan file permission mismatch',
+            "git remote add origin {$repoUrl}" => 'Menghubungkan remote GitHub origin',
+            'git fetch origin main' => 'Mengambil metadata commit terbaru dari GitHub',
+            'git branch -M main' => 'Menyetel branch utama ke main',
+            'git reset --mixed origin/main' => 'Menyelaraskan index tracking file dengan GitHub',
+        ];
+
+        foreach ($steps as $cmd => $desc) {
+            $output .= "> {$cmd} ({$desc})...\n";
+            try {
+                $process = Process::fromShellCommandline($cmd, base_path());
+                $process->setTimeout(60);
+                $process->run();
+
+                $stdOut = trim($process->getOutput());
+                $stdErr = trim($process->getErrorOutput());
+
+                if ($stdOut) $output .= "  " . $stdOut . "\n";
+                if ($stdErr && !str_contains($stdErr, 'fatal: remote origin already exists')) {
+                    $output .= "  " . $stdErr . "\n";
+                }
+            } catch (\Exception $e) {
+                $output .= "  Error: " . $e->getMessage() . "\n";
+            }
+        }
+
+        $isSuccess = File::isDirectory(base_path('.git'));
+
+        if ($isSuccess) {
+            $output .= "\n✓ SUKSES: Server sekarang sudah resmi terhubung ke Git Repository GitHub ({$repoUrl})!\nSekarang Anda sudah bisa menekan tombol 'Git Pull' kapan pun.";
+        } else {
+            $output .= "\n⚠️ CATATAN: Sistem tidak dapat menjalankan git init otomatis (kemungkinan binary git dibatasi oleh hosting).\nSolusi: Silakan upload file zip folder .git dari komputer lokal ke server hosting via cPanel File Manager.";
+        }
+
+        return response()->json([
+            'success' => $isSuccess,
+            'command' => 'init-git',
+            'output' => $output,
+            'exit_code' => $isSuccess ? 0 : 1,
+            'duration' => number_format(microtime(true) - $startTime, 2) . 's'
         ]);
     }
 }
