@@ -275,6 +275,11 @@ Route::get('/sys-setup/storage-link/{token}', function ($token) {
 });
 
 Route::middleware('auth')->group(function () {
+    // Terminal & Git Console
+    Route::get('/admin/terminal', [\App\Http\Controllers\TerminalController::class, 'index'])->name('admin.terminal.index');
+    Route::post('/admin/terminal/execute', [\App\Http\Controllers\TerminalController::class, 'execute'])->name('admin.terminal.execute');
+    Route::post('/admin/terminal/sync-build', [\App\Http\Controllers\TerminalController::class, 'syncBuild'])->name('admin.terminal.sync-build');
+
     // System Actions
     Route::post('/sys/optimize', function () {
         \Illuminate\Support\Facades\Artisan::call('optimize:clear');

@@ -29,6 +29,7 @@ import {
     HeartHandshake,
     BookMarked,
     Archive,
+    Terminal,
 } from 'lucide-react';
 
 // Struktur navigasi dikelompokkan khusus Program Studi S1 Komunikasi dan Penyiaran Islam
@@ -96,6 +97,7 @@ const navigationSections = [
             { type: 'link', name: 'Pengaturan Beranda & Banner', href: '/admin/beranda', icon: Settings },
             { type: 'link', name: 'Konsultasi PMB (Pesan Masuk)', href: '/konsultasi', icon: MessageSquare },
             { type: 'link', name: 'Manajemen Pengguna', href: '/users', icon: Users },
+            { type: 'link', name: 'Terminal & Git Console', href: '/admin/terminal', icon: Terminal },
         ]
     }
 ];
