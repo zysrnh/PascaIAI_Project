@@ -8,7 +8,6 @@ const TreeNode = ({ node }) => {
     const isLevel1 = node.urutan === '1';
     const isLevel2 = node.urutan === '2A' || node.urutan === '2B';
 
-    // Bento card styling
     const wrapperStyle = isLevel1 
         ? "inline-flex flex-col items-center bg-white rounded-2xl shadow-sm border border-slate-200/90 hover:border-slate-400 p-6 w-80 relative z-10 transition-all duration-200"
         : isLevel2
@@ -89,7 +88,6 @@ export default function StrukturOrganisasi({ organisasi, jabatanTree, pengaturan
 
             {/* Minimalist Editorial Hero Section */}
             <section className="relative bg-gradient-to-b from-[#091122] via-[#0E1B38] to-[#070E1E] text-white pt-20 pb-20 md:pt-24 md:pb-24 border-b border-slate-800/80 overflow-hidden">
-                {/* Background Banner dari Admin jika ada */}
                 {bannerImg && (
                     <div className="absolute inset-0 z-0">
                         <img 
@@ -102,8 +100,8 @@ export default function StrukturOrganisasi({ organisasi, jabatanTree, pengaturan
                 )}
 
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
-                    <div className="max-w-3xl text-left">
-                        <h1 className="text-3xl sm:text-5xl lg:text-[50px] font-semibold text-white leading-[1.18] tracking-tight mb-4">
+                    <div className="max-w-4xl text-left">
+                        <h1 className="text-3xl sm:text-5xl lg:text-[46px] font-semibold text-white leading-tight tracking-tight mb-4">
                             Struktur Organisasi &amp; <span className="font-serif italic font-normal text-emerald-300">Tim Pengelola</span>
                         </h1>
 
@@ -124,14 +122,14 @@ export default function StrukturOrganisasi({ organisasi, jabatanTree, pengaturan
 
             {/* Main Content Area */}
             <div className="bg-[#FAFAFA] py-16 sm:py-24 border-b border-slate-200 min-h-screen">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
 
                     {/* Section Header */}
                     <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-4 border-b border-slate-200">
                         <div>
                             <span className="text-xs font-bold uppercase tracking-widest text-emerald-700">Tata Kelola Institusi</span>
                             <h2 className="text-2xl sm:text-3xl font-semibold text-slate-900 tracking-tight mt-1">
-                                Bagan Struktur <span className="font-serif italic font-normal text-slate-700">Kepengurusan</span>
+                                Bagan Struktur <span className="font-serif italic font-normal text-slate-700 ml-1.5">Kepengurusan</span>
                             </h2>
                         </div>
                         <p className="text-xs sm:text-sm text-slate-500 max-w-md self-start sm:self-auto">
@@ -143,8 +141,8 @@ export default function StrukturOrganisasi({ organisasi, jabatanTree, pengaturan
                     {organisasi && organisasi.length > 0 ? (
                         <div 
                             ref={containerRef} 
-                            className="flex flex-col items-center w-full pb-10 overflow-hidden" 
-                            style={{ height: scaledHeight !== 'auto' ? `calc(${scaledHeight} + 2.5rem)` : 'auto' }}
+                            className="flex flex-col items-center w-full py-8 overflow-x-auto min-h-[450px]" 
+                            style={{ height: scaledHeight !== 'auto' ? `calc(${scaledHeight} + 4rem)` : 'auto' }}
                         >
                             <div 
                                 ref={contentRef}
@@ -156,7 +154,6 @@ export default function StrukturOrganisasi({ organisasi, jabatanTree, pengaturan
                                 }}
                                 className="flex flex-col items-center"
                             >
-                                {/* CSS Garis Struktur Minimalist Tree */}
                                 <style dangerouslySetInnerHTML={{__html: `
                                     .organogram ul {
                                         padding-top: 24px;
@@ -176,7 +173,7 @@ export default function StrukturOrganisasi({ organisasi, jabatanTree, pengaturan
                                         position: absolute;
                                         top: 0;
                                         right: 50%;
-                                        border-top: 2px solid #cbd5e1; /* slate-300 */
+                                        border-top: 2px solid #cbd5e1;
                                         width: 50%;
                                         height: 24px;
                                     }

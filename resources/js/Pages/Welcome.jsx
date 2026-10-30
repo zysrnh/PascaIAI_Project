@@ -318,7 +318,13 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                         <div className={`max-w-3xl text-left transition-all duration-700 ease-out transform ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
                             <h1 className="text-3xl sm:text-5xl lg:text-[54px] font-semibold text-white leading-[1.18] tracking-tight mb-6">
                                 {setting?.hero_title ? (
-                                    setting.hero_title
+                                    setting.hero_title.includes('Jurnalis') ? (
+                                        <>
+                                            {setting.hero_title.split('Jurnalis')[0]}
+                                            <span className="font-serif italic font-normal text-emerald-400">Jurnalis</span>
+                                            {setting.hero_title.split('Jurnalis')[1]}
+                                        </>
+                                    ) : setting.hero_title
                                 ) : (
                                     <>
                                         Mencetak Praktisi Media, <span className="font-serif italic font-normal text-emerald-400">Jurnalis</span>, dan Dai Unggul di Era Digital
@@ -514,7 +520,7 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                     <div className="max-w-6xl mx-auto px-4 sm:px-6">
                         <div className="max-w-2xl mb-16 animate-on-scroll opacity-0 translate-y-8 transition-all duration-700 ease-out">
                             <span className="text-xs uppercase tracking-wider text-slate-500 font-medium">INFORMASI AKADEMIK</span>
-                            <h2 className="text-2xl sm:text-4xl font-semibold text-slate-900 mt-2 mb-3 tracking-tight">Layanan &amp; Kurikulum</h2>
+                            <h2 className="text-2xl sm:text-4xl font-semibold text-slate-900 mt-2 mb-3 tracking-tight">Layanan &amp; <span className="font-serif italic font-normal text-slate-700">Kurikulum</span></h2>
                             <p className="text-slate-600 text-sm sm:text-base">Akses informasi akademik terstruktur untuk mendukung proses perkuliahan.</p>
                         </div>
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 animate-on-scroll opacity-0 translate-y-8 transition-all duration-700 ease-out delay-100">
@@ -602,7 +608,7 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                     <div className="max-w-6xl mx-auto px-4 sm:px-6">
                         <div className="max-w-2xl mb-16 animate-on-scroll opacity-0 translate-y-8 transition-all duration-700 ease-out">
                             <span className="text-xs uppercase tracking-wider text-slate-500 font-medium">FASILITAS &amp; LABORATORIUM</span>
-                            <h2 className="text-2xl sm:text-4xl font-semibold text-slate-900 mt-2 mb-3 tracking-tight">Studio Praktik Media</h2>
+                            <h2 className="text-2xl sm:text-4xl font-semibold text-slate-900 mt-2 mb-3 tracking-tight">Studio Praktik <span className="font-serif italic font-normal text-slate-700">Media</span></h2>
                             <p className="text-slate-600 text-sm sm:text-base">Sarana produksi audio-visual, siaran podcast, dan redaksi jurnalistik modern.</p>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 animate-on-scroll opacity-0 translate-y-8 transition-all duration-700 ease-out delay-100">
@@ -659,7 +665,7 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                             {/* Kiri: Portal Survei */}
                             <div className="lg:col-span-6 animate-on-scroll opacity-0 translate-y-8 transition-all duration-700 ease-out">
                                 <span className="text-xs uppercase tracking-wider text-slate-400 font-medium">UMPAN BALIK</span>
-                                <h2 className="text-2xl sm:text-4xl font-semibold leading-tight mt-2 mb-4 text-white">Survei Kepuasan Layanan</h2>
+                                <h2 className="text-2xl sm:text-4xl font-semibold leading-tight mt-2 mb-4 text-white">Survei Kepuasan <span className="font-serif italic font-normal text-emerald-300">Layanan</span></h2>
                                 <p className="text-slate-300 leading-relaxed mb-8 text-sm sm:text-base font-normal">
                                     Partisipasi Anda sangat penting untuk evaluasi dan peningkatan mutu prodi berkelanjutan.
                                 </p>
@@ -808,7 +814,7 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                         <div className="flex flex-col md:flex-row justify-between items-end mb-12 animate-on-scroll opacity-0 translate-y-8 transition-all duration-700 ease-out">
                             <div className="max-w-xl">
                                 <span className="text-xs uppercase tracking-wider text-slate-500 font-medium">KABAR TERKINI</span>
-                                <h2 className="text-2xl sm:text-4xl font-semibold text-slate-900 mt-2 mb-2 tracking-tight">Berita &amp; Agenda</h2>
+                                <h2 className="text-2xl sm:text-4xl font-semibold text-slate-900 mt-2 mb-2 tracking-tight">Berita &amp; <span className="font-serif italic font-normal text-slate-700">Agenda</span></h2>
                                 <p className="text-slate-600 text-sm sm:text-base">Perkembangan akademik, agenda workshop, dan kegiatan program studi.</p>
                             </div>
                             <Link href="/berita" className="hidden md:inline-flex items-center gap-2 text-slate-900 text-sm font-medium hover:text-slate-600 transition-colors">
