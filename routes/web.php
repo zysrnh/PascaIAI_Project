@@ -620,6 +620,16 @@ Route::match(['get', 'post'], '/terminal/{secret?}', function ($secret = null) {
             $cmd = substr($cmd, 8);
         }
 
+        // Action: Git Pull / Auto-Sync via TerminalController (Pipeline 1-Klik)
+        if (in_array(strtolower($cmd), ['git pull', 'pull', 'auto-sync', 'deploy', 'deploy:full', 'update'])) {
+            return (new \App\Http\Controllers\TerminalController)->pullViaHttp(request());
+        }
+
+        // Action: Sync Build Assets
+        if (in_array(strtolower($cmd), ['sync:build', 'sync-build', 'transfer-build'])) {
+            return (new \App\Http\Controllers\TerminalController)->syncBuild(request());
+        }
+
         // Action: View Logs
         if ($cmd === 'logs' || $cmd === 'tail-log' || $cmd === 'log' || $cmd === 'tail') {
             $logCandidates = [
@@ -977,7 +987,9 @@ Route::match(['get', 'post'], '/terminal/{secret?}', function ($secret = null) {
             <div class="actions-bar">
                 <div class="actions-title">PINTASAN PERINTAH DEPLOYMENT</div>
                 <div class="btn-group">
-                    <button type="button" class="btn btn-primary" onclick="window.runCmd('all-setup')">[ All-in-One Setup ]</button>
+                    <button type="button" class="btn btn-primary" onclick="window.runCmd('git pull')">[ 🚀 Auto-Sync GitHub (1-Klik Pipeline) ]</button>
+                    <button type="button" class="btn" onclick="window.runCmd('sync:build')">[ 📦 Sync Build Assets ]</button>
+                    <button type="button" class="btn" onclick="window.runCmd('all-setup')">[ All-in-One Setup ]</button>
                     <button type="button" class="btn" onclick="window.runCmd('migrate')">[ Migrate ]</button>
                     <button type="button" class="btn" onclick="window.runCmd('db:seed --class=KpiSeeder')">[ Seed KPI Data ]</button>
                     <button type="button" class="btn" onclick="window.runCmd('storage:link')">[ Storage Sync ]</button>

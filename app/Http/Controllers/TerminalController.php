@@ -58,10 +58,14 @@ class TerminalController extends Controller
         }
 
         $buildManifest = public_path('build/manifest.json');
+        if (!File::exists($buildManifest)) {
+            $buildManifest = base_path('build/manifest.json');
+        }
+
         $buildInfo = [
             'exists' => File::exists($buildManifest),
             'last_modified' => File::exists($buildManifest) ? date('Y-m-d H:i:s', File::lastModified($buildManifest)) : null,
-            'size' => File::isDirectory(public_path('build')) ? count(File::allFiles(public_path('build'))) . ' file' : '0 file',
+            'size' => File::isDirectory(public_path('build')) ? count(File::allFiles(public_path('build'))) . ' file' : (File::isDirectory(base_path('build')) ? count(File::allFiles(base_path('build'))) . ' file' : '0 file'),
         ];
 
         return Inertia::render('Admin/Terminal/Index', [
@@ -77,12 +81,9 @@ class TerminalController extends Controller
                 'build_info' => $buildInfo,
                 'repo_url' => $this->repoUrl,
                 'has_proc_open' => $hasProcOpen,
-                'sync_method' => 'Pure PHP GitHub Auto-Sync (No-SSH/No-proc_open)',
+                'sync_method' => 'Pure PHP GitHub Auto-Sync (1-Klik Full Pipeline)',
             ],
-            'default_targets' => [
-                'public_html/kpi.iaipibandung.ac.id/build',
-                'public_html/kpi.iaipibandung.ac.id/Uploads/build',
-            ]
+            'default_targets' => []
         ]);
     }
 
@@ -105,7 +106,7 @@ class TerminalController extends Controller
                 return $this->syncBuild($request);
             }
 
-            // 2. Handle perintah Git Pull / Auto-Sync via Pure PHP HTTP
+            // 2. Handle perintah Git Pull / Auto-Sync via Pure PHP HTTP (Pipeline 1-Klik)
             if (
                 str_contains($lowerCmd, 'git pull') ||
                 str_contains($lowerCmd, 'pull') ||
@@ -120,11 +121,11 @@ class TerminalController extends Controller
             // 3. Handle git status
             if ($lowerCmd === 'git status') {
                 $output = "=== STATUS SISTEM & DEPLOYMENT ===\n";
-                $output .= "Metode Deployment : Pure PHP GitHub Auto-Sync\n";
+                $output .= "Metode Deployment : Pure PHP GitHub Auto-Sync (1-Klik Pipeline)\n";
                 $output .= "Repository Remote : {$this->repoUrl} (branch: main)\n";
                 $output .= "proc_open Hosting : " . ($this->isProcOpenAvailable() ? 'Aktif' : 'Nonaktif (Kebal via HTTP Sync)') . "\n";
-                $output .= "Asset Build       : " . (File::exists(public_path('build/manifest.json')) ? 'Tersedia' : 'Belum dibangun') . "\n";
-                $output .= "Status            : Siap menerima pembaruan kapan pun dengan menekan tombol 'Git Pull'.\n";
+                $output .= "Asset Build       : " . (File::exists(public_path('build/manifest.json')) || File::exists(base_path('build/manifest.json')) ? 'Tersedia' : 'Belum dibangun') . "\n";
+                $output .= "Status            : Siap menerima pembaruan kapan pun dengan menekan tombol 'Auto-Sync dari GitHub'.\n";
 
                 return response()->json([
                     'success' => true,
@@ -159,7 +160,7 @@ class TerminalController extends Controller
                 return response()->json([
                     'success' => true,
                     'command' => $command,
-                    'output' => "✓ PEMULIHAN SISTEM BERHASIL!\n• Seluruh file cache bootstrap (config, services, routes) dibersihkan.\n• Folder storage/framework/views & bootstrap/cache diset 0777 (Writable).\n• Cache view Blade lama telah dibersihkan.\n\nSitus siap dibuka kembali normal tanpa error 500.",
+                    'output' => "✅ PEMULIHAN SISTEM BERHASIL!\n• Seluruh file cache bootstrap (config, services, routes) dibersihkan.\n• Folder storage/framework/views & bootstrap/cache diset 0777 (Writable).\n• Cache view Blade lama telah dibersihkan.\n\nSitus siap dibuka kembali normal tanpa error 500.",
                     'exit_code' => 0,
                     'duration' => number_format(microtime(true) - $startTime, 2) . 's'
                 ]);
@@ -169,6 +170,10 @@ class TerminalController extends Controller
             if (preg_match('/^php\s+artisan\s+(.+)$/i', $command, $matches) || preg_match('/^artisan\s+(.+)$/i', $command, $matches)) {
                 $artisanCmd = trim($matches[1]);
                 try {
+                    if (str_starts_with($artisanCmd, 'sync:build')) {
+                        return $this->syncBuild($request);
+                    }
+
                     Artisan::call($artisanCmd);
                     $artisanOutput = Artisan::output();
 
@@ -235,7 +240,7 @@ class TerminalController extends Controller
                                 "Perintah shell OS umum dibatasi oleh server hosting.\n\n" .
                                 "Fitur yang tetap bekerja 100% menggunakan PHP Native:\n" .
                                 "• Update Kode GitHub : Ketik 'git pull' atau klik tombol 'Auto-Sync dari GitHub'\n" .
-                                "• Transfer Asset Build: Ketik 'sync-build' atau klik tombol 'Transfer Build'\n" .
+                                "• Transfer Asset Build: Ketik 'sync:build' atau klik tombol 'Sync Build Assets'\n" .
                                 "• Perintah Artisan     : Ketik 'php artisan optimize:clear', 'php artisan migrate', dll.",
                     'exit_code' => 1,
                     'duration' => '0.00s'
@@ -306,8 +311,9 @@ class TerminalController extends Controller
      * Pure PHP GitHub Auto-Sync:
      * Mengunduh ZIP repository dari GitHub via HTTP/cURL dan mengekstraknya secara native PHP
      * tanpa butuh Git CLI, SSH, atau proc_open.
+     * Otomatis melanjutkan ke: migrate --force, sync:build, dan optimize:clear.
      */
-    public function pullViaHttp(Request $request)
+    public function pullViaHttp(Request $request = null)
     {
         // Tingkatkan limit waktu dan memori untuk operasi sync
         @ini_set('max_execution_time', '300');
@@ -315,17 +321,19 @@ class TerminalController extends Controller
         @ini_set('memory_limit', '512M');
 
         $startTime = microtime(true);
-        $log = "=== PURE PHP GITHUB AUTO-SYNC ===\n";
+        $log = "=================================================\n";
+        $log .= " 🚀 PURE PHP GITHUB AUTO-SYNC & DEPLOYMENT\n";
+        $log .= "=================================================\n";
         $log .= "Target Remote : {$this->repoUrl} (branch: main)\n";
         $log .= "Waktu         : " . date('Y-m-d H:i:s') . "\n";
-        $log .= "Metode        : Native HTTP Archive Download & Safe Overwrite\n\n";
+        $log .= "Metode        : Native HTTP Streaming & Safe Overwrite\n\n";
 
         try {
             $tempZipPath = $this->getSafeTempZipPath();
             @unlink($tempZipPath);
 
             // 1. Download berkas ZIP dari GitHub langsung streaming ke file (hemat RAM)
-            $log .= "> [1/4] Mengunduh arsip kode terbaru dari GitHub via HTTP...\n";
+            $log .= "> [1/4] Mengunduh arsip kode terbaru dari GitHub...\n";
             $downloadSuccess = false;
             $downloadError = '';
 
@@ -343,7 +351,7 @@ class TerminalController extends Controller
                     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
                     curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
                     curl_setopt($ch, CURLOPT_HTTPHEADER, [
-                        'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                        'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
                         'Connection: close',
                         'Accept: application/zip, application/octet-stream, */*'
                     ]);
@@ -358,7 +366,7 @@ class TerminalController extends Controller
                     if ($httpCode >= 200 && $httpCode < 400 && $fileSize > 10000) {
                         $downloadSuccess = true;
                         $sizeMb = number_format($fileSize / 1048576, 2);
-                        $log .= "  ✓ Berhasil mengunduh arsip ZIP ({$sizeMb} MB) via cURL (HTTP {$httpCode}).\n";
+                        $log .= "  ✅ Berhasil mengunduh arsip ZIP ({$sizeMb} MB) via cURL (HTTP {$httpCode}).\n";
                     } else {
                         $downloadError = "cURL (HTTP {$httpCode}, size: {$fileSize}B): " . ($curlError ?: 'Respons bukan ZIP yang valid');
                         @unlink($tempZipPath);
@@ -396,14 +404,14 @@ class TerminalController extends Controller
                     if ($fileSize > 10000) {
                         $downloadSuccess = true;
                         $sizeMb = number_format($fileSize / 1048576, 2);
-                        $log .= "  ✓ Berhasil mengunduh arsip ZIP ({$sizeMb} MB) via stream_context fallback.\n";
+                        $log .= "  ✅ Berhasil mengunduh arsip ZIP ({$sizeMb} MB) via stream_context fallback.\n";
                     }
                 }
             }
 
             if (!$downloadSuccess || !file_exists($tempZipPath) || filesize($tempZipPath) < 1000) {
-                $log .= "  ✗ GAGAL mengunduh arsip dari GitHub: {$downloadError}\n";
-                $log .= "  ℹ Solusi: Pastikan hosting mengizinkan koneksi HTTPS keluar (outgoing port 443).\n";
+                $log .= "  ❌ GAGAL mengunduh arsip dari GitHub: {$downloadError}\n";
+                $log .= "  💡 Solusi: Pastikan hosting mengizinkan koneksi HTTPS keluar (outgoing port 443).\n";
 
                 return response()->json([
                     'success' => false,
@@ -418,7 +426,7 @@ class TerminalController extends Controller
             $log .= "\n> [2/4] Mengekstrak dan menyalin berkas ke folder proyek...\n";
 
             if (!class_exists('ZipArchive')) {
-                $log .= "  ✗ Ekstensi PHP ZipArchive tidak aktif di server hosting ini!\n";
+                $log .= "  ❌ Ekstensi PHP ZipArchive tidak aktif di server hosting ini!\n";
                 @unlink($tempZipPath);
                 return response()->json([
                     'success' => false,
@@ -432,7 +440,7 @@ class TerminalController extends Controller
             $zip = new \ZipArchive();
             $res = $zip->open($tempZipPath);
             if ($res !== true) {
-                $log .= "  ✗ Berkas ZIP tidak valid atau corrupt (Kode ZipArchive: {$res}).\n";
+                $log .= "  ❌ Berkas ZIP tidak valid atau corrupt (Kode ZipArchive: {$res}).\n";
                 @unlink($tempZipPath);
                 return response()->json([
                     'success' => false,
@@ -499,36 +507,33 @@ class TerminalController extends Controller
             $zip->close();
             @unlink($tempZipPath);
 
-            $log .= "  ✓ {$updatedFiles} berkas proyek berhasil diperbarui.\n";
-            $log .= "  ✓ {$skippedProtected} berkas diproteksi (file .env & folder storage/ tetap aman).\n";
+            $log .= "  ✅ {$updatedFiles} berkas proyek berhasil diperbarui.\n";
+            $log .= "  ✅ {$skippedProtected} berkas diproteksi (file .env & folder storage/ tetap aman).\n";
 
-            // 3. Jalankan Siklus Pasca-Deploy: Migrasi Database & Transfer Build
-            $log .= "\n> [3/4] Menjalankan siklus pasca-deploy (Migrate & Transfer Build)...\n";
+            // 3. Jalankan Siklus Pasca-Deploy: Migrasi Database & Sync Build
+            $log .= "\n> [3/4] Menjalankan siklus pasca-deploy (Migrate & Sync Build)...\n";
 
             try {
                 Artisan::call('migrate', ['--force' => true]);
                 $migOutput = trim(Artisan::output());
-                $log .= "  ✓ Database Migration: " . ($migOutput ?: 'Tidak ada migrasi pending.') . "\n";
+                $log .= "  ✅ Database Migration: " . ($migOutput ?: 'Tidak ada migrasi pending.') . "\n";
             } catch (\Throwable $e) {
-                $log .= "  ℹ Database Migration: " . $e->getMessage() . "\n";
+                $log .= "  ⚠️ Database Migration: " . $e->getMessage() . "\n";
             }
 
             try {
-                $syncResponse = $this->syncBuild($request);
-                $syncData = json_decode($syncResponse->getContent(), true);
-                if (!empty($syncData['synced'])) {
-                    $log .= "  ✓ Transfer Asset Build berhasil ke " . count($syncData['synced']) . " lokasi tujuan.\n";
-                } else {
-                    $log .= "  ℹ Transfer Asset Build: Folder build sudah up-to-date.\n";
-                }
+                Artisan::call('sync:build');
+                $syncOut = trim(Artisan::output());
+                $log .= "  ✅ Sync Build & Images:\n" . ($syncOut ?: 'Aset build telah disinkronkan.') . "\n";
             } catch (\Throwable $e) {
-                $log .= "  ℹ Transfer Build: " . $e->getMessage() . "\n";
+                $log .= "  ⚠️ Sync Build: " . $e->getMessage() . "\n";
             }
 
             // 4. Bersihkan Cache Laravel & Pulihkan Direktori
             $log .= "\n> [4/4] Membersihkan cache sistem & memulihkan direktori...\n";
             try {
                 Artisan::call('optimize:clear');
+                $log .= "  ✅ optimize:clear berhasil dijalankan.\n";
             } catch (\Throwable $e) {
                 // Abaikan jika artisan melempar notice
             }
@@ -552,13 +557,13 @@ class TerminalController extends Controller
                 @unlink($vf);
             }
 
-            $log .= "  ✓ Seluruh cache bootstrap (config, services, routes) & view dibersihkan.\n";
-            $log .= "  ✓ Folder storage/framework/views & bootstrap/cache diset 0777 (Writable).\n";
+            $log .= "  ✅ Seluruh cache bootstrap & view dibersihkan.\n";
+            $log .= "  ✅ Folder storage/framework/views & bootstrap/cache diset 0777 (Writable).\n";
 
             $duration = number_format(microtime(true) - $startTime, 2) . 's';
-            $log .= "\n==================================================\n";
-            $log .= "✓ SELESAI: Aplikasi berhasil di-update dari GitHub dalam {$duration}!\n";
-            $log .= "Situs sudah aktif dengan versi kode dan build terbaru.\n";
+            $log .= "\n=================================================\n";
+            $log .= "🎉 SELESAI: Aplikasi & Asset Build berhasil di-update dari GitHub dalam {$duration}!\n";
+            $log .= "=================================================\n";
 
             return response()->json([
                 'success' => true,
@@ -584,129 +589,30 @@ class TerminalController extends Controller
     }
 
     /**
-     * Transfer / Sync folder build ke folder public_html/kpi.iaipibandung.ac.id/build & Uploads/build
+     * Transfer / Sync folder build & images via Artisan sync:build
      */
-    public function syncBuild(Request $request)
+    public function syncBuild(Request $request = null)
     {
-        $source = public_path('build');
+        $startTime = microtime(true);
+        try {
+            Artisan::call('sync:build');
+            $output = trim(Artisan::output());
 
-        if (!File::isDirectory($source)) {
+            return response()->json([
+                'success' => true,
+                'command' => 'sync:build',
+                'output' => $output ?: 'Aset build berhasil disinkronkan ke seluruh folder publik.',
+                'exit_code' => 0,
+                'duration' => number_format(microtime(true) - $startTime, 2) . 's'
+            ]);
+        } catch (\Throwable $e) {
             return response()->json([
                 'success' => false,
-                'command' => 'sync-build',
-                'output' => "Folder sumber [{$source}] tidak ditemukan! Pastikan telah menjalankan npm run build terlebih dahulu.",
+                'command' => 'sync:build',
+                'output' => 'Gagal menjalankan sync:build: ' . $e->getMessage(),
                 'exit_code' => 1,
-                'duration' => '0.00s'
+                'duration' => number_format(microtime(true) - $startTime, 2) . 's'
             ]);
         }
-
-        $customTargets = $request->input('targets');
-        if (is_string($customTargets)) {
-            $customTargets = array_filter(array_map('trim', explode("\n", $customTargets)));
-        }
-
-        $candidates = [];
-
-        if (!empty($customTargets) && is_array($customTargets)) {
-            foreach ($customTargets as $target) {
-                if (str_starts_with($target, '/') || str_starts_with($target, '\\') || preg_match('/^[A-Za-z]:/', $target)) {
-                    $candidates[] = $target;
-                } else {
-                    $candidates[] = base_path('../' . ltrim($target, '/\\'));
-                    $candidates[] = base_path($target);
-                }
-            }
-        }
-
-        $defaultRelative = [
-            'public_html/kpi.iaipibandung.ac.id/build',
-            'public_html/kpi.iaipibandung.ac.id/Uploads/build',
-        ];
-
-        foreach ($defaultRelative as $rel) {
-            $candidates[] = base_path('../' . $rel);
-            $candidates[] = base_path('../../' . $rel);
-            $candidates[] = base_path($rel);
-
-            if (!empty($_SERVER['DOCUMENT_ROOT'])) {
-                $candidates[] = rtrim($_SERVER['DOCUMENT_ROOT'], '/\\') . '/' . (str_contains($rel, 'Uploads') ? 'Uploads/build' : 'build');
-            }
-
-            $user = get_current_user();
-            if ($user) {
-                $candidates[] = "/home/{$user}/" . $rel;
-            }
-        }
-
-        $candidates = array_unique(array_filter($candidates));
-
-        $synced = [];
-        $failed = [];
-        $totalFiles = count(File::allFiles($source));
-
-        foreach ($candidates as $dest) {
-            $normalizedDest = str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $dest);
-            $normalizedSource = str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $source);
-
-            if ($normalizedDest === $normalizedSource) {
-                continue;
-            }
-
-            $parent = dirname($normalizedDest);
-            if (File::isDirectory($parent)) {
-                try {
-                    File::ensureDirectoryExists($normalizedDest);
-                    File::copyDirectory($source, $normalizedDest);
-                    $synced[] = $normalizedDest;
-                } catch (\Throwable $e) {
-                    $failed[] = "{$normalizedDest} (Gagal: {$e->getMessage()})";
-                }
-            }
-        }
-
-        if (empty($synced)) {
-            $fallbackLocal1 = base_path('../public_html/kpi.iaipibandung.ac.id/build');
-            $fallbackLocal2 = base_path('../public_html/kpi.iaipibandung.ac.id/Uploads/build');
-
-            try {
-                File::ensureDirectoryExists($fallbackLocal1);
-                File::copyDirectory($source, $fallbackLocal1);
-                $synced[] = str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $fallbackLocal1);
-
-                File::ensureDirectoryExists($fallbackLocal2);
-                File::copyDirectory($source, $fallbackLocal2);
-                $synced[] = str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $fallbackLocal2);
-            } catch (\Throwable $e) {
-                $failed[] = 'Fallback local sync: ' . $e->getMessage();
-            }
-        }
-
-        $outputLog = "=== HASIL SINKRONISASI ASSET BUILD ===\n";
-        $outputLog .= "Sumber: {$source} ({$totalFiles} file)\n";
-        $outputLog .= "Waktu : " . date('Y-m-d H:i:s') . "\n\n";
-
-        if (!empty($synced)) {
-            $outputLog .= "✓ BERHASIL DITRANSFER KE (" . count($synced) . " lokasi):\n";
-            foreach ($synced as $s) {
-                $outputLog .= "  -> {$s}\n";
-            }
-        }
-
-        if (!empty($failed)) {
-            $outputLog .= "\n✗ GAGAL DITRANSFER KE:\n";
-            foreach ($failed as $f) {
-                $outputLog .= "  -> {$f}\n";
-            }
-        }
-
-        return response()->json([
-            'success' => !empty($synced),
-            'command' => 'sync-build',
-            'output' => $outputLog,
-            'exit_code' => empty($synced) ? 1 : 0,
-            'synced' => $synced,
-            'failed' => $failed,
-            'duration' => '0.15s'
-        ]);
     }
 }
