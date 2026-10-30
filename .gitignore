@@ -26,3 +26,6 @@ Homestead.yaml
 Thumbs.db
 
 *.zip
+
+/build
+/images
