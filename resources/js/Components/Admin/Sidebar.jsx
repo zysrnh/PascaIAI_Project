@@ -32,7 +32,6 @@ import {
     Terminal,
 } from 'lucide-react';
 
-// Struktur navigasi dikelompokkan khusus Program Studi S1 Komunikasi dan Penyiaran Islam
 const navigationSections = [
     {
         title: 'Utama',
@@ -60,12 +59,12 @@ const navigationSections = [
                 name: 'Akademik & Perkuliahan',
                 icon: GraduationCap,
                 children: [
+                    { type: 'link', name: 'Laboratorium & Praktik', href: '/admin/akademik/laboratorium', viewHref: '/laboratorium', icon: FlaskConical },
                     { type: 'link', name: 'Jadwal Kuliah & Siaran', href: '/admin/akademik/jadwal', viewHref: '/akademik/jadwal-perkuliahan', icon: Clock },
                     { type: 'link', name: 'Kalender Akademik', href: '/admin/akademik/kalender', viewHref: '/akademik/kalender-akademik', icon: Calendar },
                     { type: 'link', name: 'Pedoman Akademik', href: '/admin/akademik/pedoman', viewHref: '/akademik/pedoman', icon: FileText },
                 ],
             },
-            { type: 'link', name: 'Laboratorium & Praktik Media', href: '/admin/akademik/laboratorium', viewHref: '/laboratorium', icon: FlaskConical },
             {
                 type: 'group',
                 name: 'Dosen & Kelembagaan',
@@ -102,7 +101,7 @@ const navigationSections = [
 ];
 
 function isUrlActive(href, currentUrl) {
-    return currentUrl === href || currentUrl.startsWith(`${href}/`);
+    return currentUrl === href || currentUrl.startsWith(`${href}/`) || currentUrl.startsWith(`${href}?`);
 }
 
 function groupHasActiveChild(group, currentUrl) {
@@ -120,7 +119,7 @@ function findActiveGroupName(sections, currentUrl) {
     return null;
 }
 
-function NavItem({ item, currentUrl }) {
+function NavItem({ item, currentUrl, onNavigate }) {
     const active = isUrlActive(item.href, currentUrl);
     const Icon = item.icon;
 
@@ -128,6 +127,7 @@ function NavItem({ item, currentUrl }) {
         <div className="group/item flex items-center justify-between rounded px-3 py-2 text-sm font-medium transition-colors hover:bg-slate-100">
             <Link
                 href={item.href}
+                onClick={onNavigate}
                 className={`flex flex-1 items-center gap-3 truncate ${
                     active ? 'font-semibold text-emerald-800' : 'text-slate-600 group-hover/item:text-slate-900'
                 }`}
@@ -150,7 +150,7 @@ function NavItem({ item, currentUrl }) {
     );
 }
 
-function NavGroup({ group, currentUrl, isOpen, onToggle }) {
+function NavGroup({ group, currentUrl, isOpen, onToggle, onNavigate }) {
     const hasActiveChild = groupHasActiveChild(group, currentUrl);
     const Icon = group.icon;
 
@@ -173,7 +173,7 @@ function NavGroup({ group, currentUrl, isOpen, onToggle }) {
             {isOpen && (
                 <div className="relative mt-1 space-y-0.5 pl-6 before:absolute before:bottom-2 before:left-5 before:top-2 before:w-px before:bg-slate-200">
                     {group.children.map((child) => (
-                        <NavItem key={child.name} item={child} currentUrl={currentUrl} />
+                        <NavItem key={child.name} item={child} currentUrl={currentUrl} onNavigate={onNavigate} />
                     ))}
                 </div>
             )}
@@ -184,11 +184,11 @@ function NavGroup({ group, currentUrl, isOpen, onToggle }) {
 export default function Sidebar() {
     const { url } = usePage();
     const user = usePage().props.auth.user;
-
     const [openGroup, setOpenGroup] = useState(() => findActiveGroupName(navigationSections, url));
+    const [mobileOpen, setMobileOpen] = useState(false);
 
-    return (
-        <div className="flex h-full flex-col bg-white select-none border-r border-slate-200 w-64 shrink-0">
+    const renderNavContent = (onNavigate) => (
+        <div className="flex h-full flex-col bg-white select-none">
             {/* Header Instansi */}
             <div className="flex items-center gap-3 border-b border-slate-100 px-5 py-4">
                 <img src="/logo_kampus.png" alt="Logo IAI Persis" className="h-10 w-auto object-contain bg-white rounded p-0.5 border border-slate-100" />
@@ -202,7 +202,6 @@ export default function Sidebar() {
             <nav className="flex-1 space-y-6 overflow-y-auto px-4 py-5 scrollbar-thin">
                 {navigationSections.map((section) => {
                     const filteredItems = section.items.filter((item) => {
-                        // Sembunyikan Terminal & Git Console jika bukan akun naodev/dev
                         if (item.href === '/admin/terminal') {
                             const isDev = user?.role === 'dev' || user?.role === 'admin_dev' || user?.email?.includes('naodev');
                             return isDev;
@@ -226,9 +225,10 @@ export default function Sidebar() {
                                         currentUrl={url}
                                         isOpen={openGroup === item.name}
                                         onToggle={() => setOpenGroup((prev) => (prev === item.name ? null : item.name))}
+                                        onNavigate={onNavigate}
                                     />
                                 ) : (
-                                    <NavItem key={item.name} item={item} currentUrl={url} />
+                                    <NavItem key={item.name} item={item} currentUrl={url} onNavigate={onNavigate} />
                                 )
                             )}
                         </div>
@@ -260,5 +260,56 @@ export default function Sidebar() {
                 </div>
             </div>
         </div>
+    );
+
+    return (
+        <>
+            {/* 1. Desktop Sidebar (Hidden on Mobile) */}
+            <aside className="hidden md:flex h-full min-h-[calc(100vh-4rem)] flex-col bg-white border-r border-slate-200 w-64 shrink-0">
+                {renderNavContent()}
+            </aside>
+
+            {/* 2. Floating Mobile Trigger Button */}
+            <button
+                type="button"
+                onClick={() => setMobileOpen(true)}
+                className="md:hidden fixed bottom-5 left-5 z-40 flex items-center gap-2 bg-slate-900 text-white px-4 py-2.5 rounded-full shadow-2xl border border-slate-700 text-xs font-semibold hover:bg-slate-800 active:scale-95 transition-all"
+                aria-label="Buka Menu Admin"
+            >
+                <Menu className="w-4 h-4 text-emerald-400" />
+                <span>Menu Admin</span>
+            </button>
+
+            {/* 3. Mobile Slide-Over Drawer Modal */}
+            {mobileOpen && (
+                <div className="md:hidden fixed inset-0 z-50 flex animate-in fade-in duration-200">
+                    {/* Backdrop */}
+                    <div
+                        className="fixed inset-0 bg-slate-950/60 backdrop-blur-sm transition-opacity"
+                        onClick={() => setMobileOpen(false)}
+                    />
+
+                    {/* Drawer Content */}
+                    <div className="relative flex flex-col w-72 max-w-[85vw] h-full bg-white shadow-2xl z-10 animate-in slide-in-from-left duration-250">
+                        {/* Drawer Top Header with Close Button */}
+                        <div className="flex items-center justify-between border-b border-slate-100 px-5 py-3 bg-slate-50/80">
+                            <span className="text-xs font-bold text-slate-700 uppercase tracking-wider">Navigasi Dashboard</span>
+                            <button
+                                type="button"
+                                onClick={() => setMobileOpen(false)}
+                                className="p-1.5 text-slate-400 hover:text-slate-800 rounded-lg hover:bg-slate-200 transition"
+                            >
+                                <X className="w-5 h-5" />
+                            </button>
+                        </div>
+
+                        {/* Navigation body */}
+                        <div className="flex-1 overflow-hidden">
+                            {renderNavContent(() => setMobileOpen(false))}
+                        </div>
+                    </div>
+                </div>
+            )}
+        </>
     );
 }
