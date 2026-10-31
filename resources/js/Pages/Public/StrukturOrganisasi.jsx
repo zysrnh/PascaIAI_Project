@@ -1,233 +1,489 @@
-import React, { useRef, useState, useLayoutEffect } from 'react';
+import React, { useState } from 'react';
 import { Head, Link } from '@inertiajs/react';
-import { Users } from 'lucide-react';
+import { 
+    Users, ZoomIn, Eye, Layers, ChevronRight, Download, 
+    ExternalLink, ArrowDown, FileText, CheckCircle2, X, Maximize2 
+} from 'lucide-react';
 import PublicLayout from '@/Layouts/PublicLayout';
 import Breadcrumb from '@/Components/Public/Breadcrumb';
 
-const TreeNode = ({ node }) => {
-    const isLevel1 = node.urutan === '1';
-    const isLevel2 = node.urutan === '2A' || node.urutan === '2B';
+// Card Komponen untuk Pejabat
+function PejabatCard({ pejabat, level = 'default', className = '' }) {
+    if (!pejabat) return null;
 
-    const wrapperStyle = isLevel1 
-        ? "inline-flex flex-col items-center bg-white rounded-2xl shadow-sm border border-slate-200/90 hover:border-slate-400 p-6 w-80 relative z-10 transition-all duration-200"
-        : isLevel2
-        ? "inline-flex flex-col items-center bg-white rounded-2xl shadow-sm border border-slate-200/90 hover:border-slate-300 p-5 w-72 relative z-10 transition-all duration-200"
-        : "inline-flex flex-col items-center bg-white rounded-xl shadow-sm border border-slate-200/80 hover:border-slate-300 p-4 w-64 relative z-10 transition-all duration-200";
-
-    const imgContainerStyle = isLevel1
-        ? "w-28 h-36 mb-4 rounded-xl overflow-hidden border border-slate-200 shadow-sm relative bg-slate-100 flex items-center justify-center"
-        : isLevel2
-        ? "w-24 h-32 mb-3.5 rounded-xl overflow-hidden border border-slate-200 shadow-sm relative bg-slate-100 flex items-center justify-center"
-        : "w-20 h-28 mb-3 rounded-lg overflow-hidden border border-slate-200 relative bg-slate-100 flex items-center justify-center";
+    const isPrimary = level === 'primary'; // Rektor
+    const isDean = level === 'dean'; // Dekan
+    const isKaprodi = level === 'kaprodi'; // Kaprodi
+    const isSenat = level === 'senat';
 
     return (
-        <li>
-            <div className={wrapperStyle}>
-                {node.foto && (
-                    <div className={imgContainerStyle}>
-                        <img 
-                            src={node.foto} 
-                            alt={node.nama} 
-                            className="w-full h-full object-cover object-top" 
-                        />
-                    </div>
-                )}
-                <h3 className={`font-semibold text-slate-900 mb-1 leading-snug ${isLevel1 ? 'text-base sm:text-lg' : isLevel2 ? 'text-sm sm:text-base' : 'text-xs sm:text-sm'}`}>
-                    {node.nama}
-                </h3>
-                <span className={`text-xs font-semibold uppercase tracking-wider text-emerald-700 block w-full text-center ${isLevel1 ? 'mt-1 text-xs' : 'text-[11px]'}`}>
-                    {node.jabatan}
-                </span>
-            </div>
-            
-            {node.children && node.children.length > 0 && (
-                <ul>
-                    {node.children.map(child => (
-                        <TreeNode key={child.id} node={child} />
-                    ))}
-                </ul>
+        <div 
+            className={`bg-white rounded-2xl border transition-all duration-300 relative group text-center flex flex-col items-center ${
+                isPrimary 
+                    ? 'p-6 w-80 shadow-lg border-emerald-400 ring-2 ring-emerald-500/20' 
+                    : isDean 
+                    ? 'p-5 w-76 shadow-md border-emerald-300 ring-1 ring-emerald-400/20'
+                    : isKaprodi
+                    ? 'p-5 w-72 shadow-md border-slate-300'
+                    : isSenat
+                    ? 'p-4 w-64 shadow-sm border-dashed border-amber-400 bg-amber-50/40'
+                    : 'p-4 w-64 shadow-sm border-slate-200 hover:border-slate-300'
+            } ${className}`}
+        >
+            {pejabat.foto ? (
+                <div className={`mb-3.5 rounded-xl overflow-hidden shadow-sm relative bg-slate-100 flex items-center justify-center border ${
+                    isPrimary 
+                        ? 'w-28 h-36 border-emerald-200' 
+                        : isDean
+                        ? 'w-24 h-32 border-emerald-100'
+                        : 'w-20 h-28 border-slate-200'
+                }`}>
+                    <img 
+                        src={pejabat.foto} 
+                        alt={pejabat.nama} 
+                        className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300" 
+                    />
+                </div>
+            ) : (
+                <div className={`mb-3.5 rounded-xl flex items-center justify-center ${
+                    isSenat 
+                        ? 'w-16 h-16 bg-amber-100 text-amber-800' 
+                        : 'w-16 h-16 bg-slate-100 text-slate-400'
+                }`}>
+                    <Users className="w-8 h-8" />
+                </div>
             )}
-        </li>
+
+            <div className="w-full">
+                <span className={`inline-block px-3 py-1 rounded-full font-bold uppercase tracking-wider mb-2 ${
+                    isPrimary 
+                        ? 'bg-emerald-800 text-white text-xs' 
+                        : isDean
+                        ? 'bg-emerald-700 text-white text-xs'
+                        : isKaprodi
+                        ? 'bg-emerald-600 text-white text-[11px]'
+                        : isSenat
+                        ? 'bg-amber-100 text-amber-900 border border-amber-300 text-[11px]'
+                        : 'bg-slate-100 text-slate-800 text-[11px]'
+                }`}>
+                    {pejabat.jabatan}
+                </span>
+
+                <h3 className={`font-bold text-slate-900 leading-snug ${
+                    isPrimary ? 'text-base sm:text-lg' : isDean ? 'text-sm sm:text-base' : 'text-xs sm:text-sm'
+                }`}>
+                    {pejabat.nama}
+                </h3>
+            </div>
+        </div>
     );
-};
+}
 
-export default function StrukturOrganisasi({ organisasi, jabatanTree, pengaturan }) {
+export default function StrukturOrganisasi({ organisasi = [], jabatanTree = [], pengaturan }) {
     const bannerImg = pengaturan?.banner_image;
+    const [activeTab, setActiveTab] = useState('bagan');
+    const [isLightboxOpen, setIsLightboxOpen] = useState(false);
 
-    const containerRef = useRef(null);
-    const contentRef = useRef(null);
-    const [scale, setScale] = useState(1);
-    const [scaledHeight, setScaledHeight] = useState('auto');
+    // Ambil data pejabat terstruktur dengan fallback data SK resmi 2023-2027
+    const rektor = organisasi.find(o => o.urutan === '1' || (o.jabatan && o.jabatan.toLowerCase().includes('rektor') && !o.jabatan.toLowerCase().includes('w.'))) || {
+        nama: 'Prof. Dr. Jajang A Rohmana, M. Ag',
+        jabatan: 'Rektor',
+        foto: '/images/pejabat/rektor.jpg'
+    };
 
-    useLayoutEffect(() => {
-        const updateScale = () => {
-            if (containerRef.current && contentRef.current) {
-                const containerWidth = containerRef.current.clientWidth - 40;
-                const contentWidth = contentRef.current.scrollWidth;
-                const contentHeight = contentRef.current.scrollHeight;
-                
-                if (contentWidth > containerWidth && containerWidth > 0) {
-                    const newScale = containerWidth / contentWidth;
-                    setScale(newScale);
-                    setScaledHeight(`${contentHeight * newScale}px`);
-                } else {
-                    setScale(1);
-                    setScaledHeight('auto');
-                }
-            }
-        };
+    const senat = organisasi.find(o => o.urutan === '1S' || (o.jabatan && o.jabatan.toLowerCase().includes('senat'))) || {
+        nama: 'Senat Institut',
+        jabatan: 'Senat'
+    };
 
-        updateScale();
-        window.addEventListener('resize', updateScale);
-        return () => window.removeEventListener('resize', updateScale);
-    }, [jabatanTree]);
+    const warekList = [
+        organisasi.find(o => o.urutan === '2A') || { nama: 'Dr. Roni Nugraha, M. Ag', jabatan: 'W. Rektor I Bid. Akademik', foto: '/images/pejabat/warek1.jpg' },
+        organisasi.find(o => o.urutan === '2B') || { nama: 'Dr. H. Arie Noviana, M.E', jabatan: 'W. Rektor II Bid. Keuangan', foto: '/images/pejabat/warek2.jpg' },
+        organisasi.find(o => o.urutan === '2C') || { nama: 'Dr. Nurdin Qusyaeri, M. Si', jabatan: 'W. Rektor III Bid. Kemahasiswaan', foto: '/images/pejabat/warek3.jpg' },
+        organisasi.find(o => o.urutan === '2D') || { nama: 'Dr. Lalan Sahlani, M.Ag', jabatan: 'W. Rektor IV Bid. Kerjasama', foto: '/images/pejabat/warek4.jpg' },
+    ];
+
+    const dekan = organisasi.find(o => o.urutan === '3' || (o.jabatan && o.jabatan.toLowerCase().includes('dekan'))) || {
+        nama: 'Hj. Nunung Nurhasanah, M.I.Kom',
+        jabatan: 'Dekan Fakultas',
+        foto: '/images/pejabat/dekan.jpg'
+    };
+
+    const kaprodi = organisasi.find(o => o.urutan === '4' || (o.jabatan && (o.jabatan.toLowerCase().includes('ketua prodi') || o.jabatan.toLowerCase().includes('kaprodi')))) || {
+        nama: 'Hendi Rustandi, M. Sos',
+        jabatan: 'Ketua Prodi KPI',
+        foto: '/images/pejabat/kaprodi.jpg'
+    };
+
+    const sekprodi = organisasi.find(o => o.urutan === '5' || (o.jabatan && o.jabatan.toLowerCase().includes('sekretaris prodi'))) || {
+        nama: 'Siti Nurjanah, M. Pd',
+        jabatan: 'Sekretaris Prodi',
+        foto: '/images/pejabat/sekprodi.jpg'
+    };
+
+    const dosen = organisasi.find(o => o.urutan === '6' || (o.jabatan && o.jabatan.toLowerCase().includes('dosen'))) || {
+        nama: 'Dosen & Tenaga Pendidik KPI',
+        jabatan: 'Dosen'
+    };
+
+    const breadcrumbItems = [
+        { label: 'Beranda', href: '/' },
+        { label: 'Profil', href: '#' },
+        { label: 'Struktur Organisasi', href: null },
+    ];
+
+    const posterUrl = '/images/struktur_organisasi_resmi.jpg';
 
     return (
         <PublicLayout>
-            <Head title="Struktur Organisasi & Tim | Prodi KPI IAI Persis Bandung" />
+            <Head title="Struktur Organisasi & Tim Pengelola | KPI IAI PERSIS Bandung" />
 
-            {/* Minimalist Editorial Hero Section */}
-            <section className="relative bg-gradient-to-b from-[#091122] via-[#0E1B38] to-[#070E1E] text-white pt-20 pb-20 md:pt-24 md:pb-24 border-b border-slate-800/80 overflow-hidden">
+            {/* Hero / Banner */}
+            <div className="relative bg-gradient-to-br from-emerald-900 via-emerald-800 to-slate-900 text-white overflow-hidden py-14 sm:py-20">
                 {bannerImg && (
-                    <div className="absolute inset-0 z-0">
-                        <img 
-                            src={bannerImg} 
-                            alt="Banner Struktur Organisasi" 
-                            className="w-full h-full object-cover opacity-20"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#070E1E] via-[#091122]/80 to-[#091122]/90"></div>
+                    <div className="absolute inset-0 z-0 opacity-20">
+                        <img src={bannerImg} alt="Banner" className="w-full h-full object-cover" />
                     </div>
                 )}
-
-                <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
-                    <div className="max-w-4xl text-left">
-                        <h1 className="text-3xl sm:text-5xl lg:text-[46px] font-semibold text-white leading-tight tracking-tight mb-4">
-                            Struktur Organisasi &amp; <span className="font-serif italic font-normal text-emerald-300">Tim Pengelola</span>
+                <div className="absolute inset-0 bg-gradient-to-t from-emerald-950/90 via-transparent to-transparent z-0" />
+                
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                    <Breadcrumb items={breadcrumbItems} />
+                    
+                    <div className="mt-6 max-w-3xl">
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-700/80 text-emerald-100 border border-emerald-500/30 mb-4 backdrop-blur-sm">
+                            <Users className="w-3.5 h-3.5" /> Periode 2023 - 2027
+                        </span>
+                        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white">
+                            Struktur Organisasi
                         </h1>
-
-                        {pengaturan?.deskripsi ? (
-                            <p className="text-base sm:text-lg text-slate-300 font-normal leading-relaxed max-w-2xl">
-                                {pengaturan.deskripsi}
-                            </p>
-                        ) : null}
-                    </div>
-                </div>
-            </section>
-
-            {/* Breadcrumb Navigation */}
-            <Breadcrumb items={[
-                { label: 'Profil' },
-                { label: 'Struktur Organisasi' }
-            ]} />
-
-            {/* Main Content Area */}
-            <div className="bg-[#FAFAFA] py-16 sm:py-24 border-b border-slate-200 min-h-screen">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-
-                    {/* Section Header */}
-                    <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-4 border-b border-slate-200">
-                        <div>
-                            <span className="text-xs font-bold uppercase tracking-widest text-emerald-700">Tata Kelola Institusi</span>
-                            <h2 className="text-2xl sm:text-3xl font-semibold text-slate-900 tracking-tight mt-1">
-                                Bagan Struktur <span className="font-serif italic font-normal text-slate-700 ml-1.5">Kepengurusan</span>
-                            </h2>
-                        </div>
-                        <p className="text-xs sm:text-sm text-slate-500 max-w-md self-start sm:self-auto">
-                            Susunan pengelola Program Studi KPI Fakultas Dakwah IAI Persis Bandung.
+                        <p className="mt-4 text-base sm:text-lg text-emerald-100/90 leading-relaxed font-normal">
+                            {pengaturan?.deskripsi || 'Bagan tata kelola dan susunan kepemimpinan Program Studi Komunikasi dan Penyiaran Islam Fakultas Dakwah dan Komunikasi IAI PERSIS Bandung.'}
                         </p>
                     </div>
 
-                    {/* Organogram Tree */}
-                    {organisasi && organisasi.length > 0 ? (
-                        <div 
-                            ref={containerRef} 
-                            className="flex flex-col items-center w-full py-8 overflow-x-auto min-h-[450px]" 
-                            style={{ height: scaledHeight !== 'auto' ? `calc(${scaledHeight} + 4rem)` : 'auto' }}
+                    {/* View Switcher Tabs */}
+                    <div className="mt-8 flex flex-wrap gap-2.5 sm:gap-3">
+                        <button
+                            type="button"
+                            onClick={() => setActiveTab('bagan')}
+                            className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm transition-all duration-200 ${
+                                activeTab === 'bagan'
+                                    ? 'bg-white text-emerald-900 shadow-md ring-2 ring-white/50'
+                                    : 'bg-emerald-800/60 hover:bg-emerald-800 text-white/90 border border-emerald-700/50'
+                            }`}
                         >
-                            <div 
-                                ref={contentRef}
-                                style={{
-                                    transform: `scale(${scale})`,
-                                    transformOrigin: 'top center',
-                                    transition: 'transform 0.3s ease-out',
-                                    width: 'max-content'
-                                }}
-                                className="flex flex-col items-center"
-                            >
-                                <style dangerouslySetInnerHTML={{__html: `
-                                    .organogram ul {
-                                        padding-top: 24px;
-                                        position: relative;
-                                        display: flex;
-                                        justify-content: center;
-                                    }
-                                    .organogram li {
-                                        float: left;
-                                        text-align: center;
-                                        list-style-type: none;
-                                        position: relative;
-                                        padding: 24px 12px 0 12px;
-                                    }
-                                    .organogram li::before, .organogram li::after {
-                                        content: '';
-                                        position: absolute;
-                                        top: 0;
-                                        right: 50%;
-                                        border-top: 2px solid #cbd5e1;
-                                        width: 50%;
-                                        height: 24px;
-                                    }
-                                    .organogram li::after {
-                                        right: auto;
-                                        left: 50%;
-                                        border-left: 2px solid #cbd5e1;
-                                    }
-                                    .organogram li:only-child::after, .organogram li:only-child::before {
-                                        display: none;
-                                    }
-                                    .organogram li:only-child {
-                                        padding-top: 0;
-                                    }
-                                    .organogram li:first-child::before, .organogram li:last-child::after {
-                                        border: 0 none;
-                                    }
-                                    .organogram li:last-child::before {
-                                        border-right: 2px solid #cbd5e1;
-                                        border-radius: 0 6px 0 0;
-                                    }
-                                    .organogram li:first-child::after {
-                                        border-radius: 6px 0 0 0;
-                                    }
-                                    .organogram ul ul::before {
-                                        content: '';
-                                        position: absolute;
-                                        top: 0;
-                                        left: 50%;
-                                        border-left: 2px solid #cbd5e1;
-                                        width: 0;
-                                        height: 24px;
-                                    }
-                                `}} />
+                            <Layers className="w-4 h-4" />
+                            Bagan Alur (Interaktif)
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => setActiveTab('poster')}
+                            className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm transition-all duration-200 ${
+                                activeTab === 'poster'
+                                    ? 'bg-white text-emerald-900 shadow-md ring-2 ring-white/50'
+                                    : 'bg-emerald-800/60 hover:bg-emerald-800 text-white/90 border border-emerald-700/50'
+                            }`}
+                        >
+                            <FileText className="w-4 h-4" />
+                            Poster Resmi SK
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => setActiveTab('direktori')}
+                            className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm transition-all duration-200 ${
+                                activeTab === 'direktori'
+                                    ? 'bg-white text-emerald-900 shadow-md ring-2 ring-white/50'
+                                    : 'bg-emerald-800/60 hover:bg-emerald-800 text-white/90 border border-emerald-700/50'
+                            }`}
+                        >
+                            <Users className="w-4 h-4" />
+                            Direktori Pejabat
+                        </button>
+                    </div>
+                </div>
+            </div>
 
-                                <div className="organogram">
-                                    <ul>
-                                        {jabatanTree && jabatanTree.map(rootNode => (
-                                            <TreeNode key={rootNode.id} node={rootNode} />
-                                        ))}
-                                    </ul>
+            {/* Konten Utama */}
+            <div className="bg-slate-50 min-h-screen py-10 sm:py-16">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+                    {/* TAB 1: BAGAN ALUR HIRARKI VERTIKAL (Sesuai SK Resmi & Flow Vertikal) */}
+                    {activeTab === 'bagan' && (
+                        <div>
+                            {/* Petunjuk / Header Info */}
+                            <div className="bg-white rounded-2xl border border-slate-200/80 p-5 mb-10 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
+                                <div className="flex items-center gap-3.5 text-slate-700 text-sm">
+                                    <div className="w-9 h-9 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center shrink-0 font-bold">
+                                        i
+                                    </div>
+                                    <div>
+                                        <p className="font-bold text-slate-900">Hierarki Struktur Vertikal Resmi</p>
+                                        <p className="text-slate-500 text-xs sm:text-sm">
+                                            Alur kepemimpinan dari Rektorat IAI PERSIS Bandung turun ke Fakultas Dakwah & KPI.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <button 
+                                        type="button"
+                                        onClick={() => setActiveTab('poster')}
+                                        className="text-xs font-semibold text-emerald-700 hover:text-emerald-800 bg-emerald-50 hover:bg-emerald-100 px-3.5 py-2 rounded-lg border border-emerald-200/70 inline-flex items-center gap-1.5 transition-colors"
+                                    >
+                                        <Eye className="w-3.5 h-3.5" /> Lihat Poster Asli
+                                    </button>
+                                </div>
+                            </div>
+
+                            {/* Canvas Bagan Hirarki */}
+                            <div className="bg-slate-100/70 border border-slate-200/90 rounded-3xl p-6 sm:p-12 overflow-x-auto shadow-inner">
+                                <div className="min-w-[920px] flex flex-col items-center">
+
+                                    {/* LEVEL 1: REKTOR & SENAT */}
+                                    <div className="relative flex items-center justify-center w-full mb-8">
+                                        <div className="relative z-10">
+                                            <PejabatCard pejabat={rektor} level="primary" />
+                                        </div>
+
+                                        {/* Jalur Koordinasi ke Senat (Garis Putus-Putus ke Kanan) */}
+                                        <div className="absolute left-1/2 ml-40 flex items-center z-0">
+                                            <div className="w-20 border-t-2 border-dashed border-amber-400"></div>
+                                            <div className="ml-2">
+                                                <PejabatCard pejabat={senat} level="senat" />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* GARIS DARI REKTOR KE WAKIL REKTOR */}
+                                    <div className="w-0.5 h-8 bg-slate-400"></div>
+
+                                    {/* LEVEL 2: 4 WAKIL REKTOR (HORIZONTAL BARIS) */}
+                                    <div className="relative w-full max-w-5xl flex flex-col items-center mb-8">
+                                        {/* Garis Horizontal Pembagi ke 4 Warek */}
+                                        <div className="w-[75%] h-0.5 bg-slate-400 relative mb-4">
+                                            <div className="absolute -top-1 left-0 w-2 h-2 rounded-full bg-slate-400"></div>
+                                            <div className="absolute -top-1 left-[33%] w-2 h-2 rounded-full bg-slate-400"></div>
+                                            <div className="absolute -top-1 right-[33%] w-2 h-2 rounded-full bg-slate-400"></div>
+                                            <div className="absolute -top-1 right-0 w-2 h-2 rounded-full bg-slate-400"></div>
+                                        </div>
+
+                                        {/* Kartu 4 Wakil Rektor */}
+                                        <div className="grid grid-cols-4 gap-4 w-full">
+                                            {warekList.map((w, idx) => (
+                                                <div key={idx} className="flex flex-col items-center">
+                                                    <PejabatCard pejabat={w} className="w-full max-w-[240px]" />
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+
+                                    {/* BATANG VERTIKAL UTAMA (GARIS TURUN KE BAWAH KE DEKAN & PRODI) */}
+                                    <div className="flex flex-col items-center my-2">
+                                        <div className="w-0.5 h-10 bg-emerald-600"></div>
+                                        <div className="w-3 h-3 rotate-45 border-b-2 border-r-2 border-emerald-600 -mt-1.5"></div>
+                                    </div>
+
+                                    {/* LEVEL 3: DEKAN FAKULTAS DAKWAH */}
+                                    <div className="relative flex flex-col items-center my-3">
+                                        <div className="text-[11px] font-bold tracking-wider uppercase text-emerald-800 bg-emerald-100/90 border border-emerald-300 px-3 py-0.5 rounded-full mb-3">
+                                            Pimpinan Fakultas Dakwah
+                                        </div>
+                                        <PejabatCard pejabat={dekan} level="dean" />
+                                    </div>
+
+                                    {/* GARIS TURUN KE KETUA PRODI */}
+                                    <div className="flex flex-col items-center my-2">
+                                        <div className="w-0.5 h-10 bg-emerald-600"></div>
+                                        <div className="w-3 h-3 rotate-45 border-b-2 border-r-2 border-emerald-600 -mt-1.5"></div>
+                                    </div>
+
+                                    {/* LEVEL 4: KETUA PRODI KPI */}
+                                    <div className="relative flex flex-col items-center my-3">
+                                        <div className="text-[11px] font-bold tracking-wider uppercase text-emerald-800 bg-emerald-100/90 border border-emerald-300 px-3 py-0.5 rounded-full mb-3">
+                                            Pimpinan Program Studi
+                                        </div>
+                                        <PejabatCard pejabat={kaprodi} level="kaprodi" />
+                                    </div>
+
+                                    {/* GARIS TURUN KE SEKRETARIS PRODI */}
+                                    <div className="flex flex-col items-center my-2">
+                                        <div className="w-0.5 h-10 bg-emerald-600"></div>
+                                        <div className="w-3 h-3 rotate-45 border-b-2 border-r-2 border-emerald-600 -mt-1.5"></div>
+                                    </div>
+
+                                    {/* LEVEL 5: SEKRETARIS PRODI */}
+                                    <div className="relative flex flex-col items-center my-3">
+                                        <div className="text-[11px] font-bold tracking-wider uppercase text-slate-700 bg-slate-200/90 border border-slate-300 px-3 py-0.5 rounded-full mb-3">
+                                            Tata Usaha & Administrasi Prodi
+                                        </div>
+                                        <PejabatCard pejabat={sekprodi} className="w-72" />
+                                    </div>
+
+                                    {/* GARIS TURUN KE DOSEN */}
+                                    <div className="flex flex-col items-center my-2">
+                                        <div className="w-0.5 h-10 bg-slate-400"></div>
+                                        <div className="w-3 h-3 rotate-45 border-b-2 border-r-2 border-slate-400 -mt-1.5"></div>
+                                    </div>
+
+                                    {/* LEVEL 6: DOSEN & TENAGA PENDIDIK */}
+                                    <div className="relative flex flex-col items-center my-3">
+                                        <div className="text-[11px] font-bold tracking-wider uppercase text-slate-700 bg-slate-200/90 border border-slate-300 px-3 py-0.5 rounded-full mb-3">
+                                            Pelaksana Tridharma Perguruan Tinggi
+                                        </div>
+                                        <PejabatCard pejabat={dosen} className="w-72 bg-slate-50 border-slate-300" />
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
-                    ) : (
-                        <div className="text-center py-20 bg-white rounded-2xl border border-dashed border-slate-300 max-w-xl mx-auto p-8">
-                            <Users className="w-12 h-12 text-slate-300 mx-auto mb-3" />
-                            <h3 className="text-lg font-semibold text-slate-800 mb-1">Struktur Belum Tersedia</h3>
-                            <p className="text-slate-500 text-sm">Data struktur organisasi saat ini belum dimasukkan ke dalam sistem.</p>
+                    )}
+
+                    {/* TAB 2: POSTER RESMI SK */}
+                    {activeTab === 'poster' && (
+                        <div className="space-y-6">
+                            <div className="bg-white rounded-2xl border border-slate-200/80 p-5 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
+                                <div>
+                                    <h2 className="font-bold text-slate-900 text-lg">
+                                        Poster Dokumen Struktur Organisasi Resmi
+                                    </h2>
+                                    <p className="text-slate-500 text-sm mt-0.5">
+                                        Bagan resmi Fakultas Dakwah dan Komunikasi IAI PERSIS Bandung Periode 2023-2027.
+                                    </p>
+                                </div>
+                                <div className="flex items-center gap-3">
+                                    <button
+                                        type="button"
+                                        onClick={() => setIsLightboxOpen(true)}
+                                        className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold bg-emerald-700 text-white hover:bg-emerald-800 shadow-sm transition-colors"
+                                    >
+                                        <Maximize2 className="w-4 h-4" /> Perbesar Gambar
+                                    </button>
+                                    <a
+                                        href={posterUrl}
+                                        download="Struktur_Organisasi_FDK_IAI_PERSIS_Bandung.jpg"
+                                        className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200 transition-colors"
+                                    >
+                                        <Download className="w-4 h-4" /> Unduh
+                                    </a>
+                                </div>
+                            </div>
+
+                            {/* Tampilan Poster Gambar */}
+                            <div className="bg-white rounded-3xl border border-slate-200 p-4 sm:p-8 shadow-sm flex flex-col items-center">
+                                <div 
+                                    className="relative group cursor-zoom-in rounded-2xl overflow-hidden border border-slate-200 shadow-md max-w-4xl"
+                                    onClick={() => setIsLightboxOpen(true)}
+                                >
+                                    <img 
+                                        src={posterUrl} 
+                                        alt="Poster Struktur Organisasi Fakultas Dakwah & KPI IAI PERSIS Bandung" 
+                                        className="w-full h-auto object-contain"
+                                    />
+                                    <div className="absolute inset-0 bg-slate-900/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                        <span className="bg-white/90 backdrop-blur-sm text-slate-900 px-4 py-2 rounded-xl text-sm font-bold shadow-lg flex items-center gap-2">
+                                            <ZoomIn className="w-4 h-4 text-emerald-700" /> Klik untuk Memperbesar
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* TAB 3: DIREKTORI PEJABAT */}
+                    {activeTab === 'direktori' && (
+                        <div className="space-y-12">
+                            {/* Pimpinan Institut */}
+                            <section>
+                                <div className="border-b border-slate-200 pb-3 mb-6">
+                                    <h2 className="text-xl font-bold text-slate-900">Pimpinan Tingkat Institut</h2>
+                                    <p className="text-slate-500 text-sm">Rektor dan Wakil Rektor IAI PERSIS Bandung</p>
+                                </div>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
+                                    <div className="sm:col-span-2 lg:col-span-1 flex justify-center">
+                                        <PejabatCard pejabat={rektor} level="primary" className="w-full" />
+                                    </div>
+                                    {warekList.map((w, idx) => (
+                                        <div key={idx} className="flex justify-center">
+                                            <PejabatCard pejabat={w} className="w-full" />
+                                        </div>
+                                    ))}
+                                </div>
+                            </section>
+
+                            {/* Pimpinan Fakultas & Program Studi */}
+                            <section>
+                                <div className="border-b border-slate-200 pb-3 mb-6">
+                                    <h2 className="text-xl font-bold text-slate-900">Pimpinan Fakultas & Program Studi KPI</h2>
+                                    <p className="text-slate-500 text-sm">Pengelola Operasional Fakultas Dakwah & Komunikasi dan KPI</p>
+                                </div>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                                    <div className="flex justify-center">
+                                        <PejabatCard pejabat={dekan} level="dean" className="w-full" />
+                                    </div>
+                                    <div className="flex justify-center">
+                                        <PejabatCard pejabat={kaprodi} level="kaprodi" className="w-full" />
+                                    </div>
+                                    <div className="flex justify-center">
+                                        <PejabatCard pejabat={sekprodi} className="w-full" />
+                                    </div>
+                                </div>
+                            </section>
+
+                            {/* Senat & Tenaga Pendidik */}
+                            <section>
+                                <div className="border-b border-slate-200 pb-3 mb-6">
+                                    <h2 className="text-xl font-bold text-slate-900">Badan Normatif & Tenaga Pendidik</h2>
+                                    <p className="text-slate-500 text-sm">Dewan Senat dan Dosen Pengajar KPI</p>
+                                </div>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-2xl">
+                                    <PejabatCard pejabat={senat} level="senat" className="w-full" />
+                                    <PejabatCard pejabat={dosen} className="w-full" />
+                                </div>
+                            </section>
                         </div>
                     )}
 
                 </div>
             </div>
+
+            {/* LIGHTBOX MODAL UNTUK POSTER RESMI */}
+            {isLightboxOpen && (
+                <div 
+                    className="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm flex flex-col items-center justify-center p-4 sm:p-6"
+                    onClick={() => setIsLightboxOpen(false)}
+                >
+                    <div className="absolute top-4 right-4 flex items-center gap-3 z-10">
+                        <a
+                            href={posterUrl}
+                            download="Struktur_Organisasi_FDK_IAI_PERSIS_Bandung.jpg"
+                            onClick={(e) => e.stopPropagation()}
+                            className="p-2.5 rounded-full bg-white/20 hover:bg-white/30 text-white transition-colors"
+                            title="Unduh Poster"
+                        >
+                            <Download className="w-5 h-5" />
+                        </a>
+                        <button
+                            type="button"
+                            onClick={() => setIsLightboxOpen(false)}
+                            className="p-2.5 rounded-full bg-white/20 hover:bg-white/30 text-white transition-colors"
+                            title="Tutup (Esc)"
+                        >
+                            <X className="w-5 h-5" />
+                        </button>
+                    </div>
+
+                    <div 
+                        className="max-w-5xl max-h-[90vh] overflow-auto rounded-2xl bg-slate-900/40 p-2"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <img 
+                            src={posterUrl} 
+                            alt="Full View Poster Struktur Organisasi" 
+                            className="w-auto h-auto max-h-[85vh] object-contain rounded-xl shadow-2xl mx-auto"
+                        />
+                    </div>
+                </div>
+            )}
         </PublicLayout>
     );
 }

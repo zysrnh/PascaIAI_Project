@@ -9,62 +9,97 @@ class StrukturOrganisasiSeeder extends Seeder
 {
     /**
      * Run the database seeds.
+     * Struktur Organisasi Fakultas Dakwah dan Komunikasi IAI Persis Bandung Periode 2023-2027
      */
     public function run(): void
     {
-        // Bersihkan data lama jika ada
         StrukturOrganisasi::truncate();
 
-        // Level 1: Direktur
-        $direktur = StrukturOrganisasi::create([
-            'nama' => 'Dr. H. Taufik Rahman, M.Ag.',
-            'jabatan' => 'Direktur Program Pascasarjana',
+        // 1. Pimpinan Tertinggi: Rektor
+        $rektor = StrukturOrganisasi::create([
+            'nama' => 'Prof. Dr. Jajang A Rohmana, M. Ag',
+            'jabatan' => 'Rektor',
             'urutan' => '1',
-            'foto' => 'https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=400&auto=format&fit=crop'
+            'parent_id' => null,
+            'foto' => '/images/pejabat/rektor.jpg'
         ]);
 
-        // Level 2: Wakil Direktur I
-        $wadir1 = StrukturOrganisasi::create([
-            'nama' => 'Dr. H. Ahmad Hasanuddin, M.Pd.',
-            'jabatan' => 'Wakil Direktur I Bidang Akademik',
+        // 1S. Senat Institut (Pendamping Koordinatif Rektor)
+        StrukturOrganisasi::create([
+            'nama' => 'Senat Institut',
+            'jabatan' => 'Senat',
+            'urutan' => '1S',
+            'parent_id' => $rektor->id,
+            'foto' => null
+        ]);
+
+        // 2. Wakil Rektor (Jajaran Pimpinan Institut)
+        StrukturOrganisasi::create([
+            'nama' => 'Dr. Roni Nugraha, M. Ag',
+            'jabatan' => 'W. Rektor I Bid. Akademik',
             'urutan' => '2A',
-            'parent_id' => $direktur->id,
-            'foto' => 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400&auto=format&fit=crop'
+            'parent_id' => $rektor->id,
+            'foto' => '/images/pejabat/warek1.jpg'
         ]);
 
-        // Level 2: Wakil Direktur II
-        $wadir2 = StrukturOrganisasi::create([
-            'nama' => 'Dr. H. Dudung Abdul Rohman, M.Ag.',
-            'jabatan' => 'Wakil Direktur II Bidang Administrasi Umum & Keuangan',
+        StrukturOrganisasi::create([
+            'nama' => 'Dr. H. Arie Noviana, M.E',
+            'jabatan' => 'W. Rektor II Bid. Keuangan',
             'urutan' => '2B',
-            'parent_id' => $direktur->id,
-            'foto' => 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=400&auto=format&fit=crop'
-        ]);
-
-        // Level 3: Bawah Wadir I
-        StrukturOrganisasi::create([
-            'nama' => 'Dr. H. M. Yamin, M.A.',
-            'jabatan' => 'Ketua Program Studi Magister (S2)',
-            'urutan' => '3A',
-            'parent_id' => $wadir1->id,
-            'foto' => 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=400&auto=format&fit=crop'
+            'parent_id' => $rektor->id,
+            'foto' => '/images/pejabat/warek2.jpg'
         ]);
 
         StrukturOrganisasi::create([
-            'nama' => 'Prof. Dr. H. M. Abdurrahman, M.A.',
-            'jabatan' => 'Ketua Senat Pascasarjana',
-            'urutan' => '3B',
-            'parent_id' => $wadir1->id,
-            'foto' => 'https://images.unsplash.com/photo-1566492031516-f3e4a5d78ce8?q=80&w=400&auto=format&fit=crop'
+            'nama' => 'Dr. Nurdin Qusyaeri, M. Si',
+            'jabatan' => 'W. Rektor III Bid. Kemahasiswaan',
+            'urutan' => '2C',
+            'parent_id' => $rektor->id,
+            'foto' => '/images/pejabat/warek3.jpg'
         ]);
 
-        // Level 3: Bawah Wadir II
         StrukturOrganisasi::create([
-            'nama' => 'Dra. Hj. Siti Maryam, M.Pd.',
-            'jabatan' => 'Sekretaris Program Studi',
-            'urutan' => '3C',
-            'parent_id' => $wadir2->id,
-            'foto' => 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=400&auto=format&fit=crop'
+            'nama' => 'Dr. Lalan Sahlani, M.Ag',
+            'jabatan' => 'W. Rektor IV Bid. Kerjasama',
+            'urutan' => '2D',
+            'parent_id' => $rektor->id,
+            'foto' => '/images/pejabat/warek4.jpg'
+        ]);
+
+        // 3. Pimpinan Fakultas: Dekan (Turun vertikal ke bawah)
+        $dekan = StrukturOrganisasi::create([
+            'nama' => 'Hj. Nunung Nurhasanah, M.I.Kom',
+            'jabatan' => 'Dekan Fakultas',
+            'urutan' => '3',
+            'parent_id' => $rektor->id,
+            'foto' => '/images/pejabat/dekan.jpg'
+        ]);
+
+        // 4. Ketua Program Studi KPI
+        $kaprodi = StrukturOrganisasi::create([
+            'nama' => 'Hendi Rustandi, M. Sos',
+            'jabatan' => 'Ketua Prodi KPI',
+            'urutan' => '4',
+            'parent_id' => $dekan->id,
+            'foto' => '/images/pejabat/kaprodi.jpg'
+        ]);
+
+        // 5. Sekretaris Program Studi KPI
+        $sekprodi = StrukturOrganisasi::create([
+            'nama' => 'Siti Nurjanah, M. Pd',
+            'jabatan' => 'Sekretaris Prodi',
+            'urutan' => '5',
+            'parent_id' => $kaprodi->id,
+            'foto' => '/images/pejabat/sekprodi.jpg'
+        ]);
+
+        // 6. Dosen & Tenaga Pengajar
+        StrukturOrganisasi::create([
+            'nama' => 'Dosen & Tenaga Pendidik',
+           'jabatan' => 'Dosen',
+            'urutan' => '6',
+            'parent_id' => $sekprodi->id,
+            'foto' => null
         ]);
     }
 }
