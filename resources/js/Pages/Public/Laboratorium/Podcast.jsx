@@ -1,35 +1,49 @@
 import React from 'react';
-import { Head, Link } from '@inertiajs/react';
+import { Head } from '@inertiajs/react';
 import PublicLayout from '@/Layouts/PublicLayout';
 import Breadcrumb from '@/Components/Public/Breadcrumb';
 
 export default function Podcast({ lab }) {
-    const namaLab = lab?.nama_lab || "Produksi Podcast";
-    const subjudul = lab?.subjudul;
-    const deskripsi = lab?.deskripsi;
-    const gambarUtama = lab?.gambar_utama;
-    const badgeStatus = lab?.badge_status;
-    const jadwalLayanan = lab?.jadwal_layanan || "Senin - Jumat, 08.00 - 16.00 WIB";
-    const kontakLayanan = lab?.kontak_layanan || "kpi@iaipibandung.ac.id";
+    const namaLab = lab?.nama_lab || 'Produksi Podcast';
+    const subjudul = lab?.subjudul || 'Studio rekaman suara berperedam akustik khusus untuk produksi audio digital, talkshow tematik, dan siaran syiar dakwah multi-platform Program Studi KPI IAI Persis Bandung.';
+    const deskripsi = lab?.deskripsi || 'Bilik studio podcast dirancang dengan insulasi suara ganda berperedam Rockwool density 80 kg/m³ dan diffuser kayu akustik. Mengeliminasi pantulan gema sehingga menghasilkan vokal intim, hangat, dan jernih.';
+    const gambarUtama = lab?.gambar_utama || 'https://images.unsplash.com/photo-1590602847861-f357a9332bbc?q=80&w=1200&auto=format&fit=crop';
+    const badgeStatus = lab?.badge_status || 'Studio Akustik Berstandar Broadcast';
+    const jadwalLayanan = lab?.jadwal_layanan || 'Senin - Sabtu, 09.00 - 17.00 WIB';
+    const kontakLayanan = lab?.kontak_layanan || 'podcast.kpi@iaipibandung.ac.id';
+
+    const alatList = Array.isArray(lab?.spesifikasi_alat) && lab.spesifikasi_alat.length > 0 ? lab.spesifikasi_alat : [
+        { nomor: '01', nama: 'Shure SM7B Dynamic Mic', deskripsi: 'Mikrofon vokal legendaris penyiaran dengan frekuensi respons datar dan pelindung pop-filter ganda.' },
+        { nomor: '02', nama: 'Zoom PodTrak P8 Console', deskripsi: 'Perekam podcast multi-track mandiri dengan panel sound pads jingle dan touchscreen fader.' },
+        { nomor: '03', nama: 'Cloudlifter CL-1 Preamps', deskripsi: 'Penguat gain audio ultra-bersih +25dB menjaga sinyal suara tetap kuat tanpa desis noise.' },
+        { nomor: '04', nama: 'Sony MDR-7506 Monitors', deskripsi: 'Headphone monitoring referensi studio dengan isolasi suara pasif yang sangat akurat.' }
+    ];
+
+    const programList = Array.isArray(lab?.program_output) && lab.program_output.length > 0 ? lab.program_output : [
+        { kategori: 'Podcast Tematik', judul: 'Podcast Syiar Santun', deskripsi: 'Obrolan santai generasi muda bersama akademisi dan dai membahas etika komunikasi Islam di era digital.' },
+        { kategori: 'Kajian Suara', judul: 'Jendela Persis Audio', deskripsi: 'Rekaman podcast serial bedah sejarah perjuangan Persatuan Islam dan tokoh pemikirannya.' },
+        { kategori: 'Dialog Mahasiswa', judul: 'Ruang KPI Bincang', deskripsi: 'Wadah berbagi pengalaman magang jurnalistik, tips produksi konten, dan dinamika kampus.' }
+    ];
+
     return (
         <PublicLayout>
-            <Head title="Produksi Podcast & Audio Dakwah | Program Studi KPI IAI Persis Bandung" />
+            <Head title={`${namaLab} | Program Studi KPI IAI Persis Bandung`} />
 
             {/* Dark Minimalist Hero Section */}
             <div className="relative bg-gradient-to-b from-[#091122] via-[#0E1B38] to-[#070E1E] text-white pt-20 pb-20 md:pt-24 md:pb-24 border-b border-slate-800/80 overflow-hidden">
                 <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-900/20 via-transparent to-transparent pointer-events-none"></div>
                 <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center sm:text-left">
                     <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-white leading-[1.18] tracking-tight mb-4">
-                        Produksi <span className="font-serif italic font-normal text-emerald-300">Podcast</span>
+                        {namaLab}
                     </h1>
-                    <p className="text-slate-300 font-normal leading-relaxed text-sm sm:text-base max-w-2xl">{subjudul || <p className="text-slate-300 font-normal leading-relaxed text-sm sm:text-base max-w-2xl">
-                        Studio rekaman suara berperedam akustik khusus untuk produksi audio digital, talkshow tematik, dan siaran syiar dakwah multi-platform Program Studi KPI IAI Persis Bandung.
-                    </p>}</p>
+                    <p className="text-slate-300 font-normal leading-relaxed text-sm sm:text-base max-w-2xl">
+                        {subjudul}
+                    </p>
                 </div>
             </div>
 
             {/* Breadcrumb Navigation */}
-            <Breadcrumb items={[{ label: 'Praktik & Lab' }, { label: 'Produksi Podcast' }]} />
+            <Breadcrumb items={[{ label: 'Praktik & Lab' }, { label: namaLab }]} />
 
             {/* Main Content Area */}
             <div className="bg-[#FAFBFD] py-14 md:py-20">
@@ -40,13 +54,13 @@ export default function Podcast({ lab }) {
                         <div className="lg:col-span-7 bg-white border border-slate-200/80 rounded-2xl p-6 sm:p-10 flex flex-col justify-between shadow-sm">
                             <div className="space-y-4">
                                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold tracking-wide uppercase">
-                                    Studio Akustik Berstandar Broadcast
+                                    {badgeStatus}
                                 </div>
                                 <h2 className="text-2xl sm:text-3xl font-semibold text-slate-900 leading-tight">
                                     Ruang Rekaman Kedap Suara dengan Resonansi Audio Alami
                                 </h2>
                                 <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
-                                    Bilik studio podcast dirancang dengan insulasi suara ganda berperedam Rockwool density 80 kg/m³ dan diffuser kayu akustik. Mengeliminasi pantulan gema (echo) sehingga menghasilkan rekaman suara vokal yang hangat, intim, dan bersih untuk kebutuhan audio storytelling dan dakwah digital.
+                                    {deskripsi}
                                 </p>
                             </div>
                             <div className="grid grid-cols-3 gap-4 pt-6 border-t border-slate-100">
@@ -73,10 +87,10 @@ export default function Podcast({ lab }) {
                                     <span className="text-emerald-400 font-mono">SPOTIFY &amp; APPLE PODCAST</span>
                                 </div>
                                 <h3 className="text-xl font-bold leading-snug mb-2">
-                                    Podcast Syiar Santun: Menjawab Tantangan Komunikasi Gen-Z
+                                    {programList[0]?.judul || 'Podcast Syiar Santun'}
                                 </h3>
                                 <p className="text-slate-300 text-xs leading-relaxed mb-6">
-                                    Episode #14 bersama Mahasiswa KPI Angkatan 2023 membahas strategi retorika dakwah Islam yang santun di tengah riuhnya media sosial.
+                                    {programList[0]?.deskripsi || 'Program bincang santai inspiratif mahasiswa KPI.'}
                                 </p>
                                 
                                 {/* Audio Progress Bar Mock */}
@@ -98,8 +112,8 @@ export default function Podcast({ lab }) {
                                 </div>
                             </div>
                             <div className="pt-6 border-t border-slate-800 text-[11px] text-slate-400 flex items-center justify-between">
-                                <span>Kategori: Obrolan Agama &amp; Budaya</span>
                                 <span>Distribusi: Spotify for Podcasters</span>
+                                <span>Format: Audio HQ</span>
                             </div>
                         </div>
                     </div>
@@ -111,30 +125,15 @@ export default function Podcast({ lab }) {
                             <p className="text-slate-500 text-sm mt-1">Perangkat rekam dan pemroses sinyal suara di Studio Podcast KPI.</p>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                            <div className="bg-white border border-slate-200/80 rounded-xl p-5">
-                                <h4 className="font-semibold text-slate-900 text-sm mb-1">Shure SM7B Dynamic Mic</h4>
-                                <p className="text-slate-500 text-xs leading-relaxed">
-                                    Mikrofon legendaris industri radio yang meredam suara hembusan napas dan menonjolkan kejelasan frekuensi vokal pembicara.
-                                </p>
-                            </div>
-                            <div className="bg-white border border-slate-200/80 rounded-xl p-5">
-                                <h4 className="font-semibold text-slate-900 text-sm mb-1">Zoom PodTrak P8 Console</h4>
-                                <p className="text-slate-500 text-xs leading-relaxed">
-                                    Perekam mandiri multi-input dengan panel sound pads untuk jingle, integrasi panggilan telepon anti-feedback, dan touchscreen fader.
-                                </p>
-                            </div>
-                            <div className="bg-white border border-slate-200/80 rounded-xl p-5">
-                                <h4 className="font-semibold text-slate-900 text-sm mb-1">Cloudlifter CL-1 Preamps</h4>
-                                <p className="text-slate-500 text-xs leading-relaxed">
-                                    Penguat gain audio ultra-bersih +25dB tanpa noise untuk menjaga stabilitas level suara dialog yang lembut sekalipun.
-                                </p>
-                            </div>
-                            <div className="bg-white border border-slate-200/80 rounded-xl p-5">
-                                <h4 className="font-semibold text-slate-900 text-sm mb-1">Sony MDR-7506 Studio Monitors</h4>
-                                <p className="text-slate-500 text-xs leading-relaxed">
-                                    Headphone monitoring referensi dengan isolasi pasif tinggi untuk memastikan mixing suara seimbang di telinga produser.
-                                </p>
-                            </div>
+                            {alatList.map((alat, i) => (
+                                <div key={i} className="bg-white border border-slate-200/80 rounded-xl p-5 hover:border-slate-300 transition-colors">
+                                    <div className="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-700 font-bold flex items-center justify-center text-xs mb-3">
+                                        {alat.nomor || `0${i+1}`}
+                                    </div>
+                                    <h4 className="font-semibold text-slate-900 text-sm mb-1">{alat.nama}</h4>
+                                    <p className="text-slate-500 text-xs leading-relaxed">{alat.deskripsi}</p>
+                                </div>
+                            ))}
                         </div>
                     </div>
 
@@ -173,11 +172,11 @@ export default function Podcast({ lab }) {
                         <div className="space-y-1">
                             <h4 className="font-semibold text-emerald-950 text-base">Ingin Merekam Podcast Tugas Akhir atau Program Dakwah?</h4>
                             <p className="text-emerald-800 text-xs sm:text-sm">
-                                Bilik rekaman dapat direservasi oleh mahasiswa aktif KPI maksimal 2 hari sebelum jadwal rekaman melalui sekretariat laboratorium.
+                                Bilik rekaman dibuka setiap {jadwalLayanan}. Reservasi melalui email: {kontakLayanan}.
                             </p>
                         </div>
                         <a 
-                            href="mailto:kpi@iaipibandung.ac.id" 
+                            href={`mailto:${kontakLayanan}`}
                             className="bg-emerald-800 hover:bg-emerald-900 text-white px-5 py-2.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-colors"
                         >
                             Formulir Booking Studio

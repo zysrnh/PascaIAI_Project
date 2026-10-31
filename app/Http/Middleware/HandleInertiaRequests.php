@@ -40,6 +40,9 @@ class HandleInertiaRequests extends Middleware
                 'warning' => $request->session()->get('warning'),
                 'info' => $request->session()->get('info'),
             ],
+            'labNav' => \Illuminate\Support\Facades\Schema::hasTable('laboratoriums') 
+                ? \App\Models\Laboratorium::select('slug', 'nama_lab')->get() 
+                : [],
         ];
     }
 }

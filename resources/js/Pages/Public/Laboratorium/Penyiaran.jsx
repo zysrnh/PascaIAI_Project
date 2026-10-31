@@ -1,5 +1,5 @@
 import React from 'react';
-import { Head, Link } from '@inertiajs/react';
+import { Head } from '@inertiajs/react';
 import PublicLayout from '@/Layouts/PublicLayout';
 import Breadcrumb from '@/Components/Public/Breadcrumb';
 
@@ -34,7 +34,7 @@ export default function Penyiaran({ lab }) {
                 <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-900/20 via-transparent to-transparent pointer-events-none"></div>
                 <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center sm:text-left">
                     <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-white leading-[1.18] tracking-tight mb-4">
-                        Laboratorium <span className="font-serif italic font-normal text-emerald-300">Penyiaran</span>
+                        {namaLab}
                     </h1>
                     <p className="text-slate-300 font-normal leading-relaxed text-sm sm:text-base max-w-2xl">
                         {subjudul}

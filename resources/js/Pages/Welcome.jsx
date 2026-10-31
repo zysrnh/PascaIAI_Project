@@ -170,58 +170,15 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                                     </button>
                                     <div className="absolute top-full left-0 mt-2 w-56 bg-white border border-slate-200 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
                                         <div className="p-1.5 space-y-0.5">
-                                            <Link href="/profil/tentang-kampus" className="block px-3 py-2 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-md transition-colors">Tentang &amp; Sejarah</Link>
-                                            <Link href="/profil/visi-misi" className="block px-3 py-2 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-md transition-colors">Visi, Misi &amp; Tujuan</Link>
-                                            <Link href="/profil/sambutan-pimpinan" className="block px-3 py-2 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-md transition-colors">Sambutan Pimpinan</Link>
-                                            <Link href="/profil/struktur-organisasi" className="block px-3 py-2 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-md transition-colors">Struktur Organisasi &amp; Tim</Link>
-                                            <Link href={route('public.prospek-karir')} className="block px-3 py-2 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-md transition-colors">Profil Lulusan &amp; Karir</Link>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {/* Akademik Dropdown */}
-                                <div className="relative group">
-                                    <button className="text-slate-600 hover:text-slate-900 font-medium px-2 py-1 text-sm transition flex items-center gap-1">
-                                        Akademik <i className="fa-solid fa-chevron-down text-[10px] text-slate-400"></i>
-                                    </button>
-                                    <div className="absolute top-full left-0 mt-2 w-60 bg-white border border-slate-200 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                                        <div className="p-1.5 space-y-0.5">
-                                            <Link href={route('public.dosen')} className="block px-3 py-2 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-md transition-colors">Direktori Dosen &amp; Tendik</Link>
-                                            <Link href={route('public.akademik.kalender')} className="block px-3 py-2 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-md transition-colors">Kalender Akademik</Link>
-                                            <Link href={route('public.akademik.jadwal')} className="block px-3 py-2 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-md transition-colors">Jadwal Perkuliahan</Link>
-                                            <Link href={route('public.akademik.pedoman')} className="block px-3 py-2 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-md transition-colors">Pedoman Akademik</Link>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {/* Riset & PkM Dropdown */}
-                                <div className="relative group">
-                                    <button className="text-slate-600 hover:text-slate-900 font-medium px-2 py-1 text-sm transition flex items-center gap-1">
-                                        Riset &amp; PkM <i className="fa-solid fa-chevron-down text-[10px] text-slate-400"></i>
-                                    </button>
-                                    <div className="absolute top-full left-0 mt-2 w-60 bg-white border border-slate-200 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                                        <div className="p-1.5 space-y-0.5">
-                                            <Link href={route('public.lppm.penelitian')} className="block px-3 py-2 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-md transition-colors">Penelitian &amp; Info Hibah</Link>
-                                            <Link href={route('public.lppm.pengabdian')} className="block px-3 py-2 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-md transition-colors">Pengabdian kepada Masyarakat</Link>
-                                            <Link href={route('public.lppm.publikasi')} className="block px-3 py-2 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-md transition-colors">Publikasi Ilmiah &amp; Jurnal</Link>
-                                            <Link href={route('public.lppm.repository')} className="block px-3 py-2 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-md transition-colors">Repository Karya Ilmiah</Link>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {/* Praktik & Lab Dropdown */}
-                                <div className="relative group">
-                                    <button className="text-slate-600 hover:text-slate-900 font-medium px-2 py-1 text-sm transition flex items-center gap-1">
-                                        Praktik &amp; Lab <i className="fa-solid fa-chevron-down text-[10px] text-slate-400"></i>
-                                    </button>
-                                    <div className="absolute top-full left-0 mt-2 w-64 bg-white border border-slate-200 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                                        <div className="p-1.5 space-y-0.5">
-                                            <Link href="/laboratorium/penyiaran" className="block px-3 py-2 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-md transition-colors">Laboratorium Penyiaran</Link>
-                                            <Link href="/laboratorium/jurnalistik" className="block px-3 py-2 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-md transition-colors">Praktik Jurnalistik</Link>
-                                            <Link href="/laboratorium/podcast" className="block px-3 py-2 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-md transition-colors">Produksi Podcast</Link>
-                                            <Link href="/laboratorium/film-pendek" className="block px-3 py-2 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-md transition-colors">Produksi Video &amp; Film Pendek</Link>
-                                            <Link href="/laboratorium/fotografi" className="block px-3 py-2 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-md transition-colors">Praktik Fotografi</Link>
-                                            <Link href="/laboratorium/dakwah-digital" className="block px-3 py-2 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-md transition-colors">Praktik Dakwah Digital</Link>
+                                            {labItems.map((item) => (
+                                                <Link 
+                                                    key={item.slug} 
+                                                    href={`/laboratorium/${item.slug}`} 
+                                                    className="block px-3 py-2 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-md transition-colors"
+                                                >
+                                                    {item.nama_lab}
+                                                </Link>
+                                            ))}
                                         </div>
                                     </div>
                                 </div>
@@ -255,49 +212,15 @@ export default function Welcome({ setting, umum, programStudi = [], sambutan, be
                                     Profil <i className="fa-solid fa-chevron-down text-xs transition-transform group-open:rotate-180 text-slate-400"></i>
                                 </summary>
                                 <div className="pl-4 pb-2 space-y-1 border-l border-slate-200 ml-3 mt-1">
-                                    <Link href="/profil/tentang-kampus" className="block px-3 py-1.5 text-sm text-slate-600 hover:text-slate-900">Tentang &amp; Sejarah</Link>
-                                    <Link href="/profil/visi-misi" className="block px-3 py-1.5 text-sm text-slate-600 hover:text-slate-900">Visi, Misi &amp; Tujuan</Link>
-                                    <Link href="/profil/sambutan-pimpinan" className="block px-3 py-1.5 text-sm text-slate-600 hover:text-slate-900">Sambutan Pimpinan</Link>
-                                    <Link href="/profil/struktur-organisasi" className="block px-3 py-1.5 text-sm text-slate-600 hover:text-slate-900">Struktur Organisasi &amp; Tim</Link>
-                                    <Link href={route('public.prospek-karir')} className="block px-3 py-1.5 text-sm text-slate-600 hover:text-slate-900">Profil Lulusan &amp; Karir</Link>
-                                </div>
-                            </details>
-
-                            <details className="group">
-                                <summary className="flex justify-between items-center px-3 py-2 rounded-lg text-slate-700 hover:bg-slate-50 font-medium cursor-pointer list-none">
-                                    Akademik <i className="fa-solid fa-chevron-down text-xs transition-transform group-open:rotate-180 text-slate-400"></i>
-                                </summary>
-                                <div className="pl-4 pb-2 space-y-1 border-l border-slate-200 ml-3 mt-1">
-                                    <Link href={route('public.dosen')} className="block px-3 py-1.5 text-sm text-slate-600 hover:text-slate-900">Direktori Dosen &amp; Tendik</Link>
-                                    <Link href={route('public.akademik.kalender')} className="block px-3 py-1.5 text-sm text-slate-600 hover:text-slate-900">Kalender Akademik</Link>
-                                    <Link href={route('public.akademik.jadwal')} className="block px-3 py-1.5 text-sm text-slate-600 hover:text-slate-900">Jadwal Perkuliahan</Link>
-                                    <Link href={route('public.akademik.pedoman')} className="block px-3 py-1.5 text-sm text-slate-600 hover:text-slate-900">Pedoman Akademik</Link>
-                                </div>
-                            </details>
-
-                            <details className="group">
-                                <summary className="flex justify-between items-center px-3 py-2 rounded-lg text-slate-700 hover:bg-slate-50 font-medium cursor-pointer list-none">
-                                    Riset &amp; PkM <i className="fa-solid fa-chevron-down text-xs transition-transform group-open:rotate-180 text-slate-400"></i>
-                                </summary>
-                                <div className="pl-4 pb-2 space-y-1 border-l border-slate-200 ml-3 mt-1">
-                                    <Link href={route('public.lppm.penelitian')} className="block px-3 py-1.5 text-sm text-slate-600 hover:text-slate-900">Penelitian &amp; Info Hibah</Link>
-                                    <Link href={route('public.lppm.pengabdian')} className="block px-3 py-1.5 text-sm text-slate-600 hover:text-slate-900">Pengabdian kepada Masyarakat</Link>
-                                    <Link href={route('public.lppm.publikasi')} className="block px-3 py-1.5 text-sm text-slate-600 hover:text-slate-900">Publikasi Ilmiah &amp; Jurnal</Link>
-                                    <Link href={route('public.lppm.repository')} className="block px-3 py-1.5 text-sm text-slate-600 hover:text-slate-900">Repository Karya Ilmiah</Link>
-                                </div>
-                            </details>
-
-                            <details className="group">
-                                <summary className="flex justify-between items-center px-3 py-2 rounded-lg text-slate-700 hover:bg-slate-50 font-medium cursor-pointer list-none">
-                                    Praktik &amp; Lab <i className="fa-solid fa-chevron-down text-xs transition-transform group-open:rotate-180 text-slate-400"></i>
-                                </summary>
-                                <div className="pl-4 pb-2 space-y-1 border-l border-slate-200 ml-3 mt-1">
-                                    <Link href="/laboratorium/penyiaran" className="block px-3 py-1.5 text-sm text-slate-600 hover:text-slate-900">Laboratorium Penyiaran</Link>
-                                    <Link href="/laboratorium/jurnalistik" className="block px-3 py-1.5 text-sm text-slate-600 hover:text-slate-900">Praktik Jurnalistik</Link>
-                                    <Link href="/laboratorium/podcast" className="block px-3 py-1.5 text-sm text-slate-600 hover:text-slate-900">Produksi Podcast</Link>
-                                    <Link href="/laboratorium/film-pendek" className="block px-3 py-1.5 text-sm text-slate-600 hover:text-slate-900">Produksi Video &amp; Film Pendek</Link>
-                                    <Link href="/laboratorium/fotografi" className="block px-3 py-1.5 text-sm text-slate-600 hover:text-slate-900">Praktik Fotografi</Link>
-                                    <Link href="/laboratorium/dakwah-digital" className="block px-3 py-1.5 text-sm text-slate-600 hover:text-slate-900">Praktik Dakwah Digital</Link>
+                                    {labItems.map((item) => (
+                                        <Link 
+                                            key={item.slug} 
+                                            href={`/laboratorium/${item.slug}`} 
+                                            className="block px-3 py-1.5 text-sm text-slate-600 hover:text-slate-900"
+                                        >
+                                            {item.nama_lab}
+                                        </Link>
+                                    ))}
                                 </div>
                             </details>
 
