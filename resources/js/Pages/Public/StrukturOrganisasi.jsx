@@ -126,12 +126,6 @@ export default function StrukturOrganisasi({ organisasi = [], jabatanTree = [], 
         jabatan: 'Dosen'
     };
 
-    const breadcrumbItems = [
-        { label: 'Beranda', href: '/' },
-        { label: 'Profil', href: '#' },
-        { label: 'Struktur Organisasi', href: null },
-    ];
-
     const posterUrl = '/images/struktur_organisasi_resmi.jpg';
 
     return (
@@ -139,25 +133,23 @@ export default function StrukturOrganisasi({ organisasi = [], jabatanTree = [], 
             <Head title="Struktur Organisasi & Tim Pengelola | KPI IAI PERSIS Bandung" />
 
             {/* Hero / Banner */}
-            <div className="relative bg-gradient-to-br from-emerald-900 via-emerald-800 to-slate-900 text-white overflow-hidden py-14 sm:py-20">
+            <div className="relative bg-gradient-to-br from-emerald-950 via-slate-900 to-emerald-900 text-white overflow-hidden py-14 sm:py-20 border-b border-slate-800">
                 {bannerImg && (
                     <div className="absolute inset-0 z-0 opacity-20">
                         <img src={bannerImg} alt="Banner" className="w-full h-full object-cover" />
                     </div>
                 )}
-                <div className="absolute inset-0 bg-gradient-to-t from-emerald-950/90 via-transparent to-transparent z-0" />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-transparent to-transparent z-0" />
                 
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                    <Breadcrumb items={breadcrumbItems} />
-                    
-                    <div className="mt-6 max-w-3xl">
+                    <div className="max-w-3xl">
                         <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-700/80 text-emerald-100 border border-emerald-500/30 mb-4 backdrop-blur-sm">
                             <Users className="w-3.5 h-3.5" /> Periode 2023 - 2027
                         </span>
-                        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white">
+                        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white mb-3">
                             Struktur Organisasi
                         </h1>
-                        <p className="mt-4 text-base sm:text-lg text-emerald-100/90 leading-relaxed font-normal">
+                        <p className="text-base sm:text-lg text-emerald-100/90 leading-relaxed font-normal">
                             {pengaturan?.deskripsi || 'Bagan tata kelola dan susunan kepemimpinan Program Studi Komunikasi dan Penyiaran Islam Fakultas Dakwah dan Komunikasi IAI PERSIS Bandung.'}
                         </p>
                     </div>
@@ -203,6 +195,12 @@ export default function StrukturOrganisasi({ organisasi = [], jabatanTree = [], 
                     </div>
                 </div>
             </div>
+
+            {/* Breadcrumb Navigation - Sesuai Standar Halaman Publik KPI */}
+            <Breadcrumb items={[
+                { label: 'Profil' },
+                { label: 'Struktur Organisasi' }
+            ]} />
 
             {/* Konten Utama */}
             <div className="bg-slate-50 min-h-screen py-10 sm:py-16">
