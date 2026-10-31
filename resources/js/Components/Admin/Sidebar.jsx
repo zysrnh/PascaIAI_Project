@@ -60,12 +60,12 @@ const navigationSections = [
                 name: 'Akademik & Perkuliahan',
                 icon: GraduationCap,
                 children: [
-                    { type: 'link', name: 'Laboratorium & Praktik Media', href: '/admin/akademik/laboratorium', viewHref: '/laboratorium', icon: FlaskConical },
                     { type: 'link', name: 'Jadwal Kuliah & Siaran', href: '/admin/akademik/jadwal', viewHref: '/akademik/jadwal-perkuliahan', icon: Clock },
                     { type: 'link', name: 'Kalender Akademik', href: '/admin/akademik/kalender', viewHref: '/akademik/kalender-akademik', icon: Calendar },
                     { type: 'link', name: 'Pedoman Akademik', href: '/admin/akademik/pedoman', viewHref: '/akademik/pedoman', icon: FileText },
                 ],
             },
+            { type: 'link', name: 'Laboratorium & Praktik Media', href: '/admin/akademik/laboratorium', viewHref: '/laboratorium', icon: FlaskConical },
             {
                 type: 'group',
                 name: 'Dosen & Kelembagaan',

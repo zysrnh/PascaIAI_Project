@@ -4,7 +4,7 @@ import { Head, router, usePage } from '@inertiajs/react';
 import Sidebar from '@/Components/Admin/Sidebar';
 import StatCard from '@/Components/Admin/StatCard';
 import RecentActivity from '@/Components/Admin/RecentActivity';
-import { AlertCircle, CalendarClock, ExternalLink, ArrowRight, Settings, Database, Download, FileText, MessageSquare, Newspaper, Users } from 'lucide-react';
+import { AlertCircle, CalendarClock, ExternalLink, ArrowRight, Settings, Database, Download, FileText, MessageSquare, Newspaper, Users, FlaskConical } from 'lucide-react';
 import Swal from 'sweetalert2';
 
 export default function Dashboard({ stats, activities, flash }) {
@@ -127,6 +127,33 @@ export default function Dashboard({ stats, activities, flash }) {
 
                                 {/* Left column */}
                                 <div className="lg:col-span-2 space-y-6">
+
+                                    {/* Quick Access: Laboratorium & Praktik Media */}
+                                    <div className="bg-white rounded-xl border border-slate-200/90 p-5 shadow-sm hover:border-slate-300 transition-all">
+                                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                                            <div className="flex items-start gap-3.5">
+                                                <div className="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-800 shrink-0">
+                                                    <FlaskConical className="w-5 h-5" />
+                                                </div>
+                                                <div>
+                                                    <div className="flex items-center gap-2">
+                                                        <h3 className="text-sm font-bold text-slate-900">Laboratorium &amp; Praktik Media</h3>
+                                                        <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800 uppercase tracking-wide">6 Modul Studio</span>
+                                                    </div>
+                                                    <p className="text-xs text-slate-500 mt-1">
+                                                        Kelola fasilitas studio penyiaran, jurnalistik, podcast, film pendek, fotografi, &amp; dakwah digital.
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <a
+                                                href="/admin/akademik/laboratorium"
+                                                className="inline-flex items-center justify-center gap-1.5 px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold rounded-lg shadow-sm whitespace-nowrap transition"
+                                            >
+                                                <span>Buka Pengelola Lab</span>
+                                                <ArrowRight className="w-3.5 h-3.5" />
+                                            </a>
+                                        </div>
+                                    </div>
 
                                     {/* Health Checks */}
                                     {stats?.healthChecks && stats.healthChecks.length > 0 && (
