@@ -10,7 +10,9 @@
  */
 
 // 1. Deteksi Base Path Laravel
-if (file_exists(__DIR__ . '/vendor/autoload.php')) {
+if (file_exists(__DIR__ . '/Uploads/vendor/autoload.php')) {
+    $basePath = __DIR__ . '/Uploads';
+} elseif (file_exists(__DIR__ . '/vendor/autoload.php')) {
     $basePath = __DIR__;
 } elseif (file_exists(__DIR__ . '/../vendor/autoload.php')) {
     $basePath = dirname(__DIR__);
